@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/view_cyan"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimary"/>
+
+    <View
+        android:id="@+id/view_cyan"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/cyan_view_height"
+        android:layout_above="@+id/view_brown"
+        android:background="@color/color_cyan_view"/>
+
+    <View
+        android:id="@+id/view_brown"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/brown_view_height"
+        android:layout_above="@+id/lt_bar"
+        android:background="@color/color_brown_view"/>
+
+    <LinearLayout
+        android:id="@+id/lt_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/iv_store_name"
+        android:layout_marginBottom="@dimen/bottom_bar_margin"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="@dimen/bottom_bar_margin"
+            android:layout_weight="1"
+            android:background="@color/color_bottom_bar_left"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="@dimen/bottom_bar_margin"
+            android:layout_weight="3"
+            android:background="@color/color_bottom_bar_right"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_store_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tv_bottom"
+        android:layout_marginTop="@dimen/bottom_image_view_margin"
+        android:src="@drawable/ic_bayer_pet_care_text"/>
+
+    <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+        android:id="@+id/tv_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:paddingBottom="@dimen/bottom_image_view_margin"
+        android:text="@string/splash_bottom_text"
+        android:textColor="@color/color_bottom_text"
+        android:textSize="@dimen/text_splash_bottom"
+        app:customfont="DimboRegular"/>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_alignBottom="@+id/view_brown"
+                  android:orientation="vertical">
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/splash_default_margin"
+            android:src="@drawable/ic_bayer_circle_logo"/>
+
+        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/title"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_app_title"
+            app:customfont="DimboRegular"/>
+
+        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/sub_title"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_app_sub_title"
+            app:customfont="BertholdAkzidenzGroteskBERegular"/>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <ImageView android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_gravity="center_horizontal"
+                   android:layout_marginBottom="@dimen/splash_default_margin"
+                   android:adjustViewBounds="true"
+                   android:scaleType="centerInside"
+                   android:src="@drawable/ic_splash_pets"/>
+    </LinearLayout>
+
+</RelativeLayout>

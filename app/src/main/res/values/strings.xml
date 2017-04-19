@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Tekkan</string>
+
+    <!--splash activity -->
+    <string name="title">TEKENSCANNER</string>
+    <string name="sub_title">Ontdek het aantal teken in jouw buurt,\nmeld zelf een teek en vraag onderzoek aan. </string>
+    <string name="splash_bottom_text">JE SPEELT TOCH NIET MET DE GEZONDHEID VAN JE HUISDIER?
+    </string>
 </resources>

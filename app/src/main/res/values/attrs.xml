@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="customfont" format="enum">
+        <enum name="BertholdAkzidenzGroteskBERegular" value="0" />
+        <enum name="DimboRegular" value="1" />
+    </attr>
+
+    <declare-styleable name="CustomFontTextView">
+        <attr name="customfont" />
+    </declare-styleable>
+
+</resources>

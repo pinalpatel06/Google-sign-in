@@ -3,4 +3,13 @@
     <color name="colorPrimary">#7CC9A5</color>
     <color name="colorPrimaryDark"> #578E75</color>
     <color name="colorAccent">#FF4081</color>
+
+
+    <!-- Splash Activity -->
+    <color name="brown">#492d2d</color>
+    <color name="color_cyan_view">#C4D7CE</color>
+    <color name="color_brown_view">#726658</color>
+    <color name="color_bottom_text">#86796B</color>
+    <color name="color_bottom_bar_left">#009BCE</color>
+    <color name="color_bottom_bar_right">#47B74E</color>
 </resources>

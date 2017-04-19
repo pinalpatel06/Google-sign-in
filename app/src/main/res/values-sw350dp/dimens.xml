@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--splash activity -->
+    <dimen name="text_app_title">64sp</dimen>
+    <dimen name="text_app_sub_title">16sp</dimen>
+</resources>
