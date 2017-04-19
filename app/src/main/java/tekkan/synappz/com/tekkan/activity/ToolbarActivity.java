@@ -13,7 +13,7 @@ import tekkan.synappz.com.tekkan.R;
 
 public abstract class ToolbarActivity extends SingleFragmentActivity {
 
-    private android.support.v7.widget.Toolbar mToolbar;
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
