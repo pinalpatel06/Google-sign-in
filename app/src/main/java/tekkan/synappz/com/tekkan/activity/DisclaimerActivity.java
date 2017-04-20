@@ -17,7 +17,7 @@ public class DisclaimerActivity extends ToolbarActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle(R.string.disclaimer_title);
+        setTitle(getString(R.string.disclaimer_title));
     }
 
     @Override

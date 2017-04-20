@@ -3,6 +3,7 @@ package tekkan.synappz.com.tekkan.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
 
 import tekkan.synappz.com.tekkan.R;
 
@@ -37,13 +38,10 @@ public abstract class ToolbarActivity extends SingleFragmentActivity {
 
     @Override
     public void setTitle(CharSequence title) {
-        mToolbar.setTitle(title);
+        super.setTitle(null);
+        ((TextView)mToolbar.findViewById(android.R.id.text1)).setText(title);
     }
 
-    @Override
-    public void setTitle(int titleId) {
-        mToolbar.setTitle(titleId);
-    }
 
     public Toolbar getToolbar() {
         return mToolbar;
