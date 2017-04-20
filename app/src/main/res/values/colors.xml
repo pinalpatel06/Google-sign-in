@@ -17,4 +17,11 @@
 
     <!-- Profile setup activity -->
     <color name="color_step1_text">#6B6C6F</color>
+
+    <!-- Main Activity -->
+    <color name="default_tab_color">#6B6C6F</color>
+    <color name="selected_tab_color">#669880</color>
+    <color name="color_bottom_bar">#EEEEEE</color>
+    <color name="color_bar">#a9abaf</color>
+
 </resources>

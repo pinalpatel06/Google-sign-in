@@ -25,4 +25,12 @@
     <string name="step_1_text">Bekijk het aantal gemelde teken in \njouw omgeving op de Tekenscanner.</string>
     <string name="action_close">Close</string>
     <string name="profile_setup_title">Helpschermen</string>
+
+    <!-- Main Activity -->
+    <string name="main_activity_title">Teek melden</string>
+    <string name="text_tab1">Tekenscanner</string>
+    <string name="text_tab2">Profiel</string>
+    <string name="text_tab3">Teek melden</string>
+    <string name="text_tab4">Onderzoek</string>
+    <string name="text_tab5">Product</string>
 </resources>
