@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- application -->
     <color name="colorPrimary">#7CC9A5</color>
     <color name="colorPrimaryDark"> #578E75</color>
     <color name="colorAccent">#FF4081</color>
@@ -12,4 +14,7 @@
     <color name="color_bottom_text">#86796B</color>
     <color name="color_bottom_bar_left">#009BCE</color>
     <color name="color_bottom_bar_right">#47B74E</color>
+
+    <!-- Profile setup activity -->
+    <color name="color_step1_text">#6B6C6F</color>
 </resources>

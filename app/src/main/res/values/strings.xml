@@ -1,4 +1,5 @@
 <resources>
+    <!-- application -->
     <string name="app_name">Tekkan</string>
 
     <!--splash activity -->
@@ -10,11 +11,18 @@
     <!--disclaimer activity -->
     <string name="text_akkoord">akkoord</string>
     <string name="disclaimer_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat. \n \nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum
+        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. \n \nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum
         dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet,
-        consectetru adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. \n\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris
+        consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. \n\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris
         nisi ut aliquip ex ea commodo consequat, Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
         non proident, sunt in cupla qui officia deserunt mollit anim id est laborum.</string>
 
     <string name="disclaimer_title">Disclaimer</string>
+
+    <!-- profile setup activity -->
+    <string name="back">VORIGE</string>
+    <string name="next">VOLGENDE</string>
+    <string name="step_1_text">Bekijk het aantal gemelde teken in \njouw omgeving op de Tekenscanner.</string>
+    <string name="action_close">Close</string>
+    <string name="profile_setup_title">Helpschermen</string>
 </resources>

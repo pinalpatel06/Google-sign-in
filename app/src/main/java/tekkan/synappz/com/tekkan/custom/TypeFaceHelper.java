@@ -35,11 +35,15 @@ public class TypeFaceHelper {
 
     public static final int
             BERTHOLD_AKZIDENZ_GROTESK_BE_REGULAR = 0,
-            DIMBO_REGULAR = 1;
+            DIMBO_REGULAR = 1,
+            OPENSANS_REGULAR = 2,
+            OPENSANS_SEMIBOLD = 3;
 
     public enum CustomTypeFace {
         _0("fonts/Berthold Akzidenz Grotesk BE Regular.otf"),
-        _1("fonts/Dimbo Regular.ttf");
+        _1("fonts/Dimbo Regular.ttf"),
+        _2("fonts/OpenSans-Regular.ttf"),
+        _3("fonts/OpenSans-SemiBold.ttf");
 
         private final String mFileName;
 

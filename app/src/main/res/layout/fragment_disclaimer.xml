@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent"
     android:fillViewport="true"
     android:padding="@dimen/splash_default_margin">
 
@@ -17,13 +17,18 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:text="@string/disclaimer_text"
-            android:textSize="@dimen/disclaimer_text_size"/>
+            android:textSize="@dimen/disclaimer_text_size"
+            app:customfont="OpenSansRegular"/>
 
-        <Button android:layout_width="match_parent"
-                android:layout_height="@dimen/app_button_height"
-                android:text="@string/text_akkoord"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/app_button_text"
-                android:theme="@style/AppButtonStyle"/>
+        <tekkan.synappz.com.tekkan.custom.CustomButtonView
+            android:id="@+id/btn_agreement"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/app_button_height"
+            android:text="@string/text_akkoord"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/app_button_text"
+            android:theme="@style/AppButtonStyle"
+            app:customfont="OpenSansSemiBold"/>
+
     </LinearLayout>
 </ScrollView>
