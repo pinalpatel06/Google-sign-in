@@ -17,5 +17,10 @@
     <dimen name="app_button_height">65dp</dimen>
     <dimen name="app_button_text">24sp</dimen>
     <dimen name="disclaimer_text_size">16sp</dimen>
+    
+    
+    <!--profile activity-->
+    <dimen name="radio_group_margin_top">24dp</dimen>
+
 
 </resources>
