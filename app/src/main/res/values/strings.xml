@@ -54,7 +54,22 @@
         mijn persoonlijke gegevens mogen worden doorgegeven, verwerkt en gebruikt in landen waar het niveau van data protectie niet als adequaat is aangemerkt door de Europese Commissie.\n
         Ik ben mij ervan bewust dat ik meer informatie kan krijgen over de verwerking van persoonsgegevens, of kan vragen naar wijziging of verwijdering van mijn persoonsgegevens. Het staat me vrij
         om mijn toestemming op elk moment in te trekken met toekomstig effect. Enig verzoek of een verklaring van intrekking kan worden geadresseerd aan </string>
-<string name="conditions_web_link">dataprivacy.nl@bayer.com.</string>
+    <string name="conditions_web_link">dataprivacy.nl@bayer.com.</string>
+
+
+    <!--Profile Your Pet Activity-->
+
+    <string name="add_photo_text">Voeg een foto toe</string>
+    <string name="what_is_your_pet_name">Wat is de naam van jouw huisdier?</string>
+    <string name="is_it_dog_or_cat">Is het een hond of kat?</string>
+    <string name="what_is_the_breed">Wat is het ras?</string>
+    <string name="date_of_birth">Wat is de geboortedatum</string>
+    <string name="what_is_the_gender">Wat is het geslacht</string>
+    <string name="what_is_the_weight">Wat is het gewicht (kg)?</string>
+
+    <!--Profile Your Pet Activity Final-->
+    <string name="second_list_title">ONDERZOEKEN</string>
+
 
     <!-- Main Activity -->
     <string name="main_activity_title">Teek melden</string>
