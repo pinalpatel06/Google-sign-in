@@ -4,7 +4,8 @@
     <!-- application -->
     <color name="colorPrimary">#7CC9A5</color>
     <color name="colorPrimaryDark"> #578E75</color>
-    <color name="colorAccent">#FF4081</color>
+    <!--<color name="colorAccent">#FF4081</color>-->
+    <color name="colorAccent">#669880</color>
 
 
     <!-- Splash Activity -->
@@ -22,6 +23,12 @@
     <color name="default_tab_color">#6B6C6F</color>
     <color name="selected_tab_color">#669880</color>
     <color name="color_bottom_bar">#EEEEEE</color>
+
+    <!-- tekenscanner fragment -->
     <color name="color_bar">#a9abaf</color>
+    <color name="color_seekbar">#6B6C6F</color>
+    <color name="color_desable_tab">#D1EBDE</color>
+    <color name="search_text_color">#B4B4B4</color>
+    <color name="color_grid_back">#F2F0F0</color>
 
 </resources>
