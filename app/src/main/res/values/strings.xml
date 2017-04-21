@@ -53,5 +53,17 @@
     <string name="hint_search_bar">Herinkhave 12,1234 AB Amsterdam</string>
     <string name="action_filter">Filter</string>
 
+    <!-- filter option activity -->
+    <string name="filter_option_toolbar_text">Tekenscanner</string>
+    <string name="text_filter_option_info">De teek kan besmet zijn\n met 4 verschillende ziekten.\n Alle
+        vier de ziekten kunnen\n worden overgedragen op\n hond of kat.
+    </string>
+    <string name="more_info">Meer informatie</string>
+    <string name="filter_option_info_title">TOELICHTING</string>
+    <string name="filter_option_1">Ziekte van Lyme</string>
+    <string name="filter_option_2">Babesiosis of tekenkoorts</string>
+    <string name="filter_option_3">Anaplasmosis</string>
+    <string name="filter_option_4">Ehrlechiosis</string>
+
 
 </resources>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:padding="@dimen/padding_10dp">
+        <ImageView
+            android:id="@+id/iv_filter_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="@dimen/padding_5dp"/>
+
+        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            android:id="@+id/tv_filter_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_marginStart="@dimen/padding_5dp"
+            android:textColor="@color/color_filter_option_text"
+            android:textSize="@dimen/filter_option_text_size"
+            app:customfont="OpenSansSemiBold"/>
+
+        <Switch
+            android:id="@+id/sw_filter_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
+
+    <View android:layout_width="match_parent"
+          android:layout_height="@dimen/underline_view_height"
+          android:layout_marginStart="@dimen/extra_padding_15dp"
+          android:layout_marginTop="@dimen/padding_5dp"
+          android:background="@color/color_item_view_underline"/>
+
+</LinearLayout>

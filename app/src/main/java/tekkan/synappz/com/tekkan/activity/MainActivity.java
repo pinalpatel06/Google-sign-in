@@ -20,6 +20,13 @@ import tekkan.synappz.com.tekkan.fragment.TekenScannerFragment;
 
 public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
 
+    private static final int
+            POSITION_TEKENSCANNER = 0,
+            POSITION_PROFILE = 1,
+            POSITION_TEEK_MELDEN = 2,
+            POSITION_ONDERZOEK = 3,
+            POSITION_PRODUCT = 4;
+
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
     @BindView(R.id.tab_layout)
@@ -44,7 +51,8 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 
         mViewPager.setAdapter(mAdapter);
         mTabLayout.addOnTabSelectedListener(this);
-        updateUI();
+       // updateUI();
+        setCurrentItem(POSITION_TEKENSCANNER);
     }
 
     private void init() {
@@ -59,6 +67,8 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
        mViewPager.setCurrentItem(tab.getPosition(),false);
+        setTitle(null);
+        ((TextView) mToolbar.findViewById(android.R.id.text1)).setText(mAdapter.getPageTitle(tab.getPosition()));
     }
 
     @Override
@@ -69,6 +79,11 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
 
+    }
+
+    private void setCurrentItem(int position) {
+        mViewPager.setCurrentItem(position, false);
+        ((TextView) mToolbar.findViewById(android.R.id.text1)).setText(mAdapter.getPageTitle(position));
     }
 
     private class Adapter extends FragmentStatePagerAdapter {
