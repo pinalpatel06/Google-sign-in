@@ -20,7 +20,19 @@
     
     
     <!--profile activity-->
-    <dimen name="radio_group_margin_top">24dp</dimen>
+    <dimen name="radio_group_margin_top">15dp</dimen>
+    <dimen name="checkbox_margin_left">5dp</dimen>
+    <dimen name="user_profile_padding">10dp</dimen>
+    <dimen name="underline_margin">-2dp</dimen>
+    <dimen name="underline_width">2dp</dimen>
+    <dimen name="profile_textview_text_size">18sp</dimen>
+    <dimen name="my_pet_title_margin_top">15dp</dimen>
+    <dimen name="add_pet_button_height">15dp</dimen>
+    <dimen name="add_pet_button_margin_right">10dp</dimen>
+
+
+    <!--profile conditions activity-->
+    <dimen name="conditions_text_size">16sp</dimen>
 
 
 </resources>

@@ -24,4 +24,14 @@
     <color name="color_bottom_bar">#EEEEEE</color>
     <color name="color_bar">#a9abaf</color>
 
+
+    <!--Profile Activity-->
+    <color name="bg_detail_title_underline">#ededed</color>
+    <color name="profile_title_color">#669880</color>
+
+    <!--Profile Conditions Activity-->
+    <color name="condtions_web_link_color">#669880</color>
+
+
+
 </resources>

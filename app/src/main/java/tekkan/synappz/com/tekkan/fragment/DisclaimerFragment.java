@@ -24,7 +24,8 @@ public class DisclaimerFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_disclaimer, container, false);
-        ButterKnife.bind(this,v);
+        //View v = inflater.inflate(R.layout.fragment_profile_conditions, container, false);
+       ButterKnife.bind(this,v);
         return v;
     }
 
