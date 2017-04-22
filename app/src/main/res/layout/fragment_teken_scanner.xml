@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             app:tabIndicatorColor="@android:color/white"
             app:tabSelectedTextColor="@android:color/white"
-            app:tabTextColor="@color/color_desable_tab">
+            app:tabTextColor="@color/color_disable_tab">
 
             <android.support.design.widget.TabItem
                 android:layout_width="wrap_content"

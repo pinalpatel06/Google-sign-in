@@ -6,6 +6,7 @@
     <dimen name="margin_10dp">10dp</dimen>
     <dimen name="padding_5dp">5dp</dimen>
     <dimen name="extra_margin_15dp">15dp</dimen>
+
     <!--splash activity -->
     <dimen name="text_app_title">48sp</dimen>
     <dimen name="text_app_sub_title">12sp</dimen>
@@ -41,6 +42,11 @@
     <!-- more info activity -->
     <dimen name="more_info_head_text_size">24sp</dimen>
     <dimen name="more_info_detail_text_size">16sp</dimen>
+
+    <!-- Onderzoek fragment -->
+    <dimen name="custom_tab_text">26sp</dimen>
+    <dimen name="onderzoek_head">20sp</dimen>
+    <dimen name="onderzoek_head_margin">20dp</dimen>
 
 
 </resources>

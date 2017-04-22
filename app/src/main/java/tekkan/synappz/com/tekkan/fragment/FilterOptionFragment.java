@@ -59,7 +59,7 @@ public class FilterOptionFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_list, container, false);
+        View v = inflater.inflate(R.layout.fragment_filter_option, container, false);
         init(v);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mAdapter);
@@ -150,9 +150,9 @@ public class FilterOptionFragment extends Fragment {
     }
 
     public class FilterOptionItem {
-        int mColorResId;
-        String mFilterText;
-        boolean mIsFilterOn;
+        private int mColorResId;
+        private String mFilterText;
+        private boolean mIsFilterOn;
 
 
         public FilterOptionItem(int colorResId, String filterText, boolean isFilterOn) {
