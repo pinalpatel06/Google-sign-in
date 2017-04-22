@@ -1,5 +1,6 @@
 package tekkan.synappz.com.tekkan.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,12 +15,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
-
 import java.util.ArrayList;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import tekkan.synappz.com.tekkan.R;
+import tekkan.synappz.com.tekkan.activity.MoreInfoActivity;
 
 /**
  * Created by Tejas Sherdiwala on 4/21/2017.
@@ -32,6 +33,9 @@ public class FilterOptionFragment extends Fragment {
 
     @BindView(R.id.rv_list)
     RecyclerView mRecyclerView;
+    @BindView(R.id.tv_more_info)
+    TextView mMoreInfoTV;
+
     private Adapter mAdapter;
     private ArrayList<FilterOptionItem> mFilterOptionItems;
 
@@ -93,6 +97,12 @@ public class FilterOptionFragment extends Fragment {
                 getString(R.string.filter_option_4),
                 false
         ));
+    }
+
+    @OnClick(R.id.tv_more_info)
+    public void onClickMoreInfo(){
+        Intent intent = new Intent(getActivity(), MoreInfoActivity.class);
+        startActivity(intent);
     }
 
     private class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
