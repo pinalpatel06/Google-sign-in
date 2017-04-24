@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+    <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/extra_margin_15dp"
+        android:layout_marginStart="@dimen/onderzoek_head_margin"
+        android:layout_marginTop="@dimen/extra_margin_15dp"
+        android:text="@string/onderzoek_tab1_head"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/onderzoek_head"
+        app:customfont="OpenSansSemiBold"/>
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent">
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progress"
+            android:visibility="invisible"
+            android:layout_gravity="center"/>
+
+        <include layout="@layout/fragment_list" />
+
+        <FrameLayout
+            android:id="@+id/fl_empty"
+            android:visibility="invisible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
+
+</LinearLayout>

@@ -4,13 +4,16 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import tekkan.synappz.com.tekkan.R;
@@ -24,11 +27,10 @@ public class FragmentOnderzoek extends Fragment {
 
     @BindView(R.id.tab_layout)
     TabLayout mTabLayout;
-    @BindView(R.id.rv_list)
-    RecyclerView mRecyclerView;
-
-    private ArrayList<TipsItem> mTipsItems;
+    @BindView(R.id.view_pager)
+    ViewPager mViewPager;
     private Adapter mAdapter;
+
 
     @Nullable
     @Override
@@ -36,87 +38,62 @@ public class FragmentOnderzoek extends Fragment {
         View v = inflater.inflate(R.layout.fragment_onderzoek, container, false);
         init(v);
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.addFragment(FragmentAnimalTips.newInstance("HOND"), getString(R.string.text_onderzoek_tab1));
+        mAdapter.addFragment(FragmentAnimalTips.newInstance("KAT"), getString(R.string.text_onderzoek_tab2));
 
+        mViewPager.setAdapter(mAdapter);
+        mTabLayout.setupWithViewPager(mViewPager);
+
+        for (int i = 0; i < mTabLayout.getTabCount(); i++) {
+            TabLayout.Tab tab = mTabLayout.getTabAt(i);
+
+            TextView customTabTextView = (TextView) LayoutInflater.from(getActivity()).inflate(R.layout.custom_tab_item, null);
+            tab.setCustomView(customTabTextView);
+        }
+
+        setCurrentItem(0);
         return v;
     }
 
     private void init(View v) {
         ButterKnife.bind(this, v);
-        mTipsItems = new ArrayList<>();
-        mAdapter = new Adapter();
-        onCreateItems();
+        mAdapter = new Adapter(getChildFragmentManager());
     }
 
-    private void onCreateItems() {
-
-        for (int i = 0; i < 3; i++) {
-            mTipsItems.add(
-                    new TipsItem("TIP 1", "Secondary line text Lorem ipsum dolor sit amet, consectetur adipisscing elit, Nam massa quam.")
-            );
-        }
+    private void setCurrentItem(int position) {
+        mViewPager.setCurrentItem(position, false);
 
     }
 
-    private class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-        private LayoutInflater mLayoutInflater;
+    private class Adapter extends FragmentStatePagerAdapter {
+        private ArrayList<Fragment> mFragments;
+        private ArrayList<String> mTitles;
 
-        Adapter() {
-            mLayoutInflater = LayoutInflater.from(getActivity());
+        Adapter(FragmentManager fm) {
+            super(fm);
+            mFragments = new ArrayList<>();
+            mTitles = new ArrayList<>();
+
         }
 
         @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View v = mLayoutInflater.inflate(R.layout.item_tips, parent, false);
-            return new TipsVH(v);
+        public Fragment getItem(int position) {
+            return mFragments.get(position);
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            ((TipsVH) holder).bind(mTipsItems.get(position));
+        public int getCount() {
+            return mFragments.size();
         }
 
         @Override
-        public int getItemCount() {
-            return mTipsItems.size();
-        }
-    }
-
-    public class TipsVH extends RecyclerView.ViewHolder {
-        @BindView(R.id.tv_tips_title)
-        TextView mTipsTitleTV;
-        @BindView(R.id.tv_tips_details)
-        TextView mTipsDetailTV;
-
-        TipsVH(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
+        public CharSequence getPageTitle(int position) {
+            return mTitles.get(position);
         }
 
-        public void bind(TipsItem item) {
-            mTipsTitleTV.setText(item.getTipsTitle());
-            mTipsDetailTV.setText(item.getTipsDetails());
-        }
-    }
-
-    public class TipsItem {
-        private String mTipsTitle;
-        private String mTipsDetails;
-
-
-        public TipsItem(String title, String details) {
-            mTipsTitle = title;
-            mTipsDetails = details;
-        }
-
-
-        public String getTipsTitle() {
-            return mTipsTitle;
-        }
-
-        public String getTipsDetails() {
-            return mTipsDetails;
+        void addFragment(Fragment fragment, String title) {
+            mFragments.add(fragment);
+            mTitles.add(title);
         }
     }
 }
