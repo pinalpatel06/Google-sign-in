@@ -10,220 +10,199 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingBottom="@dimen/splash_default_margin">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/top_image_layout_height"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:background="@color/profile_title_color"
-    >
-<ImageView
-    android:layout_width="@dimen/camera_image_width"
-    android:layout_height="@dimen/camera_image_width"
-    android:background="@drawable/circle"
-    android:src="@drawable/ic_camera"
-    android:scaleType="center"
-    android:layout_gravity="center"
-
-    />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_margin"
-        android:text="@string/add_photo_text"
-        android:gravity="center"
-        android:textColor="#ffffff"
-        android:textSize="@dimen/profile_name_text_size"
-        />
-
-</LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="@dimen/top_image_layout_height"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:background="@color/profile_title_color"
+            >
+            <ImageView
+                android:layout_width="@dimen/camera_image_width"
+                android:layout_height="@dimen/camera_image_width"
+                android:background="@drawable/circle"
+                android:src="@drawable/ic_camera"
+                android:scaleType="center"
+                android:layout_gravity="center"
 
-            <ListView
+                />
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </ListView>
-
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin"
+                android:text="@string/add_photo_text"
+                android:gravity="center"
+                android:textColor="@color/pet_name_color"
+                android:textSize="@dimen/profile_name_text_size"
+                />
 
         </LinearLayout>
 
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_marginTop="10dp"-->
-            <!--android:layout_marginLeft="20dp"-->
-            <!--android:orientation="vertical"-->
-             <!--&gt;-->
 
-            <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:layout_height="wrap_content">-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/content_margin_start"
+            android:layout_marginTop="@dimen/default_margin"
+            android:orientation="vertical">
 
-                <!--<TextView-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:text="@string/what_is_your_pet_name"-->
-                    <!--/>-->
-                <!--<Button-->
-                    <!--android:layout_width="10dp"-->
-                    <!--android:layout_height="5dp"-->
-                    <!--android:layout_gravity="center_vertical"-->
-                    <!--android:layout_marginRight="10dp"-->
-                    <!--android:background="@drawable/ic_expand_button"-->
-                    <!--/>-->
-            <!--</LinearLayout>-->
-            <!--<View-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:layout_height="1dp"-->
-                <!--android:background="@color/bg_detail_title_underline"-->
-                <!--&gt;-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin">
 
-            <!--</View>-->
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/what_is_your_pet_name" />
 
-            <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:layout_height="wrap_content">-->
+            </LinearLayout>
 
-                <!--<TextView-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:text="@string/is_it_dog_or_cat"-->
-                    <!--/>-->
-                <!--<Button-->
-                    <!--android:layout_width="10dp"-->
-                    <!--android:layout_height="5dp"-->
-                    <!--android:layout_gravity="center_vertical"-->
-                    <!--android:layout_marginRight="10dp"-->
-                    <!--android:background="@drawable/ic_expand_button"-->
-                    <!--/>-->
-            <!--</LinearLayout>-->
-            <!--<View-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:layout_height="1dp"-->
-                <!--android:background="@color/bg_detail_title_underline"-->
-                <!--&gt;-->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/default_margin"
+                android:background="@color/bg_detail_title_underline">
 
-            <!--</View>-->
-            <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:layout_height="wrap_content">-->
+            </View>
 
-                <!--<TextView-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:text="@string/what_is_the_breed"-->
-                    <!--/>-->
-                <!--<Button-->
-                    <!--android:layout_width="10dp"-->
-                    <!--android:layout_height="5dp"-->
-                    <!--android:layout_gravity="center_vertical"-->
-                    <!--android:layout_marginRight="10dp"-->
-                    <!--android:background="@drawable/ic_expand_button"-->
-                    <!--/>-->
-            <!--</LinearLayout>-->
-            <!--<View-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:layout_height="1dp"-->
-                <!--android:background="@color/bg_detail_title_underline"-->
-                <!--&gt;-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin">
 
-            <!--</View>-->
-            <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:layout_height="wrap_content">-->
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/is_it_dog_or_cat" />
 
-                <!--<TextView-->
-                    <!--android:id="@+id/textView"-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:text="@string/date_of_birth" />-->
+                <Button
+                    android:layout_width="@dimen/expand_button_width"
+                    android:layout_height="@dimen/expand_button_height"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/default_margin"
+                    android:background="@drawable/ic_expand_button" />
+            </LinearLayout>
 
-                <!--<Button-->
-                    <!--android:layout_width="10dp"-->
-                    <!--android:layout_height="5dp"-->
-                    <!--android:layout_gravity="center_vertical"-->
-                    <!--android:layout_marginRight="10dp"-->
-                    <!--android:background="@drawable/ic_expand_button"-->
-                    <!--/>-->
-            <!--</LinearLayout>-->
-            <!--<View-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:layout_height="1dp"-->
-                <!--android:background="@color/bg_detail_title_underline"-->
-                <!--&gt;-->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/default_margin"
+                android:background="@color/bg_detail_title_underline">
 
-            <!--</View>-->
-            <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:layout_height="wrap_content">-->
+            </View>
 
-                <!--<TextView-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:text="@string/what_is_the_gender"-->
-                    <!--/>-->
-                <!--<Button-->
-                    <!--android:layout_width="10dp"-->
-                    <!--android:layout_height="5dp"-->
-                    <!--android:layout_gravity="center_vertical"-->
-                    <!--android:layout_marginRight="10dp"-->
-                    <!--android:background="@drawable/ic_expand_button"-->
-                    <!--/>-->
-            <!--</LinearLayout>-->
-            <!--<View-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:layout_height="1dp"-->
-                <!--android:background="@color/bg_detail_title_underline"-->
-                <!--&gt;-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin">
 
-            <!--</View>-->
-            <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:layout_height="wrap_content">-->
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/what_is_the_breed" />
 
-                <!--<TextView-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:text="@string/what_is_the_weight"-->
-                    <!--/>-->
-                <!--<Button-->
-                    <!--android:layout_width="10dp"-->
-                    <!--android:layout_height="5dp"-->
-                    <!--android:layout_gravity="center_vertical"-->
-                    <!--android:layout_marginRight="10dp"-->
-                    <!--android:background="@drawable/ic_expand_button"-->
-                    <!--/>-->
-            <!--</LinearLayout>-->
-            <!--<View-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:layout_height="1dp"-->
-                <!--android:background="@color/bg_detail_title_underline"-->
-                <!--&gt;-->
+                <Button
+                    android:layout_width="@dimen/expand_button_width"
+                    android:layout_height="@dimen/expand_button_height"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/default_margin"
+                    android:background="@drawable/ic_expand_button" />
+            </LinearLayout>
 
-            <!--</View>-->
-        <!--</LinearLayout>-->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/default_margin"
+                android:background="@color/bg_detail_title_underline">
+
+            </View>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/date_of_birth" />
+
+                <Button
+                    android:layout_width="@dimen/expand_button_width"
+                    android:layout_height="@dimen/expand_button_height"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/default_margin"
+                    android:background="@drawable/ic_expand_button" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/default_margin"
+                android:background="@color/bg_detail_title_underline">
+
+            </View>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/what_is_the_gender" />
+
+                <Button
+                    android:layout_width="@dimen/expand_button_width"
+                    android:layout_height="@dimen/expand_button_height"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/default_margin"
+                    android:background="@drawable/ic_expand_button" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/default_margin"
+                android:background="@color/bg_detail_title_underline">
+
+            </View>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/what_is_the_weight" />
+
+                <Button
+                    android:layout_width="@dimen/expand_button_width"
+                    android:layout_height="@dimen/expand_button_height"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/default_margin"
+                    android:background="@drawable/ic_expand_button" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/default_margin"
+                android:background="@color/bg_detail_title_underline">
+
+            </View>
+        </LinearLayout>
 
 
     </LinearLayout>

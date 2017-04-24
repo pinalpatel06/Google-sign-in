@@ -36,12 +36,13 @@
 
     <!--your_pet_profile activity-->
     <dimen name="default_margin">10dp</dimen>
-    <dimen name="list_item_expand_button_width">10dp</dimen>
-    <dimen name="list_item_expand_button_height">5dp</dimen>
+    <dimen name="expand_button_width">10dp</dimen>
+    <dimen name="expand_button_height">5dp</dimen>
     <dimen name="top_image_layout_height">180dp</dimen>
     <dimen name="camera_image_height">100dp</dimen>
     <dimen name="camera_image_width">100dp</dimen>
     <dimen name="profile_name_text_size">20sp</dimen>
+    <dimen name="content_margin_start">20dp</dimen>
 
 
 
