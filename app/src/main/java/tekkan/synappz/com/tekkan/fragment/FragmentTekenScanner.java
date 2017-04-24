@@ -3,18 +3,21 @@ package tekkan.synappz.com.tekkan.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayout;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import tekkan.synappz.com.tekkan.R;
 import tekkan.synappz.com.tekkan.activity.FilterOptionActivity;
 
@@ -23,12 +26,13 @@ import tekkan.synappz.com.tekkan.activity.FilterOptionActivity;
  * &copy; Knoxpo
  */
 
-public class FragmentTekenScanner extends Fragment implements TabLayout.OnTabSelectedListener {
+public class FragmentTekenScanner extends Fragment{
 
     @BindView(R.id.tab_layout)
     TabLayout mTabLayout;
-    @BindView(R.id.gl_filter_panel)
-    GridLayout mGridLayout;
+    @BindView(R.id.tv_title_filter)
+    TextView mBottomSheetTitle;
+    private BottomSheetBehavior mBottomSheetBehavior;
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -49,30 +53,34 @@ public class FragmentTekenScanner extends Fragment implements TabLayout.OnTabSel
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_teken_scanner, container, false);
-        ButterKnife.bind(this,v);
-        mTabLayout.addOnTabSelectedListener(this);
+        init(v);
 
-        mGridLayout.setVisibility(View.GONE);
+        ViewTreeObserver vto = mBottomSheetTitle.getViewTreeObserver();
+        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                mBottomSheetTitle.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                mBottomSheetBehavior.setPeekHeight(mBottomSheetTitle.getHeight());
+            }
+        });
+
         setHasOptionsMenu(true);
+
         return v;
     }
 
-    @Override
-    public void onTabSelected(TabLayout.Tab tab) {
-        if(tab.getPosition() == 0){
-            mGridLayout.setVisibility(View.GONE);
+    private void init(View v){
+        ButterKnife.bind(this,v);
+        View bottomSheet = v.findViewById(R.id.bottom_sheet);
+        mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+    }
+
+    @OnClick(R.id.tv_title_filter)
+    public void showBottomSheet(){
+        if(mBottomSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED){
+            mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         }else{
-            mGridLayout.setVisibility(View.VISIBLE);
+            mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         }
-    }
-
-    @Override
-    public void onTabUnselected(TabLayout.Tab tab) {
-
-    }
-
-    @Override
-    public void onTabReselected(TabLayout.Tab tab) {
-
     }
 }

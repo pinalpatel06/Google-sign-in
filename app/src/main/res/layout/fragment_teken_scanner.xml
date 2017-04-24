@@ -1,238 +1,243 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/fl_tab"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:elevation="@dimen/default_elevation">
+        android:layout_height="match_parent">
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tab_layout"
+        <FrameLayout
+            android:id="@+id/fl_tab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabIndicatorColor="@android:color/white"
-            app:tabSelectedTextColor="@android:color/white"
-            app:tabTextColor="@color/color_disable_tab">
+            android:background="@color/colorPrimary"
+            android:elevation="@dimen/default_elevation">
 
-            <android.support.design.widget.TabItem
-                android:layout_width="wrap_content"
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tab_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/text_tekenscanner_tab1"/>
+                app:tabIndicatorColor="@android:color/white"
+                app:tabSelectedTextColor="@android:color/white"
+                app:tabTextColor="@color/color_disable_tab">
 
-            <android.support.design.widget.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/text_tekenscanner_tab2"/>
+                <android.support.design.widget.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_tekenscanner_tab1"/>
 
-        </android.support.design.widget.TabLayout>
+                <android.support.design.widget.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_tekenscanner_tab2"/>
 
-    </FrameLayout>
+            </android.support.design.widget.TabLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/fl_tab"
-        android:orientation="vertical">
+        </FrameLayout>
 
         <fragment xmlns:android="http://schemas.android.com/apk/res/android"
                   xmlns:map="http://schemas.android.com/apk/res-auto"
                   android:id="@+id/fragment_map"
                   android:name="com.google.android.gms.maps.SupportMapFragment"
                   android:layout_width="match_parent"
-                  android:layout_height="0dp"
-                  android:layout_weight="3"
+                  android:layout_height="match_parent"
+                  android:layout_below="@+id/fl_tab"
                   map:uiCompass="false"/>
 
+
+        <tekkan.synappz.com.tekkan.custom.CustomEditTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fl_tab"
+            android:layout_marginEnd="@dimen/margin_10dp"
+            android:layout_marginStart="@dimen/margin_10dp"
+            android:layout_marginTop="@dimen/extra_padding_15dp"
+            android:background="@android:color/white"
+            android:drawableEnd="@drawable/ic_close_black"
+            android:elevation="@dimen/default_elevation"
+            android:hint="@string/hint_search_bar"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:maxLines="1"
+            android:paddingBottom="@dimen/extra_padding_15dp"
+            android:paddingEnd="@dimen/padding_10dp"
+            android:paddingStart="@dimen/padding_10dp"
+            android:paddingTop="@dimen/extra_padding_15dp"
+            android:textColor="@color/search_text_color"
+            android:textSize="@dimen/search_text_size"/>
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.GridLayout
+        android:id="@+id/bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@color/color_grid_back"
+        android:clipToPadding="true"
+        android:elevation="@dimen/default_elevation"
+        app:columnCount="2"
+        app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
+        app:orientation="horizontal">
 
         <tekkan.synappz.com.tekkan.custom.CustomFontTextView
             android:id="@+id/tv_title_filter"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/filter_title_height"
+            android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
-            android:drawablePadding="@dimen/drawable_extra_padding"
+
             android:drawableTop="@drawable/ic_bar"
             android:gravity="center"
-            android:paddingTop="@dimen/padding_5dp"
+            android:paddingStart="@dimen/margin_10dp"
+            android:paddingEnd="@dimen/margin_10dp"
+            android:paddingBottom="@dimen/margin_10dp"
+            android:paddingTop="5dp"
             android:text="@string/filter_option_title"
             android:textColor="@android:color/white"
             android:textSize="@dimen/filter_title_text_size"
-            app:customfont="OpenSansSemiBold"/>
+            app:customfont="OpenSansSemiBold"
+            app:layout_columnSpan="2"/>
 
+        <TextView
+            android:id="@+id/tv_seekbar_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_title_filter"
+            android:layout_marginStart="@dimen/margin_10dp"
+            android:padding="@dimen/padding_5dp"
+            android:text="09 05 2016"
+            android:textColor="@color/colorAccent"
+            app:layout_columnSpan="2"/>
 
-        <android.support.v7.widget.GridLayout
-            android:id="@+id/gl_filter_panel"
+        <SeekBar
+            android:id="@+id/seek_bar"
+            style="@style/SeekBarWithoutSteps"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@color/color_grid_back"
-            android:elevation="@dimen/default_elevation"
-            app:columnCount="2"
-            app:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_seekbar_value"
+            android:max="12"
+            android:maxHeight="@dimen/seekbar_height"
+            android:progressDrawable="@drawable/custom_seekbar"
+            android:thumb="@drawable/custom_thumb"
+            app:layout_columnSpan="2"/>
 
-            <TextView
-                android:id="@+id/tv_seekbar_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_title_filter"
-                android:layout_marginStart="@dimen/margin_10dp"
-                android:padding="@dimen/padding_5dp"
-                android:text="09 05 2016"
-                android:textColor="@color/colorAccent"
-                app:layout_columnSpan="2"/>
-
-            <SeekBar
-                android:id="@+id/seek_bar"
-                style="@style/SeekBarWithoutSteps"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_seekbar_value"
-                android:max="12"
-                android:maxHeight="@dimen/seekbar_height"
-                android:progressDrawable="@drawable/custom_seekbar"
-                android:thumb="@drawable/custom_thumb"
-                app:layout_columnSpan="2"/>
-
-            <LinearLayout
-                android:id="@+id/lt_month_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/seek_bar"
-                android:layout_marginStart="@dimen/margin_10dp"
-                android:layout_marginTop="@dimen/margin_10dp"
-                android:orientation="horizontal"
-                app:layout_columnSpan="2">
-
-                <tekkan.synappz.com.tekkan.custom.CustomFontTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/jan"
-                    android:textSize="@dimen/month_text_size"/>
-
-                <tekkan.synappz.com.tekkan.custom.CustomFontTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/feb"
-                    android:textSize="@dimen/month_text_size"/>
-
-                <tekkan.synappz.com.tekkan.custom.CustomFontTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/mar"
-                    android:textSize="@dimen/month_text_size"/>
-
-                <tekkan.synappz.com.tekkan.custom.CustomFontTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/apr"
-                    android:textSize="@dimen/month_text_size"/>
-
-                <tekkan.synappz.com.tekkan.custom.CustomFontTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/may"
-                    android:textSize="@dimen/month_text_size"/>
-                <tekkan.synappz.com.tekkan.custom.CustomFontTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/jun"
-                    android:textSize="@dimen/month_text_size"/>
-                <tekkan.synappz.com.tekkan.custom.CustomFontTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/jul"
-                    android:textSize="@dimen/month_text_size"/>
-                <tekkan.synappz.com.tekkan.custom.CustomFontTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/aug"
-                    android:textSize="@dimen/month_text_size"/>
-                <tekkan.synappz.com.tekkan.custom.CustomFontTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/sep"
-                    android:textSize="@dimen/month_text_size"/>
-                <tekkan.synappz.com.tekkan.custom.CustomFontTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/oct"
-                    android:textSize="@dimen/month_text_size"/>
-                <tekkan.synappz.com.tekkan.custom.CustomFontTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/nov"
-                    android:textSize="@dimen/month_text_size"/>
-                <tekkan.synappz.com.tekkan.custom.CustomFontTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/dec"
-                    android:textSize="@dimen/month_text_size"/>
-                <tekkan.synappz.com.tekkan.custom.CustomFontTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/jan"
-                    android:textSize="@dimen/month_text_size"/>
-            </LinearLayout>
+        <LinearLayout
+            android:id="@+id/lt_month_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/seek_bar"
+            android:layout_marginStart="@dimen/margin_10dp"
+            android:layout_marginTop="@dimen/margin_10dp"
+            android:orientation="horizontal"
+            app:layout_columnSpan="2">
 
             <tekkan.synappz.com.tekkan.custom.CustomFontTextView
-                android:id="@+id/tv_year_left"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/lt_month_name"
-                android:layout_marginStart="@dimen/margin_10dp"
-                android:text="2016"
-                android:textSize="@dimen/month_text_size"
-                app:layout_columnWeight="1"/>
+                android:layout_weight="1"
+                android:text="@string/jan"
+                android:textSize="@dimen/month_text_size"/>
 
             <tekkan.synappz.com.tekkan.custom.CustomFontTextView
-                android:id="@+id/tv_year_right"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_below="@+id/lt_month_name"
-                android:layout_marginEnd="@dimen/margin_10dp"
-                android:text="2017"
+                android:layout_weight="1"
+                android:text="@string/feb"
                 android:textSize="@dimen/month_text_size"/>
-        </android.support.v7.widget.GridLayout>
-    </LinearLayout>
 
-    <tekkan.synappz.com.tekkan.custom.CustomEditTextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/fl_tab"
-        android:layout_marginEnd="@dimen/margin_10dp"
-        android:layout_marginStart="@dimen/margin_10dp"
-        android:layout_marginTop="@dimen/extra_padding_15dp"
-        android:background="@android:color/white"
-        android:drawableEnd="@drawable/ic_close_black"
-        android:elevation="@dimen/default_elevation"
-        android:hint="@string/hint_search_bar"
-        android:imeOptions="actionSearch"
-        android:inputType="text"
-        android:maxLines="1"
-        android:paddingBottom="@dimen/extra_padding_15dp"
-        android:paddingEnd="@dimen/padding_10dp"
-        android:paddingStart="@dimen/padding_10dp"
-        android:paddingTop="@dimen/extra_padding_15dp"
-        android:textColor="@color/search_text_color"
-        android:textSize="@dimen/search_text_size"/>
+            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/mar"
+                android:textSize="@dimen/month_text_size"/>
 
-</RelativeLayout>
+            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/apr"
+                android:textSize="@dimen/month_text_size"/>
+
+            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/may"
+                android:textSize="@dimen/month_text_size"/>
+            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/jun"
+                android:textSize="@dimen/month_text_size"/>
+            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/jul"
+                android:textSize="@dimen/month_text_size"/>
+            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/aug"
+                android:textSize="@dimen/month_text_size"/>
+            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/sep"
+                android:textSize="@dimen/month_text_size"/>
+            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/oct"
+                android:textSize="@dimen/month_text_size"/>
+            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/nov"
+                android:textSize="@dimen/month_text_size"/>
+            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/dec"
+                android:textSize="@dimen/month_text_size"/>
+            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/jan"
+                android:textSize="@dimen/month_text_size"/>
+        </LinearLayout>
+
+        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            android:id="@+id/tv_year_left"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/lt_month_name"
+            android:layout_marginStart="@dimen/margin_10dp"
+            android:text="2016"
+            android:textSize="@dimen/month_text_size"
+            app:layout_columnWeight="1"/>
+
+        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            android:id="@+id/tv_year_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/lt_month_name"
+            android:layout_marginEnd="@dimen/margin_10dp"
+            android:text="2017"
+            android:textSize="@dimen/month_text_size"/>
+    </android.support.v7.widget.GridLayout>
+
+</android.support.design.widget.CoordinatorLayout>

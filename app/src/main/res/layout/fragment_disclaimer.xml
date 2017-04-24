@@ -2,15 +2,18 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:padding="@dimen/splash_default_margin">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:orientation="vertical"
-                  android:paddingBottom="@dimen/splash_default_margin">
+                  android:paddingTop="@dimen/margin_10dp"
+                  android:paddingStart="@dimen/margin_10dp"
+                  android:paddingEnd="@dimen/margin_10dp"
+                  android:paddingBottom="20dp">
 
         <tekkan.synappz.com.tekkan.custom.CustomFontTextView
             android:layout_width="match_parent"
