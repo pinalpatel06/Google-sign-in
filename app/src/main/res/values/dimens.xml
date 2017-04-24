@@ -47,6 +47,10 @@
     <dimen name="custom_tab_text">26sp</dimen>
     <dimen name="onderzoek_head">20sp</dimen>
     <dimen name="onderzoek_head_margin">20dp</dimen>
+    <dimen name="body_text_size">18sp</dimen>
+
+    <!-- item pet info -->
+
 
 
 </resources>

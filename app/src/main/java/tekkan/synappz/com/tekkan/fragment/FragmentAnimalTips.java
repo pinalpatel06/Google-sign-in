@@ -20,20 +20,26 @@ import tekkan.synappz.com.tekkan.custom.ListFragment;
  * &copy; Knoxpo
  */
 
-public class FragmentAnimalTips extends ListFragment<FragmentAnimalTips.TipsItem,FragmentAnimalTips.TipsVH> {
+public class FragmentAnimalTips extends ListFragment<Object, RecyclerView.ViewHolder> {
 
     private static final String
             TAG = FragmentAnimalTips.class.getSimpleName(),
             ARGS_ANIMAL_TYPE = TAG + ".ARGS_ANIMAL_TYPE";
 
-    private ArrayList<TipsItem> mTipsItems;
+    private ArrayList<Object> mTipsItems;
     private String mAnimalType;
+    private boolean isPetInfoAvailable = true;
+
+    private static final int
+            TYPE_TITLE = 2,
+            TYPE_PET = 3,
+            TYPE_TIPS = 4;
 
 
     public static FragmentAnimalTips newInstance(String animalTypes) {
         Log.d(TAG, animalTypes);
         Bundle args = new Bundle();
-        args.putString(ARGS_ANIMAL_TYPE,animalTypes);
+        args.putString(ARGS_ANIMAL_TYPE, animalTypes);
         FragmentAnimalTips fragment = new FragmentAnimalTips();
         fragment.setArguments(args);
         return fragment;
@@ -43,15 +49,33 @@ public class FragmentAnimalTips extends ListFragment<FragmentAnimalTips.TipsItem
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAnimalType = getArguments().getString(ARGS_ANIMAL_TYPE);
+        if(mAnimalType.equals("HOND")){
+            isPetInfoAvailable = true;
+        }else{
+            isPetInfoAvailable = false;
+        }
     }
 
     @Override
-    public List<TipsItem> onCreateItems(Bundle savedInstanceState) {
+    public List<Object> onCreateItems(Bundle savedInstanceState) {
         mTipsItems = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            mTipsItems.add(
-                    new TipsItem("TIP " + (i+1), mAnimalType + ", Secondary line text Lorem ipsum dolor sit amet, consectetur adipisscing elit, Nam massa quam.")
-            );
+        for (int i = 0; i < 6; i++) {
+            if (i == 0 && isPetInfoAvailable) {
+                mTipsItems.add("UITSTAG ONDERZOEK");
+            } else if (i == 0 && !isPetInfoAvailable) {
+                mTipsItems.add("TIPS EN ADVIES");
+            } else if (i == 1 && isPetInfoAvailable) {
+                mTipsItems.add(
+                        new PetInfoItem("Daisy", "Secondary line text Lorem ipsum dolor sit amet, consectetur adipisscing elit, Nam massa quam.")
+                );
+            } else if (i == 2 && isPetInfoAvailable) {
+                mTipsItems.add("TIPS EN ADVIES");
+            } else {
+
+                mTipsItems.add(
+                        new TipsItem("TIP " + (i + 1), mAnimalType + ", Secondary line text Lorem ipsum dolor sit amet, consectetur adipisscing elit, Nam massa quam.")
+                );
+            }
         }
         return mTipsItems;
     }
@@ -63,17 +87,52 @@ public class FragmentAnimalTips extends ListFragment<FragmentAnimalTips.TipsItem
 
     @Override
     public int getItemLayoutId(int viewType) {
-        return R.layout.item_tips;
+        if (viewType == TYPE_TITLE) {
+            return R.layout.item_animal_tips_title;
+        } else if (viewType == TYPE_PET) {
+            return R.layout.item_pet_info;
+        } else if (viewType == TYPE_TIPS) {
+            return R.layout.item_tips;
+        } else {
+            return 0;
+        }
     }
 
     @Override
-    public TipsVH onCreateViewHolder(View v, int viewType) {
-        return new TipsVH(v);
+    protected int getItemViewType(int position) {
+        if (position == 0) {
+            return TYPE_TITLE;
+        } else if (position == 1 && isPetInfoAvailable) {
+            return TYPE_PET;
+        } else if (position == 2 && isPetInfoAvailable) {
+            return TYPE_TITLE;
+        } else {
+            return TYPE_TIPS;
+        }
     }
 
     @Override
-    public void onBindViewHolder(TipsVH holder, TipsItem item) {
-        holder.bind(item);
+    public RecyclerView.ViewHolder onCreateViewHolder(View v, int viewType) {
+        if (viewType == TYPE_TITLE) {
+            return new StringVH(v);
+        } else if (viewType == TYPE_PET) {
+            return new PetInfoVH(v);
+        } else if (viewType == TYPE_TIPS) {
+            return new TipsVH(v);
+        } else {
+            return new StringVH(v);
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, Object item) {
+        if (item instanceof String) {
+            ((StringVH) holder).bind((String) item);
+        } else if (item instanceof PetInfoItem) {
+            ((PetInfoVH) holder).bind((PetInfoItem) item);
+        } else if (item instanceof TipsItem) {
+            ((TipsVH) holder).bind((TipsItem) item);
+        }
     }
 
     public class TipsVH extends RecyclerView.ViewHolder {
@@ -110,6 +169,54 @@ public class FragmentAnimalTips extends ListFragment<FragmentAnimalTips.TipsItem
 
         String getTipsDetails() {
             return mTipsDetails;
+        }
+    }
+
+    public class PetInfoVH extends RecyclerView.ViewHolder {
+        @BindView(R.id.tv_pet_name)
+        TextView mPetNameTV;
+        @BindView(R.id.tv_pet_details)
+        TextView mPetDetailTV;
+
+        PetInfoVH(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+
+        public void bind(PetInfoItem item) {
+            mPetNameTV.setText(item.getPetName());
+            mPetDetailTV.setText(item.getPetDetails());
+        }
+    }
+
+    public class PetInfoItem {
+        public String getPetName() {
+            return mPetName;
+        }
+
+        public String getPetDetails() {
+            return mPetDetails;
+        }
+
+        private String mPetName, mPetDetails;
+
+        PetInfoItem(String name, String petDetails) {
+            mPetName = name;
+            mPetDetails = petDetails;
+        }
+    }
+
+    public class StringVH extends RecyclerView.ViewHolder {
+        @BindView(R.id.tv_animal_tips_title)
+        TextView mAnimalTipsTV;
+
+        StringVH(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+
+        public void bind(String item) {
+            mAnimalTipsTV.setText(item);
         }
     }
 }
