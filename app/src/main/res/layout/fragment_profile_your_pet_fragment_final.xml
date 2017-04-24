@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:fillViewport="true"
-    >
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="true">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -25,13 +25,14 @@
                 android:layout_gravity="center"
 
                 />
-            <TextView
+            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_margin"
                 android:text="@string/add_photo_text"
                 android:gravity="center"
-                android:textColor="#ffffff"
+                app:customfont="OpenSansSemiBold"
+                android:textColor="@color/pet_name_color"
                 android:textSize="@dimen/profile_name_text_size"
                 />
 
@@ -49,7 +50,7 @@
                 android:orientation="vertical"
                 android:layout_marginTop="@dimen/default_margin">
 
-                <TextView
+                <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -69,7 +70,7 @@
                 android:orientation="vertical"
                 android:layout_marginTop="@dimen/default_margin">
 
-                <TextView
+                <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -89,7 +90,7 @@
                 android:orientation="vertical"
                 android:layout_marginTop="@dimen/default_margin">
 
-                <TextView
+                <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -109,7 +110,7 @@
                 android:orientation="vertical"
                 android:layout_marginTop="@dimen/default_margin">
 
-                <TextView
+                <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -129,7 +130,7 @@
                 android:orientation="vertical"
                 android:layout_marginTop="@dimen/default_margin">
 
-                <TextView
+                <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -145,11 +146,14 @@
 
         </LinearLayout>
 
-        <TextView
+        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
             android:layout_width="match_parent"
             android:layout_marginStart="@dimen/default_margin"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_margin"
+            app:customfont="OpenSansSemiBold"
+            android:textSize="14sp"
+            android:textColor="@color/profile_title_color"
             android:text="@string/second_list_title"
             />
         <LinearLayout
@@ -162,7 +166,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_margin">
 
-                <TextView
+                <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:fillViewport="true"
-    >
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="true">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -26,12 +26,13 @@
                 android:layout_gravity="center"
 
                 />
-            <TextView
+            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_margin"
                 android:text="@string/add_photo_text"
                 android:gravity="center"
+                app:customfont="OpenSansSemiBold"
                 android:textColor="@color/pet_name_color"
                 android:textSize="@dimen/profile_name_text_size"
                 />
@@ -51,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_margin">
 
-                <TextView
+                <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -72,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_margin">
 
-                <TextView
+                <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -99,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_margin">
 
-                <TextView
+                <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -126,7 +127,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_margin">
 
-                <TextView
+                <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                     android:id="@+id/textView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -154,7 +155,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_margin">
 
-                <TextView
+                <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -181,7 +182,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_margin">
 
-                <TextView
+                <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
