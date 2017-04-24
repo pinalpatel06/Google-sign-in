@@ -29,6 +29,8 @@
     <color name="bg_detail_title_underline">#ededed</color>
     <color name="profile_title_color">#669880</color>
     <color name="pet_name_color">#ffffff</color>
+    <color name="transparent">#00000000</color>
+    <color name="profile_badge_color">#ffffff</color>
 
     <!--Profile Conditions Activity-->
     <color name="condtions_web_link_color">#669880</color>
