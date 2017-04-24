@@ -38,6 +38,9 @@
                 <android.support.v7.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="@dimen/profile_default_text_size"
+                    android:textColor="@color/profile_default_text_color"
+                    android:buttonTint="@color/radio_button_tint"
                     android:text="@string/radio_button_title_male"
 
                     />
@@ -45,6 +48,9 @@
                 <android.support.v7.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="@dimen/profile_default_text_size"
+                    android:textColor="@color/profile_default_text_color"
+                    android:buttonTint="@color/radio_button_tint"
                     android:text="@string/radio_button_title_female"
 
                     />
@@ -217,7 +223,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="@string/agree_terms_conditions"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/profile_default_text_size" />
 
                 <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                     android:layout_width="0dp"
@@ -231,6 +237,7 @@
 
                 <CheckBox
                     android:layout_width="wrap_content"
+                    android:buttonTint="@color/radio_button_tint"
                     android:layout_height="wrap_content" />
 
             </LinearLayout>
@@ -265,11 +272,10 @@
             <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-
                 android:gravity="center_vertical"
                 android:hint="@string/add_new_pet_placeholder"
                 android:layout_weight="1"
-                android:textSize="18sp"
+                android:textSize="@dimen/profile_default_text_size"
 
                 />
             <Button
@@ -281,20 +287,22 @@
                 />
 
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginStart="@dimen/user_profile_padding"
             android:layout_marginTop="@dimen/default_margin"
             android:background="@color/bg_detail_title_underline">
 
         </View>
 
         <android.support.v7.widget.RecyclerView
-            android:layout_marginTop="@dimen/default_margin"
             android:id="@+id/add_new_pet_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            />
+            android:layout_marginTop="@dimen/default_margin" />
+
 
 
     </LinearLayout>
