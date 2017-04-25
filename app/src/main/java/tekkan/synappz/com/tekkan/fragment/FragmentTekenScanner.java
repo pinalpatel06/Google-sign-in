@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayout;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,22 +27,24 @@ import tekkan.synappz.com.tekkan.activity.FilterOptionActivity;
  * &copy; Knoxpo
  */
 
-public class FragmentTekenScanner extends Fragment{
+public class FragmentTekenScanner extends Fragment {
 
     @BindView(R.id.tab_layout)
     TabLayout mTabLayout;
     @BindView(R.id.tv_title_filter)
     TextView mBottomSheetTitle;
+    @BindView(R.id.gl_bottom_sheet)
+    GridLayout mBottomSheetGL;
     private BottomSheetBehavior mBottomSheetBehavior;
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_teken_scanner,menu);
+        inflater.inflate(R.menu.menu_teken_scanner, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_filter:
                 Intent intent = new Intent(getActivity(), FilterOptionActivity.class);
                 startActivity(intent);
@@ -54,6 +57,8 @@ public class FragmentTekenScanner extends Fragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_teken_scanner, container, false);
         init(v);
+
+        mBottomSheetBehavior = BottomSheetBehavior.from(mBottomSheetGL);
 
         ViewTreeObserver vto = mBottomSheetTitle.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -69,17 +74,15 @@ public class FragmentTekenScanner extends Fragment{
         return v;
     }
 
-    private void init(View v){
-        ButterKnife.bind(this,v);
-        View bottomSheet = v.findViewById(R.id.bottom_sheet);
-        mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+    private void init(View v) {
+        ButterKnife.bind(this, v);
     }
 
     @OnClick(R.id.tv_title_filter)
-    public void showBottomSheet(){
-        if(mBottomSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED){
+    public void showBottomSheet() {
+        if (mBottomSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
             mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-        }else{
+        } else {
             mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         }
     }
