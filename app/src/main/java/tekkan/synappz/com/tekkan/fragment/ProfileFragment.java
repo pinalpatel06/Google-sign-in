@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import butterknife.ButterKnife;
 import tekkan.synappz.com.tekkan.R;
 import tekkan.synappz.com.tekkan.adapters.AddPetAdapter;
 
@@ -22,6 +23,7 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_profile,container,false);
 
+        init(v);
 
         mRecyclerView = (RecyclerView) v.findViewById(R.id.add_new_pet_list);
 
@@ -33,5 +35,9 @@ public class ProfileFragment extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
 
         return v;
+    }
+
+    private void init(View v){
+        ButterKnife.bind(this,v);
     }
 }
