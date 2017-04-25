@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import tekkan.synappz.com.tekkan.R;
+import tekkan.synappz.com.tekkan.fragment.ProfileFragment;
 import tekkan.synappz.com.tekkan.fragment.Step1Fragment;
 
 public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         setTitle(null);
 
         mAdapter.addFragment(Step1Fragment.newInstance("Takenscanner"));
-        mAdapter.addFragment(Step1Fragment.newInstance("Profiel"));
+        mAdapter.addFragment(new ProfileFragment());
         mAdapter.addFragment(Step1Fragment.newInstance("Teek melden"));
         mAdapter.addFragment(Step1Fragment.newInstance("Onderzoek"));
         mAdapter.addFragment(Step1Fragment.newInstance("Product"));
