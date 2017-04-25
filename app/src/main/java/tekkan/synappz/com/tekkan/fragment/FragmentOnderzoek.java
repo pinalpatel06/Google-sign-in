@@ -23,14 +23,13 @@ import tekkan.synappz.com.tekkan.R;
  * &copy; Knoxpo
  */
 
-public class FragmentOnderzoek extends Fragment {
+public class FragmentOnderzoek extends Fragment implements AnimalTipsCallback {
 
     @BindView(R.id.tab_layout)
     TabLayout mTabLayout;
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
     private Adapter mAdapter;
-
 
     @Nullable
     @Override
@@ -60,10 +59,23 @@ public class FragmentOnderzoek extends Fragment {
         mAdapter = new Adapter(getChildFragmentManager());
     }
 
+
     private void setCurrentItem(int position) {
         mViewPager.setCurrentItem(position, false);
 
     }
+
+    public boolean hasChild() {
+        return getChildFragmentManager().findFragmentById(R.id.fragment_container) != null;
+    }
+
+    @Override
+    public void setTabLayoutVisibility(boolean isOn) {
+        mTabLayout.setVisibility(
+                isOn? View.VISIBLE : View.GONE
+        );
+    }
+
 
     private class Adapter extends FragmentStatePagerAdapter {
         private ArrayList<Fragment> mFragments;

@@ -3,10 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/gl_pet_info"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/onderzoek_head_margin"
     android:layout_marginEnd="@dimen/margin_10dp"
+    android:layout_marginStart="@dimen/onderzoek_head_margin"
     app:columnCount="2"
     app:orientation="horizontal">
 
@@ -33,7 +34,8 @@
         android:id="@+id/tv_pet_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
         android:textSize="@dimen/body_text_size"
-        tools:text="Secondary line text Lorem ipsum dolor sit amet, consectetur adipisscing elit, Nam massa quam." />
+        tools:text="Secondary line text Lorem ipsum dolor sit amet, consectetur adipisscing elit, Nam massa quam."/>
 
 </android.support.v7.widget.GridLayout>

@@ -11,15 +11,18 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import tekkan.synappz.com.tekkan.R;
+import tekkan.synappz.com.tekkan.fragment.FragmentAnimalTips;
 import tekkan.synappz.com.tekkan.fragment.FragmentOnderzoek;
 import tekkan.synappz.com.tekkan.fragment.FragmentTekenScanner;
+import tekkan.synappz.com.tekkan.fragment.OnderzoekCallback;
 import tekkan.synappz.com.tekkan.fragment.Step1Fragment;
 
-public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
+public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener, OnderzoekCallback {
 
     private static final int
             POSITION_TEKENSCANNER = 0,
@@ -44,15 +47,15 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         setSupportActionBar(mToolbar);
         setTitle(null);
 
-        mAdapter.addFragment(new FragmentTekenScanner(),"Takenscanner");
+        mAdapter.addFragment(new FragmentTekenScanner(), "Takenscanner");
         mAdapter.addFragment(Step1Fragment.newInstance("Profiel"), "Profiel");
-        mAdapter.addFragment(Step1Fragment.newInstance("Teek melden") , "Teek melden");
+        mAdapter.addFragment(Step1Fragment.newInstance("Teek melden"), "Teek melden");
         mAdapter.addFragment(new FragmentOnderzoek(), "Advies");
         mAdapter.addFragment(Step1Fragment.newInstance("Product"), "Product");
 
         mViewPager.setAdapter(mAdapter);
         mTabLayout.addOnTabSelectedListener(this);
-       // updateUI();
+
         setCurrentItem(POSITION_TEKENSCANNER);
     }
 
@@ -61,15 +64,15 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         mAdapter = new Adapter(getSupportFragmentManager());
     }
 
-    private void updateUI() {
-        ((TextView) mToolbar.findViewById(android.R.id.text1)).setText(getString(R.string.main_activity_title));
+    private void setAppTitle(CharSequence title) {
+        ((TextView) mToolbar.findViewById(android.R.id.text1)).setText(title);
     }
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
-       mViewPager.setCurrentItem(tab.getPosition(),false);
+        mViewPager.setCurrentItem(tab.getPosition(), false);
         setTitle(null);
-        ((TextView) mToolbar.findViewById(android.R.id.text1)).setText(mAdapter.getPageTitle(tab.getPosition()));
+        setAppTitle(mAdapter.getPageTitle(tab.getPosition()));
     }
 
     @Override
@@ -84,7 +87,72 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 
     private void setCurrentItem(int position) {
         mViewPager.setCurrentItem(position, false);
-        ((TextView) mToolbar.findViewById(android.R.id.text1)).setText(mAdapter.getPageTitle(position));
+        setAppTitle(mAdapter.getPageTitle(position));
+    }
+
+    @Override
+    public void onChildFragmentDisplayed(String title) {
+        setTitle(null);
+        setAppTitle(title);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mViewPager.getCurrentItem() == POSITION_ONDERZOEK) {
+            FragmentOnderzoek fragment = (FragmentOnderzoek) mAdapter.getItem(POSITION_ONDERZOEK);
+
+            FragmentAnimalTips fragmentAnimalTips;
+            Fragment fragment1;
+
+            int i = 0;
+            do{
+                fragmentAnimalTips = (FragmentAnimalTips) fragment.getChildFragmentManager().getFragments().get(i++);
+                fragment1 = fragmentAnimalTips.getChildFragmentManager().findFragmentById(R.id.fragment_container);
+            }while(fragment1 == null && i < fragment.getChildFragmentManager().getFragments().size());
+
+            popupFragment(fragment1);
+            setAppTitle(mAdapter.getPageTitle(mViewPager.getCurrentItem()));
+
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(fragment.hasChild());
+            }
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    private void popupFragment(Fragment fragment) {
+        List<Fragment> childFragment = getChildFragments(fragment);
+        if (childFragment == null || childFragment.size() == 0) {
+            fragment.getFragmentManager().beginTransaction().remove(fragment).commitNow();
+        } else {
+            popupFragment(childFragment.get(childFragment.size() - 1));
+        }
+    }
+
+
+    public static List<Fragment> getChildFragments(Fragment fragment) {
+        FragmentManager fm = fragment.getChildFragmentManager();
+        @SuppressWarnings("RestrictedApi")
+        List<Fragment> childFragments = fm.getFragments();
+
+        List<Fragment> nonNullFragments = new ArrayList<Fragment>();
+
+        if (childFragments == null) {
+            return nonNullFragments;
+        }
+
+        for (int i = 0; i < childFragments.size(); i++) {
+            Fragment childFragment = childFragments.get(i);
+            if (childFragment != null) {
+                nonNullFragments.add(childFragment);
+            }
+        }
+
+        return nonNullFragments;
     }
 
     private class Adapter extends FragmentStatePagerAdapter {

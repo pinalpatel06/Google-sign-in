@@ -35,6 +35,9 @@
     <color name="color_more_info">#7D7E7C</color>
     <color name="color_item_view_underline">#EDEDED</color>
     <color name="color_filter_option_text">#57585E</color>
-    <color name="color_more_info_header">#83BDA0</color>
+    <color name="color_more_info_header">#81BC9F</color>
+    <color name="color_lt_back">#81BC9F</color>
+
+    <!--Pet info -->
 
 </resources>

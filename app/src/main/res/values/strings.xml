@@ -83,6 +83,7 @@
 
     <!-- Fragment list -->
     <string name="no_items">No items</string>
+    <string name="tip_title">Header</string>
 
 
 </resources>
