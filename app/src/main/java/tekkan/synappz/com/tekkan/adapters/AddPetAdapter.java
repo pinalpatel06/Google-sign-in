@@ -53,8 +53,8 @@ public class AddPetAdapter extends RecyclerView.Adapter<AddPetAdapter.ViewHolder
         public ViewHolder(View view) {
             super(view);
             profileIcon = (ImageView)view.findViewById(R.id.profile_image);
-            name = (TextView) view.findViewById(R.id.profile_name);
-            badgeCount = (TextView) view.findViewById(R.id.badge_item);
+            name = (TextView) view.findViewById(R.id.tv_pet_name);
+            badgeCount = (TextView) view.findViewById(R.id.tv_pet_count);
         }
     }
 

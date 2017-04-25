@@ -204,7 +204,7 @@
             android:textSize="@dimen/profile_default_text_size" />
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/add_new_pet_list"
+            android:id="@+id/rv_pet_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/default_margin" />
