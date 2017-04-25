@@ -38,16 +38,22 @@ public class FragmentOnderzoek extends Fragment {
         View v = inflater.inflate(R.layout.fragment_onderzoek, container, false);
         init(v);
 
-        mAdapter.addFragment(FragmentAnimalTips.newInstance("HOND"), getString(R.string.text_onderzoek_tab1));
-        mAdapter.addFragment(FragmentAnimalTips.newInstance("KAT"), getString(R.string.text_onderzoek_tab2));
+        mAdapter.addFragment(
+                FragmentAnimalTips.newInstance(getString(R.string.text_onderzoek_tab1)),
+                getString(R.string.text_onderzoek_tab1)
+        );
+        mAdapter.addFragment(
+                FragmentAnimalTips.newInstance(getString(R.string.text_onderzoek_tab2)),
+                getString(R.string.text_onderzoek_tab2)
+        );
 
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
 
         for (int i = 0; i < mTabLayout.getTabCount(); i++) {
             TabLayout.Tab tab = mTabLayout.getTabAt(i);
-
             TextView customTabTextView = (TextView) LayoutInflater.from(getActivity()).inflate(R.layout.custom_tab_item, null);
+            //noinspection ConstantConditions
             tab.setCustomView(customTabTextView);
         }
 
