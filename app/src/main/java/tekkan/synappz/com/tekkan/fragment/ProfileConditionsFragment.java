@@ -16,11 +16,6 @@ import tekkan.synappz.com.tekkan.R;
 public class ProfileConditionsFragment extends Fragment {
 
 
-    public ProfileConditionsFragment() {
-        // Required empty public constructor
-    }
-
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

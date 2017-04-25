@@ -12,12 +12,7 @@ import tekkan.synappz.com.tekkan.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProfileYourPerFragmentFinal extends Fragment {
-
-
-    public ProfileYourPerFragmentFinal() {
-        // Required empty public constructor
-    }
+public class ProfileYourPetFragmentFinal extends Fragment {
 
 
     @Override

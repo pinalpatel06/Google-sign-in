@@ -1,7 +1,5 @@
 package tekkan.synappz.com.tekkan.fragment;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -36,9 +34,4 @@ public class ProfileFragment extends Fragment {
 
         return v;
     }
-
-    public ProfileFragment () {
-
-    }
-
 }
