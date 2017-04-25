@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.GridLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/onderzoek_head_margin"
+    android:layout_marginEnd="@dimen/margin_10dp"
+    app:columnCount="2"
+    app:orientation="horizontal">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:minHeight="48dp"
+        android:minWidth="48dp"
+        android:src="@drawable/bg_filter_option_1"
+        app:layout_rowSpan="2"/>
+
+    <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+        android:id="@+id/tv_pet_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/body_text_size"
+        app:customfont="OpenSansSemiBold"
+        tools:text="Daisy"/>
+
+    <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+        android:id="@+id/tv_pet_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/body_text_size"
+        tools:text="Secondary line text Lorem ipsum dolor sit amet, consectetur adipisscing elit, Nam massa quam." />
+
+</android.support.v7.widget.GridLayout>

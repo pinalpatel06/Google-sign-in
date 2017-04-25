@@ -21,6 +21,13 @@
         <activity android:name=".activity.ProfileSetupActivity"/>
 
         <activity android:name=".activity.MainActivity"/>
+
+        <activity android:name=".activity.FilterOptionActivity" />
+
+        <activity android:name=".activity.MoreInfoActivity" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDK3Ip6wvb3XjCpCW4l5VBthLSBG57qI3c"/>
     </application>
 
 </manifest>

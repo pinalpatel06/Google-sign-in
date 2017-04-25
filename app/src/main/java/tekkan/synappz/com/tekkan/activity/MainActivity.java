@@ -15,10 +15,19 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import tekkan.synappz.com.tekkan.R;
+import tekkan.synappz.com.tekkan.fragment.FragmentOnderzoek;
+import tekkan.synappz.com.tekkan.fragment.FragmentTekenScanner;
 import tekkan.synappz.com.tekkan.fragment.ProfileFragment;
 import tekkan.synappz.com.tekkan.fragment.Step1Fragment;
 
 public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
+
+    private static final int
+            POSITION_TEKENSCANNER = 0,
+            POSITION_PROFILE = 1,
+            POSITION_TEEK_MELDEN = 2,
+            POSITION_ONDERZOEK = 3,
+            POSITION_PRODUCT = 4;
 
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
@@ -36,15 +45,16 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         setSupportActionBar(mToolbar);
         setTitle(null);
 
-        mAdapter.addFragment(Step1Fragment.newInstance("Takenscanner"));
-        mAdapter.addFragment(new ProfileFragment());
-        mAdapter.addFragment(Step1Fragment.newInstance("Teek melden"));
-        mAdapter.addFragment(Step1Fragment.newInstance("Onderzoek"));
-        mAdapter.addFragment(Step1Fragment.newInstance("Product"));
+        mAdapter.addFragment(new FragmentTekenScanner(),"Takenscanner");
+        mAdapter.addFragment(new ProfileFragment(), "Profiel");
+        mAdapter.addFragment(Step1Fragment.newInstance("Teek melden") , "Teek melden");
+        mAdapter.addFragment(new FragmentOnderzoek(), "Advies");
+        mAdapter.addFragment(Step1Fragment.newInstance("Product"), "Product");
 
         mViewPager.setAdapter(mAdapter);
         mTabLayout.addOnTabSelectedListener(this);
-        updateUI();
+       // updateUI();
+        setCurrentItem(POSITION_TEKENSCANNER);
     }
 
     private void init() {
@@ -59,6 +69,8 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
        mViewPager.setCurrentItem(tab.getPosition(),false);
+        setTitle(null);
+        ((TextView) mToolbar.findViewById(android.R.id.text1)).setText(mAdapter.getPageTitle(tab.getPosition()));
     }
 
     @Override
@@ -71,13 +83,21 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 
     }
 
+    private void setCurrentItem(int position) {
+        mViewPager.setCurrentItem(position, false);
+        ((TextView) mToolbar.findViewById(android.R.id.text1)).setText(mAdapter.getPageTitle(position));
+    }
+
     private class Adapter extends FragmentStatePagerAdapter {
 
         private ArrayList<Fragment> mFragments;
+        private ArrayList<String> mTitles;
 
         Adapter(FragmentManager fm) {
             super(fm);
             mFragments = new ArrayList<>();
+            mTitles = new ArrayList<>();
+
         }
 
         @Override
@@ -90,8 +110,14 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
             return mFragments.size();
         }
 
-        void addFragment(Fragment fragment) {
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mTitles.get(position);
+        }
+
+        void addFragment(Fragment fragment, String title) {
             mFragments.add(fragment);
+            mTitles.add(title);
         }
     }
 }

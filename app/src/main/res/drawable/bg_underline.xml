@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:left="@dimen/underline_margin"
+        android:right="@dimen/underline_margin"
+        android:top="@dimen/underline_margin">
+        <shape android:shape="rectangle">
+            <stroke android:width="@dimen/underline_width"
+                    android:color="@color/color_more_info" />
+            <solid android:color="@android:color/transparent" />
+            <padding android:bottom="@dimen/underline_padding" />
+        </shape>
+    </item>
+
+</layer-list>

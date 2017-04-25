@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_margin="@dimen/extra_margin_15dp"
+              android:orientation="vertical">
+
+    <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/extra_padding_15dp"
+        android:text="@string/more_info_heading"
+        android:textColor="@color/color_more_info_header"
+        android:textSize="@dimen/more_info_head_text_size"
+        app:customfont="OpenSansSemiBold"/>
+
+    <ScrollView android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/more_info_detail"
+            android:textSize="@dimen/more_info_detail_text_size"/>
+    </ScrollView>
+
+</LinearLayout>

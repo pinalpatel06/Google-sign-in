@@ -14,12 +14,6 @@ import tekkan.synappz.com.tekkan.R;
  */
 public class ProfileYourPetFragment extends Fragment {
 
-
-    public ProfileYourPetFragment() {
-        // Required empty public constructor
-    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
