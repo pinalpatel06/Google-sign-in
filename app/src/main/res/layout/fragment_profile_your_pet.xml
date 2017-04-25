@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/splash_default_margin">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/top_image_layout_height"
+            android:background="@color/profile_title_color"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="@dimen/camera_image_width"
+                android:layout_height="@dimen/camera_image_width"
+                android:layout_gravity="center"
+                android:background="@drawable/circle"
+                android:scaleType="center"
+                android:src="@drawable/ic_camera"
+
+                />
+
+            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin"
+                android:gravity="center"
+                android:textColor="@color/pet_name_color"
+                android:textSize="@dimen/profile_name_text_size"
+                app:customfont="OpenSansSemiBold"
+                tools:text="@string/add_photo_text" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/content_margin_start"
+            android:layout_marginTop="@dimen/default_margin"
+            android:orientation="vertical">
+
+            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_edit_text_height"
+                android:background="@drawable/bg_bottom_line"
+                android:gravity="center_vertical"
+                tools:text="@string/what_is_your_pet_name" />
+
+
+            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_edit_text_height"
+                android:background="@drawable/bg_bottom_line"
+                android:drawableEnd="@drawable/ic_expand_button"
+                android:gravity="center_vertical"
+                tools:text="@string/is_it_dog_or_cat" />
+
+
+            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_edit_text_height"
+                android:background="@drawable/bg_bottom_line"
+                android:drawableEnd="@drawable/ic_expand_button"
+                android:gravity="center_vertical"
+                tools:text="@string/what_is_the_breed" />
+
+            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_edit_text_height"
+                android:background="@drawable/bg_bottom_line"
+                android:drawableEnd="@drawable/ic_expand_button"
+                android:gravity="center_vertical"
+                tools:text="@string/date_of_birth" />
+
+
+            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_edit_text_height"
+                android:background="@drawable/bg_bottom_line"
+                android:drawableEnd="@drawable/ic_expand_button"
+                android:gravity="center_vertical"
+                tools:text="@string/what_is_the_gender" />
+
+
+            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_edit_text_height"
+                android:background="@drawable/bg_bottom_line"
+                android:drawableEnd="@drawable/ic_expand_button"
+                android:gravity="center_vertical"
+                tools:text="@string/what_is_the_weight" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</ScrollView>

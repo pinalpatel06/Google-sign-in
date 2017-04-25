@@ -26,6 +26,51 @@
     <string name="action_close">Close</string>
     <string name="profile_setup_title">Helpschermen</string>
 
+    <!--  profile fragment -->
+    <string name="profile_details_title">MIJN GEGEVENS</string>
+    <string name="radio_button_title_male">Meneer</string>
+    <string name="radio_button_title_female">Mevrouw</string>
+    <string name="first_name_placeholder">Voornaam</string>
+    <string name="last_name_placeholder">Achternaam</string>
+    <string name="email_placeholder">E-mail</string>
+    <string name="password_placeholder">Wachtwoord</string>
+    <string name="confirm_password_placeholder">Nogmaals het wachtwoord</string>
+    <string name="street_name_placeholder">Straat en huisnummer</string>
+    <string name="postal_code_placeholder">Postcode</string>
+    <string name="place_placeholder">Plaats</string>
+    <string name="mobile_number_placeholder">Telefoonnummer</string>
+    <string name="agree_terms_conditions">Ik ga akkoord met de </string>
+    <string name="condtions_text"><u>voorwaarden</u></string>
+    <string name="my_pet_title">MIJN HUISDIEREN</string>
+    <string name="add_new_pet_placeholder">Nieuw huisdier toevoegen</string>
+    <string name="add_new_pet_title">MIJN HUISDIEREN</string>
+
+
+    <!--Conditions Activity-->
+    <string name="conditions_title">Voorwaarden</string>
+    <string name="conditions_text">Hierbij geef ik Bayer B.V. (Energieweg 1, 3641 RT Mijdrecht, Nederland) toestemming om mijn persoonlijke gegevens (namelijk mijn naam, adres,
+        woonplaats, e-mailadres, (mobiel) telefoonnummer) te verzamelen, verwerken en gebruiken voor statistische, communicatie en marketing doeleinden en om mij te voorzien
+        van gepersonaliseerde diensten.\nIk ga er hierbij mee akkoord dat Bayer B.V. mijn bovengenoemde persoonlijke gegevens voor dit doeleinde mag doorgeven naar externe dienstverleners. Ik ga hierbij akkoord dat
+        mijn persoonlijke gegevens mogen worden doorgegeven, verwerkt en gebruikt in landen waar het niveau van data protectie niet als adequaat is aangemerkt door de Europese Commissie.\n
+        Ik ben mij ervan bewust dat ik meer informatie kan krijgen over de verwerking van persoonsgegevens, of kan vragen naar wijziging of verwijdering van mijn persoonsgegevens. Het staat me vrij
+        om mijn toestemming op elk moment in te trekken met toekomstig effect. Enig verzoek of een verklaring van intrekking kan worden geadresseerd aan </string>
+    <string name="conditions_web_link">dataprivacy.nl@bayer.com.</string>
+
+
+    <!--Profile Your Pet Activity-->
+
+    <string name="add_photo_text">Voeg een foto toe</string>
+    <string name="what_is_your_pet_name">Wat is de naam van jouw huisdier?</string>
+    <string name="is_it_dog_or_cat">Is het een hond of kat?</string>
+    <string name="what_is_the_breed">Wat is het ras?</string>
+    <string name="date_of_birth">Wat is de geboortedatum</string>
+    <string name="what_is_the_gender">Wat is het geslacht</string>
+    <string name="what_is_the_weight">Wat is het gewicht (kg)?</string>
+
+    <!--Profile Your Pet Activity Final-->
+    <string name="second_list_title">ONDERZOEKEN</string>
+
+
     <!-- Main Activity -->
     <string name="main_activity_title">Teek melden</string>
     <string name="text_tab1">Tekenscanner</string>

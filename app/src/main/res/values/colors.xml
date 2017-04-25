@@ -37,4 +37,20 @@
     <color name="color_filter_option_text">#57585E</color>
     <color name="color_more_info_header">#83BDA0</color>
 
+
+    <!--Profile Activity-->
+    <color name="bg_detail_title_underline">#ededed</color>
+    <color name="profile_title_color">#669880</color>
+    <color name="pet_name_color">#ffffff</color>
+    <color name="transparent">#00000000</color>
+    <color name="profile_badge_color">#ffffff</color>
+    <color name="radio_button_tint">#669880</color>
+    <color name="profile_default_text_color">#a9abaf</color>
+
+
+    <!--Profile Conditions Activity-->
+    <color name="condtions_web_link_color">#669880</color>
+
+
+
 </resources>
