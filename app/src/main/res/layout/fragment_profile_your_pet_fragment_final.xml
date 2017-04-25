@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:fillViewport="true">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -29,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_margin"
-                android:text="@string/add_photo_text"
+                tools:text="@string/add_photo_text"
                 android:gravity="center"
                 app:customfont="OpenSansSemiBold"
                 android:textColor="@color/pet_name_color"
@@ -44,105 +45,46 @@
             android:layout_marginStart="@dimen/content_margin_start"
             android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="@dimen/default_margin">
 
                 <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/what_is_your_pet_name" />
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="@dimen/default_margin"
-                    android:background="@color/bg_detail_title_underline">
+                    android:layout_height="@dimen/default_edit_text_height"
+                    android:background="@drawable/bg_bottom_line"
+                    android:gravity="center_vertical"
+                    tools:text="@string/what_is_your_pet_name" />
 
-                </View>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="@dimen/default_margin">
 
                 <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/what_is_your_pet_name" />
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="@dimen/default_margin"
-                    android:background="@color/bg_detail_title_underline">
+                    android:layout_height="@dimen/default_edit_text_height"
+                    android:background="@drawable/bg_bottom_line"
+                    android:gravity="center_vertical"
+                    tools:text="@string/what_is_your_pet_name" />
 
-                </View>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="@dimen/default_margin">
 
                 <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/what_is_your_pet_name" />
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="@dimen/default_margin"
-                    android:background="@color/bg_detail_title_underline">
+                    android:layout_height="@dimen/default_edit_text_height"
+                    android:background="@drawable/bg_bottom_line"
+                    android:gravity="center_vertical"
+                    tools:text="@string/what_is_your_pet_name" />
 
-                </View>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="@dimen/default_margin">
 
                 <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/what_is_your_pet_name" />
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="@dimen/default_margin"
-                    android:background="@color/bg_detail_title_underline">
+                    android:layout_height="@dimen/default_edit_text_height"
+                    android:background="@drawable/bg_bottom_line"
+                    android:gravity="center_vertical"
+                    tools:text="@string/what_is_your_pet_name" />
 
-                </View>
-            </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="@dimen/default_margin">
 
                 <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/what_is_your_pet_name" />
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="@dimen/default_margin"
-                    android:background="@color/bg_detail_title_underline">
-
-                </View>
-            </LinearLayout>
+                    android:layout_height="@dimen/default_edit_text_height"
+                    android:background="@drawable/bg_bottom_line"
+                    android:gravity="center_vertical"
+                    tools:text="@string/what_is_your_pet_name" />
 
         </LinearLayout>
 
@@ -152,37 +94,22 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_margin"
             app:customfont="OpenSansSemiBold"
-            android:textSize="14sp"
             android:textColor="@color/profile_title_color"
-            android:text="@string/second_list_title"
+            tools:text="@string/second_list_title"
             />
-        <LinearLayout
+
+        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
             android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/default_margin"
             android:layout_marginStart="@dimen/content_margin_start"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:textColor="@color/profile_title_color"
+            android:layout_gravity="center_vertical"
+            android:drawableEnd="@drawable/ic_chevron_right_green"
+            tools:text="@string/what_is_the_weight" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_margin">
 
-                <tekkan.synappz.com.tekkan.custom.CustomFontTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColor="@color/profile_title_color"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/what_is_the_weight" />
 
-                <Button
-                    android:layout_width="@dimen/chevron_ico_width_height"
-                    android:layout_height="@dimen/chevron_ico_width_height"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="@dimen/default_margin"
-                    android:background="@drawable/ic_chevron_right_green" />
-            </LinearLayout>
-
-        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>

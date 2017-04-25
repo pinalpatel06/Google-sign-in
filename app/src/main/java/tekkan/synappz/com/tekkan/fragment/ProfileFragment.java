@@ -16,7 +16,7 @@ import tekkan.synappz.com.tekkan.adapters.AddPetAdapter;
 
 
 public class ProfileFragment extends Fragment {
-    private RecyclerView petsProfileRecyclerView;
+    private RecyclerView mRecyclerView;
     private AddPetAdapter mAdapter;
 
     @Nullable
@@ -25,25 +25,20 @@ public class ProfileFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_profile,container,false);
 
 
-        petsProfileRecyclerView = (RecyclerView) v.findViewById(R.id.add_new_pet_list);
+        mRecyclerView = (RecyclerView) v.findViewById(R.id.add_new_pet_list);
 
        // mAdapter = new AddPetAdapter(mList);
         mAdapter = new AddPetAdapter();
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        petsProfileRecyclerView.setLayoutManager(mLayoutManager);
-        petsProfileRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
 
         return v;
     }
 
-    public static ProfileFragment newInstance(String str) {
+    public ProfileFragment () {
 
-//        Bundle args = new Bundle();
-//        args.putString(ARGS_STRING,str);
-        ProfileFragment fragment = new ProfileFragment();
-        //fragment.setArguments(args);
-        return fragment;
     }
 
 }

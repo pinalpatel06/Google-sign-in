@@ -39,9 +39,7 @@
         <item name="android:textAppearance">?attr/TextAppearanceProfileBodyText</item>
     </style>
 
-    <style name="UserProfileBodyTextStyleWithLine" parent="UserProfileBodyTextStyle">
-        <item name="android:background">@drawable/bg_user_profile_title</item>
-    </style>
+
 
 
 </resources>

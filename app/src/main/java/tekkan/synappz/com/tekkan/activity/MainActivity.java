@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         setTitle(null);
 
         mAdapter.addFragment(Step1Fragment.newInstance("Takenscanner"));
-        mAdapter.addFragment(ProfileFragment.newInstance("Profiel"));
+        mAdapter.addFragment(new ProfileFragment());
         mAdapter.addFragment(Step1Fragment.newInstance("Teek melden"));
         mAdapter.addFragment(Step1Fragment.newInstance("Onderzoek"));
         mAdapter.addFragment(Step1Fragment.newInstance("Product"));

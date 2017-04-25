@@ -23,12 +23,14 @@
     <dimen name="radio_group_margin_top">15dp</dimen>
     <dimen name="checkbox_margin_left">5dp</dimen>
     <dimen name="user_profile_padding">20dp</dimen>
-    <dimen name="underline_margin">-2dp</dimen>
-    <dimen name="underline_width">2dp</dimen>
     <dimen name="profile_textview_text_size">14sp</dimen>
     <dimen name="my_pet_title_margin_top">15dp</dimen>
     <dimen name="add_pet_button_height">15dp</dimen>
     <dimen name="add_pet_button_margin_right">10dp</dimen>
+    <dimen name="list_item_image_width">40dp</dimen>
+    <dimen name="list_item_badge_width">30dp</dimen>
+    <dimen name="list_item_name_text_height">20sp</dimen>
+
 
 
     <!--profile conditions activity-->
@@ -45,6 +47,7 @@
     <dimen name="content_margin_start">20dp</dimen>
     <dimen name="chevron_ico_width_height">20dp</dimen>
     <dimen name="profile_default_text_size">18sp</dimen>
+    <dimen name="default_edit_text_height">35dp</dimen>
 
 
 

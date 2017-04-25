@@ -19,7 +19,7 @@
             android:textColor="@color/profile_title_color"
             android:text="@string/profile_details_title"
             app:customfont="OpenSansSemiBold"
-           />
+            />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -33,6 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/radio_group_margin_top"
+                android:background="@drawable/bg_bottom_line"
                 android:orientation="horizontal">
 
                 <android.support.v7.widget.AppCompatRadioButton
@@ -56,116 +57,67 @@
                     />
             </RadioGroup>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/bg_detail_title_underline">
-
-            </View>
-
             <tekkan.synappz.com.tekkan.custom.CustomFontEditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/default_edit_text_height"
                 android:layout_marginTop="@dimen/default_margin"
-                android:background="@color/transparent"
+                android:background="@drawable/bg_bottom_line"
                 android:hint="@string/first_name_placeholder" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/default_margin"
-                android:background="@color/bg_detail_title_underline">
-
-            </View>
 
             <tekkan.synappz.com.tekkan.custom.CustomFontEditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/default_edit_text_height"
                 android:layout_marginTop="@dimen/default_margin"
-                android:background="@color/transparent"
+                android:background="@drawable/bg_bottom_line"
                 android:hint="@string/last_name_placeholder"
 
                 />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/default_margin"
-                android:background="@color/bg_detail_title_underline">
 
-            </View>
 
             <tekkan.synappz.com.tekkan.custom.CustomFontEditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/default_edit_text_height"
+                android:background="@drawable/bg_bottom_line"
                 android:layout_marginTop="@dimen/default_margin"
-                android:background="@color/transparent"
                 android:hint="@string/email_placeholder"
 
                 />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/default_margin"
-                android:background="@color/bg_detail_title_underline">
-
-            </View>
-
             <tekkan.synappz.com.tekkan.custom.CustomFontEditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/default_edit_text_height"
+                android:background="@drawable/bg_bottom_line"
                 android:layout_marginTop="@dimen/default_margin"
-                android:background="@color/transparent"
                 android:hint="@string/password_placeholder"
 
                 />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/default_margin"
-                android:background="@color/bg_detail_title_underline">
-
-            </View>
 
             <tekkan.synappz.com.tekkan.custom.CustomFontEditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/default_edit_text_height"
+                android:background="@drawable/bg_bottom_line"
                 android:layout_marginTop="@dimen/default_margin"
-                android:background="@color/transparent"
                 android:hint="@string/confirm_password_placeholder"
 
                 />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/default_margin"
-                android:background="@color/bg_detail_title_underline">
-
-            </View>
-
             <tekkan.synappz.com.tekkan.custom.CustomFontEditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"
+                android:layout_height="@dimen/default_edit_text_height"
+                android:background="@drawable/bg_bottom_line"
                 android:layout_marginTop="@dimen/default_margin"
                 android:hint="@string/street_name_placeholder"
 
                 />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/default_margin"
-                android:background="@color/bg_detail_title_underline">
-
-            </View>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/default_edit_text_height"
+                android:background="@drawable/bg_bottom_line"
                 android:layout_marginTop="@dimen/default_margin"
                 android:orientation="horizontal"
                 android:weightSum="2">
@@ -189,32 +141,17 @@
                     />
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/default_margin"
-                android:background="@color/bg_detail_title_underline">
-
-            </View>
-
             <tekkan.synappz.com.tekkan.custom.CustomFontEditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"
+                android:layout_height="@dimen/default_edit_text_height"
+                android:background="@drawable/bg_bottom_line"
                 android:layout_marginTop="@dimen/default_margin"
                 android:hint="@string/mobile_number_placeholder" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/default_margin"
-                android:background="@color/bg_detail_title_underline">
-
-            </View>
-
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/default_edit_text_height"
+                android:background="@drawable/bg_bottom_line"
                 android:layout_marginTop="@dimen/default_margin"
                 android:layout_marginStart="@dimen/checkbox_margin_left"
                 android:orientation="horizontal">
@@ -233,7 +170,7 @@
                     android:enabled="false"
                     android:hint="@string/condtions_text"
                     android:textColorHint="@color/colorAccent"
-                    android:textSize="17sp" />
+                    android:textSize="@dimen/profile_default_text_size" />
 
                 <CheckBox
                     android:layout_width="wrap_content"
@@ -242,13 +179,6 @@
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/default_margin"
-                android:background="@color/bg_detail_title_underline">
-
-            </View>
         </LinearLayout>
 
 
@@ -264,10 +194,12 @@
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="@dimen/default_edit_text_height"
+            android:background="@drawable/bg_bottom_line"
             android:orientation="horizontal"
             android:layout_marginStart="@dimen/user_profile_padding"
             android:layout_marginTop="@dimen/my_pet_title_margin_top"
-            android:layout_height="wrap_content">
+            >
 
             <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                 android:layout_width="0dp"
@@ -288,22 +220,11 @@
 
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginStart="@dimen/user_profile_padding"
-            android:layout_marginTop="@dimen/default_margin"
-            android:background="@color/bg_detail_title_underline">
-
-        </View>
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/add_new_pet_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/default_margin" />
-
-
 
     </LinearLayout>
 </ScrollView>

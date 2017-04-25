@@ -3,9 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:focusable="true"
-    android:paddingLeft="16dp"
-    android:paddingRight="5dp"
+    android:paddingStart="16dp"
+    android:paddingEnd="5dp"
     android:paddingTop="10dp"
     android:paddingBottom="10dp"
     android:clickable="true"
@@ -15,46 +16,46 @@
     <ImageView
         android:id="@+id/profile_image"
         android:layout_alignParentTop="true"
-        android:layout_width="40dp"
+        android:layout_width="@dimen/list_item_image_width"
         android:layout_centerVertical="true"
         android:background="@drawable/ic_splash_pets"
-        android:layout_height="40dp" />
+        android:layout_height="@dimen/list_item_image_width" />
 
     <tekkan.synappz.com.tekkan.custom.CustomFontTextView
         android:id="@+id/profile_name"
         android:layout_toEndOf="@id/profile_image"
         android:layout_toStartOf="@+id/badge_item"
         android:layout_margin="@dimen/default_margin"
-        android:text="Hummer "
+        tools:text="Hummer "
         android:layout_centerVertical="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:customfont="OpenSansSemiBold"
-        android:textSize="20sp"
+        android:textSize="@dimen/list_item_name_text_height"
         android:textColor="@color/profile_title_color"
 
         />
 
     <tekkan.synappz.com.tekkan.custom.CustomFontTextView
         android:id="@+id/badge_item"
-        android:layout_width="30dp"
+        android:layout_width="@dimen/list_item_badge_width"
         android:layout_margin="@dimen/default_margin"
         app:customfont="OpenSansSemiBold"
-        android:textSize="20sp"
-        android:text="1"
+        android:textSize="@dimen/list_item_name_text_height"
+        tools:text="1"
         android:textAlignment="center"
         android:layout_centerVertical="true"
         android:layout_toStartOf="@+id/arrow"
         android:textColor="@color/profile_badge_color"
         android:background="@drawable/circle_red"
         android:gravity="center_vertical"
-        android:layout_height="30dp" />
+        android:layout_height="@dimen/list_item_badge_width" />
 
     <ImageView
         android:id="@+id/arrow"
-        android:layout_width="30dp"
+        android:layout_width="@dimen/list_item_badge_width"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:src="@drawable/ic_chevron_right_green"
-        android:layout_height="30dp" />
+        android:layout_height="@dimen/list_item_badge_width" />
 </RelativeLayout>
