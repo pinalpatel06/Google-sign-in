@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item >
+        <shape android:shape="oval">
+            <padding android:top="20dp"
+                     android:bottom="20dp"
+                     android:left="20dp"
+                     android:right="20dp" />
+            <solid android:color="@android:color/white" />
+        </shape>
+    </item>
+    <item android:drawable="@drawable/ic_my_location" />
+</layer-list>

@@ -85,5 +85,36 @@
     <string name="no_items">No items</string>
     <string name="tip_title">Header</string>
 
+    <!-- Fragment teek melden -->
+    <string name="teek_melden_title">TOELICHTING</string>
+    <string name="teek_melden_detail">Duid op de kaart aan waar je de teek hebt gevonden. \n\n Daarna kan je ook een onderzoek aanvragen om te zien of de teek besmet is met een ziekte.</string>
+    <string name="teek_melden_btn_text">VOLGENDE</string>
+
+    <!-- Fragment pet selection -->
+    <string name="pet_selection_text">Zit de teek op jouw hond of kat?</string>
+    <string name="pet_others">ANDERS</string>
+    <string name="pet_kat">KAT</string>
+    <string name="pet_hond">HOND</string>
+    <string name="teek_melden">TEEK MELDEN</string>
+    <string name="pet_location_text">Waar denk je dat jouw kat de teek heeft opgelopen?</string>
+    <string name="location_others">OP EEN ANDERE LOCATIE</string>
+    <string name="location_current">OP MIJN HUIDIGE LOCATIE</string>
+    <string name="other_pet_selected_text">Let op! \n\nje kunt enkel meldingen maken van teken die op
+        honden of katten zitten/hebben gezeten.
+    </string>
+    <string name="previous">VORIGE</string>
+    <string name="teek_melden_map_title">JOUW HUIDIGE LOCATE</string>
+    <string name="teek_melden_map_detail">Is dit de locatie waar jouw hond of kat de teek heeft
+        opgelopen?
+    </string>
+    <string name="teek_melden_btn_close">JA DIT KLOPT</string>
+    <string name="teek_melden_btn_customize">LOCATIE AANPASSEN</string>
+    <string name="thanks_title">BEDANKT</string>
+    <string name="thnaks_detail_text">Een teek kan verschillende ziekten overdragen op jouw hond.
+        Wil je de teek laten onderzoeken op ziekten?
+    </string>
+    <string name="apply_for_kit_text">ja, onderzoekskit aanvragen</string>
+    <string name="have_kit_text">IK HEB EEN ONDERZOEKSKIT</string>
+    <string name="no_thanks">NEE, BEDANKT</string>
 
 </resources>

@@ -38,6 +38,7 @@
     <color name="color_more_info_header">#81BC9F</color>
     <color name="color_lt_back">#81BC9F</color>
 
-    <!--Pet info -->
+    <!-- tekenMeldenMapFragment -->
+    <color name="color_bottom_view">#b7ffffff</color>
 
 </resources>

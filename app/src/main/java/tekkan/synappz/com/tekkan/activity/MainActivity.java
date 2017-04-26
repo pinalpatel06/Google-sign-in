@@ -18,6 +18,7 @@ import butterknife.ButterKnife;
 import tekkan.synappz.com.tekkan.R;
 import tekkan.synappz.com.tekkan.fragment.FragmentAnimalTips;
 import tekkan.synappz.com.tekkan.fragment.FragmentOnderzoek;
+import tekkan.synappz.com.tekkan.fragment.FragmentTeekMelden;
 import tekkan.synappz.com.tekkan.fragment.FragmentTekenScanner;
 import tekkan.synappz.com.tekkan.fragment.OnderzoekCallback;
 import tekkan.synappz.com.tekkan.fragment.Step1Fragment;
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 
         mAdapter.addFragment(new FragmentTekenScanner(), "Takenscanner");
         mAdapter.addFragment(Step1Fragment.newInstance("Profiel"), "Profiel");
-        mAdapter.addFragment(Step1Fragment.newInstance("Teek melden"), "Teek melden");
+        mAdapter.addFragment(new FragmentTeekMelden(), "Teek melden");
         mAdapter.addFragment(new FragmentOnderzoek(), "Advies");
         mAdapter.addFragment(Step1Fragment.newInstance("Product"), "Product");
 

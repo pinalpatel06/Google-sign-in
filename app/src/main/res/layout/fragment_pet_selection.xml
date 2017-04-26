@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+        android:id="@+id/tv_title"
+        style="@style/TeekMeldenTitleTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/teek_melden_title"
+        app:customfont="OpenSansSemiBold"/>
+
+    <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+        android:id="@+id/tv_teek_melden_detail"
+        style="@style/TeekMeldenDetailTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_title"
+        android:text="@string/pet_selection_text"/>
+
+    <tekkan.synappz.com.tekkan.custom.CustomButtonView
+        android:id="@+id/btn_pet_hond"
+        style="@style/TeekMeldenButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btn_pet_kat"
+        android:layout_marginBottom="@dimen/teek_melden_margin_20dp"
+        android:text="@string/pet_hond"
+        app:customfont="OpenSansSemiBold"/>
+
+    <tekkan.synappz.com.tekkan.custom.CustomButtonView
+        android:id="@+id/btn_pet_kat"
+        style="@style/TeekMeldenButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btn_pet_others"
+        android:layout_marginBottom="@dimen/teek_melden_margin_20dp"
+        android:text="@string/pet_kat"
+        app:customfont="OpenSansSemiBold"/>
+
+    <tekkan.synappz.com.tekkan.custom.CustomButtonView
+        android:id="@+id/btn_pet_others"
+        style="@style/TeekMeldenButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/pet_others"
+        app:customfont="OpenSansSemiBold"/>
+
+</RelativeLayout>
