@@ -1,6 +1,5 @@
 package tekkan.synappz.com.tekkan.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,20 +13,20 @@ import android.widget.ImageView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import tekkan.synappz.com.tekkan.R;
+import tekkan.synappz.com.tekkan.custom.nestedfragments.CommonNodeInterface;
 
 /**
  * Created by Tejas Sherdiwala on 4/25/2017.
  * &copy; Knoxpo
  */
 
-public class FragmentAnimalTipsDetails extends Fragment {
+public class FragmentAnimalTipsDetails extends Fragment implements CommonNodeInterface {
     private static final String
             TAG = FragmentAnimalTipsDetails.class.getSimpleName(),
             ARGS_ANIMAL_TYPE = TAG + ".ARGS_ANIMAL_TYPE";
 
     @BindView(R.id.iv_tips_image)
     ImageView mTipsIV;
-    private AnimalTipsCallback mCallback;
 
     public static FragmentAnimalTipsDetails newInstance(String animalType) {
         Bundle args = new Bundle();
@@ -36,20 +35,6 @@ public class FragmentAnimalTipsDetails extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        ((OnderzoekCallback) getActivity()).onChildFragmentDisplayed("Title Tips");
-        mCallback = (AnimalTipsCallback) getParentFragment();
-    }
-
-    @Override
-    public void onDetach() {
-        ((AnimalTipsCallback) getParentFragment()).setTabLayoutVisibility(true);
-        super.onDetach();
-    }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -74,10 +59,14 @@ public class FragmentAnimalTipsDetails extends Fragment {
     }
 
     private void updateUI(){
-        mCallback.setTabLayoutVisibility(false);
-        String animalType = getArguments().getString(ARGS_ANIMAL_TYPE);
+       /* String animalType = getArguments().getString(ARGS_ANIMAL_TYPE);
         if("KAT".equals(animalType)){
             mTipsIV.setVisibility(View.GONE);
-        }
+        }*/
+    }
+
+    @Override
+    public String getTitle() {
+        return "Titel Tips";
     }
 }

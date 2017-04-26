@@ -4,26 +4,28 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import tekkan.synappz.com.tekkan.R;
-import tekkan.synappz.com.tekkan.fragment.FragmentAnimalTips;
+import tekkan.synappz.com.tekkan.custom.nestedfragments.ContainerNodeInterface;
+import tekkan.synappz.com.tekkan.custom.nestedfragments.CustomFragmentStatePageAdapter;
+import tekkan.synappz.com.tekkan.custom.nestedfragments.FragmentChangeCallback;
+import tekkan.synappz.com.tekkan.custom.nestedfragments.NestedFragmentUtil;
 import tekkan.synappz.com.tekkan.fragment.FragmentOnderzoek;
 import tekkan.synappz.com.tekkan.fragment.FragmentTeekMelden;
 import tekkan.synappz.com.tekkan.fragment.FragmentTekenScanner;
-import tekkan.synappz.com.tekkan.fragment.OnderzoekCallback;
 import tekkan.synappz.com.tekkan.fragment.Step1Fragment;
 
-public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener, OnderzoekCallback {
+public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener, FragmentChangeCallback {
 
     private static final int
             POSITION_TEKENSCANNER = 0,
@@ -41,6 +43,17 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     private Adapter mAdapter;
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -55,6 +68,32 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         mAdapter.addFragment(Step1Fragment.newInstance("Product"), "Product");
 
         mViewPager.setAdapter(mAdapter);
+        mTabLayout.setupWithViewPager(mViewPager);
+        for (int i = 0; i < mTabLayout.getTabCount(); i++) {
+            TabLayout.Tab tab = mTabLayout.getTabAt(i);
+            switch (i) {
+                case 0:
+                    tab.setText(getString(R.string.text_tab1));
+                    tab.setIcon(getDrawable(R.drawable.bg_tab1));
+                    break;
+                case 1:
+                    tab.setText(getString(R.string.text_tab2));
+                    tab.setIcon(getDrawable(R.drawable.bg_tab2));
+                    break;
+                case 2:
+                    tab.setText(getString(R.string.text_tab3));
+                    tab.setIcon(getDrawable(R.drawable.bg_tab3));
+                    break;
+                case 3:
+                    tab.setText(getString(R.string.text_tab4));
+                    tab.setIcon(getDrawable(R.drawable.bg_tab4));
+                    break;
+                case 4:
+                    tab.setText(getString(R.string.text_tab5));
+                    tab.setIcon(getDrawable(R.drawable.bg_tab5));
+                    break;
+            }
+        }
         mTabLayout.addOnTabSelectedListener(this);
 
         setCurrentItem(POSITION_TEKENSCANNER);
@@ -74,16 +113,15 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         mViewPager.setCurrentItem(tab.getPosition(), false);
         setTitle(null);
         setAppTitle(mAdapter.getPageTitle(tab.getPosition()));
+        onFragmentChanged();
     }
 
     @Override
     public void onTabUnselected(TabLayout.Tab tab) {
-
     }
 
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
-
     }
 
     private void setCurrentItem(int position) {
@@ -92,71 +130,40 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     }
 
     @Override
-    public void onChildFragmentDisplayed(String title) {
-        setTitle(null);
-        setAppTitle(title);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-    }
-
-    @Override
     public void onBackPressed() {
-        if (mViewPager.getCurrentItem() == POSITION_ONDERZOEK) {
-            FragmentOnderzoek fragment = (FragmentOnderzoek) mAdapter.getItem(POSITION_ONDERZOEK);
-
-            FragmentAnimalTips fragmentAnimalTips;
-            Fragment fragment1;
-
-            int i = 0;
-            do{
-                fragmentAnimalTips = (FragmentAnimalTips) fragment.getChildFragmentManager().getFragments().get(i++);
-                fragment1 = fragmentAnimalTips.getChildFragmentManager().findFragmentById(R.id.fragment_container);
-            }while(fragment1 == null && i < fragment.getChildFragmentManager().getFragments().size());
-
-            popupFragment(fragment1);
-            setAppTitle(mAdapter.getPageTitle(mViewPager.getCurrentItem()));
-
-            if (getSupportActionBar() != null) {
-                getSupportActionBar().setDisplayHomeAsUpEnabled(fragment.hasChild());
-            }
-        } else {
+        Fragment fragment = getCurrentFragment();
+        boolean isHandled = false;
+        if (fragment != null && fragment instanceof ContainerNodeInterface) {
+            isHandled = ((ContainerNodeInterface) fragment).onBackPressed();
+        }
+        if (!isHandled) {
             super.onBackPressed();
         }
     }
 
-    private void popupFragment(Fragment fragment) {
-        List<Fragment> childFragment = getChildFragments(fragment);
-        if (childFragment == null || childFragment.size() == 0) {
-            fragment.getFragmentManager().beginTransaction().remove(fragment).commitNow();
-        } else {
-            popupFragment(childFragment.get(childFragment.size() - 1));
+    private Fragment getCurrentFragment() {
+        return mAdapter.getFragment(mViewPager.getCurrentItem());
+    }
+
+    @Override
+    public void onFragmentChanged() {
+        Fragment fragment = getCurrentFragment();
+
+        boolean hasToShowHomeIcon = false;
+
+        if (fragment != null && fragment instanceof ContainerNodeInterface) {
+            setAppTitle(((ContainerNodeInterface) fragment).getTitle());
+
+            hasToShowHomeIcon = NestedFragmentUtil.hasChild((ContainerNodeInterface) fragment, ((ContainerNodeInterface) fragment).getContainerId());
+        }
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(hasToShowHomeIcon);
         }
     }
 
-
-    public static List<Fragment> getChildFragments(Fragment fragment) {
-        FragmentManager fm = fragment.getChildFragmentManager();
-        @SuppressWarnings("RestrictedApi")
-        List<Fragment> childFragments = fm.getFragments();
-
-        List<Fragment> nonNullFragments = new ArrayList<Fragment>();
-
-        if (childFragments == null) {
-            return nonNullFragments;
-        }
-
-        for (int i = 0; i < childFragments.size(); i++) {
-            Fragment childFragment = childFragments.get(i);
-            if (childFragment != null) {
-                nonNullFragments.add(childFragment);
-            }
-        }
-
-        return nonNullFragments;
-    }
-
-    private class Adapter extends FragmentStatePagerAdapter {
+    private class Adapter extends CustomFragmentStatePageAdapter {
 
         private ArrayList<Fragment> mFragments;
         private ArrayList<String> mTitles;

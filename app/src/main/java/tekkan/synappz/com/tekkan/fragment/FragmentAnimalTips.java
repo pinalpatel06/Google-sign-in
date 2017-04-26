@@ -3,8 +3,6 @@ package tekkan.synappz.com.tekkan.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayout;
 import android.support.v7.widget.RecyclerView;
@@ -29,22 +27,37 @@ import tekkan.synappz.com.tekkan.custom.ListFragment;
  * &copy; Knoxpo
  */
 
-public class FragmentAnimalTips extends ListFragment<Object, RecyclerView.ViewHolder> implements AnimalTipsCallback {
+public class FragmentAnimalTips extends ListFragment<Object, RecyclerView.ViewHolder>/* implements AnimalTipsCallback */ {
 
     private static final String
             TAG = FragmentAnimalTips.class.getSimpleName(),
             TAG_CHILD_FRAGMENT = TAG + ".TAG_CHILD_FRAGMENT",
             ARGS_ANIMAL_TYPE = TAG + ".ARGS_ANIMAL_TYPE";
 
+
+    public static final String
+            ANIMAL_TYPE = TAG + ".ANIMAL_TYPE",
+            ANIMAL_DOG = TAG + ".ANIMAL_DOG",
+            ANIMAL_CAT = TAG + ".ANIMAL_CAT";
+
+    public interface Callback {
+        void onListItemClicked(int type, Bundle details);
+    }
+
+    private Callback mCallback;
+
+
     private ArrayList<Object> mTipsItems;
     private String mAnimalType;
     private boolean isPetInfoAvailable = true;
     private static final int
-            TYPE_TITLE = 2,
+            TYPE_TITLE = 2;
+
+    public static final int
             TYPE_PET = 3,
             TYPE_TIPS = 4;
 
-    private AnimalTipsCallback mCallback;
+    // private AnimalTipsCallback mCallback;
 
     public static FragmentAnimalTips newInstance(String animalTypes) {
         Log.d(TAG, animalTypes);
@@ -58,7 +71,7 @@ public class FragmentAnimalTips extends ListFragment<Object, RecyclerView.ViewHo
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mCallback = (AnimalTipsCallback) getParentFragment();
+        mCallback = (Callback) getParentFragment();
     }
 
     @Override
@@ -72,7 +85,7 @@ public class FragmentAnimalTips extends ListFragment<Object, RecyclerView.ViewHo
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAnimalType = getArguments().getString(ARGS_ANIMAL_TYPE);
-        if (("HOND").equals(mAnimalType)) {
+        if (ANIMAL_DOG.equals(mAnimalType)) {
             isPetInfoAvailable = true;
         } else {
             isPetInfoAvailable = false;
@@ -165,17 +178,6 @@ public class FragmentAnimalTips extends ListFragment<Object, RecyclerView.ViewHo
         }
     }
 
-    private void setChildFragment(Fragment fragment, String tag) {
-        FragmentManager fm = getChildFragmentManager();
-        fm.beginTransaction()
-                .add(R.id.fragment_container, fragment)
-                .commit();
-    }
-
-    @Override
-    public void setTabLayoutVisibility(boolean isOn) {
-        mCallback.setTabLayoutVisibility(isOn);
-    }
 
     public class TipsVH extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_tips_title)
@@ -197,7 +199,7 @@ public class FragmentAnimalTips extends ListFragment<Object, RecyclerView.ViewHo
 
         @OnClick(R.id.lt_item_tips)
         public void OnTipsItemViewClicked() {
-            setChildFragment(FragmentAnimalTipsDetails.newInstance(mAnimalType), TAG_CHILD_FRAGMENT);
+            mCallback.onListItemClicked(TYPE_TIPS,null);
         }
     }
 
@@ -241,7 +243,10 @@ public class FragmentAnimalTips extends ListFragment<Object, RecyclerView.ViewHo
 
         @OnClick(R.id.gl_pet_info)
         public void onClickPetInfo() {
-            setChildFragment(new FragmentResearchOutcome(), TAG_CHILD_FRAGMENT);
+            //setChildFragment(new FragmentResearchOutcome(), TAG_CHILD_FRAGMENT);
+            Bundle bundle = new Bundle();
+            bundle.putString(ANIMAL_TYPE, mAnimalType);
+            mCallback.onListItemClicked(TYPE_PET, bundle);
         }
     }
 

@@ -1,5 +1,6 @@
 package tekkan.synappz.com.tekkan.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -17,19 +18,36 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import tekkan.synappz.com.tekkan.R;
+import tekkan.synappz.com.tekkan.custom.nestedfragments.ContainerNodeFragment;
+import tekkan.synappz.com.tekkan.custom.nestedfragments.FragmentChangeCallback;
+import tekkan.synappz.com.tekkan.custom.nestedfragments.NestedFragmentUtil;
 
 /**
  * Created by Tejas Sherdiwala on 4/22/2017.
  * &copy; Knoxpo
  */
 
-public class FragmentOnderzoek extends Fragment implements AnimalTipsCallback {
+public class FragmentOnderzoek extends ContainerNodeFragment implements FragmentAnimalTips.Callback {
 
     @BindView(R.id.tab_layout)
     TabLayout mTabLayout;
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
     private Adapter mAdapter;
+
+    private FragmentChangeCallback mCallback;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mCallback = (FragmentChangeCallback) getActivity();
+    }
+
+    @Override
+    public void onDetach() {
+        mCallback = null;
+        super.onDetach();
+    }
 
     @Nullable
     @Override
@@ -38,11 +56,11 @@ public class FragmentOnderzoek extends Fragment implements AnimalTipsCallback {
         init(v);
 
         mAdapter.addFragment(
-                FragmentAnimalTips.newInstance(getString(R.string.text_onderzoek_tab1)),
+                FragmentAnimalTips.newInstance(FragmentAnimalTips.ANIMAL_DOG),
                 getString(R.string.text_onderzoek_tab1)
         );
         mAdapter.addFragment(
-                FragmentAnimalTips.newInstance(getString(R.string.text_onderzoek_tab2)),
+                FragmentAnimalTips.newInstance(FragmentAnimalTips.ANIMAL_CAT),
                 getString(R.string.text_onderzoek_tab2)
         );
 
@@ -71,15 +89,32 @@ public class FragmentOnderzoek extends Fragment implements AnimalTipsCallback {
 
     }
 
-    public boolean hasChild() {
-        return getChildFragmentManager().findFragmentById(R.id.fragment_container) != null;
+
+    @Override
+    public String getTitle() {
+        return NestedFragmentUtil.getTitle(getChildFragmentManager(), "Advies", getContainerId());
     }
 
     @Override
-    public void setTabLayoutVisibility(boolean isOn) {
-        mTabLayout.setVisibility(
-                isOn? View.VISIBLE : View.GONE
-        );
+    public int getContainerId() {
+        return R.id.fragment_container;
+    }
+
+    @Override
+    public FragmentChangeCallback getChangeCallback() {
+        return mCallback;
+    }
+
+    @Override
+    public void onListItemClicked(int type, Bundle details) {
+        switch (type){
+            case FragmentAnimalTips.TYPE_PET:
+                setChild(new FragmentResearchOutcome());
+                break;
+            case FragmentAnimalTips.TYPE_TIPS:
+                setChild(new FragmentAnimalTipsDetails());
+                break;
+        }
     }
 
 
