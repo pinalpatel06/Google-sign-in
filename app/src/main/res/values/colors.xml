@@ -63,6 +63,10 @@
     <color name="color_qr_title_text">#81BC9F</color>
     <color name="color_qr_details_text">#6F6F6E</color>
 
+    <!--Test Kit Step 2 Fragment-->
+    <color name="color_details_text_test_kit_step2">#FFFFFF</color>
+
+
     <!--Product Details Fragment-->
     <color name="color_product_details_title">#81BC9F</color>
     <color name="color_product_details_description">#6B6C6F</color>

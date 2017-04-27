@@ -89,6 +89,10 @@
     <dimen name="qr_scanner_details_text_size">22sp</dimen>
     <dimen name="qr_details_text_padding">20dp</dimen>
 
+    <!--Test Kit Step 2 Fragment -->
+    <dimen name="test_kit_step2_detail_text_size">22sp</dimen>
+    <dimen name="test_kit_step2_detail_layout_height">180dp</dimen>
+
 
     <!-- tekenscanner fragment -->
     <dimen name="default_elevation">8dp</dimen>

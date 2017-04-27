@@ -143,7 +143,8 @@ zien of de teek besmet is met een ziekte.</string>
     <string name="qr_scanner_botton1_text">VERSTUREN</string>
     <string name="qr_scanner_botton2_text">IK HEB GEEN CODE</string>
 
-
+    <!--test_kit step 2 fragment-->
+    <string name="test_kit_step2_detail_text">Voor welk dier wil je een onderzoek aanvragen?</string>
 
 
     <!--tekenscanner fragment -->

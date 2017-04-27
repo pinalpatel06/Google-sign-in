@@ -27,6 +27,7 @@ import tekkan.synappz.com.tekkan.fragment.ProfileFragment;
 import tekkan.synappz.com.tekkan.fragment.QRScannerFragment;
 import tekkan.synappz.com.tekkan.fragment.ReportTickFragment;
 import tekkan.synappz.com.tekkan.fragment.Step1Fragment;
+import tekkan.synappz.com.tekkan.fragment.TestKitStep2Fragment;
 
 public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
 
@@ -57,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         mAdapter.addFragment(new LoginFragment(), "Profiel");
         mAdapter.addFragment(new ReportTickFragment() , "Teek melden");
         mAdapter.addFragment(new FragmentOnderzoek(), "Advies");
-        mAdapter.addFragment(new QRScannerFragment(), "Product");
+        mAdapter.addFragment(new TestKitStep2Fragment(), "Product");
 
         mViewPager.setAdapter(mAdapter);
         mTabLayout.addOnTabSelectedListener(this);
