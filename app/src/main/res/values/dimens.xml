@@ -84,7 +84,10 @@
     <!--Report Tick Fragment -->
     <dimen name="report_tick_text_size">22sp</dimen>
 
-
+    <!--QR Scanner Fragment -->
+    <dimen name="qr_scanner_title_text_size">26sp</dimen>
+    <dimen name="qr_scanner_details_text_size">22sp</dimen>
+    <dimen name="qr_details_text_padding">20dp</dimen>
 
 
     <!-- tekenscanner fragment -->

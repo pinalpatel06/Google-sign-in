@@ -136,6 +136,15 @@ zien of de teek besmet is met een ziekte.</string>
     <string name="report_step5_botton2_text">OP EEN ANDERE LOCATIE</string>
 
 
+    <!--qr_scanner_fragment-->
+
+    <string name="qr_scanner_title">CODE INVOEREN</string>
+    <string name="qr_scanner_detail_text">Scan hier de code die op \nde brief staat.</string>
+    <string name="qr_scanner_botton1_text">VERSTUREN</string>
+    <string name="qr_scanner_botton2_text">IK HEB GEEN CODE</string>
+
+
+
 
     <!--tekenscanner fragment -->
     <string name="filter_option_title">Bekijk de tekenscanner per week</string>

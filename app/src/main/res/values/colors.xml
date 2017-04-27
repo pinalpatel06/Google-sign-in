@@ -59,6 +59,10 @@
     <color name="color_info_article_title_text">#81BC9F</color>
     <color name="color_info_article_details_text">#6B6C6F</color>
 
+    <!--QR Scanner Fragment-->
+    <color name="color_qr_title_text">#81BC9F</color>
+    <color name="color_qr_details_text">#6F6F6E</color>
+
     <!--Product Details Fragment-->
     <color name="color_product_details_title">#81BC9F</color>
     <color name="color_product_details_description">#6B6C6F</color>
