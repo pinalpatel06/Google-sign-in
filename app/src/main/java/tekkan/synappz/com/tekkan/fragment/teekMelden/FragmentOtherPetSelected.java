@@ -24,7 +24,7 @@ public class FragmentOtherPetSelected extends Fragment implements CommonNodeInte
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_other_pet_selected,container, false);
         ButterKnife.bind(this,v);
-        v.setBackgroundColor(ContextCompat.getColor(getActivity(), android.R.color.white));
+        v.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.bg_blurred));
         return v;
     }
 

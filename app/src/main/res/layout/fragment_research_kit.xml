@@ -28,7 +28,7 @@
         android:layout_above="@+id/btn_have_kit"
         android:layout_marginBottom="@dimen/teek_melden_margin_20dp"
         android:text="@string/apply_for_kit_text"
-        android:textSize="18sp"
+        android:textSize="@dimen/research_kit_button_text_size"
         app:customfont="OpenSansSemiBold"/>
 
     <tekkan.synappz.com.tekkan.custom.CustomButtonView
@@ -39,7 +39,7 @@
         android:layout_above="@+id/btn_pet_others"
         android:layout_marginBottom="@dimen/teek_melden_margin_20dp"
         android:text="@string/have_kit_text"
-        android:textSize="18sp"
+        android:textSize="@dimen/research_kit_button_text_size"
         app:customfont="OpenSansSemiBold"/>
 
     <tekkan.synappz.com.tekkan.custom.CustomButtonView
@@ -47,13 +47,14 @@
         style="@style/TeekMeldenButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_marginStart="22dp"
-        android:layout_marginEnd="22dp"
+        android:padding="@dimen/padding_10dp"
+        android:layout_marginStart="@dimen/custom_button_margin"
+        android:layout_marginEnd="@dimen/custom_button_margin"
         android:layout_alignParentBottom="true"
         android:text="@string/no_thanks"
         android:background="@drawable/bg_ripple_button"
         android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/research_kit_button_text_size"
         app:customfont="OpenSansSemiBold"/>
 
 </RelativeLayout>

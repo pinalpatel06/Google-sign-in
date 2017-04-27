@@ -77,7 +77,7 @@ public class FragmentPetLocationSelection extends ContainerNodeFragment {
         View v = inflater.inflate(R.layout.fragment_pet_location_selection,container,false);
         ButterKnife.bind(this,v);
         updateUI();
-        v.setBackgroundColor(ContextCompat.getColor(getActivity(), android.R.color.white));
+        v.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.bg_blurred));
         setHasOptionsMenu(true);
         return v;
     }

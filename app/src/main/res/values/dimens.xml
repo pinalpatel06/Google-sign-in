@@ -68,6 +68,8 @@
     <dimen name="teek_melden_margin_20dp">-20dp</dimen>
     <dimen name="teek_melden_custom_button_margin">22dp</dimen>
     <dimen name="bottom_padding">12dp</dimen>
+    <dimen name="research_kit_button_text_size">19sp</dimen>
+    <dimen name="custom_button_margin">22dp</dimen>
 
 
 </resources>

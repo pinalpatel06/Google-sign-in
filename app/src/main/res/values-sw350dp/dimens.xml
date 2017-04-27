@@ -3,4 +3,5 @@
     <!--splash activity -->
     <dimen name="text_app_title">64sp</dimen>
     <dimen name="text_app_sub_title">16sp</dimen>
+    <dimen name="research_kit_button_text_size">17sp</dimen>
 </resources>

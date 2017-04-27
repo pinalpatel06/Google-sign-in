@@ -120,5 +120,6 @@
     <string name="custom_view_title">PIN DROPPEN</string>
     <string name="custom_view_detail">Tap op de kaart om een pin te dropen op de juiste locatie.
     </string>
+    <string name="error_cant_change_location_setting">Location Disable</string>
 
 </resources>

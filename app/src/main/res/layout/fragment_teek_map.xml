@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:map="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent">
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   xmlns:app="http://schemas.android.com/apk/res-auto"
                   android:layout_width="match_parent"
@@ -19,7 +21,8 @@
                       android:id="@+id/fragment_map"
                       android:name="com.google.android.gms.maps.SupportMapFragment"
                       android:layout_width="match_parent"
-                      android:layout_height="match_parent"/>
+                      android:layout_height="match_parent"
+                      map:uiCompass="false"/>
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/fb_my_location"
@@ -44,7 +47,6 @@
             android:id="@+id/lt_teek_melden_map_bottom_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
             android:orientation="vertical">
 
             <tekkan.synappz.com.tekkan.custom.CustomFontTextView
@@ -86,7 +88,7 @@
                 android:layout_marginEnd="@dimen/teek_melden_custom_button_margin"
                 android:layout_marginStart="@dimen/teek_melden_custom_button_margin"
                 android:background="@drawable/bg_ripple_button"
-                android:padding="20dp"
+                android:padding="@dimen/extra_margin_20dp"
                 android:text="@string/teek_melden_btn_customize"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/teek_melden_button_text_size"
@@ -99,9 +101,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/margin_10dp"
             android:layout_marginStart="@dimen/margin_10dp"
-            android:background="@color/color_bottom_view"
-            android:orientation="vertical"
-            android:visibility="visible">
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/iv_close"
