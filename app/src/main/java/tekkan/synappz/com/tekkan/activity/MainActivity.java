@@ -17,8 +17,17 @@ import butterknife.ButterKnife;
 import tekkan.synappz.com.tekkan.R;
 import tekkan.synappz.com.tekkan.fragment.FragmentOnderzoek;
 import tekkan.synappz.com.tekkan.fragment.FragmentTekenScanner;
+import tekkan.synappz.com.tekkan.fragment.InformationArticleDetailsFragment;
+import tekkan.synappz.com.tekkan.fragment.LoginFragment;
+import tekkan.synappz.com.tekkan.fragment.ProductDetailsFragment;
+import tekkan.synappz.com.tekkan.fragment.ProductInformationArticleFragment;
+import tekkan.synappz.com.tekkan.fragment.ProductInformationFragment;
+import tekkan.synappz.com.tekkan.fragment.ProductListFragment;
 import tekkan.synappz.com.tekkan.fragment.ProfileFragment;
+import tekkan.synappz.com.tekkan.fragment.QRScannerFragment;
+import tekkan.synappz.com.tekkan.fragment.ReportTickFragment;
 import tekkan.synappz.com.tekkan.fragment.Step1Fragment;
+import tekkan.synappz.com.tekkan.fragment.TestKitStep2Fragment;
 
 public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
 
@@ -46,10 +55,10 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         setTitle(null);
 
         mAdapter.addFragment(new FragmentTekenScanner(),"Takenscanner");
-        mAdapter.addFragment(new ProfileFragment(), "Profiel");
-        mAdapter.addFragment(Step1Fragment.newInstance("Teek melden") , "Teek melden");
+        mAdapter.addFragment(new LoginFragment(), "Profiel");
+        mAdapter.addFragment(new ReportTickFragment() , "Teek melden");
         mAdapter.addFragment(new FragmentOnderzoek(), "Advies");
-        mAdapter.addFragment(Step1Fragment.newInstance("Product"), "Product");
+        mAdapter.addFragment(new TestKitStep2Fragment(), "Product");
 
         mViewPager.setAdapter(mAdapter);
         mTabLayout.addOnTabSelectedListener(this);

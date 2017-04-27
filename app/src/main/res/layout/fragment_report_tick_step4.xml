@@ -1,0 +1,77 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_blur"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="true">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        >
+
+
+
+        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_margin"
+            android:textSize="@dimen/report_tick_text_size"
+            app:customfont="OpenSansSemiBold"
+            android:textColor="@color/color_info_article_title_text"
+            android:textAlignment="center"
+            android:text="@string/report_step4_title"
+
+
+            />
+
+        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginEnd="@dimen/default_margin"
+            app:customfont="OpenSansRegular"
+            android:layout_marginBottom="@dimen/default_margin"
+            android:textSize="@dimen/report_tick_text_size"
+            android:textColor="@color/color_info_article_details_text"
+            android:textAlignment="center"
+            android:text="@string/report_step4_detail_text"
+            />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_margin="@dimen/default_margin"
+            android:gravity="bottom"
+            android:layout_height="match_parent">
+
+            <tekkan.synappz.com.tekkan.custom.CustomButtonView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/app_button_height"
+                android:text="@string/report_step4_botton1_text"
+                android:layout_marginTop="@dimen/default_margin"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/app_button_text"
+                android:theme="@style/AppButtonStyle"
+                android:background="@drawable/bg_button_with_ripple"
+                android:layout_gravity="bottom"
+                app:customfont="OpenSansSemiBold"/>
+
+            <tekkan.synappz.com.tekkan.custom.CustomButtonView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/app_button_height"
+                android:text="@string/report_step4_botton2_text"
+                android:layout_marginTop="@dimen/default_margin"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/app_button_text"
+                android:theme="@style/AppButtonStyle"
+                android:background="@drawable/bg_button_with_ripple"
+                android:layout_gravity="bottom"
+                app:customfont="OpenSansSemiBold"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
