@@ -61,11 +61,11 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         setSupportActionBar(mToolbar);
         setTitle(null);
 
-        mAdapter.addFragment(new FragmentTekenScanner(), "Takenscanner");
-        mAdapter.addFragment(Step1Fragment.newInstance("Profiel"), "Profiel");
-        mAdapter.addFragment(new FragmentTeekMelden(), "Teek melden");
-        mAdapter.addFragment(new FragmentOnderzoek(), "Advies");
-        mAdapter.addFragment(Step1Fragment.newInstance("Product"), "Product");
+        mAdapter.addFragment(new FragmentTekenScanner(), getString(R.string.text_tab1));
+        mAdapter.addFragment(Step1Fragment.newInstance(getString(R.string.text_tab2)), getString(R.string.text_tab2));
+        mAdapter.addFragment(new FragmentTeekMelden(), getString(R.string.text_tab3));
+        mAdapter.addFragment(new FragmentOnderzoek(), getString(R.string.title_research));
+        mAdapter.addFragment(Step1Fragment.newInstance(getString(R.string.text_tab5)), getString(R.string.text_tab5));
 
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);

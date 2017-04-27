@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
-import tekkan.synappz.com.tekkan.R;
 import tekkan.synappz.com.tekkan.fragment.SplashFragment;
 
 /**
@@ -18,11 +17,6 @@ public class SplashActivity extends SingleFragmentActivity {
     @Override
     protected Fragment getFragment() {
         return new SplashFragment();
-    }
-
-    @Override
-    protected int getContentLayoutId() {
-        return R.layout.activity_splash;
     }
 
     @Override
