@@ -1,4 +1,4 @@
-package tekkan.synappz.com.tekkan.fragment;
+package tekkan.synappz.com.tekkan.fragment.onderzoek;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

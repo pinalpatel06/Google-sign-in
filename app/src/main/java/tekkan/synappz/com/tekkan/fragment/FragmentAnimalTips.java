@@ -27,7 +27,7 @@ import tekkan.synappz.com.tekkan.custom.ListFragment;
  * &copy; Knoxpo
  */
 
-public class FragmentAnimalTips extends ListFragment<Object, RecyclerView.ViewHolder>/* implements AnimalTipsCallback */ {
+public class FragmentAnimalTips extends ListFragment<Object, RecyclerView.ViewHolder>{
 
     private static final String
             TAG = FragmentAnimalTips.class.getSimpleName(),
@@ -56,8 +56,6 @@ public class FragmentAnimalTips extends ListFragment<Object, RecyclerView.ViewHo
     public static final int
             TYPE_PET = 3,
             TYPE_TIPS = 4;
-
-    // private AnimalTipsCallback mCallback;
 
     public static FragmentAnimalTips newInstance(String animalTypes) {
         Log.d(TAG, animalTypes);

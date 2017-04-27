@@ -21,6 +21,8 @@ import tekkan.synappz.com.tekkan.R;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.ContainerNodeFragment;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.FragmentChangeCallback;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.NestedFragmentUtil;
+import tekkan.synappz.com.tekkan.fragment.onderzoek.FragmentAnimalTipsDetails;
+import tekkan.synappz.com.tekkan.fragment.onderzoek.FragmentResearchOutcome;
 
 /**
  * Created by Tejas Sherdiwala on 4/22/2017.
