@@ -29,39 +29,8 @@
             app:tabIndicatorHeight="0dp"
             app:tabSelectedTextColor="@color/selected_tab_color"
             app:tabTextAppearance="@style/TabTextStyle"
-            app:tabTextColor="@color/default_tab_color">
+            app:tabTextColor="@color/default_tab_color"/>
 
-            <android.support.design.widget.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:icon="@drawable/bg_tab1"
-                android:text="@string/text_tab1"/>
-
-            <android.support.design.widget.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:icon="@drawable/bg_tab2"
-                android:text="@string/text_tab2"/>
-
-            <android.support.design.widget.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:icon="@drawable/bg_tab3"
-                android:text="@string/text_tab3"/>
-
-            <android.support.design.widget.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:icon="@drawable/bg_tab4"
-                android:text="@string/text_tab4"/>
-
-            <android.support.design.widget.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:icon="@drawable/bg_tab5"
-                android:text="@string/text_tab5"/>
-
-        </android.support.design.widget.TabLayout>
     </FrameLayout>
 
 </LinearLayout>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:map="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:app="http://schemas.android.com/apk/res-auto"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/lt_map_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+                      android:id="@+id/fragment_map"
+                      android:name="com.google.android.gms.maps.SupportMapFragment"
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      map:uiCompass="false"/>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fb_my_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="10dp"
+                android:clickable="true"
+                android:scaleType="center"
+                android:src="@drawable/bg_ripple_fab"
+                app:useCompatPadding="true"/>
+
+            <tekkan.synappz.com.tekkan.custom.CustomEditTextView
+                style="@style/TekenAppSearchbarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/lt_teek_melden_map_bottom_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+                android:id="@+id/tv_title"
+                style="@style/TekenAppTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_10dp"
+                android:text="@string/teek_melden_map_title"
+                app:customfont="OpenSansSemiBold"/>
+
+            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+                android:id="@+id/tv_teek_melden_detail"
+                style="@style/TekenAppDetailTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_title"
+                android:layout_marginBottom="@dimen/extra_margin_15dp"
+                android:layout_marginEnd="@dimen/margin_10dp"
+                android:layout_marginStart="@dimen/margin_10dp"
+                android:text="@string/teek_melden_map_detail"/>
+
+            <tekkan.synappz.com.tekkan.custom.CustomButtonView
+                android:id="@+id/btn_location_close"
+                style="@style/TeekMeldenButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_teek_melden_detail"
+                android:layout_marginTop="0dp"
+                android:padding="20dp"
+                android:text="@string/teek_melden_btn_close"
+                app:customfont="OpenSansSemiBold"/>
+
+            <tekkan.synappz.com.tekkan.custom.CustomButtonView
+                android:id="@+id/btn_customize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_10dp"
+                android:layout_marginEnd="@dimen/teek_melden_custom_button_margin"
+                android:layout_marginStart="@dimen/teek_melden_custom_button_margin"
+                android:background="@drawable/bg_ripple_button"
+                android:padding="@dimen/extra_margin_20dp"
+                android:text="@string/teek_melden_btn_customize"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/teek_melden_button_text_size"
+                app:customfont="OpenSansSemiBold"/>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/rt_teek_melden_map_bottom_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_10dp"
+            android:layout_marginStart="@dimen/margin_10dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/margin_10dp"
+                android:src="@drawable/ic_close_black"/>
+
+            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+                android:id="@+id/tv_bottom_view_title"
+                style="@style/TekenAppTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/custom_view_title"
+                app:customfont="OpenSansSemiBold"/>
+
+            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+                android:id="@+id/tv_bottom_view_detail"
+                style="@style/TekenAppDetailTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_bottom_view_title"
+                android:layout_marginBottom="@dimen/extra_margin_15dp"
+                android:layout_marginEnd="@dimen/margin_10dp"
+                android:layout_marginStart="@dimen/margin_10dp"
+                android:text="@string/custom_view_detail"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</FrameLayout>

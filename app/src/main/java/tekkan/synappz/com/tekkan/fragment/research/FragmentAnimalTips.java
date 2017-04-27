@@ -1,10 +1,16 @@
-package tekkan.synappz.com.tekkan.fragment;
+package tekkan.synappz.com.tekkan.fragment.research;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.GridLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -12,29 +18,46 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import tekkan.synappz.com.tekkan.R;
 import tekkan.synappz.com.tekkan.custom.ListFragment;
 
 /**
  * Created by Tejas Sherdiwala on 4/24/2017.
  * &copy; Knoxpo
+ *
+ * Show in the view pager on tab research
  */
 
-public class FragmentAnimalTips extends ListFragment<Object, RecyclerView.ViewHolder> {
+public class FragmentAnimalTips extends ListFragment<Object, RecyclerView.ViewHolder>{
 
     private static final String
             TAG = FragmentAnimalTips.class.getSimpleName(),
+            TAG_CHILD_FRAGMENT = TAG + ".TAG_CHILD_FRAGMENT",
             ARGS_ANIMAL_TYPE = TAG + ".ARGS_ANIMAL_TYPE";
+
+
+    public static final String
+            ANIMAL_TYPE = TAG + ".ANIMAL_TYPE",
+            ANIMAL_DOG = TAG + ".ANIMAL_DOG",
+            ANIMAL_CAT = TAG + ".ANIMAL_CAT";
+
+    public interface Callback {
+        void onListItemClicked(int type, Bundle details);
+    }
+
+    private Callback mCallback;
+
 
     private ArrayList<Object> mTipsItems;
     private String mAnimalType;
     private boolean isPetInfoAvailable = true;
-
     private static final int
-            TYPE_TITLE = 2,
+            TYPE_TITLE = 2;
+
+    public static final int
             TYPE_PET = 3,
             TYPE_TIPS = 4;
-
 
     public static FragmentAnimalTips newInstance(String animalTypes) {
         Log.d(TAG, animalTypes);
@@ -46,14 +69,35 @@ public class FragmentAnimalTips extends ListFragment<Object, RecyclerView.ViewHo
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mCallback = (Callback) getParentFragment();
+    }
+
+    @Override
+    public void onDetach() {
+        mCallback = null;
+        super.onDetach();
+
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAnimalType = getArguments().getString(ARGS_ANIMAL_TYPE);
-        if(mAnimalType.equals("HOND")){
+        if (ANIMAL_DOG.equals(mAnimalType)) {
             isPetInfoAvailable = true;
-        }else{
+        } else {
             isPetInfoAvailable = false;
         }
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = super.onCreateView(inflater, container, savedInstanceState);
+        v.setBackgroundColor(ContextCompat.getColor(getActivity(), android.R.color.white));
+        return v;
     }
 
     @Override
@@ -66,12 +110,11 @@ public class FragmentAnimalTips extends ListFragment<Object, RecyclerView.ViewHo
                 mTipsItems.add("TIPS EN ADVIES");
             } else if (i == 1 && isPetInfoAvailable) {
                 mTipsItems.add(
-                        new PetInfoItem("Daisy", "Secondary line text Lorem ipsum dolor sit amet, consectetur adipisscing elit, Nam massa quam.")
+                        new PetInfoItem("Hummer", "Secondary line text Lorem ipsum dapibus,neque id cursus")
                 );
             } else if (i == 2 && isPetInfoAvailable) {
                 mTipsItems.add("TIPS EN ADVIES");
             } else {
-
                 mTipsItems.add(
                         new TipsItem("TIP " + (i + 1), mAnimalType + ", Secondary line text Lorem ipsum dolor sit amet, consectetur adipisscing elit, Nam massa quam.")
                 );
@@ -135,11 +178,14 @@ public class FragmentAnimalTips extends ListFragment<Object, RecyclerView.ViewHo
         }
     }
 
+
     public class TipsVH extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_tips_title)
         TextView mTipsTitleTV;
         @BindView(R.id.tv_tips_details)
         TextView mTipsDetailTV;
+        @BindView(R.id.lt_item_tips)
+        LinearLayout mLayout;
 
         TipsVH(View itemView) {
             super(itemView);
@@ -149,6 +195,11 @@ public class FragmentAnimalTips extends ListFragment<Object, RecyclerView.ViewHo
         public void bind(TipsItem item) {
             mTipsTitleTV.setText(item.getTipsTitle());
             mTipsDetailTV.setText(item.getTipsDetails());
+        }
+
+        @OnClick(R.id.lt_item_tips)
+        public void OnTipsItemViewClicked() {
+            mCallback.onListItemClicked(TYPE_TIPS,null);
         }
     }
 
@@ -177,6 +228,8 @@ public class FragmentAnimalTips extends ListFragment<Object, RecyclerView.ViewHo
         TextView mPetNameTV;
         @BindView(R.id.tv_pet_details)
         TextView mPetDetailTV;
+        @BindView(R.id.gl_pet_info)
+        GridLayout mGridLayout;
 
         PetInfoVH(View itemView) {
             super(itemView);
@@ -186,6 +239,14 @@ public class FragmentAnimalTips extends ListFragment<Object, RecyclerView.ViewHo
         public void bind(PetInfoItem item) {
             mPetNameTV.setText(item.getPetName());
             mPetDetailTV.setText(item.getPetDetails());
+        }
+
+        @OnClick(R.id.gl_pet_info)
+        public void onClickPetInfo() {
+            //setChildFragment(new FragmentResearchOutcome(), TAG_CHILD_FRAGMENT);
+            Bundle bundle = new Bundle();
+            bundle.putString(ANIMAL_TYPE, mAnimalType);
+            mCallback.onListItemClicked(TYPE_PET, bundle);
         }
     }
 

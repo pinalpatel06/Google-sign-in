@@ -82,12 +82,31 @@
 
     <!-- Onderzoek fragment -->
     <dimen name="custom_tab_text">26sp</dimen>
-    <dimen name="onderzoek_head">20sp</dimen>
+    <dimen name="onderzoek_head">16sp</dimen>
     <dimen name="onderzoek_head_margin">20dp</dimen>
-    <dimen name="body_text_size">18sp</dimen>
 
     <!-- item pet info -->
+    <dimen name="body_text_size">18sp</dimen>
+    <dimen name="lt_height">230dp</dimen>
+    <dimen name="civ_profile_image_size">140dp</dimen>
 
+    <!-- item tips -->
+    <dimen name="extra_margin_20dp">20dp</dimen>
+    <dimen name="bottom_margin_25dp">25dp</dimen>
+    <dimen name="item_tips_text_size">18sp</dimen>
+
+    <!-- Fragment teek melden -->
+    <dimen name="teek_melden_title">28sp</dimen>
+    <dimen name="teek_melden_detail">24sp</dimen>
+    <dimen name="teek_melden_margin">20dp</dimen>
+    <dimen name="teek_melden_top_margin">25dp</dimen>
+    <dimen name="teek_melden_button_text_size">22sp</dimen>
+    <dimen name="teek_melden_detail_text">20sp</dimen>
+    <dimen name="teek_melden_margin_20dp">-20dp</dimen>
+    <dimen name="teek_melden_custom_button_margin">22dp</dimen>
+    <dimen name="bottom_padding">12dp</dimen>
+    <dimen name="research_kit_button_text_size">19sp</dimen>
+    <dimen name="custom_button_margin">22dp</dimen>
 
 
 </resources>
