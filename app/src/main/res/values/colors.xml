@@ -55,6 +55,34 @@
     <!--Profile Conditions Activity-->
     <color name="condtions_web_link_color">#669880</color>
 
+    <!--Product Fragment-->
+    <color name="color_product_title_text">#669880</color>
+    <color name="color_product_details_text">#7D7D7D</color>
+
+    <!--Information Article Fragment-->
+    <color name="color_info_article_title_text">#81BC9F</color>
+    <color name="color_info_article_details_text">#6B6C6F</color>
+
+    <!--QR Scanner Fragment-->
+    <color name="color_qr_title_text">#81BC9F</color>
+    <color name="color_qr_details_text">#6F6F6E</color>
+
+    <!--Test Kit Step 2 Fragment-->
+    <color name="color_details_text_test_kit_step2">#FFFFFF</color>
+
+
+    <!--Product Details Fragment-->
+    <color name="color_product_details_title">#81BC9F</color>
+    <color name="color_product_details_description">#6B6C6F</color>
+
+    <!--Login Fragment-->
+    <color name="color_bottom_text_white">#FFFFFF</color>
+    <color name="color_login_field_border">#6B6C6F</color>
+    <color name="color_forgot_password_text">#81BC9F</color>
+    <color name="color_login_fields">#57585E</color>
+    <color name="color_login_top_text">#6B6C6F</color>
+
+
 
 
 </resources>

@@ -70,6 +70,15 @@
     <!--Profile Your Pet Activity Final-->
     <string name="second_list_title">ONDERZOEKEN</string>
 
+    <!--Product Fragment-->
+    <string name="dummy_text">Secondary text Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nam massa quam. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</string>
+
+    <!--Product Details Fragment-->
+
+    <string name="product_details_title">Bestrijding en preventie van vlooien en luizen bij de hond</string>
+    <string name="product_details_description">Advantage®  is een snelwerkend middel dat vlooien en luizen doodt. De toediening is eenvoudig: u druppelt de inhoud van de pipet tussen de haren van uw hond op de intacte huid.</string>
+    <string name="button_text_more_information">MEER INFORMATIE</string>
+
 
     <!-- Main Activity -->
     <string name="main_activity_title">Teek melden</string>
@@ -78,6 +87,65 @@
     <string name="text_tab3">Teek melden</string>
     <string name="text_tab4">Onderzoek</string>
     <string name="text_tab5">Product</string>
+
+
+    <!--login fragment-->
+
+    <string name="login_top_text">Met een Bayer Petcare account kan je een gratis tekenonderzoek aanvragen voor jouw hond of kat.</string>
+    <string name="login_email_text">E-mail:</string>
+    <string name="login_password_text">Wachtwoord:</string>
+    <string name="forgot_password_text"><u>Wachtwoord vergeten</u></string>
+    <string name="login_button_text">INLOGGEN</string>
+    <string name="dont_have_account_text"><u>Ik heb nog geen BayerPetCare account</u></string>
+
+
+    <!--report fragment step 1-->
+
+    <string name="report_step1_title">TOELICHTING</string>
+    <string name="report_step1_detail_text">Duid op de kaart aan waar je de teek hebt gevonden.\n\n
+Daarna kan je ook een onderzoek aanvragen om te
+zien of de teek besmet is met een ziekte.</string>
+    <string name="report_step1_botton_text">VOLGENDE</string>
+
+
+    <!--report fragment step 2-->
+    <string name="report_step2_title">TOELICHTING</string>
+    <string name="report_step2_detail_text">Zit de teek op jouw hond of kat? </string>
+    <string name="report_step2_botton1_text">HOND</string>
+    <string name="report_step2_botton2_text">KAT</string>
+    <string name="report_step2_botton3_text">ANDERS</string>
+
+
+    <!--report fragment step 3-->
+
+    <string name="report_step3_title">TOELICHTING</string>
+    <string name="report_step3_detail_text">Let op! \n\nJe kunt enkel meldingen maken van teken die op honden of katten zitten / hebben gezeten.</string>
+    <string name="report_step3_botton_text">VORIGE</string>
+
+
+    <!--report fragment step 4-->
+    <string name="report_step4_title">TEEK MELDEN</string>
+    <string name="report_step4_detail_text">Waar denk je dat jouw hond de teek heeft opgelopen? </string>
+    <string name="report_step4_botton1_text">OP MIJN HUIDIGE LOCATIE</string>
+    <string name="report_step4_botton2_text">OP EEN ANDERE LOCATIE</string>
+
+    <!--report fragment step 5-->
+    <string name="report_step5_title">TEEK MELDEN</string>
+    <string name="report_step5_detail_text">Waar denkt je dat jouw kat de teek heeft opgelopen? </string>
+    <string name="report_step5_botton1_text">OP MIJN HUIDIGE LOCATIE</string>
+    <string name="report_step5_botton2_text">OP EEN ANDERE LOCATIE</string>
+
+
+    <!--qr_scanner_fragment-->
+
+    <string name="qr_scanner_title">CODE INVOEREN</string>
+    <string name="qr_scanner_detail_text">Scan hier de code die op \nde brief staat.</string>
+    <string name="qr_scanner_botton1_text">VERSTUREN</string>
+    <string name="qr_scanner_botton2_text">IK HEB GEEN CODE</string>
+
+    <!--test_kit step 2 fragment-->
+    <string name="test_kit_step2_detail_text">Voor welk dier wil je een onderzoek aanvragen?</string>
+
 
     <!--tekenscanner fragment -->
     <string name="filter_option_title">Bekijk de tekenscanner per week</string>

@@ -17,6 +17,7 @@
 
     <style name="AppButtonStyle" parent="@style/ThemeOverlay.AppCompat">
         <item name="colorButtonNormal">@color/colorPrimary</item>
+
     </style>
 
     <style name="BottomPanelTextviewStyle">

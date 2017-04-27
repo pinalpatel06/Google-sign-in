@@ -54,9 +54,44 @@
     <dimen name="default_edit_text_height">35dp</dimen>
 
 
+    <!--product fragment-->
+    <dimen name="product_title_text_size">16sp</dimen>
+    <dimen name="product_details_text_size">14sp</dimen>
+    <dimen name="product_details_margin_end">40dp</dimen>
 
 
+    <!--information article fragment-->
 
+    <dimen name="info_article_title_text_size">22sp</dimen>
+    <dimen name="info_article_details_text_size">14sp</dimen>
+
+
+    <!--product details fragment-->
+    <dimen name="product_details_title_text_size">22sp</dimen>
+    <dimen name="product_details_description_text_size">14sp</dimen>
+    <dimen name="product_details_default_margin">20dp</dimen>
+    <dimen name="product_details_button_margin">18dp</dimen>
+
+    <!--login fragment-->
+
+    <dimen name="login_top_text_size">20sp</dimen>
+    <dimen name="login_default_text_size">16sp</dimen>
+    <dimen name="round_corner_size">12dp</dimen>
+    <dimen name="login_fields_heignt">60dp</dimen>
+    <dimen name="login_layout_padding">20dp</dimen>
+    <dimen name="login_inner_layout_default_padding">5dp</dimen>
+
+    <!--Report Tick Fragment -->
+    <dimen name="report_tick_text_size">22sp</dimen>
+
+    <!--QR Scanner Fragment -->
+    <dimen name="qr_scanner_title_text_size">26sp</dimen>
+    <dimen name="qr_scanner_details_text_size">22sp</dimen>
+    <dimen name="qr_details_text_padding">20dp</dimen>
+
+    <!--Test Kit Step 2 Fragment -->
+    <dimen name="test_kit_step2_detail_text_size">22sp</dimen>
+    <dimen name="test_kit_step2_detail_layout_height">180dp</dimen>
 
 
     <!-- tekenscanner fragment -->
