@@ -21,7 +21,7 @@ import tekkan.synappz.com.tekkan.custom.nestedfragments.CustomFragmentStatePageA
 import tekkan.synappz.com.tekkan.custom.nestedfragments.FragmentChangeCallback;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.NestedFragmentUtil;
 import tekkan.synappz.com.tekkan.fragment.research.FragmentResearch;
-import tekkan.synappz.com.tekkan.fragment.FragmentTeekMelden;
+import tekkan.synappz.com.tekkan.fragment.teekMelden.FragmentTeekMelden;
 import tekkan.synappz.com.tekkan.fragment.FragmentTekenScanner;
 import tekkan.synappz.com.tekkan.fragment.Step1Fragment;
 

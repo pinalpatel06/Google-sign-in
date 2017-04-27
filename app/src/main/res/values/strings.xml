@@ -89,6 +89,7 @@
     <string name="tip_title">Header</string>
 
     <!-- Fragment teek melden -->
+    <string name="title_report_tick">Teek Melden</string>
     <string name="teek_melden_title">TOELICHTING</string>
     <string name="teek_melden_detail">Duid op de kaart aan waar je de teek hebt gevonden. \n\n Daarna kan je ook een onderzoek aanvragen om te zien of de teek besmet is met een ziekte.</string>
     <string name="teek_melden_btn_text">VOLGENDE</string>

@@ -1,4 +1,4 @@
-package tekkan.synappz.com.tekkan.fragment;
+package tekkan.synappz.com.tekkan.fragment.teekMelden;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -15,7 +15,6 @@ import tekkan.synappz.com.tekkan.R;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.ContainerNodeFragment;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.FragmentChangeCallback;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.NestedFragmentUtil;
-import tekkan.synappz.com.tekkan.fragment.teekMelden.FragmentAnimalSelection;
 
 /**
  * Created by Tejas Sherdiwala on 4/26/2017.
@@ -45,18 +44,18 @@ public class FragmentTeekMelden extends ContainerNodeFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_teek_melden, container, false);
-        ButterKnife.bind(this,v);
+        ButterKnife.bind(this, v);
         return v;
     }
 
     @OnClick(R.id.btn_next)
-    public void onClickNext(){
+    public void onClickNext() {
         setChild(new FragmentAnimalSelection());
     }
 
     @Override
     public String getTitle() {
-        return NestedFragmentUtil.getTitle(getChildFragmentManager(), "Teek Melden", getContainerId());
+        return NestedFragmentUtil.getTitle(getChildFragmentManager(), getString(R.string.title_report_tick), getContainerId());
     }
 
     @Override
