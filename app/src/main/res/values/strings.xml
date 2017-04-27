@@ -239,4 +239,6 @@ zien of de teek besmet is met een ziekte.</string>
     </string>
     <string name="error_cant_change_location_setting">Location Disable</string>
 
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
