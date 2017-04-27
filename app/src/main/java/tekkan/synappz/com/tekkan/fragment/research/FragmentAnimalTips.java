@@ -1,4 +1,4 @@
-package tekkan.synappz.com.tekkan.fragment;
+package tekkan.synappz.com.tekkan.fragment.research;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -25,6 +25,8 @@ import tekkan.synappz.com.tekkan.custom.ListFragment;
 /**
  * Created by Tejas Sherdiwala on 4/24/2017.
  * &copy; Knoxpo
+ *
+ * Show in the view pager on tab research
  */
 
 public class FragmentAnimalTips extends ListFragment<Object, RecyclerView.ViewHolder>{

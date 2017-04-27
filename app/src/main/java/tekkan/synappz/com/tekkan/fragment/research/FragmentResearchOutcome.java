@@ -1,4 +1,4 @@
-package tekkan.synappz.com.tekkan.fragment.onderzoek;
+package tekkan.synappz.com.tekkan.fragment.research;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -23,7 +23,7 @@ public class FragmentResearchOutcome extends Fragment implements CommonNodeInter
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 getActivity().onBackPressed();
                 return true;
@@ -35,8 +35,8 @@ public class FragmentResearchOutcome extends Fragment implements CommonNodeInter
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragement_research_outcome,container,false);
-        ButterKnife.bind(this,v);
+        View v = inflater.inflate(R.layout.fragement_research_outcome, container, false);
+        ButterKnife.bind(this, v);
         v.setBackgroundColor(ContextCompat.getColor(getActivity(), android.R.color.white));
         setHasOptionsMenu(true);
         return v;
@@ -44,6 +44,6 @@ public class FragmentResearchOutcome extends Fragment implements CommonNodeInter
 
     @Override
     public String getTitle() {
-        return "Uitslag onderzoek";
+        return getString(R.string.title_research_outcome);
     }
 }

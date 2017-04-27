@@ -1,4 +1,4 @@
-package tekkan.synappz.com.tekkan.fragment;
+package tekkan.synappz.com.tekkan.fragment.research;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -21,15 +21,16 @@ import tekkan.synappz.com.tekkan.R;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.ContainerNodeFragment;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.FragmentChangeCallback;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.NestedFragmentUtil;
-import tekkan.synappz.com.tekkan.fragment.onderzoek.FragmentAnimalTipsDetails;
-import tekkan.synappz.com.tekkan.fragment.onderzoek.FragmentResearchOutcome;
 
 /**
  * Created by Tejas Sherdiwala on 4/22/2017.
  * &copy; Knoxpo
+ *
+ * This fragment will be show on tab click
+ * This contains the tab and viewpager.
  */
 
-public class FragmentOnderzoek extends ContainerNodeFragment implements FragmentAnimalTips.Callback {
+public class FragmentResearch extends ContainerNodeFragment implements FragmentAnimalTips.Callback {
 
     @BindView(R.id.tab_layout)
     TabLayout mTabLayout;
@@ -94,7 +95,7 @@ public class FragmentOnderzoek extends ContainerNodeFragment implements Fragment
 
     @Override
     public String getTitle() {
-        return NestedFragmentUtil.getTitle(getChildFragmentManager(), "Advies", getContainerId());
+        return NestedFragmentUtil.getTitle(getChildFragmentManager(), getString(R.string.title_research), getContainerId());
     }
 
     @Override

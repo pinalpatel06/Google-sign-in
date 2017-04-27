@@ -76,7 +76,9 @@
     <string name="more_info_title">Meer informatie</string>
 
     <!-- onderzoek fragment -->
+    <string name="title_tips">Titel Tips</string>
     <string name="title_research">Advies</string>
+    <string name="title_research_outcome">Uitslag onderzoek</string>
     <string name="text_onderzoek_tab1">HOND</string>
     <string name="text_onderzoek_tab2">KAT</string>
     <string name="onderzoek_tab1_head">TIPS EN ADVIES</string>

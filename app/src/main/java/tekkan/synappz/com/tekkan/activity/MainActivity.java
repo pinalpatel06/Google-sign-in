@@ -20,7 +20,7 @@ import tekkan.synappz.com.tekkan.custom.nestedfragments.ContainerNodeInterface;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.CustomFragmentStatePageAdapter;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.FragmentChangeCallback;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.NestedFragmentUtil;
-import tekkan.synappz.com.tekkan.fragment.FragmentOnderzoek;
+import tekkan.synappz.com.tekkan.fragment.research.FragmentResearch;
 import tekkan.synappz.com.tekkan.fragment.FragmentTeekMelden;
 import tekkan.synappz.com.tekkan.fragment.FragmentTekenScanner;
 import tekkan.synappz.com.tekkan.fragment.Step1Fragment;
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         mAdapter.addFragment(new FragmentTekenScanner(), getString(R.string.text_tab1));
         mAdapter.addFragment(Step1Fragment.newInstance(getString(R.string.text_tab2)), getString(R.string.text_tab2));
         mAdapter.addFragment(new FragmentTeekMelden(), getString(R.string.text_tab3));
-        mAdapter.addFragment(new FragmentOnderzoek(), getString(R.string.title_research));
+        mAdapter.addFragment(new FragmentResearch(), getString(R.string.title_research));
         mAdapter.addFragment(Step1Fragment.newInstance(getString(R.string.text_tab5)), getString(R.string.text_tab5));
 
         mViewPager.setAdapter(mAdapter);

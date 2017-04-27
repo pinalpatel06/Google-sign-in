@@ -1,4 +1,4 @@
-package tekkan.synappz.com.tekkan.fragment.onderzoek;
+package tekkan.synappz.com.tekkan.fragment.research;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -67,6 +67,6 @@ public class FragmentAnimalTipsDetails extends Fragment implements CommonNodeInt
 
     @Override
     public String getTitle() {
-        return "Titel Tips";
+        return getString(R.string.title_tips);
     }
 }
