@@ -96,7 +96,8 @@
     <string name="pet_kat">KAT</string>
     <string name="pet_hond">HOND</string>
     <string name="teek_melden">TEEK MELDEN</string>
-    <string name="pet_location_text">Waar denk je dat jouw kat de teek heeft opgelopen?</string>
+    <string name="pet_hond_location_text">Waar denkt je dat jouw hond de teek heeft opgelopen?</string>
+    <string name="pet_kat_location_text">Waar denkt je dat jouw kat de teek heeft opgelopen?</string>
     <string name="location_others">OP EEN ANDERE LOCATIE</string>
     <string name="location_current">OP MIJN HUIDIGE LOCATIE</string>
     <string name="other_pet_selected_text">Let op! \n\nje kunt enkel meldingen maken van teken die op
@@ -116,5 +117,8 @@
     <string name="apply_for_kit_text">ja, onderzoekskit aanvragen</string>
     <string name="have_kit_text">IK HEB EEN ONDERZOEKSKIT</string>
     <string name="no_thanks">NEE, BEDANKT</string>
+    <string name="custom_view_title">PIN DROPPEN</string>
+    <string name="custom_view_detail">Tap op de kaart om een pin te dropen op de juiste locatie.
+    </string>
 
 </resources>

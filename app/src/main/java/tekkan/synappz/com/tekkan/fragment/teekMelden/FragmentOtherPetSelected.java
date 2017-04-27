@@ -13,17 +13,18 @@ import tekkan.synappz.com.tekkan.R;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.CommonNodeInterface;
 
 /**
- * Created by Tejas Sherdiwala on 4/26/2017.
+ * Created by Tejas Sherdiwala on 4/27/2017.
  * &copy; Knoxpo
  */
 
-public class FragmentResearchToolkit extends Fragment implements CommonNodeInterface {
+public class FragmentOtherPetSelected extends Fragment implements CommonNodeInterface {
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_research_kit, container, false);
-        v.setBackgroundColor(ContextCompat.getColor(getActivity(), android.R.color.white));
+        View v = inflater.inflate(R.layout.fragment_other_pet_selected,container, false);
         ButterKnife.bind(this,v);
+        v.setBackgroundColor(ContextCompat.getColor(getActivity(), android.R.color.white));
         return v;
     }
 
