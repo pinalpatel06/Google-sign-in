@@ -1,6 +1,7 @@
 package tekkan.synappz.com.tekkan.fragment.teekMelden;
 
 import android.Manifest;
+import android.animation.LayoutTransition;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
@@ -10,7 +11,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -74,7 +75,8 @@ public class FragmentTeekMap extends ContainerNodeFragment
     private static final int
             LOCATION_CURRENT = 0,
             LOCATION_CUSTOM = 1,
-            NO_BOTTOM_VIEW = 2;
+            NO_BOTTOM_VIEW = 2,
+            PIN_FINALLIZE_VIEW = 3;
 
     private static final int
             LOCATION_INTERVAL = 10000,
@@ -86,7 +88,7 @@ public class FragmentTeekMap extends ContainerNodeFragment
     LinearLayout mBottomViewLT;
     @BindView(R.id.rt_teek_melden_map_bottom_view)
     RelativeLayout mCustomBottomView;
-    @BindView(R.id.btn_location_close)
+    @BindView(R.id.btn_ok)
     Button mCloseLocationBtn;
     @BindView(R.id.btn_customize)
     Button mCustomizeLocationBtn;
@@ -94,7 +96,15 @@ public class FragmentTeekMap extends ContainerNodeFragment
     ImageView mCloseBottomViewIV;
     @BindView(R.id.fb_my_location)
     FloatingActionButton mShowMyLocationFB;
-   // private int mMidlleLayoutHeight, mBottomLayoutHeight;
+    @BindView(R.id.tv_pin_drop_title)
+    TextView mPinTitleTV;
+    @BindView(R.id.tv_pin_drop_detail)
+    TextView mPinDropDetailTV;
+
+    @BindView(R.id.ll_teek_melden_map)
+    LinearLayout mTeekMeldenFL;
+
+    private int mCurrentLocLayoutHeight, mCustomLocLayoutHeight;
 
     public static FragmentTeekMap newInstance(int locationType) {
 
@@ -141,23 +151,26 @@ public class FragmentTeekMap extends ContainerNodeFragment
         View v = inflater.inflate(R.layout.fragment_teek_map, container, false);
         init(v);
 
-        v.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.bg_blurred));
+        // v.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.bg_blurred));
 
        /* ViewTreeObserver vto = mCustomBottomView.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
                 mCustomBottomView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                mBottomLayoutHeight = mCustomBottomView.getHeight();
+                mCustomLocLayoutHeight = mCustomBottomView.getHeight();
                 mCustomBottomView.getLayoutParams().height = 0;
-                mCustomBottomView.requestLayout();
+                //mCustomBottomView.requestLayout();
+                mCustomBottomView.invalidate();
             }
-        });
-    */
-
+        });*/
+        mTeekMeldenFL.getLayoutTransition().setStartDelay(LayoutTransition.CHANGE_DISAPPEARING, 10);
+        mTeekMeldenFL.getLayoutTransition().setStartDelay(LayoutTransition.APPEARING, -100);
         if (savedInstanceState != null) {
             mLocationType = savedInstanceState.getInt(ARGS_LOCATION_TYPE);
         }
+
+
         updateUI();
         return v;
     }
@@ -187,18 +200,31 @@ public class FragmentTeekMap extends ContainerNodeFragment
             case 0:
                 mBottomViewLT.setVisibility(View.VISIBLE);
                 mCustomBottomView.setVisibility(View.GONE);
+                if (mMap != null) {
+                    mMap.setOnMapClickListener(null);
+                }
                 break;
             case 1:
                 mBottomViewLT.setVisibility(View.GONE);
                 mCustomBottomView.setVisibility(View.VISIBLE);
+                if (mMap != null) {
+                    mMap.setOnMapClickListener(this);
+                }
                 break;
             case 2:
                 mBottomViewLT.setVisibility(View.GONE);
                 mCustomBottomView.setVisibility(View.GONE);
+                break;
+            case 3:
+                mBottomViewLT.setVisibility(View.VISIBLE);
+                mCustomBottomView.setVisibility(View.GONE);
+                mPinTitleTV.setText(getString(R.string.pin_droped_title));
+                mPinDropDetailTV.setText(getString(R.string.pin_droped_detail));
+                mCustomizeLocationBtn.setText(getString(R.string.pin_drop_no_btn_text));
         }
     }
 
-    @OnClick(R.id.btn_location_close)
+    @OnClick(R.id.btn_ok)
     public void onCloseLocationClick() {
         setChild(new FragmentResearchToolkit());
     }
@@ -208,58 +234,80 @@ public class FragmentTeekMap extends ContainerNodeFragment
         mLocationType = LOCATION_CUSTOM;
         updateUI();
 
-       /* ValueAnimator va = null;
-        ValueAnimator va1 = null;
-        va = ValueAnimator.ofInt(0, mBottomLayoutHeight);
-        va1 = ValueAnimator.ofInt((int)mBottomViewLT.getY(),(int)mBottomViewLT.getY() + mBottomViewLT.getHeight());*/
-       /* if (mSelectedSearchSells.size() == 1) {
+       /* mBottomViewLT.animate()
+                .translationY(mBottomViewLT.getHeight())
+                .alpha(0.0f)
+                .withLayer()
+                .setDuration(300)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        mBottomViewLT.setVisibility(View.GONE);
+                    }
+                });*/
+
+      /*  ValueAnimator va = null;
+
+        va = ValueAnimator.ofInt((int) mBottomViewLT.getY(), 0);
+
+      *//*  if (mSelectedSearchSells.size() == 1) {
             //it has newly added element hence slide in
             va = ValueAnimator.ofInt(0, mSummaryHeight);
         } else if (mSelectedSearchSells.size() == 0) {
             //it has gone to 0 and hence slide out
             va = ValueAnimator.ofInt(mSummaryHeight, 0);
-        }*/
+        }*//*
 
-        /*if (va != null) {
-            AnimatorSet animatorSet = new AnimatorSet();
-            animatorSet.playTogether(va);
-            animatorSet.playTogether(va1);
-            animatorSet.setInterpolator(new AccelerateDecelerateInterpolator());
-            animatorSet.setDuration(2000);
+        if (va != null) {
+            va.setInterpolator(new AccelerateDecelerateInterpolator());
+            va.setDuration(400);
             va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 public void onAnimationUpdate(ValueAnimator animation) {
                     Integer value = (Integer) animation.getAnimatedValue();
                     mBottomViewLT.getLayoutParams().height = value.intValue();
                     mBottomViewLT.requestLayout();
+                    // mTeekMeldenFL.requestLayout();
                 }
             });
-            va1.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+            va.addListener(new AnimatorListenerAdapter() {
                 @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    Integer value = (Integer) animation.getAnimatedValue();
-                    mCustomBottomView.getLayoutParams().height = value.intValue();
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    mCustomBottomView.getLayoutParams().height = mCustomLocLayoutHeight;
                     mCustomBottomView.requestLayout();
+
                 }
             });
-            animatorSet.start();
+
+
+            va.start();
         }*/
+
     }
 
     @OnClick(R.id.iv_close)
     public void closeBottomView() {
         mLocationType = NO_BOTTOM_VIEW;
         updateUI();
-       /* ObjectAnimator animation = ObjectAnimator.ofFloat(mCustomBottomView,"y",mCustomBottomView.getY() + mCustomBottomView.getHeight());
-        animation.setDuration(1000);
-        animation.start();
-        animation.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                mBottomViewLT.setVisibility(View.GONE);
-                mCustomBottomView.setVisibility(View.GONE);
-            }
-        });*/
+        /*ValueAnimator va = null;
+
+        va = ValueAnimator.ofInt((int) mCustomLocLayoutHeight, 0);
+        if (va != null) {
+            va.setInterpolator(new AccelerateDecelerateInterpolator());
+            va.setDuration(400);
+            va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    Integer value = (Integer) animation.getAnimatedValue();
+                    mCustomBottomView.getLayoutParams().height = value.intValue();
+                    mCustomBottomView.requestLayout();
+                    // mTeekMeldenFL.requestLayout();
+                }
+            });
+        }
+        va.start();*/
+
     }
 
     @OnClick(R.id.fb_my_location)
@@ -295,7 +343,6 @@ public class FragmentTeekMap extends ContainerNodeFragment
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.getUiSettings().setRotateGesturesEnabled(false);
-        mMap.setOnMapClickListener(this);
     }
 
     @Override
@@ -415,5 +462,8 @@ public class FragmentTeekMap extends ContainerNodeFragment
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_tick_map_marker))
                 .position(latLng)
         );
+
+        mLocationType = PIN_FINALLIZE_VIEW;
+        updateUI();
     }
 }
