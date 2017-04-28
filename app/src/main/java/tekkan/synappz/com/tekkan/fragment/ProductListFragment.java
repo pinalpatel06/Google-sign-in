@@ -1,15 +1,17 @@
 package tekkan.synappz.com.tekkan.fragment;
 
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,17 +20,49 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import tekkan.synappz.com.tekkan.R;
 import tekkan.synappz.com.tekkan.custom.ListFragment;
+import tekkan.synappz.com.tekkan.custom.nestedfragments.CommonNodeInterface;
+import tekkan.synappz.com.tekkan.custom.nestedfragments.ContainerNodeInterface;
+import tekkan.synappz.com.tekkan.custom.nestedfragments.FragmentChangeCallback;
+import tekkan.synappz.com.tekkan.custom.nestedfragments.NestedFragmentUtil;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProductListFragment extends ListFragment<ProductListFragment.ProductsItem, ProductListFragment.ProductVH> {
+public class ProductListFragment extends ListFragment<ProductListFragment.ProductsItem, ProductListFragment.ProductVH> implements ContainerNodeInterface{
 
+
+    private FragmentChangeCallback mCallback;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mCallback = (FragmentChangeCallback) getActivity();
+    }
+
+    @Override
+    public void onDetach() {
+        mCallback = null;
+        super.onDetach();
+    }
 
     public ProductListFragment() {
         // Required empty public constructor
     }
 
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.bind(this,v);
+        v.setBackgroundColor(ContextCompat.getColor(getActivity(),android.R.color.white));
+        return v;
+    }
+
+    @Override
+    protected int getViewLayoutId() {
+        return R.layout.fragment_product;
+    }
 
     @Override
     public List<ProductListFragment.ProductsItem> onCreateItems(Bundle savedInstanceState) {
@@ -56,6 +90,31 @@ public class ProductListFragment extends ListFragment<ProductListFragment.Produc
         holder.bind(item);
     }
 
+    @Override
+    public String getTitle() {
+        return NestedFragmentUtil.getTitle(getChildFragmentManager(), "Producten", getContainerId());
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        return NestedFragmentUtil.onBackPressed(getContainerId(),getChildFragmentManager(),getChangeCallback());
+    }
+
+    @Override
+    public void setChild(CommonNodeInterface fragment) {
+        NestedFragmentUtil.setChild(fragment,getContainerId(),getChildFragmentManager(),getChangeCallback());
+    }
+
+    @Override
+    public int getContainerId() {
+        return R.id.fragment_container;
+    }
+
+    @Override
+    public FragmentChangeCallback getChangeCallback() {
+        return mCallback;
+    }
+
 
     public class ProductVH extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -80,10 +139,7 @@ public class ProductListFragment extends ListFragment<ProductListFragment.Produc
 
         @Override
         public void onClick(View v) {
-
-
-            Toast.makeText(getContext(),"item_clicked",Toast.LENGTH_SHORT).show();
-
+            setChild(new ProductDetailsFragment());
         }
     }
 

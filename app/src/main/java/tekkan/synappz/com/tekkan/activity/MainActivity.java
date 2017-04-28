@@ -22,7 +22,7 @@ import tekkan.synappz.com.tekkan.custom.nestedfragments.FragmentChangeCallback;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.NestedFragmentUtil;
 import tekkan.synappz.com.tekkan.fragment.FragmentTekenScanner;
 import tekkan.synappz.com.tekkan.fragment.LoginFragment;
-import tekkan.synappz.com.tekkan.fragment.TestKitStep2Fragment;
+import tekkan.synappz.com.tekkan.fragment.ProductInformationFragment;
 import tekkan.synappz.com.tekkan.fragment.research.FragmentResearch;
 import tekkan.synappz.com.tekkan.fragment.teekMelden.FragmentTeekMelden;
 
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         mAdapter.addFragment(new LoginFragment(), getString(R.string.text_tab2));
         mAdapter.addFragment(new FragmentTeekMelden(), getString(R.string.text_tab3));
         mAdapter.addFragment(new FragmentResearch(), getString(R.string.title_research));
-        mAdapter.addFragment(new TestKitStep2Fragment(), getString(R.string.text_tab5));
+        mAdapter.addFragment(new ProductInformationFragment(), getString(R.string.text_tab5));
 
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
