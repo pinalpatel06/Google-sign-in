@@ -1,5 +1,6 @@
-package tekkan.synappz.com.tekkan.fragment;
+package tekkan.synappz.com.tekkan.fragment.research;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -17,13 +18,19 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import tekkan.synappz.com.tekkan.R;
+import tekkan.synappz.com.tekkan.custom.nestedfragments.ContainerNodeFragment;
+import tekkan.synappz.com.tekkan.custom.nestedfragments.FragmentChangeCallback;
+import tekkan.synappz.com.tekkan.custom.nestedfragments.NestedFragmentUtil;
 
 /**
  * Created by Tejas Sherdiwala on 4/22/2017.
  * &copy; Knoxpo
+ *
+ * This fragment will be show on tab click
+ * This contains the tab and viewpager.
  */
 
-public class FragmentOnderzoek extends Fragment {
+public class FragmentResearch extends ContainerNodeFragment implements FragmentAnimalTips.Callback {
 
     @BindView(R.id.tab_layout)
     TabLayout mTabLayout;
@@ -31,6 +38,19 @@ public class FragmentOnderzoek extends Fragment {
     ViewPager mViewPager;
     private Adapter mAdapter;
 
+    private FragmentChangeCallback mCallback;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mCallback = (FragmentChangeCallback) getActivity();
+    }
+
+    @Override
+    public void onDetach() {
+        mCallback = null;
+        super.onDetach();
+    }
 
     @Nullable
     @Override
@@ -39,11 +59,11 @@ public class FragmentOnderzoek extends Fragment {
         init(v);
 
         mAdapter.addFragment(
-                FragmentAnimalTips.newInstance(getString(R.string.text_onderzoek_tab1)),
+                FragmentAnimalTips.newInstance(FragmentAnimalTips.ANIMAL_DOG),
                 getString(R.string.text_onderzoek_tab1)
         );
         mAdapter.addFragment(
-                FragmentAnimalTips.newInstance(getString(R.string.text_onderzoek_tab2)),
+                FragmentAnimalTips.newInstance(FragmentAnimalTips.ANIMAL_CAT),
                 getString(R.string.text_onderzoek_tab2)
         );
 
@@ -66,10 +86,40 @@ public class FragmentOnderzoek extends Fragment {
         mAdapter = new Adapter(getChildFragmentManager());
     }
 
+
     private void setCurrentItem(int position) {
         mViewPager.setCurrentItem(position, false);
 
     }
+
+
+    @Override
+    public String getTitle() {
+        return NestedFragmentUtil.getTitle(getChildFragmentManager(), getString(R.string.title_research), getContainerId());
+    }
+
+    @Override
+    public int getContainerId() {
+        return R.id.fragment_container;
+    }
+
+    @Override
+    public FragmentChangeCallback getChangeCallback() {
+        return mCallback;
+    }
+
+    @Override
+    public void onListItemClicked(int type, Bundle details) {
+        switch (type){
+            case FragmentAnimalTips.TYPE_PET:
+                setChild(new FragmentResearchOutcome());
+                break;
+            case FragmentAnimalTips.TYPE_TIPS:
+                setChild(new FragmentAnimalTipsDetails());
+                break;
+        }
+    }
+
 
     private class Adapter extends FragmentStatePagerAdapter {
         private ArrayList<Fragment> mFragments;

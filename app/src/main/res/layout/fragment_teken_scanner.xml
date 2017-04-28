@@ -47,27 +47,11 @@
                   android:layout_below="@+id/fl_tab"
                   map:uiCompass="false"/>
 
-
         <tekkan.synappz.com.tekkan.custom.CustomEditTextView
+            style="@style/TekenAppSearchbarStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/fl_tab"
-            android:layout_marginEnd="@dimen/margin_10dp"
-            android:layout_marginStart="@dimen/margin_10dp"
-            android:layout_marginTop="@dimen/extra_padding_15dp"
-            android:background="@android:color/white"
-            android:drawableEnd="@drawable/ic_close_black"
-            android:elevation="@dimen/default_elevation"
-            android:hint="@string/hint_search_bar"
-            android:imeOptions="actionSearch"
-            android:inputType="text"
-            android:maxLines="1"
-            android:paddingBottom="@dimen/extra_padding_15dp"
-            android:paddingEnd="@dimen/padding_10dp"
-            android:paddingStart="@dimen/padding_10dp"
-            android:paddingTop="@dimen/extra_padding_15dp"
-            android:textColor="@color/search_text_color"
-            android:textSize="@dimen/search_text_size"/>
+            android:layout_below="@+id/fl_tab"/>
 
     </RelativeLayout>
 
@@ -88,12 +72,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
-
             android:drawableTop="@drawable/ic_bar"
             android:gravity="center"
-            android:paddingStart="@dimen/margin_10dp"
-            android:paddingEnd="@dimen/margin_10dp"
             android:paddingBottom="@dimen/margin_10dp"
+            android:paddingEnd="@dimen/margin_10dp"
+            android:paddingStart="@dimen/margin_10dp"
             android:paddingTop="5dp"
             android:text="@string/filter_option_title"
             android:textColor="@android:color/white"

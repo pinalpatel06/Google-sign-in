@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/iv_tips_image"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/lt_height"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_splash_pets"/>
+
+        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/extra_padding_15dp"
+            android:layout_marginStart="@dimen/extra_margin_15dp"
+            android:layout_marginTop="@dimen/extra_margin_15dp"
+            android:text="@string/more_info_heading"
+            android:textColor="@color/color_more_info_header"
+            android:textSize="@dimen/more_info_head_text_size"
+            app:customfont="OpenSansSemiBold"/>
+
+        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/extra_margin_15dp"
+            android:layout_marginStart="@dimen/extra_margin_15dp"
+            android:text="@string/more_info_detail"
+            android:textSize="@dimen/more_info_detail_text_size"/>
+
+    </LinearLayout>
+</ScrollView>

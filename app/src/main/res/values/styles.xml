@@ -35,4 +35,56 @@
         <item name="tickMark">@null</item>
     </style>
 
+    <style name="TeekMeldenButtonStyle">
+        <item name="android:layout_marginStart">@dimen/teek_melden_margin</item>
+        <item name="android:layout_marginEnd">@dimen/teek_melden_margin</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:textSize">@dimen/teek_melden_button_text_size</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:theme">@style/AppButtonStyle</item>
+        <item name="android:padding">@dimen/teek_melden_margin</item>
+        <item name="android:layout_marginTop">@dimen/teek_melden_margin</item>
+    </style>
+
+    <style name="TekenAppTextViewStyle">
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">@dimen/teek_melden_title</item>
+    </style>
+
+    <style name="TeekMeldenTitleTextViewStyle" parent="TekenAppTextViewStyle">
+        <item name="android:layout_marginTop">@dimen/teek_melden_top_margin</item>
+
+    </style>
+
+    <style name="TekenAppDetailTextViewStyle">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/teek_melden_detail_text</item>
+    </style>
+
+    <style name="TeekMeldenDetailTextViewStyle" parent="TekenAppDetailTextViewStyle">
+        <item name="android:layout_margin">@dimen/teek_melden_margin</item>
+    </style>
+
+    <style name="TekenAppSearchbarStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">@dimen/margin_10dp</item>
+        <item name="android:layout_marginStart">@dimen/margin_10dp</item>
+        <item name="android:layout_marginTop">@dimen/extra_margin_15dp</item>
+        <item name="android:background">@android:color/white</item>
+        <item name="android:drawableEnd">@drawable/ic_close_black</item>
+        <item name="android:elevation">@dimen/default_elevation</item>
+        <item name="android:hint">@string/hint_search_bar</item>
+        <item name="android:imeOptions">actionSearch</item>
+        <item name="android:inputType">text</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:paddingBottom">@dimen/extra_padding_15dp</item>
+        <item name="android:paddingTop">@dimen/extra_padding_15dp</item>
+        <item name="android:paddingEnd">@dimen/padding_10dp</item>
+        <item name="android:paddingStart">@dimen/padding_10dp</item>
+        <item name="android:textColor">@color/search_text_color</item>
+        <item name="android:textSize">@dimen/search_text_size</item>
+    </style>
+
 </resources>

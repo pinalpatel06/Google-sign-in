@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/lt_height"
+            android:background="@color/color_lt_back"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="@dimen/civ_profile_image_size"
+                android:layout_height="@dimen/civ_profile_image_size"
+                android:src="@drawable/ic_splash_pets"
+                app:civ_border_color="@android:color/white"
+                app:civ_border_width="2dp"/>
+
+            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/more_info_head_text_size"
+                app:customfont="OpenSansSemiBold"
+                tools:text="Hummer"/>
+        </LinearLayout>
+
+        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/extra_padding_15dp"
+            android:layout_marginStart="@dimen/extra_margin_15dp"
+            android:layout_marginTop="@dimen/margin_10dp"
+            tools:text="@string/more_info_heading"
+            android:textColor="@color/color_more_info_header"
+            android:textSize="@dimen/more_info_head_text_size"
+            app:customfont="OpenSansSemiBold"/>
+
+        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/extra_margin_15dp"
+            android:layout_marginStart="@dimen/extra_margin_15dp"
+            android:text="@string/more_info_detail"
+            android:textSize="@dimen/more_info_detail_text_size"/>
+
+    </LinearLayout>
+</ScrollView>
