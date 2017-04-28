@@ -226,7 +226,13 @@ public class FragmentTeekMap extends ContainerNodeFragment
 
     @OnClick(R.id.btn_ok)
     public void onCloseLocationClick() {
-        setChild(new FragmentResearchToolkit());
+        String title = mPinTitleTV.getText().toString();
+
+        setChild(
+                FragmentResearchToolkit.newInstance(
+                        title.equals(getString(R.string.pin_droped_title))
+                                ?1:0)
+        );
     }
 
     @OnClick(R.id.btn_customize)

@@ -249,5 +249,10 @@ zien of de teek besmet is met een ziekte.</string>
 
     <!-- product fragment-->
     <string name="title_product">Product</string>
+    <string name="research_text">Wist de dat een teek verschillende ziekten kan overdragen op jouw
+        hond of kat? Het is van belang om te weten of de teek die je van jouw dier hebt afgehaald
+        geen kaans heeft gekregen een ziekte over te dragen? wil je de teek die je hebt gemeld
+        vender laten onderzoeken op ziekten?
+    </string>
 
 </resources>
