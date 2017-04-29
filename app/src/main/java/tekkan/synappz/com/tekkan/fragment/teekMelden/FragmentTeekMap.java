@@ -62,7 +62,8 @@ public class FragmentTeekMap extends ContainerNodeFragment
 
     private static final String
             TAG = FragmentTeekMap.class.getSimpleName(),
-            ARGS_LOCATION_TYPE = TAG + ".ARGS_LOCATION_TYPE";
+            ARGS_LOCATION_TYPE = TAG + ".ARGS_LOCATION_TYPE",
+            ARGS_LISTENER_MODE = TAG + ".ARGS_LISTENER_MODE";
 
     private int mLocationType = LOCATION_CURRENT;
 
@@ -104,7 +105,9 @@ public class FragmentTeekMap extends ContainerNodeFragment
     @BindView(R.id.ll_teek_melden_map)
     LinearLayout mTeekMeldenFL;
 
+
     private int mCurrentLocLayoutHeight, mCustomLocLayoutHeight;
+    private boolean isTouchModeActivated = false;
 
     public static FragmentTeekMap newInstance(int locationType) {
 
@@ -167,10 +170,9 @@ public class FragmentTeekMap extends ContainerNodeFragment
         mTeekMeldenFL.getLayoutTransition().setStartDelay(LayoutTransition.CHANGE_DISAPPEARING, 10);
         mTeekMeldenFL.getLayoutTransition().setStartDelay(LayoutTransition.APPEARING, -100);
         if (savedInstanceState != null) {
-            mLocationType = savedInstanceState.getInt(ARGS_LOCATION_TYPE);
+            mLocationType = savedInstanceState.getInt(ARGS_LOCATION_TYPE, 0);
+            isTouchModeActivated = savedInstanceState.getBoolean(ARGS_LISTENER_MODE, false);
         }
-
-
         updateUI();
         return v;
     }
@@ -193,6 +195,7 @@ public class FragmentTeekMap extends ContainerNodeFragment
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(ARGS_LOCATION_TYPE, mLocationType);
+        outState.putBoolean(ARGS_LISTENER_MODE, isTouchModeActivated);
     }
 
     private void updateUI() {
@@ -231,12 +234,19 @@ public class FragmentTeekMap extends ContainerNodeFragment
         setChild(
                 FragmentResearchToolkit.newInstance(
                         title.equals(getString(R.string.pin_droped_title))
-                                ?1:0)
+                                ? 1 : 0)
         );
     }
 
     @OnClick(R.id.btn_customize)
     public void onCustomizeLocationClick() {
+
+        if (mMap != null) {
+            mMap.clear();
+            mMap.setOnMapClickListener(this);
+            isTouchModeActivated = true;
+        }
+
         mLocationType = LOCATION_CUSTOM;
         updateUI();
 
@@ -297,6 +307,7 @@ public class FragmentTeekMap extends ContainerNodeFragment
     public void closeBottomView() {
         mLocationType = NO_BOTTOM_VIEW;
         updateUI();
+
         /*ValueAnimator va = null;
 
         va = ValueAnimator.ofInt((int) mCustomLocLayoutHeight, 0);
@@ -349,6 +360,9 @@ public class FragmentTeekMap extends ContainerNodeFragment
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.getUiSettings().setRotateGesturesEnabled(false);
+        if (isTouchModeActivated) {
+            mMap.setOnMapClickListener(this);
+        }
     }
 
     @Override
@@ -368,6 +382,10 @@ public class FragmentTeekMap extends ContainerNodeFragment
                 LatLng lastLocationLatLng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
                 CameraPosition myPosition = new CameraPosition.Builder().target(lastLocationLatLng).zoom(18).bearing(0).tilt(0).build();
                 mMap.moveCamera(CameraUpdateFactory.newCameraPosition(myPosition));
+                if (mLocationType == LOCATION_CURRENT) {
+                    drawMarker(lastLocationLatLng);
+                }
+
             }
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
@@ -464,12 +482,21 @@ public class FragmentTeekMap extends ContainerNodeFragment
 
     @Override
     public void onMapClick(LatLng latLng) {
+        if (isTouchModeActivated) {
+            drawMarker(latLng);
+            isTouchModeActivated = false;
+        }
+        if (mMap != null) {
+            mMap.setOnMapClickListener(null);
+        }
+        mLocationType = PIN_FINALLIZE_VIEW;
+        updateUI();
+    }
+
+    private void drawMarker(LatLng latLng) {
         mMap.addMarker(new MarkerOptions()
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_tick_map_marker))
                 .position(latLng)
         );
-
-        mLocationType = PIN_FINALLIZE_VIEW;
-        updateUI();
     }
 }
