@@ -63,6 +63,7 @@ public class FragmentTeekMap extends ContainerNodeFragment
     private static final String
             TAG = FragmentTeekMap.class.getSimpleName(),
             ARGS_LOCATION_TYPE = TAG + ".ARGS_LOCATION_TYPE",
+            ARGS_LOCATION_LATLNG = TAG + ".ARGS_LOCATION_LATLNG",
             ARGS_LISTENER_MODE = TAG + ".ARGS_LISTENER_MODE";
 
     private int mLocationType = LOCATION_CURRENT;
@@ -72,6 +73,7 @@ public class FragmentTeekMap extends ContainerNodeFragment
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
     private LocationRequest mLocationRequest;
+    private LatLng mLatLng;
 
     private static final int
             LOCATION_CURRENT = 0,
@@ -121,8 +123,12 @@ public class FragmentTeekMap extends ContainerNodeFragment
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle args = getArguments();
-        mLocationType = args.getInt(ARGS_LOCATION_TYPE);
+
+        if (savedInstanceState != null) {
+            mLocationType = savedInstanceState.getInt(ARGS_LOCATION_TYPE);
+            isTouchModeActivated = savedInstanceState.getBoolean(ARGS_LISTENER_MODE, false);
+            mLatLng = savedInstanceState.getParcelable(ARGS_LOCATION_LATLNG);
+        }
 
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
@@ -169,10 +175,10 @@ public class FragmentTeekMap extends ContainerNodeFragment
         });*/
         mTeekMeldenFL.getLayoutTransition().setStartDelay(LayoutTransition.CHANGE_DISAPPEARING, 10);
         mTeekMeldenFL.getLayoutTransition().setStartDelay(LayoutTransition.APPEARING, -100);
-        if (savedInstanceState != null) {
+       /* if (savedInstanceState != null) {
             mLocationType = savedInstanceState.getInt(ARGS_LOCATION_TYPE, 0);
             isTouchModeActivated = savedInstanceState.getBoolean(ARGS_LISTENER_MODE, false);
-        }
+        }*/
         updateUI();
         return v;
     }
@@ -196,6 +202,7 @@ public class FragmentTeekMap extends ContainerNodeFragment
         super.onSaveInstanceState(outState);
         outState.putInt(ARGS_LOCATION_TYPE, mLocationType);
         outState.putBoolean(ARGS_LISTENER_MODE, isTouchModeActivated);
+        outState.putParcelable(ARGS_LOCATION_LATLNG, mLatLng);
     }
 
     private void updateUI() {
@@ -248,6 +255,7 @@ public class FragmentTeekMap extends ContainerNodeFragment
         }
 
         mLocationType = LOCATION_CUSTOM;
+        mLatLng = null;
         updateUI();
 
        /* mBottomViewLT.animate()
@@ -306,6 +314,7 @@ public class FragmentTeekMap extends ContainerNodeFragment
     @OnClick(R.id.iv_close)
     public void closeBottomView() {
         mLocationType = NO_BOTTOM_VIEW;
+        mLatLng = null;
         updateUI();
 
         /*ValueAnimator va = null;
@@ -362,6 +371,9 @@ public class FragmentTeekMap extends ContainerNodeFragment
         mMap.getUiSettings().setRotateGesturesEnabled(false);
         if (isTouchModeActivated) {
             mMap.setOnMapClickListener(this);
+        }
+        if(mLatLng != null){
+            drawMarker(mLatLng);
         }
     }
 
@@ -482,10 +494,9 @@ public class FragmentTeekMap extends ContainerNodeFragment
 
     @Override
     public void onMapClick(LatLng latLng) {
-        if (isTouchModeActivated) {
-            drawMarker(latLng);
-            isTouchModeActivated = false;
-        }
+        drawMarker(latLng);
+        isTouchModeActivated = false;
+        mLatLng = latLng;
         if (mMap != null) {
             mMap.setOnMapClickListener(null);
         }
