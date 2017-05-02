@@ -15,6 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import tekkan.synappz.com.tekkan.R;
+import tekkan.synappz.com.tekkan.activity.InvestigatePetActivity;
 import tekkan.synappz.com.tekkan.activity.LogInAndProfileActivity;
 import tekkan.synappz.com.tekkan.activity.QRScannerActivity;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.CommonNodeInterface;
@@ -79,7 +80,8 @@ public class FragmentResearchToolkit extends Fragment implements CommonNodeInter
     @OnClick(R.id.btn_apply_kit)
     public void showLogInOrPetDetail(){
         if(mIsLogged){
-
+            Intent intent = new Intent(getActivity(), InvestigatePetActivity.class);
+            startActivity(intent);
         }else{
             Intent intent  = new Intent(getActivity(), LogInAndProfileActivity.class);
             startActivity(intent);

@@ -136,7 +136,7 @@
     <dimen name="teek_melden_margin">20dp</dimen>
     <dimen name="teek_melden_top_margin">25dp</dimen>
     <dimen name="teek_melden_button_text_size">22sp</dimen>
-    <dimen name="teek_melden_detail_text">20sp</dimen>
+    <dimen name="teek_melden_detail_text">22sp</dimen>
     <dimen name="teek_melden_margin_20dp">-10dp</dimen>
     <dimen name="teek_melden_custom_button_margin">22dp</dimen>
     <dimen name="bottom_padding">12dp</dimen>

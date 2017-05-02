@@ -143,8 +143,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/padding_5dp"
                 android:layout_weight="1"
-                android:text="@string/condtions_text"
-                android:textColor="@color/colorAccent"
+                android:hint="@string/condtions_text"
+                android:textColorHint="@color/colorAccent"
                 android:textSize="@dimen/profile_default_text_size"/>
 
             <CheckBox
