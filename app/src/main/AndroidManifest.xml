@@ -44,6 +44,10 @@
 
         <activity android:name=".activity.ConditionsActivity" />
 
+        <activity android:name=".activity.ApplyForPetActivity" />
+
+        <activity android:name=".activity.ApplyPetAgreementActivity" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDK3Ip6wvb3XjCpCW4l5VBthLSBG57qI3c"/>

@@ -6,15 +6,14 @@ import android.support.v4.app.Fragment;
 import android.view.MenuItem;
 
 import tekkan.synappz.com.tekkan.R;
-import tekkan.synappz.com.tekkan.fragment.TestKitStep2Fragment;
+import tekkan.synappz.com.tekkan.fragment.teekMelden.FragmentApplyPetAgreement;
 
 /**
  * Created by Tejas Sherdiwala on 5/2/2017.
  * &copy; Knoxpo
  */
 
-public class InvestigatePetActivity extends ToolbarActivity {
-
+public class ApplyPetAgreementActivity extends ToolbarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -28,7 +27,7 @@ public class InvestigatePetActivity extends ToolbarActivity {
 
     @Override
     protected Fragment getFragment() {
-        return new TestKitStep2Fragment();
+        return new FragmentApplyPetAgreement();
     }
 
     @Override

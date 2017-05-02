@@ -9,14 +9,13 @@ import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
 import tekkan.synappz.com.tekkan.R;
-import tekkan.synappz.com.tekkan.custom.nestedfragments.CommonNodeInterface;
 
 /**
  * Created by Tejas Sherdiwala on 5/2/2017.
  * &copy; Knoxpo
  */
 
-public class FragmentApplyPetAgreement extends Fragment implements CommonNodeInterface {
+public class FragmentApplyPetAgreement extends Fragment {
 
 
     @Nullable
@@ -25,10 +24,5 @@ public class FragmentApplyPetAgreement extends Fragment implements CommonNodeInt
         View v = inflater.inflate(R.layout.fragment_apply_pet_agreement,container,false);
         ButterKnife.bind(this,v);
         return v;
-    }
-
-    @Override
-    public String getTitle() {
-        return null;
     }
 }

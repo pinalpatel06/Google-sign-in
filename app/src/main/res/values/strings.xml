@@ -270,7 +270,7 @@ zien of de teek besmet is met een ziekte.</string>
     <string name="pet_profile_app_title">Jouw huisdier</string>
 
     <!-- apply pet fragment -->
-    <string name="apply_pet_text">klopt het dat je een ondrzoek wilt aanvragen voor onderstaand
+    <string name="apply_pet_text">Klopt het dat je een ondrzoek wilt aanvragen voor onderstaand
         huisdier?
     </string>
     <string name="apply_pet_button_text">aanvraag versturen</string>
@@ -288,5 +288,6 @@ zien of de teek besmet is met een ziekte.</string>
 
     <!--ConditionsActivity -->
     <string name="conditions_title_text">Voorwaarden</string>
+    <string name="action_edit">Edit</string>
 
 </resources>

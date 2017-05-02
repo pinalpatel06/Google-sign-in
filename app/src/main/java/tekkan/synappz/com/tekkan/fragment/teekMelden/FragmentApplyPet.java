@@ -1,10 +1,12 @@
 package tekkan.synappz.com.tekkan.fragment.teekMelden;
 
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -13,31 +15,27 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import tekkan.synappz.com.tekkan.R;
-import tekkan.synappz.com.tekkan.custom.nestedfragments.ContainerNodeFragment;
-import tekkan.synappz.com.tekkan.custom.nestedfragments.FragmentChangeCallback;
+import tekkan.synappz.com.tekkan.activity.ApplyPetAgreementActivity;
 
 /**
  * Created by Tejas Sherdiwala on 5/2/2017.
  * &copy; Knoxpo
  */
 
-public class FragmentApplyPet extends ContainerNodeFragment {
+public class FragmentApplyPet extends Fragment {
 
     @BindView(R.id.btn_send_resuest)
     Button mSendRequestBtn;
 
-    private FragmentChangeCallback mCallback;
-
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mCallback = (FragmentChangeCallback) getActivity();
-    }
-
-    @Override
-    public void onDetach() {
-        mCallback = null;
-        super.onDetach();
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                getActivity().onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Nullable
@@ -46,26 +44,13 @@ public class FragmentApplyPet extends ContainerNodeFragment {
         View v = inflater.inflate(R.layout.fragment_apply_pet, container, false);
         v.setBackgroundColor(ContextCompat.getColor(getActivity(), android.R.color.white));
         ButterKnife.bind(this, v);
+        setHasOptionsMenu(true);
         return v;
     }
 
-    @Override
-    public String getTitle() {
-        return null;
-    }
-
     @OnClick(R.id.btn_send_resuest)
-    public void sendRequest(){
-        setChild(new FragmentApplyPetAgreement());
-    }
-
-    @Override
-    public int getContainerId() {
-        return R.id.fragment_container;
-    }
-
-    @Override
-    public FragmentChangeCallback getChangeCallback() {
-        return mCallback;
+    public void showAgreement(){
+        Intent intent = new Intent(getActivity(), ApplyPetAgreementActivity.class);
+        startActivity(intent);
     }
 }

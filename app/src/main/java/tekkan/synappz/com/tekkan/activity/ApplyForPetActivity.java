@@ -5,31 +5,24 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
 import tekkan.synappz.com.tekkan.R;
-import tekkan.synappz.com.tekkan.fragment.ProfileYourPetFragment;
+import tekkan.synappz.com.tekkan.fragment.teekMelden.FragmentApplyPet;
 
 /**
  * Created by Tejas Sherdiwala on 5/2/2017.
  * &copy; Knoxpo
  */
 
-public class PetProfileActivity extends ToolbarActivity {
-
-    private static final String TAG = ProfileActivity.class.getSimpleName();
-
-    public static final String
-            ARGS_LOG_IN = TAG + ".ARGS_LOG_IN",
-            ARGS_PROFILE = TAG + ".ARGS_PROFILE";
-
+public class ApplyForPetActivity extends ToolbarActivity {
     @Override
     protected Fragment getFragment() {
-        return new ProfileYourPetFragment();
+        return new FragmentApplyPet();
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle(null);
-        setTitle(getString(R.string.pet_profile_app_title));
+        setTitle(getString(R.string.investigate_app_title));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 }
-

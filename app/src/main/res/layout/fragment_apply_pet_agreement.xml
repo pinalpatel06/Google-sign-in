@@ -5,7 +5,7 @@
               android:orientation="vertical">
 
     <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="400dp"
+                  android:layout_height="wrap_content"
                   android:background="#81BC9F"
                   android:gravity="center_vertical"
                   android:orientation="vertical">
@@ -13,8 +13,10 @@
         <tekkan.synappz.com.tekkan.custom.CustomFontTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/extra_margin_20dp"
             android:gravity="center"
             android:text="@string/apply_pet_agreement"
+            android:layout_marginBottom="@dimen/extra_margin_20dp"
             android:textColor="@android:color/white"
             android:textSize="26sp"/>
 
@@ -24,7 +26,8 @@
             android:gravity="center"
             android:text="@string/apply_pet_agreement_detail"
             android:textColor="@android:color/white"
-            android:textSize="20sp"/>
+            android:layout_marginBottom="@dimen/extra_margin_20dp"
+            android:textSize="22sp"/>
 
     </LinearLayout>
     <tekkan.synappz.com.tekkan.custom.CustomButtonView

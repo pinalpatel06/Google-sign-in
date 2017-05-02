@@ -1,7 +1,6 @@
 package tekkan.synappz.com.tekkan.fragment;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,37 +16,19 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import tekkan.synappz.com.tekkan.R;
+import tekkan.synappz.com.tekkan.activity.ApplyForPetActivity;
 import tekkan.synappz.com.tekkan.activity.PetProfileActivity;
 import tekkan.synappz.com.tekkan.custom.ListFragment;
-import tekkan.synappz.com.tekkan.custom.nestedfragments.CommonNodeInterface;
-import tekkan.synappz.com.tekkan.custom.nestedfragments.ContainerNodeInterface;
-import tekkan.synappz.com.tekkan.custom.nestedfragments.FragmentChangeCallback;
-import tekkan.synappz.com.tekkan.custom.nestedfragments.NestedFragmentUtil;
-import tekkan.synappz.com.tekkan.fragment.teekMelden.FragmentApplyPet;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TestKitStep2Fragment extends ListFragment<Object, RecyclerView.ViewHolder> implements ContainerNodeInterface {
+public class TestKitStep2Fragment extends ListFragment<Object, RecyclerView.ViewHolder> {
 
 
     private static final int
             TYPE_PROFILE_FIELDS = 0,
             TYPE_PET = 1;
-
-    private FragmentChangeCallback mCallback;
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mCallback = (FragmentChangeCallback) getActivity();
-    }
-
-    @Override
-    public void onDetach() {
-        mCallback = null;
-        super.onDetach();
-    }
 
     @Override
     public List<Object> onCreateItems(Bundle savedInstanceState) {
@@ -61,11 +42,6 @@ public class TestKitStep2Fragment extends ListFragment<Object, RecyclerView.View
         }
 
         return listItems;
-    }
-
-    @Override
-    protected int getViewLayoutId() {
-        return R.layout.fragment_test_kit_step2;
     }
 
     @Override
@@ -104,32 +80,7 @@ public class TestKitStep2Fragment extends ListFragment<Object, RecyclerView.View
         }
     }
 
-    @Override
-    public String getTitle() {
-        return null;
-    }
-
-    @Override
-    public boolean onBackPressed() {
-        return NestedFragmentUtil.onBackPressed(getContainerId(),getChildFragmentManager(),getChangeCallback());
-    }
-
-    @Override
-    public void setChild(CommonNodeInterface fragment) {
-        NestedFragmentUtil.setChild(fragment,getContainerId(),getChildFragmentManager(),getChangeCallback());
-    }
-
-    @Override
-    public int getContainerId() {
-        return R.id.fragment_container;
-    }
-
-    @Override
-    public FragmentChangeCallback getChangeCallback() {
-        return mCallback;
-    }
-
-    class ProfileFieldVH extends RecyclerView.ViewHolder {
+   class ProfileFieldVH extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_investigate_title)
         TextView mTitleTV;
         @BindView(R.id.tv_my_pet)
@@ -165,7 +116,8 @@ public class TestKitStep2Fragment extends ListFragment<Object, RecyclerView.View
 
         @OnClick(R.id.rt_item_pet)
         public void showApplyPetActivity(){
-            setChild(new FragmentApplyPet());
+            Intent intent = new Intent(getActivity(), ApplyForPetActivity.class);
+            startActivity(intent);
         }
 
     }
