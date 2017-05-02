@@ -1,31 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:fillViewport="true"
-    android:padding="@dimen/splash_default_margin">
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fillViewport="true">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/splash_default_margin">
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  android:layout_marginTop="@dimen/margin_10dp"
+                  android:layout_marginStart="@dimen/margin_10dp"
+                  android:paddingEnd="@dimen/padding_10dp"
+                  android:paddingBottom="@dimen/splash_default_margin">
 
         <tekkan.synappz.com.tekkan.custom.CustomFontTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="@string/conditions_text"
             android:textSize="@dimen/conditions_text_size"
-            app:customfont="OpenSansRegular"/>
+            app:customfont="OpenSansRegular"
+            android:text="@string/conditions_text"/>
         <tekkan.synappz.com.tekkan.custom.CustomFontTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="@string/conditions_web_link"
-            android:textSize="@dimen/conditions_text_size"
             android:textColor="@color/condtions_web_link_color"
-            app:customfont="OpenSansRegular"/>
+            android:textSize="@dimen/conditions_text_size"
+            app:customfont="OpenSansRegular"
+            android:text="@string/conditions_web_link"/>
 
     </LinearLayout>
 </ScrollView>

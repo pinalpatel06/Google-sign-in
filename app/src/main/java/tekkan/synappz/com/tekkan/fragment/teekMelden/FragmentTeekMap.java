@@ -175,10 +175,7 @@ public class FragmentTeekMap extends ContainerNodeFragment
         });*/
         mTeekMeldenFL.getLayoutTransition().setStartDelay(LayoutTransition.CHANGE_DISAPPEARING, 10);
         mTeekMeldenFL.getLayoutTransition().setStartDelay(LayoutTransition.APPEARING, -100);
-       /* if (savedInstanceState != null) {
-            mLocationType = savedInstanceState.getInt(ARGS_LOCATION_TYPE, 0);
-            isTouchModeActivated = savedInstanceState.getBoolean(ARGS_LISTENER_MODE, false);
-        }*/
+
         updateUI();
         return v;
     }

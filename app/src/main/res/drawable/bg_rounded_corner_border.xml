@@ -3,17 +3,15 @@
     <solid android:color="@color/transparent"/>
 
     <stroke android:width="1dp"
-        android:color="@color/color_login_field_border"
-        />
+            android:color="@color/color_login_field_border"/>
 
-    <padding android:left="1dp"
-        android:top="1dp"
-        android:right="1dp"
-        android:bottom="1dp"
-        />
+    <padding android:bottom="1dp"
+             android:left="1dp"
+             android:right="1dp"
+             android:top="1dp"/>
 
-    <corners android:bottomRightRadius="@dimen/round_corner_size"
-        android:bottomLeftRadius="@dimen/round_corner_size"
-        android:topLeftRadius="@dimen/round_corner_size"
-        android:topRightRadius="@dimen/round_corner_size"/>
+    <corners android:bottomLeftRadius="@dimen/round_corner_size"
+             android:bottomRightRadius="@dimen/round_corner_size"
+             android:topLeftRadius="@dimen/round_corner_size"
+             android:topRightRadius="@dimen/round_corner_size"/>
 </shape>

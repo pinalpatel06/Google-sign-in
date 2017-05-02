@@ -24,13 +24,11 @@
             app:customfont="OpenSansRegular"/>
 
         <tekkan.synappz.com.tekkan.custom.CustomButtonView
+            style="@style/TeekMeldenButtonStyle"
             android:id="@+id/btn_agreement"
             android:layout_width="match_parent"
             android:layout_height="@dimen/app_button_height"
             android:text="@string/text_akkoord"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/app_button_text"
-            android:theme="@style/AppButtonStyle"
             app:customfont="OpenSansSemiBold"/>
 
     </LinearLayout>

@@ -30,6 +30,20 @@
 
         <activity android:name=".activity.MoreInfoActivity" />
 
+        <activity android:name=".activity.LogInActivity" />
+
+        <activity android:name=".activity.LogInAndProfileActivity" />
+
+        <activity android:name=".activity.QRScannerActivity" />
+
+        <activity android:name=".activity.InvestigatePetActivity" />
+
+        <activity android:name=".activity.PetProfileActivity" />
+
+        <activity android:name=".activity.ProfileActivity" />
+
+        <activity android:name=".activity.ConditionsActivity" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDK3Ip6wvb3XjCpCW4l5VBthLSBG57qI3c"/>

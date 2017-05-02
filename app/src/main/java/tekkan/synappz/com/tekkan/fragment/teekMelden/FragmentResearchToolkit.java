@@ -1,5 +1,6 @@
 package tekkan.synappz.com.tekkan.fragment.teekMelden;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import tekkan.synappz.com.tekkan.R;
+import tekkan.synappz.com.tekkan.activity.LogInAndProfileActivity;
+import tekkan.synappz.com.tekkan.activity.QRScannerActivity;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.CommonNodeInterface;
 
 /**
@@ -78,8 +81,15 @@ public class FragmentResearchToolkit extends Fragment implements CommonNodeInter
         if(mIsLogged){
 
         }else{
-            //Intent intent  = new Intent(getActivity())
+            Intent intent  = new Intent(getActivity(), LogInAndProfileActivity.class);
+            startActivity(intent);
         }
+    }
+
+    @OnClick(R.id.btn_have_kit)
+    public void showQRCodeScannerActivity(){
+        Intent intent  = new Intent(getActivity(), QRScannerActivity.class);
+        startActivity(intent);
     }
 
     @Override

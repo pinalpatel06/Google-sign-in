@@ -1,5 +1,6 @@
 package tekkan.synappz.com.tekkan.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -10,7 +11,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import tekkan.synappz.com.tekkan.R;
+import tekkan.synappz.com.tekkan.activity.ConditionsActivity;
+import tekkan.synappz.com.tekkan.activity.PetProfileActivity;
 import tekkan.synappz.com.tekkan.custom.ListFragment;
 
 
@@ -28,8 +32,8 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         //first item null to accommodate profile
         listItems.add(null);
 
-        for(int i=0;i<4;i++){
-            listItems.add(new Pet("Pet #"+(i+1),(i+1)));
+        for (int i = 0; i < 4; i++) {
+            listItems.add(new Pet("Pet #" + (i + 1), (i + 1)));
         }
 
         return listItems;
@@ -72,9 +76,26 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
     }
 
     class ProfileFieldVH extends RecyclerView.ViewHolder {
+        @BindView(R.id.tv_conditions)
+        TextView mConditionsTV;
+        @BindView(R.id.tv_add_pet)
+        TextView mAddPetTV;
 
         ProfileFieldVH(View itemView) {
             super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+
+        @OnClick(R.id.tv_conditions)
+        public void showConditions() {
+            Intent intent = new Intent(getActivity(), ConditionsActivity.class);
+            startActivity(intent);
+        }
+
+        @OnClick(R.id.tv_add_pet)
+        public void showPetProfile(){
+            Intent intent = new Intent(getActivity(), PetProfileActivity.class);
+            startActivity(intent);
         }
     }
 
@@ -88,7 +109,6 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         PetVH(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-
         }
 
         void bind(Pet pet) {
