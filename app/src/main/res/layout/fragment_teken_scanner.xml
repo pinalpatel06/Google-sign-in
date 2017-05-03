@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -90,7 +91,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_title_filter"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="@dimen/margin_5dp"
             android:paddingBottom="@dimen/padding_5dp"
             android:paddingTop="@dimen/padding_5dp"
             android:textColor="@color/colorAccent"
@@ -103,8 +104,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_seekbar_value"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginEnd="@dimen/margin_10dp"
+            android:layout_marginStart="@dimen/margin_10dp"
             android:maxHeight="@dimen/seekbar_height"
             android:progressDrawable="@drawable/custom_seekbar"
             android:thumb="@drawable/custom_thumb"
@@ -115,9 +116,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/seek_bar"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginEnd="@dimen/margin_10dp"
+            android:layout_marginStart="@dimen/teken_scanner_start_margin"
+            android:layout_marginTop="@dimen/margin_5dp"
             android:orientation="horizontal"
             app:layout_columnSpan="2">
 
@@ -126,89 +127,89 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/jan"
-                android:textSize="@dimen/month_text_size"/>
+                android:textSize="@dimen/month_text_size"
+                tools:text="@string/jan"/>
 
             <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                 android:id="@+id/tv_month_2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/feb"
-                android:textSize="@dimen/month_text_size"/>
+                android:textSize="@dimen/month_text_size"
+                tools:text="@string/feb"/>
 
             <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                 android:id="@+id/tv_month_3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/mar"
-                android:textSize="@dimen/month_text_size"/>
+                android:textSize="@dimen/month_text_size"
+                tools:text="@string/mar"/>
 
             <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                 android:id="@+id/tv_month_4"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/apr"
-                android:textSize="@dimen/month_text_size"/>
+                android:textSize="@dimen/month_text_size"
+                tools:text="@string/apr"/>
 
             <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                 android:id="@+id/tv_month_5"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/may"
-                android:textSize="@dimen/month_text_size"/>
+                android:textSize="@dimen/month_text_size"
+                tools:text="@string/may"/>
             <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                 android:id="@+id/tv_month_6"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/jun"
-                android:textSize="@dimen/month_text_size"/>
+                android:textSize="@dimen/month_text_size"
+                tools:text="@string/jun"/>
             <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                 android:id="@+id/tv_month_7"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/jul"
-                android:textSize="@dimen/month_text_size"/>
+                android:textSize="@dimen/month_text_size"
+                tools:text="@string/jul"/>
             <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                 android:id="@+id/tv_month_8"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/aug"
-                android:textSize="@dimen/month_text_size"/>
+                android:textSize="@dimen/month_text_size"
+                tools:text="@string/aug"/>
             <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                 android:id="@+id/tv_month_9"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/sep"
-                android:textSize="@dimen/month_text_size"/>
+                android:textSize="@dimen/month_text_size"
+                tools:text="@string/sep"/>
             <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                 android:id="@+id/tv_month_10"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/oct"
-                android:textSize="@dimen/month_text_size"/>
+                android:textSize="@dimen/month_text_size"
+                tools:text="@string/oct"/>
             <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                 android:id="@+id/tv_month_11"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/nov"
-                android:textSize="@dimen/month_text_size"/>
+                android:textSize="@dimen/month_text_size"
+                tools:text="@string/nov"/>
             <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                 android:id="@+id/tv_month_12"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/dec"
-                android:textSize="@dimen/month_text_size"/>
+                android:textSize="@dimen/month_text_size"
+                tools:text="@string/dec"/>
         </LinearLayout>
 
         <tekkan.synappz.com.tekkan.custom.CustomFontTextView
@@ -217,11 +218,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/lt_month_name"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="@dimen/teken_scanner_start_margin"
             android:paddingBottom="@dimen/padding_10dp"
-            tools:text="2016"
             android:textSize="@dimen/month_text_size"
-            app:layout_columnWeight="1"/>
+            app:layout_columnWeight="1"
+            tools:text="2016"/>
 
         <tekkan.synappz.com.tekkan.custom.CustomFontTextView
             android:id="@+id/tv_year_right"
@@ -229,9 +230,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_below="@+id/lt_month_name"
-            android:layout_marginEnd="20dp"
-            tools:text="2017"
-            android:textSize="@dimen/month_text_size"/>
+            android:layout_marginEnd="@dimen/extra_margin_20dp"
+            android:textSize="@dimen/month_text_size"
+            tools:text="2017"/>
     </android.support.v7.widget.GridLayout>
 
 </android.support.design.widget.CoordinatorLayout>

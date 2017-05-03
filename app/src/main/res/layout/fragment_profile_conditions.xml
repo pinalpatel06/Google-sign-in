@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fillViewport="true">
@@ -9,25 +7,24 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:orientation="vertical"
-                  android:layout_marginTop="@dimen/margin_10dp"
                   android:layout_marginStart="@dimen/margin_10dp"
-                  android:paddingEnd="@dimen/padding_10dp"
-                  android:paddingBottom="@dimen/splash_default_margin">
+                  android:layout_marginTop="@dimen/margin_10dp"
+                  android:orientation="vertical"
+                  android:paddingBottom="@dimen/splash_default_margin"
+                  android:paddingEnd="@dimen/padding_10dp">
 
         <tekkan.synappz.com.tekkan.custom.CustomFontTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/conditions_text_size"
-            app:customfont="OpenSansRegular"
-            android:text="@string/conditions_text"/>
+            android:text="@string/conditions_text"
+            android:textSize="@dimen/conditions_text_size"/>
+
         <tekkan.synappz.com.tekkan.custom.CustomFontTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="@string/conditions_web_link"
             android:textColor="@color/condtions_web_link_color"
-            android:textSize="@dimen/conditions_text_size"
-            app:customfont="OpenSansRegular"
-            android:text="@string/conditions_web_link"/>
+            android:textSize="@dimen/conditions_text_size"/>
 
     </LinearLayout>
 </ScrollView>

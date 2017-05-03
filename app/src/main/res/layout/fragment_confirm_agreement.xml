@@ -31,6 +31,7 @@
 
     </LinearLayout>
     <tekkan.synappz.com.tekkan.custom.CustomButtonView
+        android:id="@+id/btn_ready"
         style="@style/TeekMeldenButtonStyle"
         android:layout_width="match_parent"
         android:padding="@dimen/extra_padding_15dp"

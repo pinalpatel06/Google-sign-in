@@ -34,17 +34,19 @@
         <item name="tickMark">@null</item>
     </style>
 
-    <style name="TeekMeldenButtonStyle">
+    <style name="TeekMeldenButtonStyle" parent="TeekAppButtonStyle">
         <item name="android:layout_marginStart">@dimen/teek_melden_margin</item>
         <item name="android:layout_marginEnd">@dimen/teek_melden_margin</item>
-        <item name="android:layout_marginBottom">10dp</item>
-        <item name="android:textSize">@dimen/teek_melden_button_text_size</item>
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:background">@drawable/bg_button_with_ripple</item>
+        <item name="android:layout_marginBottom">@dimen/margin_10dp</item>
         <item name="android:padding">@dimen/teek_melden_margin</item>
         <item name="android:layout_marginTop">@dimen/teek_melden_margin</item>
     </style>
 
+    <style name="TeekAppButtonStyle">
+        <item name="android:textSize">@dimen/teek_melden_button_text_size</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@drawable/bg_button_with_ripple</item>
+    </style>
     <style name="TekenAppTextViewStyle">
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/colorPrimary</item>

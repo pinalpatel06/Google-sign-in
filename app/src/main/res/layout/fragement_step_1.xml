@@ -6,7 +6,7 @@
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:background="#EFEFF0"
                 android:orientation="vertical"
-                android:paddingBottom="20sp">
+                android:paddingBottom="@dimen/extra_margin_20dp">
 
     <tekkan.synappz.com.tekkan.custom.CustomFontTextView
         android:id="@+id/text1"
@@ -17,6 +17,6 @@
         android:text="@string/step_1_text"
         android:textColor="@color/color_step1_text"
         app:customfont="OpenSansRegular"
-        android:textSize="18sp"/>
+        android:textSize="@dimen/default_text_size"/>
 
 </RelativeLayout>
