@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="tekkan.synappz.com.tekkan">
 
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
         android:allowBackup="true"
@@ -26,28 +26,28 @@
 
         <activity android:name=".activity.MainActivity" android:windowSoftInputMode="adjustPan"/>
 
-        <activity android:name=".activity.FilterOptionActivity" />
+        <activity android:name=".activity.FilterOptionActivity"/>
 
-        <activity android:name=".activity.MoreInfoActivity" />
+        <activity android:name=".activity.MoreInfoActivity"/>
 
-        <activity android:name=".activity.LogInActivity" />
+        <activity android:name=".activity.LogInActivity"/>
 
         <activity android:name=".activity.LogInAndProfileActivity"
             android:windowSoftInputMode="adjustPan"/>
 
-        <activity android:name=".activity.QRScannerActivity" />
+        <activity android:name=".activity.QRScannerActivity"/>
 
-        <activity android:name=".activity.InvestigatePetActivity" />
+        <activity android:name=".activity.InvestigatePetActivity"/>
 
         <activity android:name=".activity.EditPetActivity" />
 
-        <activity android:name=".activity.ProfileActivity" />
+        <activity android:name=".activity.ProfileActivity"/>
 
-        <activity android:name=".activity.ConditionsActivity" />
+        <activity android:name=".activity.ConditionsActivity"/>
 
-        <activity android:name=".activity.ApplyForPetActivity" />
+        <activity android:name=".activity.ApplyForPetActivity"/>
 
-        <activity android:name=".activity.ApplyPetAgreementActivity" />
+        <activity android:name=".activity.ApplyPetAgreementActivity"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

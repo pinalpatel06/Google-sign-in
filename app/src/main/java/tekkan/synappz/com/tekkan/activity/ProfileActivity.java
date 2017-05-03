@@ -19,9 +19,9 @@ public class ProfileActivity extends ToolbarActivity {
 
     @Override
     protected Fragment getFragment() {
-        if(getIntent().hasExtra(EXTRA_NEW_PROFILE)){
-            return ProfileFragment.newInstance(getIntent().getBooleanExtra(EXTRA_NEW_PROFILE,false));
-        }else {
+        if (getIntent().hasExtra(EXTRA_NEW_PROFILE)) {
+            return ProfileFragment.newInstance(getIntent().getBooleanExtra(EXTRA_NEW_PROFILE, false));
+        } else {
             return new ProfileFragment();
         }
     }
