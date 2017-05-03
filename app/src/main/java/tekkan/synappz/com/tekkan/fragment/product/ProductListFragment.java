@@ -1,4 +1,4 @@
-package tekkan.synappz.com.tekkan.fragment;
+package tekkan.synappz.com.tekkan.fragment.product;
 
 
 import android.content.Context;

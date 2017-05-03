@@ -1,4 +1,4 @@
-package tekkan.synappz.com.tekkan.fragment.research;
+package tekkan.synappz.com.tekkan.fragment.advices;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -30,7 +30,7 @@ import tekkan.synappz.com.tekkan.custom.nestedfragments.NestedFragmentUtil;
  * This contains the tab and viewpager.
  */
 
-public class FragmentResearch extends ContainerNodeFragment implements FragmentAnimalTips.Callback {
+public class TipsTabFragment extends ContainerNodeFragment implements AnimalTipsListFragment.Callback {
 
     @BindView(R.id.tab_layout)
     TabLayout mTabLayout;
@@ -59,11 +59,11 @@ public class FragmentResearch extends ContainerNodeFragment implements FragmentA
         init(v);
 
         mAdapter.addFragment(
-                FragmentAnimalTips.newInstance(FragmentAnimalTips.ANIMAL_DOG),
+                AnimalTipsListFragment.newInstance(AnimalTipsListFragment.ANIMAL_DOG),
                 getString(R.string.text_onderzoek_tab1)
         );
         mAdapter.addFragment(
-                FragmentAnimalTips.newInstance(FragmentAnimalTips.ANIMAL_CAT),
+                AnimalTipsListFragment.newInstance(AnimalTipsListFragment.ANIMAL_CAT),
                 getString(R.string.text_onderzoek_tab2)
         );
 
@@ -111,11 +111,11 @@ public class FragmentResearch extends ContainerNodeFragment implements FragmentA
     @Override
     public void onListItemClicked(int type, Bundle details) {
         switch (type){
-            case FragmentAnimalTips.TYPE_PET:
-                setChild(new FragmentResearchOutcome());
+            case AnimalTipsListFragment.TYPE_PET:
+                setChild(new ResearchOutcomeFragment());
                 break;
-            case FragmentAnimalTips.TYPE_TIPS:
-                setChild(new FragmentAnimalTipsDetails());
+            case AnimalTipsListFragment.TYPE_TIPS:
+                setChild(new AnimalTipsDetailFragment());
                 break;
         }
     }

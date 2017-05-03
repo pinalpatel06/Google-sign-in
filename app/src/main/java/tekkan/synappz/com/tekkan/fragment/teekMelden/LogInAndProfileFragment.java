@@ -23,7 +23,7 @@ import tekkan.synappz.com.tekkan.activity.ProfileActivity;
  * &copy; Knoxpo
  */
 
-public class FragmentLogInAndProfile extends Fragment {
+public class LogInAndProfileFragment extends Fragment {
 
 
     @BindView(R.id.btn_log_in)

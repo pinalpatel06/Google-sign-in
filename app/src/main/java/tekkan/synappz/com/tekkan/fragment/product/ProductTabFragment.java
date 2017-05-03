@@ -1,7 +1,6 @@
-package tekkan.synappz.com.tekkan.fragment;
+package tekkan.synappz.com.tekkan.fragment.product;
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -14,49 +13,26 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import tekkan.synappz.com.tekkan.R;
-import tekkan.synappz.com.tekkan.custom.ListFragment;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.CommonNodeInterface;
-import tekkan.synappz.com.tekkan.custom.nestedfragments.ContainerNodeInterface;
-import tekkan.synappz.com.tekkan.custom.nestedfragments.FragmentChangeCallback;
+import tekkan.synappz.com.tekkan.custom.nestedfragments.ContainerNodeListFragment;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.NestedFragmentUtil;
 
-public class ProductInformationFragment extends ListFragment<ProductInformationFragment.ProductsItem, ProductInformationFragment.ProductVH>
-        implements ContainerNodeInterface {
+public class ProductTabFragment extends ContainerNodeListFragment<ProductTabFragment.ProductsItem, ProductTabFragment.ProductVH> {
 
-
-    private FragmentChangeCallback mCallback;
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mCallback = (FragmentChangeCallback) getActivity();
-    }
-
-    @Override
-    public void onDetach() {
-        mCallback = null;
-        super.onDetach();
-    }
-
-    public ProductInformationFragment() {
-        // Required empty public constructor
-    }
-
+    private static final int
+            INDEX_PRODUCT = 0,
+            INDEX_INFO_ARTICLE = 1,
+            INDEX_SCIENTIFIC = 2;
 
     @Override
     public List<ProductsItem> onCreateItems(Bundle savedInstanceState) {
         ArrayList<ProductsItem> listItems = new ArrayList<>();
 
-        for(int i=0;i<4;i++){
-            listItems.add(new ProductsItem("Product #"+(i+1), getString(R.string.dummy_text)));
-        }
+        listItems.add(new ProductsItem("Product", getString(R.string.dummy_text)));
+        listItems.add(new ProductsItem("Informatie artikelen", getString(R.string.dummy_text)));
+        listItems.add(new ProductsItem("Wetenschappelijk", getString(R.string.dummy_text)));
 
         return listItems;
-    }
-
-    @Override
-    protected int getViewLayoutId() {
-        return R.layout.fragment_product;
     }
 
     @Override
@@ -77,26 +53,6 @@ public class ProductInformationFragment extends ListFragment<ProductInformationF
     @Override
     public String getTitle() {
         return NestedFragmentUtil.getTitle(getChildFragmentManager(), getString(R.string.title_product), getContainerId());
-    }
-
-    @Override
-    public boolean onBackPressed() {
-        return NestedFragmentUtil.onBackPressed(getContainerId(),getChildFragmentManager(),getChangeCallback());
-    }
-
-    @Override
-    public void setChild(CommonNodeInterface fragment) {
-        NestedFragmentUtil.setChild(fragment,getContainerId(),getChildFragmentManager(),getChangeCallback());
-    }
-
-    @Override
-    public int getContainerId() {
-        return R.id.fragment_container;
-    }
-
-    @Override
-    public FragmentChangeCallback getChangeCallback() {
-        return mCallback;
     }
 
     public class ProductVH extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -122,25 +78,41 @@ public class ProductInformationFragment extends ListFragment<ProductInformationF
 
         @Override
         public void onClick(View v) {
-            setChild(new ProductListFragment());
+
+            CommonNodeInterface fragment = null;
+
+            switch (getAdapterPosition()) {
+                case INDEX_PRODUCT:
+                    fragment = new ProductListFragment();
+                    break;
+                case INDEX_INFO_ARTICLE:
+                    fragment = new InformationListFragment();
+                    break;
+                case INDEX_SCIENTIFIC:
+                    fragment = new InformationDetailFragment();
+                    break;
+                default:
+                    throw new UnsupportedOperationException("No such view to display");
+            }
+            setChild(fragment);
         }
     }
 
-    public class ProductsItem {
+    class ProductsItem {
 
         private String mTitle;
         private String mDescription;
 
-        public ProductsItem(String title, String description) {
+        ProductsItem(String title, String description) {
             mTitle = title;
             mDescription = description;
         }
 
-        public String getTitle() {
+        String getTitle() {
             return mTitle;
         }
 
-        public String getDescription() {
+        String getDescription() {
             return mDescription;
         }
 

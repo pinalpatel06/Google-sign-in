@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.MenuItem;
 
 import tekkan.synappz.com.tekkan.R;
-import tekkan.synappz.com.tekkan.fragment.teekMelden.FragmentApplyPetAgreement;
+import tekkan.synappz.com.tekkan.fragment.teekMelden.ApplyPetAgreementFragment;
 
 /**
  * Created by Tejas Sherdiwala on 5/2/2017.
@@ -27,7 +27,7 @@ public class ApplyPetAgreementActivity extends ToolbarActivity {
 
     @Override
     protected Fragment getFragment() {
-        return new FragmentApplyPetAgreement();
+        return new ApplyPetAgreementFragment();
     }
 
     @Override

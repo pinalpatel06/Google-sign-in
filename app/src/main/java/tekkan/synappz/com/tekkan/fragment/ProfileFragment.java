@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import tekkan.synappz.com.tekkan.R;
 import tekkan.synappz.com.tekkan.activity.ConditionsActivity;
-import tekkan.synappz.com.tekkan.activity.PetProfileActivity;
+import tekkan.synappz.com.tekkan.activity.EditPetActivity;
 import tekkan.synappz.com.tekkan.custom.ListFragment;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.CommonNodeInterface;
 
@@ -124,7 +124,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
             case TYPE_PROFILE_FIELDS:
                 return R.layout.item_profile_fields;
             case TYPE_PET:
-                return R.layout.list_item_add_new_pet;
+                return R.layout.item_pet_with_count;
             default:
                 throw new UnsupportedOperationException("No such view type:" + viewType);
         }
@@ -174,7 +174,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
 
         @OnClick(R.id.tv_add_pet)
         public void showPetProfile() {
-            Intent intent = new Intent(getActivity(), PetProfileActivity.class);
+            Intent intent = new Intent(getActivity(), EditPetActivity.class);
             startActivity(intent);
         }
     }

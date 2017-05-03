@@ -16,21 +16,18 @@ import tekkan.synappz.com.tekkan.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProfileYourPetFragment extends Fragment {
+public class EditPetFragment extends Fragment {
 
-    private static final String TAG = ProfileYourPetFragment.class.getSimpleName();
-    public static final String
-            ARGS_LOG_IN = TAG + ".ARGS_LOG_IN",
-            ARGS_PROFILE = TAG + ".ARGS_PROFILE";
+    private static final String TAG = EditPetFragment.class.getSimpleName();
 
     private boolean mIsUpdate=false;
     private boolean mIsDone = true;
 
 
-    public static ProfileYourPetFragment newInstance() {
+    public static EditPetFragment newInstance() {
         
         Bundle args = new Bundle();
-        ProfileYourPetFragment fragment = new ProfileYourPetFragment();
+        EditPetFragment fragment = new EditPetFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -74,7 +71,7 @@ public class ProfileYourPetFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_profile_your_pet, container, false);
+        View v = inflater.inflate(R.layout.fragment_edit_pet, container, false);
         ButterKnife.bind(this, v);
         setHasOptionsMenu(true);
         return v;

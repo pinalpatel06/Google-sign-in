@@ -56,12 +56,12 @@ import static android.app.Activity.RESULT_OK;
  * &copy; Knoxpo
  */
 
-public class FragmentTeekMap extends ContainerNodeFragment
+public class TickMapFragment extends ContainerNodeFragment
         implements GoogleApiClient.ConnectionCallbacks, OnMapReadyCallback,
         LocationListener, GoogleMap.OnMapClickListener {
 
     private static final String
-            TAG = FragmentTeekMap.class.getSimpleName(),
+            TAG = TickMapFragment.class.getSimpleName(),
             ARGS_LOCATION_TYPE = TAG + ".ARGS_LOCATION_TYPE",
             ARGS_LOCATION_LATLNG = TAG + ".ARGS_LOCATION_LATLNG",
             ARGS_LISTENER_MODE = TAG + ".ARGS_LISTENER_MODE";
@@ -111,11 +111,11 @@ public class FragmentTeekMap extends ContainerNodeFragment
     private int mCurrentLocLayoutHeight, mCustomLocLayoutHeight;
     private boolean isTouchModeActivated = false;
 
-    public static FragmentTeekMap newInstance(int locationType) {
+    public static TickMapFragment newInstance(int locationType) {
 
         Bundle args = new Bundle();
         args.putInt(ARGS_LOCATION_TYPE, locationType);
-        FragmentTeekMap fragment = new FragmentTeekMap();
+        TickMapFragment fragment = new TickMapFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -236,7 +236,7 @@ public class FragmentTeekMap extends ContainerNodeFragment
         String title = mPinTitleTV.getText().toString();
 
         setChild(
-                FragmentResearchToolkit.newInstance(
+                TickReportConfirmFragment.newInstance(
                         title.equals(getString(R.string.pin_droped_title))
                                 ? 1 : 0)
         );

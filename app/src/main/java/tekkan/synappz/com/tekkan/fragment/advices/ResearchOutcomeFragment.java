@@ -1,4 +1,4 @@
-package tekkan.synappz.com.tekkan.fragment.research;
+package tekkan.synappz.com.tekkan.fragment.advices;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,7 +18,7 @@ import tekkan.synappz.com.tekkan.custom.nestedfragments.CommonNodeInterface;
  * &copy; Knoxpo
  */
 
-public class FragmentResearchOutcome extends Fragment implements CommonNodeInterface {
+public class ResearchOutcomeFragment extends Fragment implements CommonNodeInterface {
 
 
     @Override

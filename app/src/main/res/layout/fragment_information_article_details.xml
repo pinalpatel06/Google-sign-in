@@ -1,46 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:fillViewport="true">
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
-    >
+    android:fillViewport="true"
+    android:background="@android:color/white"
+    android:clickable="true">
 
-    <!-- TODO: Update blank fragment layout -->
-    <ImageView
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_splash_pets"
-        />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <tekkan.synappz.com.tekkan.custom.CustomFontTextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_margin"
-        android:textSize="@dimen/info_article_title_text_size"
-        app:customfont="OpenSansSemiBold"
-        android:textColor="@color/color_info_article_title_text"
-        android:text="Title"
+        <!-- TODO: Update blank fragment layout -->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_splash_pets" />
+
+        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_margin"
+            android:text="Title"
+            android:textColor="@color/color_info_article_title_text"
+            android:textSize="@dimen/info_article_title_text_size"
+            app:customfont="OpenSansSemiBold"
 
 
-        />
+            />
 
-    <tekkan.synappz.com.tekkan.custom.CustomFontTextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/default_margin"
-        android:layout_marginEnd="@dimen/default_margin"
-        app:customfont="OpenSansRegular"
-        android:layout_marginBottom="@dimen/default_margin"
-        android:textSize="@dimen/info_article_details_text_size"
-        android:textColor="@color/color_info_article_details_text"
-        android:text="@string/disclaimer_text"
-        />
-</LinearLayout>
+        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/default_margin"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:layout_marginStart="@dimen/default_margin"
+            android:text="@string/disclaimer_text"
+            android:textColor="@color/color_info_article_details_text"
+            android:textSize="@dimen/info_article_details_text_size"
+            app:customfont="OpenSansRegular" />
+    </LinearLayout>
 
 </ScrollView>

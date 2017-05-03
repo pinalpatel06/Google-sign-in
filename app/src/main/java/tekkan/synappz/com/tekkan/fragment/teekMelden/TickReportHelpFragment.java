@@ -21,7 +21,7 @@ import tekkan.synappz.com.tekkan.custom.nestedfragments.NestedFragmentUtil;
  * &copy; Knoxpo
  */
 
-public class FragmentTeekMelden extends ContainerNodeFragment {
+public class TickReportHelpFragment extends ContainerNodeFragment {
 
     @BindView(R.id.btn_next)
     Button mNextBtn;
@@ -50,7 +50,7 @@ public class FragmentTeekMelden extends ContainerNodeFragment {
 
     @OnClick(R.id.btn_next)
     public void onClickNext() {
-        setChild(new FragmentAnimalSelection());
+        setChild(new AnimalSelectionFragment());
     }
 
     @Override

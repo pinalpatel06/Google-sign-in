@@ -22,10 +22,10 @@ import tekkan.synappz.com.tekkan.custom.nestedfragments.FragmentChangeCallback;
  * &copy; Knoxpo
  */
 
-public class FragmentPetLocationSelection extends ContainerNodeFragment {
+public class LocationSelectionFragment extends ContainerNodeFragment {
 
     private static final String
-            TAG = FragmentPetLocationSelection.class.getSimpleName(),
+            TAG = LocationSelectionFragment.class.getSimpleName(),
             ARGS_PET_TYPE = TAG + ".ARGS_PET_TYPE";
 
     private static final int
@@ -43,11 +43,11 @@ public class FragmentPetLocationSelection extends ContainerNodeFragment {
 
     private FragmentChangeCallback mCallback;
 
-    public static FragmentPetLocationSelection newInstance(int petType) {
+    public static LocationSelectionFragment newInstance(int petType) {
 
         Bundle args = new Bundle();
         args.putInt(ARGS_PET_TYPE, petType);
-        FragmentPetLocationSelection fragment = new FragmentPetLocationSelection();
+        LocationSelectionFragment fragment = new LocationSelectionFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -95,12 +95,12 @@ public class FragmentPetLocationSelection extends ContainerNodeFragment {
 
     @OnClick(R.id.btn_current_location)
     public void showMyLocationOnMap(){
-        setChild(FragmentTeekMap.newInstance(LOCATION_CURRENT));
+        setChild(TickMapFragment.newInstance(LOCATION_CURRENT));
     }
 
     @OnClick(R.id.btn_other_location)
     public void showCustomLocationOnMap(){
-        setChild(FragmentTeekMap.newInstance(LOCATION_CUSTOM));
+        setChild(TickMapFragment.newInstance(LOCATION_CUSTOM));
     }
 
     @Override

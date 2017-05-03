@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnPageChange;
 import tekkan.synappz.com.tekkan.R;
-import tekkan.synappz.com.tekkan.fragment.Step1Fragment;
+import tekkan.synappz.com.tekkan.fragment.HelpStepFragment;
 
 /**
  * Created by Tejas Sherdiwala on 4/20/2017.
@@ -56,11 +56,11 @@ public class ProfileSetupActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         setTitle(null);
 
-        mAdapter.addFragment(new Step1Fragment());
-        mAdapter.addFragment(new Step1Fragment());
-        mAdapter.addFragment(new Step1Fragment());
-        mAdapter.addFragment(new Step1Fragment());
-        mAdapter.addFragment(new Step1Fragment());
+        mAdapter.addFragment(new HelpStepFragment());
+        mAdapter.addFragment(new HelpStepFragment());
+        mAdapter.addFragment(new HelpStepFragment());
+        mAdapter.addFragment(new HelpStepFragment());
+        mAdapter.addFragment(new HelpStepFragment());
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
         updateUI();

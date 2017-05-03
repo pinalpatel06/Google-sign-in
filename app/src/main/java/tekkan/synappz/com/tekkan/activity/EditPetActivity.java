@@ -5,16 +5,16 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
 import tekkan.synappz.com.tekkan.R;
-import tekkan.synappz.com.tekkan.fragment.ProfileYourPetFragment;
+import tekkan.synappz.com.tekkan.fragment.EditPetFragment;
 
 /**
  * Created by Tejas Sherdiwala on 5/2/2017.
  * &copy; Knoxpo
  */
 
-public class PetProfileActivity extends ToolbarActivity {
+public class EditPetActivity extends ToolbarActivity {
 
-    private static final String TAG = ProfileActivity.class.getSimpleName();
+    private static final String TAG = EditPetActivity.class.getSimpleName();
 
     public static final String
             ARGS_LOG_IN = TAG + ".ARGS_LOG_IN",
@@ -22,7 +22,7 @@ public class PetProfileActivity extends ToolbarActivity {
 
     @Override
     protected Fragment getFragment() {
-        return new ProfileYourPetFragment();
+        return new EditPetFragment();
     }
 
     @Override

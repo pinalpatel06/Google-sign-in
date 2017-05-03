@@ -1,4 +1,4 @@
-package tekkan.synappz.com.tekkan.fragment;
+package tekkan.synappz.com.tekkan.fragment.product;
 
 
 import android.os.Bundle;
@@ -16,11 +16,6 @@ import tekkan.synappz.com.tekkan.custom.nestedfragments.CommonNodeInterface;
  * A simple {@link Fragment} subclass.
  */
 public class ProductDetailsFragment extends Fragment implements CommonNodeInterface {
-
-
-    public ProductDetailsFragment() {
-        // Required empty public constructor
-    }
 
 
     @Override

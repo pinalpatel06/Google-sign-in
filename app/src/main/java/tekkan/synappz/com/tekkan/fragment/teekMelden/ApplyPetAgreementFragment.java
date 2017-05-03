@@ -15,13 +15,13 @@ import tekkan.synappz.com.tekkan.R;
  * &copy; Knoxpo
  */
 
-public class FragmentApplyPetAgreement extends Fragment {
+public class ApplyPetAgreementFragment extends Fragment {
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_apply_pet_agreement,container,false);
+        View v = inflater.inflate(R.layout.fragment_confirm_agreement,container,false);
         ButterKnife.bind(this,v);
         return v;
     }

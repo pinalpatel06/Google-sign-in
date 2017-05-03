@@ -1,4 +1,4 @@
-package tekkan.synappz.com.tekkan.fragment.research;
+package tekkan.synappz.com.tekkan.fragment.advices;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,18 +20,18 @@ import tekkan.synappz.com.tekkan.custom.nestedfragments.CommonNodeInterface;
  * &copy; Knoxpo
  */
 
-public class FragmentAnimalTipsDetails extends Fragment implements CommonNodeInterface {
+public class AnimalTipsDetailFragment extends Fragment implements CommonNodeInterface {
     private static final String
-            TAG = FragmentAnimalTipsDetails.class.getSimpleName(),
+            TAG = AnimalTipsDetailFragment.class.getSimpleName(),
             ARGS_ANIMAL_TYPE = TAG + ".ARGS_ANIMAL_TYPE";
 
     @BindView(R.id.iv_tips_image)
     ImageView mTipsIV;
 
-    public static FragmentAnimalTipsDetails newInstance(String animalType) {
+    public static AnimalTipsDetailFragment newInstance(String animalType) {
         Bundle args = new Bundle();
         args.putString(ARGS_ANIMAL_TYPE , animalType);
-        FragmentAnimalTipsDetails fragment = new FragmentAnimalTipsDetails();
+        AnimalTipsDetailFragment fragment = new AnimalTipsDetailFragment();
         fragment.setArguments(args);
         return fragment;
     }

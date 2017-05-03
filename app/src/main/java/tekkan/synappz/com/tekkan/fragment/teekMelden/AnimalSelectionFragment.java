@@ -22,7 +22,7 @@ import tekkan.synappz.com.tekkan.custom.nestedfragments.FragmentChangeCallback;
  * &copy; Knoxpo
  */
 
-public class FragmentAnimalSelection extends ContainerNodeFragment {
+public class AnimalSelectionFragment extends ContainerNodeFragment {
 
     private static final int
             PET_HOND = 0,
@@ -89,16 +89,16 @@ public class FragmentAnimalSelection extends ContainerNodeFragment {
 
     @OnClick(R.id.btn_pet_hond)
     public void onPetHondSelected(){
-        setChild(FragmentPetLocationSelection.newInstance(PET_HOND));
+        setChild(LocationSelectionFragment.newInstance(PET_HOND));
     }
 
     @OnClick(R.id.btn_pet_kat)
     public void onPetKatSelected(){
-        setChild(FragmentPetLocationSelection.newInstance(PET_KAT));
+        setChild(LocationSelectionFragment.newInstance(PET_KAT));
     }
 
     @OnClick(R.id.btn_pet_others)
     public void onPetOthersSelected(){
-        setChild(new FragmentOtherPetSelected());
+        setChild(new OtherPetSelectedFragment());
     }
 }

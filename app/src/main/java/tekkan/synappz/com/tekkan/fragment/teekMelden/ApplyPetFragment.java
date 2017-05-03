@@ -22,7 +22,7 @@ import tekkan.synappz.com.tekkan.activity.ApplyPetAgreementActivity;
  * &copy; Knoxpo
  */
 
-public class FragmentApplyPet extends Fragment {
+public class ApplyPetFragment extends Fragment {
 
     @BindView(R.id.btn_send_resuest)
     Button mSendRequestBtn;

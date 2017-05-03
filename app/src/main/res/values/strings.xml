@@ -275,7 +275,7 @@ zien of de teek besmet is met een ziekte.</string>
     </string>
     <string name="apply_pet_button_text">aanvraag versturen</string>
 
-    <!-- FragmentApplyPetAgreement -->
+    <!-- ApplyPetAgreementFragment -->
     <string name="apply_pet_agreement">Je hebt een onderzoek aangevraagd.</string>
     <string name="apply_pet_agreement_detail">Let op! Er zijn maar een beperkt aantal onderzoken
         beschikbaar. \n\nMiddels deze aanvraag maak je kans op een onderzoek. je wordt spoedig

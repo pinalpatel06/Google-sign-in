@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
 import tekkan.synappz.com.tekkan.R;
-import tekkan.synappz.com.tekkan.fragment.teekMelden.FragmentApplyPet;
+import tekkan.synappz.com.tekkan.fragment.teekMelden.ApplyPetFragment;
 
 /**
  * Created by Tejas Sherdiwala on 5/2/2017.
@@ -15,7 +15,7 @@ import tekkan.synappz.com.tekkan.fragment.teekMelden.FragmentApplyPet;
 public class ApplyForPetActivity extends ToolbarActivity {
     @Override
     protected Fragment getFragment() {
-        return new FragmentApplyPet();
+        return new ApplyPetFragment();
     }
 
     @Override

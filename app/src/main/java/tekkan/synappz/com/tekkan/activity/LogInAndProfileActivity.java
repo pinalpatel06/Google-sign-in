@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.MenuItem;
 
 import tekkan.synappz.com.tekkan.R;
-import tekkan.synappz.com.tekkan.fragment.teekMelden.FragmentLogInAndProfile;
+import tekkan.synappz.com.tekkan.fragment.teekMelden.LogInAndProfileFragment;
 
 /**
  * Created by Tejas Sherdiwala on 5/2/2017.
@@ -28,7 +28,7 @@ public class LogInAndProfileActivity extends ToolbarActivity {
 
     @Override
     protected Fragment getFragment() {
-        return new FragmentLogInAndProfile();
+        return new LogInAndProfileFragment();
     }
 
     @Override

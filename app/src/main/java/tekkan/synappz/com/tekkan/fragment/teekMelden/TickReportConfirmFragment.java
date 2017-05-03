@@ -25,9 +25,9 @@ import tekkan.synappz.com.tekkan.custom.nestedfragments.CommonNodeInterface;
  * &copy; Knoxpo
  */
 
-public class FragmentResearchToolkit extends Fragment implements CommonNodeInterface {
+public class TickReportConfirmFragment extends Fragment implements CommonNodeInterface {
     private static final String
-            TAG = FragmentResearchToolkit.class.getSimpleName(),
+            TAG = TickReportConfirmFragment.class.getSimpleName(),
             ARGS_LAYOUT_TYPE = TAG + ".ARGS_LAYOUT_TYPE";
 
     @BindView(R.id.tv_research_kit_detail)
@@ -42,11 +42,11 @@ public class FragmentResearchToolkit extends Fragment implements CommonNodeInter
     private int mLayoutType;
     private boolean mIsLogged = false;
 
-    public static FragmentResearchToolkit newInstance(int type) {
+    public static TickReportConfirmFragment newInstance(int type) {
 
         Bundle args = new Bundle();
         args.putInt(ARGS_LAYOUT_TYPE, type);
-        FragmentResearchToolkit fragment = new FragmentResearchToolkit();
+        TickReportConfirmFragment fragment = new TickReportConfirmFragment();
         fragment.setArguments(args);
         return fragment;
     }

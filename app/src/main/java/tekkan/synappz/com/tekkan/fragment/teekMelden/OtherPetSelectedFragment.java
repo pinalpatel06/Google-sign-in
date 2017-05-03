@@ -17,7 +17,7 @@ import tekkan.synappz.com.tekkan.custom.nestedfragments.CommonNodeInterface;
  * &copy; Knoxpo
  */
 
-public class FragmentOtherPetSelected extends Fragment implements CommonNodeInterface {
+public class OtherPetSelectedFragment extends Fragment implements CommonNodeInterface {
 
     @Nullable
     @Override

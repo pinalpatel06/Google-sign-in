@@ -22,7 +22,7 @@
             app:customfont="OpenSansRegular"/>
     </LinearLayout>
 
-    <include layout="@layout/item_test_kit_add_pet"/>
+    <include layout="@layout/item_pet"/>
 
     <tekkan.synappz.com.tekkan.custom.CustomButtonView
         android:id="@+id/btn_send_resuest"

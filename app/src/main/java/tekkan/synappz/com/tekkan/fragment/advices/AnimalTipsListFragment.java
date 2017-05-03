@@ -1,4 +1,4 @@
-package tekkan.synappz.com.tekkan.fragment.research;
+package tekkan.synappz.com.tekkan.fragment.advices;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -29,10 +29,10 @@ import tekkan.synappz.com.tekkan.custom.ListFragment;
  * Show in the view pager on tab research
  */
 
-public class FragmentAnimalTips extends ListFragment<Object, RecyclerView.ViewHolder>{
+public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.ViewHolder>{
 
     private static final String
-            TAG = FragmentAnimalTips.class.getSimpleName(),
+            TAG = AnimalTipsListFragment.class.getSimpleName(),
             TAG_CHILD_FRAGMENT = TAG + ".TAG_CHILD_FRAGMENT",
             ARGS_ANIMAL_TYPE = TAG + ".ARGS_ANIMAL_TYPE";
 
@@ -59,11 +59,11 @@ public class FragmentAnimalTips extends ListFragment<Object, RecyclerView.ViewHo
             TYPE_PET = 3,
             TYPE_TIPS = 4;
 
-    public static FragmentAnimalTips newInstance(String animalTypes) {
+    public static AnimalTipsListFragment newInstance(String animalTypes) {
         Log.d(TAG, animalTypes);
         Bundle args = new Bundle();
         args.putString(ARGS_ANIMAL_TYPE, animalTypes);
-        FragmentAnimalTips fragment = new FragmentAnimalTips();
+        AnimalTipsListFragment fragment = new AnimalTipsListFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -243,7 +243,7 @@ public class FragmentAnimalTips extends ListFragment<Object, RecyclerView.ViewHo
 
         @OnClick(R.id.gl_pet_info)
         public void onClickPetInfo() {
-            //setChildFragment(new FragmentResearchOutcome(), TAG_CHILD_FRAGMENT);
+            //setChildFragment(new ResearchOutcomeFragment(), TAG_CHILD_FRAGMENT);
             Bundle bundle = new Bundle();
             bundle.putString(ANIMAL_TYPE, mAnimalType);
             mCallback.onListItemClicked(TYPE_PET, bundle);

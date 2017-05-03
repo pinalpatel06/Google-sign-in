@@ -21,10 +21,10 @@ import tekkan.synappz.com.tekkan.activity.MainActivity;
  * &copy; Knoxpo
  */
 
-public class Step1Fragment extends Fragment{
+public class HelpStepFragment extends Fragment{
 
     private static final String
-            TAG = Step1Fragment.class.getSimpleName(),
+            TAG = HelpStepFragment.class.getSimpleName(),
             ARGS_STRING = TAG + ".ARGS_STRING";
 
 
@@ -35,11 +35,11 @@ public class Step1Fragment extends Fragment{
     @BindView(R.id.rl_step1)
     RelativeLayout mStep1RT;
 
-    public static Step1Fragment newInstance(String str) {
+    public static HelpStepFragment newInstance(String str) {
 
         Bundle args = new Bundle();
         args.putString(ARGS_STRING,str);
-        Step1Fragment fragment = new Step1Fragment();
+        HelpStepFragment fragment = new HelpStepFragment();
         fragment.setArguments(args);
         return fragment;
     }

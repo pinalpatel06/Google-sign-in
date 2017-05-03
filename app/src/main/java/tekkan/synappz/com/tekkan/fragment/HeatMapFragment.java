@@ -27,7 +27,7 @@ import tekkan.synappz.com.tekkan.activity.FilterOptionActivity;
  * &copy; Knoxpo
  */
 
-public class FragmentTekenScanner extends Fragment {
+public class HeatMapFragment extends Fragment {
 
     @BindView(R.id.tab_layout)
     TabLayout mTabLayout;
