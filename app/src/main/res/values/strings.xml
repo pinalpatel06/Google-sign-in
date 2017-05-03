@@ -289,5 +289,8 @@ zien of de teek besmet is met een ziekte.</string>
     <!--ConditionsActivity -->
     <string name="conditions_title_text">Voorwaarden</string>
     <string name="action_edit">Edit</string>
+    <string name="action_customize">Aanpassen</string>
+    <string name="action_change_pwd">Wacthwoord wijzigen</string>
+    <string name="action_logout">Uitlogeen</string>
 
 </resources>

@@ -30,6 +30,7 @@
             android:orientation="horizontal">
 
             <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/rb_male"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:buttonTint="@color/radio_button_tint"
@@ -39,6 +40,7 @@
                 android:textSize="@dimen/profile_default_text_size"/>
 
             <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/rb_female"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:buttonTint="@color/radio_button_tint"
@@ -124,6 +126,7 @@
             android:hint="@string/mobile_number_placeholder"/>
 
         <LinearLayout
+            android:id="@+id/lt_conditions"
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_edit_text_height"
             android:layout_marginStart="@dimen/checkbox_margin_left"
@@ -138,7 +141,7 @@
                 android:textSize="@dimen/profile_default_text_size"/>
 
             <tekkan.synappz.com.tekkan.custom.CustomFontTextView
-                android:id="@+id/tv_conditions"
+
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/padding_5dp"

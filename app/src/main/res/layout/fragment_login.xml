@@ -81,6 +81,7 @@
                         app:customfont="OpenSansRegular"/>
 
                     <tekkan.synappz.com.tekkan.custom.CustomFontEditText
+                        android:id="@+id/et_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/transparent"
@@ -111,6 +112,7 @@
 
 
                     <tekkan.synappz.com.tekkan.custom.CustomFontEditText
+                        android:id="@+id/et_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/transparent"
@@ -136,7 +138,7 @@
 
 
             <tekkan.synappz.com.tekkan.custom.CustomButtonView
-                android:id="@+id/btn_more_info"
+                android:id="@+id/btn_log_in"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/app_button_height"
                 android:layout_below="@+id/login_field_layout"
@@ -152,7 +154,7 @@
                 android:id="@+id/tv_create_account"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/btn_more_info"
+                android:layout_below="@+id/btn_log_in"
                 android:padding="@dimen/login_inner_layout_default_padding"
                 android:text="@string/dont_have_account_text"
                 android:textAlignment="center"
@@ -190,5 +192,9 @@
         </RelativeLayout>
 
     </ScrollView>
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </FrameLayout>

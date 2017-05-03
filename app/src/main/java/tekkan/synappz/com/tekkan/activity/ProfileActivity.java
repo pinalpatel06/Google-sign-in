@@ -3,8 +3,6 @@ package tekkan.synappz.com.tekkan.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import tekkan.synappz.com.tekkan.R;
 import tekkan.synappz.com.tekkan.fragment.ProfileFragment;
@@ -15,28 +13,16 @@ import tekkan.synappz.com.tekkan.fragment.ProfileFragment;
  */
 
 public class ProfileActivity extends ToolbarActivity {
+    private static final String TAG = ProfileActivity.class.getSimpleName();
+    public static final String EXTRA_NEW_PROFILE = TAG + ".EXTRA_NEW_PROFILE";
+
+
     @Override
     protected Fragment getFragment() {
-        return new ProfileFragment();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_profile, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-            case R.id.action_done:
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if(getIntent().hasExtra(EXTRA_NEW_PROFILE)){
+            return ProfileFragment.newInstance(getIntent().getBooleanExtra(EXTRA_NEW_PROFILE,false));
+        }else {
+            return new ProfileFragment();
         }
     }
 
@@ -45,6 +31,5 @@ public class ProfileActivity extends ToolbarActivity {
         super.onCreate(savedInstanceState);
         setTitle(null);
         setTitle(getString(R.string.profile_title));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 }
