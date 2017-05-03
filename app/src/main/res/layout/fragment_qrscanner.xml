@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
         <View
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:background="@color/colorPrimary"/>
+            android:background="#81BC9F"/>
 
         <View
             android:id="@+id/view_cyan"
@@ -23,89 +23,78 @@
 
         <View
             android:id="@+id/view_brown"
-            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/color_brown_view">
-
-        </View>
+            android:layout_weight="1"
+            android:background="@color/color_brown_view"/>
 
     </LinearLayout>
 
 
-
     <ScrollView
         android:layout_width="match_parent"
-        android:fillViewport="true"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <LinearLayout android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/login_layout_padding"
-            android:orientation="vertical"
-            android:paddingLeft="@dimen/login_layout_padding"
-            android:paddingRight="@dimen/login_layout_padding"
-            >
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical"
+                      android:paddingLeft="@dimen/login_layout_padding"
+                      android:paddingRight="@dimen/login_layout_padding"
+                      android:paddingTop="@dimen/login_layout_padding">
 
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="vertical"
                 android:id="@+id/login_field_layout"
-                android:padding="@dimen/login_inner_layout_default_padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@drawable/bg_rounded_corner"
-                android:layout_height="wrap_content">
+                android:orientation="vertical"
+                android:padding="@dimen/login_inner_layout_default_padding">
 
                 <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:customfont="OpenSansSemiBold"
-                    android:textAlignment="center"
-                    android:textSize="@dimen/qr_scanner_title_text_size"
-                    android:textColor="@color/color_qr_title_text"
                     android:paddingTop="@dimen/default_margin"
                     android:text="@string/qr_scanner_title"
-                    />
+                    android:textAlignment="center"
+                    android:textColor="@color/color_qr_title_text"
+                    android:textSize="@dimen/qr_scanner_title_text_size"
+                    app:customfont="OpenSansSemiBold"/>
 
                 <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:customfont="OpenSansRegular"
                     android:paddingLeft="@dimen/qr_details_text_padding"
                     android:paddingRight="@dimen/qr_details_text_padding"
-                    android:textSize="@dimen/qr_scanner_details_text_size"
-                    android:textColor="@color/color_qr_details_text"
-                    android:textAlignment="center"
                     android:text="@string/qr_scanner_detail_text"
-                    />
+                    android:textAlignment="center"
+                    android:textColor="@color/color_qr_details_text"
+                    android:textSize="@dimen/qr_scanner_details_text_size"
+                    app:customfont="OpenSansRegular"/>
 
-              <ImageView
-                  android:layout_width="wrap_content"
-                  android:layout_marginTop="@dimen/default_margin"
-                  android:layout_height="wrap_content"
-                  android:src="@drawable/ic_qr_scan"
-                  android:padding="@dimen/default_margin"
-                  android:layout_gravity="center"
-
-                  />
-
-
-
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/default_margin"
+                    android:padding="@dimen/default_margin"
+                    android:src="@drawable/ic_qr_scan"/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:orientation="vertical"
-                android:layout_marginTop="@dimen/default_margin"
+                android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/default_margin"
-                android:layout_height="match_parent">
+                android:layout_marginTop="@dimen/default_margin"
+                android:orientation="vertical">
 
                 <tekkan.synappz.com.tekkan.custom.CustomButtonView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/app_button_height"
-                    android:text="@string/qr_scanner_botton1_text"
                     android:layout_marginTop="@dimen/default_margin"
                     android:background="@drawable/bg_button_with_ripple"
+                    android:text="@string/qr_scanner_botton1_text"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/app_button_text"
                     android:theme="@style/AppButtonStyle"
@@ -114,22 +103,15 @@
                 <tekkan.synappz.com.tekkan.custom.CustomButtonView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/app_button_height"
-                    android:text="@string/qr_scanner_botton2_text"
                     android:layout_marginTop="@dimen/default_margin"
                     android:background="@drawable/bg_button_with_ripple"
+                    android:text="@string/qr_scanner_botton2_text"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/app_button_text"
                     android:theme="@style/AppButtonStyle"
                     app:customfont="OpenSansSemiBold"/>
 
             </LinearLayout>
-
-
         </LinearLayout>
-
     </ScrollView>
-
-
-
-
 </FrameLayout>

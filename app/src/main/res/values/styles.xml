@@ -10,14 +10,13 @@
 
     <style name="ToolbarStyle">
         <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
-        <item name="popupMenuStyle">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
         <item name="android:background">@color/colorPrimary</item>
 
     </style>
 
     <style name="AppButtonStyle" parent="@style/ThemeOverlay.AppCompat">
         <item name="colorButtonNormal">@color/colorPrimary</item>
-
     </style>
 
     <style name="BottomPanelTextviewStyle">
@@ -41,7 +40,7 @@
         <item name="android:layout_marginBottom">10dp</item>
         <item name="android:textSize">@dimen/teek_melden_button_text_size</item>
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:theme">@style/AppButtonStyle</item>
+        <item name="android:background">@drawable/bg_button_with_ripple</item>
         <item name="android:padding">@dimen/teek_melden_margin</item>
         <item name="android:layout_marginTop">@dimen/teek_melden_margin</item>
     </style>

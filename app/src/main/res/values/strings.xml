@@ -240,5 +240,57 @@ zien of de teek besmet is met een ziekte.</string>
     <string name="error_cant_change_location_setting">Location Disable</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="pin_droped_title">PIN GEDROPT</string>
+    <string name="pin_droped_detail">Is dit de locatie waar jouw hond of kat de teek helf
+        opgelopen?
+    </string>
+    <string name="pin_drop_no_btn_text">wijzigen</string>
+
+
+    <!-- product fragment-->
+    <string name="title_product">Product</string>
+    <string name="research_text">Wist de dat een teek verschillende ziekten kan overdragen op jouw
+        hond of kat? Het is van belang om te weten of de teek die je van jouw dier hebt afgehaald
+        geen kaans heeft gekregen een ziekte over te dragen? wil je de teek die je hebt gemeld
+        vender laten onderzoeken op ziekten?
+    </string>
+    <string name="log_in_title">Inloggen</string>
+    <string name="login_profile_title_text">Om een onderzoek te kunnen aanvragen moet je inloggen of
+        een profiel aanmaken.
+    </string>
+
+    <!--Login profile activity -->
+    <string name="login_profile_btn_text">PROFIEL AANMAKEN</string>
+    <string name="qr_scanner_app_title">Onderzoek insturen</string>
+
+    <!--Investiagte Activity -->
+    <string name="investigate_app_title">Onderzoek aanvragen</string>
+
+    <!--Petprofile activity -->
+    <string name="pet_profile_app_title">Jouw huisdier</string>
+
+    <!-- apply pet fragment -->
+    <string name="apply_pet_text">Klopt het dat je een ondrzoek wilt aanvragen voor onderstaand
+        huisdier?
+    </string>
+    <string name="apply_pet_button_text">aanvraag versturen</string>
+
+    <!-- ApplyPetAgreementFragment -->
+    <string name="apply_pet_agreement">Je hebt een onderzoek aangevraagd.</string>
+    <string name="apply_pet_agreement_detail">Let op! Er zijn maar een beperkt aantal onderzoken
+        beschikbaar. \n\nMiddels deze aanvraag maak je kans op een onderzoek. je wordt spoedig
+        geinformeerd of jouw aanvraag heeft geleid tot een kosteloos onderzork. \n\nHelaas kan het
+        gebeuren dat jouw aanvraag niet meer in behandeling genomen kan
+    </string>
+    <string name="ready">gereed</string>
+    <string name="profile_title">Profiel</string>
+    <string name="action_save">Done</string>
+
+    <!--ConditionsActivity -->
+    <string name="conditions_title_text">Voorwaarden</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_customize">Aanpassen</string>
+    <string name="action_change_pwd">Wacthwoord wijzigen</string>
+    <string name="action_logout">Uitlogeen</string>
 
 </resources>

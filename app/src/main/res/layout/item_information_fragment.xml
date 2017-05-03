@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="@dimen/default_margin"
-    tools:context="tekkan.synappz.com.tekkan.fragment.ProductInformationFragment">
+    tools:context="tekkan.synappz.com.tekkan.fragment.product.ProductTabFragment">
 
 
     <ImageView

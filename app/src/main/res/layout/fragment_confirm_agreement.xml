@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:background="#81BC9F"
+                  android:gravity="center_vertical"
+                  android:orientation="vertical">
+
+        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/extra_margin_20dp"
+            android:gravity="center"
+            android:text="@string/apply_pet_agreement"
+            android:layout_marginBottom="@dimen/extra_margin_20dp"
+            android:textColor="@android:color/white"
+            android:textSize="26sp"/>
+
+        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/apply_pet_agreement_detail"
+            android:textColor="@android:color/white"
+            android:layout_marginBottom="@dimen/extra_margin_20dp"
+            android:textSize="22sp"/>
+
+    </LinearLayout>
+    <tekkan.synappz.com.tekkan.custom.CustomButtonView
+        style="@style/TeekMeldenButtonStyle"
+        android:layout_width="match_parent"
+        android:padding="@dimen/extra_padding_15dp"
+        android:layout_height="wrap_content"
+        android:text="@string/ready"/>
+
+</LinearLayout>

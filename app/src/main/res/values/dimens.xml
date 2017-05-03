@@ -24,7 +24,7 @@
     
     
     <!--profile activity-->
-    <dimen name="radio_group_margin_top">15dp</dimen>
+    <dimen name="radio_group_margin_top">25dp</dimen>
     <dimen name="checkbox_margin_left">5dp</dimen>
     <dimen name="user_profile_padding">20dp</dimen>
     <dimen name="profile_textview_text_size">14sp</dimen>
@@ -75,7 +75,7 @@
     <!--login fragment-->
 
     <dimen name="login_top_text_size">20sp</dimen>
-    <dimen name="login_default_text_size">16sp</dimen>
+    <dimen name="login_default_text_size">18sp</dimen>
     <dimen name="round_corner_size">12dp</dimen>
     <dimen name="login_fields_heignt">60dp</dimen>
     <dimen name="login_layout_padding">20dp</dimen>
@@ -90,7 +90,7 @@
     <dimen name="qr_details_text_padding">20dp</dimen>
 
     <!--Test Kit Step 2 Fragment -->
-    <dimen name="test_kit_step2_detail_text_size">22sp</dimen>
+    <dimen name="test_kit_step2_detail_text_size">24sp</dimen>
     <dimen name="test_kit_step2_detail_layout_height">180dp</dimen>
 
 
@@ -136,8 +136,8 @@
     <dimen name="teek_melden_margin">20dp</dimen>
     <dimen name="teek_melden_top_margin">25dp</dimen>
     <dimen name="teek_melden_button_text_size">22sp</dimen>
-    <dimen name="teek_melden_detail_text">20sp</dimen>
-    <dimen name="teek_melden_margin_20dp">-20dp</dimen>
+    <dimen name="teek_melden_detail_text">22sp</dimen>
+    <dimen name="teek_melden_margin_20dp">-10dp</dimen>
     <dimen name="teek_melden_custom_button_margin">22dp</dimen>
     <dimen name="bottom_padding">12dp</dimen>
     <dimen name="research_kit_button_text_size">19sp</dimen>

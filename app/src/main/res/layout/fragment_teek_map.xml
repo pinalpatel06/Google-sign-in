@@ -3,12 +3,15 @@
              xmlns:app="http://schemas.android.com/apk/res-auto"
              xmlns:map="http://schemas.android.com/tools"
              android:layout_width="match_parent"
-             android:layout_height="match_parent">
+             android:layout_height="match_parent"
+             android:background="@drawable/bg_blurred">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                  android:id="@+id/ll_teek_melden_map"
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
+                  android:animateLayoutChanges="true"
                   android:orientation="vertical">
 
         <RelativeLayout
@@ -47,10 +50,11 @@
             android:id="@+id/lt_teek_melden_map_bottom_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clickable="true"
             android:orientation="vertical">
 
             <tekkan.synappz.com.tekkan.custom.CustomFontTextView
-                android:id="@+id/tv_title"
+                android:id="@+id/tv_pin_drop_title"
                 style="@style/TekenAppTextViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -59,22 +63,20 @@
                 app:customfont="OpenSansSemiBold"/>
 
             <tekkan.synappz.com.tekkan.custom.CustomFontTextView
-                android:id="@+id/tv_teek_melden_detail"
+                android:id="@+id/tv_pin_drop_detail"
                 style="@style/TekenAppDetailTextViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv_title"
                 android:layout_marginBottom="@dimen/extra_margin_15dp"
                 android:layout_marginEnd="@dimen/margin_10dp"
                 android:layout_marginStart="@dimen/margin_10dp"
                 android:text="@string/teek_melden_map_detail"/>
 
             <tekkan.synappz.com.tekkan.custom.CustomButtonView
-                android:id="@+id/btn_location_close"
+                android:id="@+id/btn_ok"
                 style="@style/TeekMeldenButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_teek_melden_detail"
                 android:layout_marginTop="0dp"
                 android:padding="20dp"
                 android:text="@string/teek_melden_btn_close"
@@ -101,7 +103,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/margin_10dp"
             android:layout_marginStart="@dimen/margin_10dp"
-            android:orientation="vertical">
+            android:clickable="true">
 
             <ImageView
                 android:id="@+id/iv_close"

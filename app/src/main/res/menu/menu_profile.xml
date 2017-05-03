@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_done"
+        android:icon="@drawable/ic_done"
+        android:title="@string/action_save"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_customize"
+        android:title="@string/action_customize"
+        app:showAsAction="never"
+        android:orderInCategory="100"/>
+    <item
+        android:id="@+id/action_change_pwd"
+        android:title="@string/action_change_pwd"
+        app:showAsAction="never"
+        android:orderInCategory="101"/>
+    <item
+        android:id="@+id/action_logout"
+        android:title="@string/action_logout"
+        app:showAsAction="never"
+        android:orderInCategory="102"/>
+
+</menu>

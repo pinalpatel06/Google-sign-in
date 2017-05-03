@@ -1,5 +1,6 @@
 package tekkan.synappz.com.tekkan.custom.nestedfragments;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 
 /**
@@ -9,6 +10,19 @@ import android.support.v4.app.Fragment;
 public abstract class ContainerNodeFragment extends Fragment implements ContainerNodeInterface {
 
     private static final String TAG = ContainerNodeFragment.class.getSimpleName();
+    private FragmentChangeCallback mCallback;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mCallback = (FragmentChangeCallback) getActivity();
+    }
+
+    @Override
+    public void onDetach() {
+        mCallback = null;
+        super.onDetach();
+    }
 
     @Override
     public boolean onBackPressed() {
@@ -18,5 +32,10 @@ public abstract class ContainerNodeFragment extends Fragment implements Containe
     @Override
     public void setChild(CommonNodeInterface fragment) {
        NestedFragmentUtil.setChild(fragment,getContainerId(),getChildFragmentManager(),getChangeCallback());
+    }
+
+    @Override
+    public FragmentChangeCallback getChangeCallback() {
+        return mCallback;
     }
 }
