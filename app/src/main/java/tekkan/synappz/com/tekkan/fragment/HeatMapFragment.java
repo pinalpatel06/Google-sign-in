@@ -126,6 +126,7 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
 
     private void updateUI() {
         Calendar c = Calendar.getInstance();
+        c.add(Calendar.YEAR,-1);
         mCurrentYearTV.setText(String.valueOf(c.get(Calendar.YEAR)));
         mSeekValueTV.setText(DATE_FORMAT.format(c.getTime()));
         mMonth1TV.setText(mMonthName[c.get(Calendar.MONTH)]);
@@ -177,6 +178,7 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         Calendar c = Calendar.getInstance();
+        c.add(Calendar.YEAR,-1);
         c.add(Calendar.DAY_OF_WEEK_IN_MONTH, progress);
         mSeekValueTV.setText(DATE_FORMAT.format(c.getTime()));
         Rect rect = mSeekBar.getThumb().getBounds();
