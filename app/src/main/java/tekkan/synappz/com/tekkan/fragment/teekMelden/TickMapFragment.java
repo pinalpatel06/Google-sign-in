@@ -51,7 +51,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import tekkan.synappz.com.tekkan.R;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.ContainerNodeFragment;
-import tekkan.synappz.com.tekkan.custom.nestedfragments.FragmentChangeCallback;
+import tekkan.synappz.com.tekkan.custom.nestedfragments.NestedFragmentUtil;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
@@ -384,9 +384,10 @@ public class TickMapFragment extends ContainerNodeFragment
         return R.id.fragment_container;
     }
 
+
     @Override
-    public FragmentChangeCallback getChangeCallback() {
-        return null;
+    public boolean shouldDisplayHomeAsUpEnabled() {
+       return NestedFragmentUtil.shouldDisplayHomeAsUpEnabled(getContainerId(),false,getChildFragmentManager());
     }
 
     @Override

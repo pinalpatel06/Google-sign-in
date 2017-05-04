@@ -46,4 +46,9 @@ public class ResearchOutcomeFragment extends Fragment implements CommonNodeInter
     public String getTitle() {
         return getString(R.string.title_research_outcome);
     }
+
+    @Override
+    public boolean shouldDisplayHomeAsUpEnabled() {
+        return true;
+    }
 }

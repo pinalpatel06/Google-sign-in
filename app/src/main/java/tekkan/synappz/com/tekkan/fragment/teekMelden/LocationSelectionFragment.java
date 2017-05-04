@@ -117,5 +117,4 @@ public class LocationSelectionFragment extends ContainerNodeFragment {
     public FragmentChangeCallback getChangeCallback() {
         return mCallback;
     }
-
 }

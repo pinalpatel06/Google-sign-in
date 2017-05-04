@@ -18,6 +18,7 @@ import tekkan.synappz.com.tekkan.R;
 import tekkan.synappz.com.tekkan.activity.ProfileActivity;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.ContainerNodeFragment;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.FragmentChangeCallback;
+import tekkan.synappz.com.tekkan.custom.nestedfragments.NestedFragmentUtil;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -79,5 +80,10 @@ public class LoginFragment extends ContainerNodeFragment {
     @Override
     public FragmentChangeCallback getChangeCallback() {
         return mCallback;
+    }
+
+    @Override
+    public boolean shouldDisplayHomeAsUpEnabled() {
+        return NestedFragmentUtil.shouldDisplayHomeAsUpEnabled(getContainerId(),false,getChildFragmentManager());
     }
 }

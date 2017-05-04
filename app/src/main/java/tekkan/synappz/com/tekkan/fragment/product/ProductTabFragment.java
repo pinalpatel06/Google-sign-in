@@ -115,7 +115,6 @@ public class ProductTabFragment extends ContainerNodeListFragment<ProductTabFrag
         String getDescription() {
             return mDescription;
         }
-
     }
 
 }

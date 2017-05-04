@@ -69,4 +69,9 @@ public class AnimalTipsDetailFragment extends Fragment implements CommonNodeInte
     public String getTitle() {
         return getString(R.string.title_tips);
     }
+
+    @Override
+    public boolean shouldDisplayHomeAsUpEnabled() {
+        return true;
+    }
 }

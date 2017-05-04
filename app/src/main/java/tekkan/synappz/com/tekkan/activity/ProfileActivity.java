@@ -30,5 +30,6 @@ public class ProfileActivity extends ToolbarActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle(getString(R.string.profile_title));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 }

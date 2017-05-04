@@ -48,7 +48,6 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         return fragment;
     }
 
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_profile, menu);
@@ -74,6 +73,10 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
 
                 return true;
             case R.id.action_logout:
+                getActivity().onBackPressed();
+                return true;
+
+            case android.R.id.home:
                 getActivity().onBackPressed();
                 return true;
             default:
@@ -152,6 +155,11 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
     @Override
     public String getTitle() {
         return getString(R.string.profile_title);
+    }
+
+    @Override
+    public boolean shouldDisplayHomeAsUpEnabled() {
+        return false;
     }
 
     class ProfileFieldVH extends RecyclerView.ViewHolder {

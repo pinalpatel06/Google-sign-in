@@ -32,4 +32,9 @@ public class OtherPetSelectedFragment extends Fragment implements CommonNodeInte
     public String getTitle() {
         return null;
     }
+
+    @Override
+    public boolean shouldDisplayHomeAsUpEnabled() {
+        return true;
+    }
 }
