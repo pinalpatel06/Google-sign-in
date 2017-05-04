@@ -8,6 +8,7 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -109,7 +110,7 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
             public void onGlobalLayout() {
                 mBottomSheetTitle.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 mBottomSheetBehavior.setPeekHeight(mBottomSheetTitle.getHeight());
-                mScreenMaxValue =  mBottomSheetTitle.getWidth();
+                mScreenMaxValue = mBottomSheetTitle.getWidth();
                 mScreenMinValue = (int) mBottomSheetTitle.getX();
             }
         });
@@ -126,7 +127,7 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
 
     private void updateUI() {
         Calendar c = Calendar.getInstance();
-        c.add(Calendar.YEAR,-1);
+        c.add(Calendar.YEAR, -1);
         mCurrentYearTV.setText(String.valueOf(c.get(Calendar.YEAR)));
         mSeekValueTV.setText(DATE_FORMAT.format(c.getTime()));
         mMonth1TV.setText(mMonthName[c.get(Calendar.MONTH)]);
@@ -159,10 +160,11 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
 
         Calendar cal = Calendar.getInstance();
 
-        int weeksInYear = cal.getWeeksInWeekYear();
+        int weeksInYear = cal.getActualMaximum(Calendar.WEEK_OF_YEAR);
         int currentWeekNo = cal.get(Calendar.WEEK_OF_YEAR);
         cal.set(Calendar.YEAR, cal.get(Calendar.YEAR) + 1);
         int nextYearWeek = cal.get(Calendar.WEEK_OF_YEAR);
+        Log.d(TAG, weeksInYear + " ");
         return weeksInYear - currentWeekNo + nextYearWeek;
     }
 
@@ -178,7 +180,7 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         Calendar c = Calendar.getInstance();
-        c.add(Calendar.YEAR,-1);
+        c.add(Calendar.YEAR, -1);
         c.add(Calendar.DAY_OF_WEEK_IN_MONTH, progress);
         mSeekValueTV.setText(DATE_FORMAT.format(c.getTime()));
         Rect rect = mSeekBar.getThumb().getBounds();
