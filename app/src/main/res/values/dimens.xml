@@ -51,7 +51,7 @@
     <dimen name="content_margin_start">20dp</dimen>
     <dimen name="chevron_ico_width_height">20dp</dimen>
     <dimen name="profile_default_text_size">18sp</dimen>
-    <dimen name="default_edit_text_height">35dp</dimen>
+    <dimen name="default_edit_text_height">45dp</dimen>
 
 
     <!--product fragment-->
@@ -142,6 +142,11 @@
     <dimen name="bottom_padding">12dp</dimen>
     <dimen name="research_kit_button_text_size">19sp</dimen>
     <dimen name="custom_button_margin">22dp</dimen>
+
+
+    <!--NumberPicker Dialog-->
+    <dimen name="picker_width">300dp</dimen>
+
 
 
 </resources>

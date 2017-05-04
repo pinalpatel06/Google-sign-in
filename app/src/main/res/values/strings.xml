@@ -69,6 +69,7 @@
 
     <!--Profile Your Pet Activity Final-->
     <string name="second_list_title">ONDERZOEKEN</string>
+    <string name="bottom_result_text">Er staat een uitslag klaar</string>
 
     <!--Product Fragment-->
     <string name="dummy_text">Secondary text Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nam massa quam. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</string>
@@ -292,5 +293,12 @@ zien of de teek besmet is met een ziekte.</string>
     <string name="action_customize">Aanpassen</string>
     <string name="action_change_pwd">Wacthwoord wijzigen</string>
     <string name="action_logout">Uitlogeen</string>
+
+    <!--Picker Dialog-->
+
+    <string name="picker_cancel_text">Cancel</string>
+    <string name="picker_set_text">Set</string>
+
+    <string name="blank_filed_message">This field cannot be blank</string>
 
 </resources>

@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/default_margin"
+        android:textSize="@dimen/profile_default_text_size"
         android:paddingTop="@dimen/default_margin"
         android:text="@string/profile_details_title"
         android:textColor="@color/profile_title_color"
@@ -53,6 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_edit_text_height"
             android:layout_marginTop="@dimen/default_margin"
+            android:inputType="text"
             android:background="@drawable/bg_bottom_line"
             android:hint="@string/first_name_placeholder"/>
 
@@ -61,21 +63,25 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_edit_text_height"
             android:layout_marginTop="@dimen/default_margin"
+            android:inputType="text"
             android:background="@drawable/bg_bottom_line"
             android:hint="@string/last_name_placeholder"/>
 
 
         <tekkan.synappz.com.tekkan.custom.CustomFontEditText
+            android:id="@+id/customFontEditText"
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_edit_text_height"
             android:layout_marginTop="@dimen/default_margin"
+            android:inputType="textEmailAddress"
             android:background="@drawable/bg_bottom_line"
-            android:hint="@string/email_placeholder"/>
+            android:hint="@string/email_placeholder" />
 
         <tekkan.synappz.com.tekkan.custom.CustomFontEditText
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_edit_text_height"
             android:layout_marginTop="@dimen/default_margin"
+            android:inputType="textPassword"
             android:background="@drawable/bg_bottom_line"
             android:hint="@string/password_placeholder"/>
 
@@ -84,6 +90,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_edit_text_height"
             android:layout_marginTop="@dimen/default_margin"
+            android:inputType="textPassword"
             android:background="@drawable/bg_bottom_line"
             android:hint="@string/confirm_password_placeholder"/>
 
@@ -91,6 +98,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_edit_text_height"
             android:layout_marginTop="@dimen/default_margin"
+            android:inputType="textPostalAddress"
             android:background="@drawable/bg_bottom_line"
             android:hint="@string/street_name_placeholder"/>
 
@@ -107,22 +115,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_marginTop="@dimen/default_margin"
                 android:background="@color/transparent"
+                android:imeOptions="actionNext"
+                android:inputType="number"
                 android:hint="@string/postal_code_placeholder"/>
 
             <tekkan.synappz.com.tekkan.custom.CustomFontEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_marginTop="@dimen/default_margin"
+                android:id="@+id/et_place"
                 android:background="@color/transparent"
+                android:inputType="textPostalAddress"
                 android:hint="@string/place_placeholder"/>
         </LinearLayout>
 
         <tekkan.synappz.com.tekkan.custom.CustomFontEditText
             android:layout_width="match_parent"
+            android:id="@+id/tv_tel_no"
             android:layout_height="@dimen/default_edit_text_height"
             android:layout_marginTop="@dimen/default_margin"
+            android:imeOptions="actionDone"
             android:background="@drawable/bg_bottom_line"
+            android:inputType="phone"
             android:hint="@string/mobile_number_placeholder"/>
 
         <LinearLayout
@@ -165,6 +182,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/default_margin"
         android:layout_marginTop="@dimen/radio_group_margin_top"
+        android:textSize="@dimen/profile_default_text_size"
         android:text="@string/add_new_pet_title"
         android:textColor="@color/profile_title_color"
         app:customfont="OpenSansSemiBold"/>
@@ -180,6 +198,6 @@
         android:gravity="center_vertical"
         android:hint="@string/add_new_pet_placeholder"
         android:paddingBottom="@dimen/padding_10dp"
-        android:paddingEnd="20dp"
+        android:paddingEnd="@dimen/user_profile_padding"
         android:textSize="@dimen/profile_default_text_size"/>
 </LinearLayout>
