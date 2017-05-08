@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
 import tekkan.synappz.com.tekkan.R;
-import tekkan.synappz.com.tekkan.fragment.EditPetFragment;
 import tekkan.synappz.com.tekkan.fragment.ViewPetFragment;
 
 /**
@@ -17,7 +16,6 @@ public class ViewPetActivity extends ToolbarActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle(null);
         setTitle(getString(R.string.pet_profile_app_title));
 
     }
@@ -25,12 +23,6 @@ public class ViewPetActivity extends ToolbarActivity {
 
     @Override
     protected Fragment getFragment() {
-
-        ViewPetFragment viewPetFragment = new ViewPetFragment();
-        viewPetFragment.setArguments(getIntent().getBundleExtra(EditPetFragment.ARGS_PET_PROFILE));
-        return viewPetFragment;
+        return new ViewPetFragment();
     }
-
-
-
 }

@@ -10,24 +10,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import tekkan.synappz.com.tekkan.R;
 import tekkan.synappz.com.tekkan.activity.EditPetActivity;
-import tekkan.synappz.com.tekkan.activity.ViewPetActivity;
 
-import static tekkan.synappz.com.tekkan.fragment.EditPetFragment.ARGS_PET_PROFILE;
 import static tekkan.synappz.com.tekkan.fragment.EditPetFragment.TAG_BREED;
 import static tekkan.synappz.com.tekkan.fragment.EditPetFragment.TAG_DOB;
 import static tekkan.synappz.com.tekkan.fragment.EditPetFragment.TAG_GENDER;
 import static tekkan.synappz.com.tekkan.fragment.EditPetFragment.TAG_IS_CAT_OR_DOG;
-import static tekkan.synappz.com.tekkan.fragment.EditPetFragment.TAG_PET_NAME;
 import static tekkan.synappz.com.tekkan.fragment.EditPetFragment.TAG_WEIGHT;
 
 /**
@@ -61,8 +54,8 @@ public class ViewPetFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_view_pet, container, false);
         setHasOptionsMenu(true);
         ButterKnife.bind(this, v);
-        if(mArgs != null){
-        updateUI();
+        if (mArgs != null) {
+            updateUI();
         }
         return v;
     }
@@ -89,12 +82,12 @@ public class ViewPetFragment extends Fragment {
                 getActivity().onBackPressed();
                 return true;
             case R.id.action_edit:
-                 getActivity().invalidateOptionsMenu();
-                 Intent intent = new Intent(getActivity(),EditPetActivity.class);
-                 startActivity(intent);
-                 return true;
-                 default:
-                 return super.onOptionsItemSelected(item);
+                getActivity().invalidateOptionsMenu();
+                Intent intent = new Intent(getActivity(), EditPetActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 
@@ -105,7 +98,7 @@ public class ViewPetFragment extends Fragment {
     }
 
 
-    private void updateUI(){
+    private void updateUI() {
         mIsCatOrDogTv.setText(mArgs.getString(TAG_IS_CAT_OR_DOG));
         mBreedTv.setText(mArgs.getString(TAG_BREED));
         mDateOfBirthTv.setText(mArgs.getString(TAG_DOB));

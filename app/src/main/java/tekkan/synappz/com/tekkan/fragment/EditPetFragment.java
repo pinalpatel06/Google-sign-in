@@ -16,24 +16,20 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.NumberPicker;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import tekkan.synappz.com.tekkan.R;
-import tekkan.synappz.com.tekkan.activity.EditPetActivity;
 import tekkan.synappz.com.tekkan.activity.ViewPetActivity;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class EditPetFragment extends Fragment implements View.OnClickListener{
+public class EditPetFragment extends Fragment implements View.OnClickListener {
 
     private static final String TAG = EditPetFragment.class.getSimpleName();
-
 
 
     public static String TAG_PET_NAME = "PET_NAME",
@@ -44,7 +40,7 @@ public class EditPetFragment extends Fragment implements View.OnClickListener{
             TAG_GENDER = "GENDER",
             ARGS_PET_PROFILE = "PET_PROFILE_DATA";
 
-    private boolean mIsUpdate=false;
+    private boolean mIsUpdate = false;
     private boolean mIsDone = true;
 
     @BindView(R.id.et_pet_name)
@@ -66,19 +62,18 @@ public class EditPetFragment extends Fragment implements View.OnClickListener{
     EditText mGenderEt;
 
 
-
-    private String[] mIsMaleOrFemaleList = {"Male","Female"};
-    private String[] mIsCatOrDogList = {"Cat","Dog"};
-    private String[] mBreedList = {"A","B","C"};
+    private String[] mIsMaleOrFemaleList = {"Male", "Female"};
+    private String[] mIsCatOrDogList = {"Cat", "Dog"};
+    private String[] mBreedList = {"A", "B", "C"};
 
     public static EditPetFragment newInstance() {
-        
+
         Bundle args = new Bundle();
         EditPetFragment fragment = new EditPetFragment();
         fragment.setArguments(args);
         return fragment;
     }
-    
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_pet_profile_update, menu);
@@ -102,16 +97,16 @@ public class EditPetFragment extends Fragment implements View.OnClickListener{
             case R.id.action_done:
                 mIsUpdate = true;
                 mIsDone = false;
-                if(isValidate()){
+                if (isValidate()) {
                     Bundle bundle = new Bundle();
-                    bundle.putString(TAG_PET_NAME,mPetNameEt.getText().toString());
-                    bundle.putString(TAG_IS_CAT_OR_DOG,mIsCatOrDogEt.getText().toString());
-                    bundle.putString(TAG_BREED,mBreedEt.getText().toString());
-                    bundle.putString(TAG_DOB,mDateOfBirthEt.getText().toString());
-                    bundle.putString(TAG_GENDER,mGenderEt.getText().toString());
-                    bundle.putString(TAG_WEIGHT,mWeightEt.getText().toString());
+                    bundle.putString(TAG_PET_NAME, mPetNameEt.getText().toString());
+                    bundle.putString(TAG_IS_CAT_OR_DOG, mIsCatOrDogEt.getText().toString());
+                    bundle.putString(TAG_BREED, mBreedEt.getText().toString());
+                    bundle.putString(TAG_DOB, mDateOfBirthEt.getText().toString());
+                    bundle.putString(TAG_GENDER, mGenderEt.getText().toString());
+                    bundle.putString(TAG_WEIGHT, mWeightEt.getText().toString());
                     Intent intent = new Intent(getActivity(), ViewPetActivity.class);
-                    intent.putExtra(ARGS_PET_PROFILE,bundle);
+                    intent.putExtra(ARGS_PET_PROFILE, bundle);
                     startActivity(intent);
                     getActivity().finish();
                 }
@@ -145,29 +140,28 @@ public class EditPetFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
 
 
-        switch (v.getId()){
-            case  R.id.tv_date_of_birth :
+        switch (v.getId()) {
+            case R.id.tv_date_of_birth:
                 datePicker();
                 break;
-            case R.id.tv_is_cat_or_dog :
-                picker(mIsCatOrDogEt,mIsCatOrDogList);
+            case R.id.tv_is_cat_or_dog:
+                picker(mIsCatOrDogEt, mIsCatOrDogList);
                 break;
 
-            case R.id.tv_breed :
-                picker(mBreedEt,mBreedList);
+            case R.id.tv_breed:
+                picker(mBreedEt, mBreedList);
                 break;
 
-            case R.id.tv_gender :
-                picker(mGenderEt,mIsMaleOrFemaleList);
+            case R.id.tv_gender:
+                picker(mGenderEt, mIsMaleOrFemaleList);
                 break;
         }
-
 
 
     }
 
 
-    private void datePicker(){
+    private void datePicker() {
         int mYear, mMonth, mDay;
         // Get Current Date
         final Calendar c = Calendar.getInstance();
@@ -190,8 +184,7 @@ public class EditPetFragment extends Fragment implements View.OnClickListener{
     }
 
 
-
-    private void picker(final EditText editText, final String[] pickerItems){
+    private void picker(final EditText editText, final String[] pickerItems) {
 
         final Dialog dialog = new Dialog(getContext());
         dialog.setContentView(R.layout.dialog_number_picker);
@@ -201,16 +194,14 @@ public class EditPetFragment extends Fragment implements View.OnClickListener{
         numberPicker.setMaxValue(pickerItems.length - 1);
         numberPicker.setMinValue(0);
         numberPicker.setWrapSelectorWheel(true);
-        numberPicker.setDisplayedValues( pickerItems);
-        cancelButton.setOnClickListener(new View.OnClickListener()
-        {
+        numberPicker.setDisplayedValues(pickerItems);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 dialog.dismiss();
+                dialog.dismiss();
             }
         });
-        setButton.setOnClickListener(new View.OnClickListener()
-        {
+        setButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 editText.setText(pickerItems[numberPicker.getValue()]);
@@ -223,28 +214,27 @@ public class EditPetFragment extends Fragment implements View.OnClickListener{
     }
 
 
+    private boolean isValidate() {
 
-    private boolean isValidate(){
-
-        if(mPetNameEt.getText().toString().equals("")){
+        if (mPetNameEt.getText().toString().equals("")) {
             mPetNameEt.setError(getString(R.string.blank_filed_message));
             return false;
-        }else if(mIsCatOrDogEt.getText().toString().equals("")){
+        } else if (mIsCatOrDogEt.getText().toString().equals("")) {
             mIsCatOrDogEt.setError(getString(R.string.blank_filed_message));
             return false;
-        }else if(mBreedEt.getText().toString().equals("")){
+        } else if (mBreedEt.getText().toString().equals("")) {
             mBreedEt.setError(getString(R.string.blank_filed_message));
             return false;
-        }else if(mDateOfBirthEt.getText().toString().equals("")){
+        } else if (mDateOfBirthEt.getText().toString().equals("")) {
             mDateOfBirthEt.setError(getString(R.string.blank_filed_message));
             return false;
-        }else if(mGenderEt.getText().toString().equals("")){
+        } else if (mGenderEt.getText().toString().equals("")) {
             mGenderEt.setError(getString(R.string.blank_filed_message));
             return false;
-        }else if(mWeightEt.getText().toString().equals("")){
+        } else if (mWeightEt.getText().toString().equals("")) {
             mWeightEt.setError(getString(R.string.blank_filed_message));
             return false;
-        }else {
+        } else {
             return true;
         }
 
