@@ -32,4 +32,9 @@ public class ProductDetailsFragment extends Fragment implements CommonNodeInterf
     public String getTitle() {
         return "Advantage Hond";
     }
+
+    @Override
+    public boolean shouldDisplayHomeAsUpEnabled() {
+        return true;
+    }
 }

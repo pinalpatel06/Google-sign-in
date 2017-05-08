@@ -65,4 +65,13 @@ public final class NestedFragmentUtil {
         return childFragment != null;
     }
 
+    public static  boolean shouldDisplayHomeAsUpEnabled(int containerId, boolean isOn,FragmentManager fragmentManager){
+        Fragment fragment = fragmentManager.findFragmentById(containerId);
+        boolean isHandled = isOn;
+        if (fragment instanceof CommonNodeInterface) {
+            isHandled = ((CommonNodeInterface) fragment).shouldDisplayHomeAsUpEnabled();
+        }
+        return isHandled;
+    }
+
 }

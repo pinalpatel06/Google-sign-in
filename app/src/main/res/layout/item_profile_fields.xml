@@ -69,7 +69,6 @@
 
 
         <tekkan.synappz.com.tekkan.custom.CustomFontEditText
-            android:id="@+id/customFontEditText"
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_edit_text_height"
             android:layout_marginTop="@dimen/default_margin"

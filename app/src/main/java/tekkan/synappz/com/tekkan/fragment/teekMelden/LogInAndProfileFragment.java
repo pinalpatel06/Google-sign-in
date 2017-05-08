@@ -66,6 +66,7 @@ public class LogInAndProfileFragment extends Fragment {
     @OnClick(R.id.btn_profile)
     public void showProfile() {
         Intent intent = new Intent(getActivity(), ProfileActivity.class);
+        intent.putExtra(ProfileActivity.EXTRA_NEW_PROFILE,true);
         startActivity(intent);
     }
 }

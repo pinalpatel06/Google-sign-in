@@ -19,17 +19,15 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import tekkan.synappz.com.tekkan.R;
-import tekkan.synappz.com.tekkan.custom.ListFragment;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.CommonNodeInterface;
-import tekkan.synappz.com.tekkan.custom.nestedfragments.ContainerNodeInterface;
+import tekkan.synappz.com.tekkan.custom.nestedfragments.ContainerNodeListFragment;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.FragmentChangeCallback;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.NestedFragmentUtil;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProductListFragment extends ListFragment<ProductListFragment.ProductsItem, ProductListFragment.ProductVH> implements ContainerNodeInterface{
-
+public class ProductListFragment extends ContainerNodeListFragment<ProductListFragment.ProductsItem, ProductListFragment.ProductVH> {
 
     private FragmentChangeCallback mCallback;
 

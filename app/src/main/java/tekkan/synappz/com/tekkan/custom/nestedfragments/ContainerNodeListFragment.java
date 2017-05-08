@@ -38,6 +38,11 @@ public abstract class ContainerNodeListFragment<T, VH extends RecyclerView.ViewH
     }
 
     @Override
+    public boolean shouldDisplayHomeAsUpEnabled() {
+        return NestedFragmentUtil.shouldDisplayHomeAsUpEnabled(getContainerId(),true,getChildFragmentManager());
+    }
+
+    @Override
     public FragmentChangeCallback getChangeCallback() {
         return mCallback;
     }

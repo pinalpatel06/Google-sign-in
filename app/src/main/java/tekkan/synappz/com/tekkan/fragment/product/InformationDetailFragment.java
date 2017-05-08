@@ -28,4 +28,9 @@ public class InformationDetailFragment extends Fragment implements CommonNodeInt
     public String getTitle() {
         return "Args title";
     }
+
+    @Override
+    public boolean shouldDisplayHomeAsUpEnabled() {
+        return true;
+    }
 }
