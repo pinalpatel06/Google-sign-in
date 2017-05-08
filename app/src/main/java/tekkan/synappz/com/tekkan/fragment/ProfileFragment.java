@@ -71,12 +71,10 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_done:
-
                 return true;
             case R.id.action_logout:
                 getActivity().onBackPressed();
                 return true;
-
             case android.R.id.home:
                 getActivity().onBackPressed();
                 return true;

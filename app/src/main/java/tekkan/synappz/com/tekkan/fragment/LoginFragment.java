@@ -47,6 +47,15 @@ public class LoginFragment extends ContainerNodeFragment {
     }
 
     @Override
+    public void setHasOptionsMenu(boolean hasMenu) {
+        super.setHasOptionsMenu(hasMenu);
+        Fragment childFragment = getChild();
+        if(childFragment!=null){
+            childFragment.setHasOptionsMenu(hasMenu);
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
