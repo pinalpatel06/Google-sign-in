@@ -117,6 +117,17 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         onFragmentChanged();
     }
 
+    private void invalidateFragmentMenus(int position){
+        for(int i = 0; i < mAdapter.getCount(); i++){
+            Fragment fragment = mAdapter.getFragment(i);
+            if(fragment!=null){
+                fragment.setHasOptionsMenu(i == position);
+            }
+        }
+        invalidateOptionsMenu(); //or respectively its support method.
+    }
+
+
     @Override
     public void onTabUnselected(TabLayout.Tab tab) {
     }
@@ -155,13 +166,16 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         if (fragment != null && fragment instanceof ContainerNodeInterface) {
             setAppTitle(((ContainerNodeInterface) fragment).getTitle());
 
-            hasToShowHomeIcon = NestedFragmentUtil.hasChild((ContainerNodeInterface) fragment, ((ContainerNodeInterface) fragment).getContainerId());
+            hasToShowHomeIcon = NestedFragmentUtil.hasChild((ContainerNodeInterface) fragment, ((ContainerNodeInterface) fragment).getContainerId()) &
+                    ((ContainerNodeInterface) fragment).shouldDisplayHomeAsUpEnabled();
         }
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(hasToShowHomeIcon);
         }
+
+        invalidateFragmentMenus(mViewPager.getCurrentItem());
     }
 
     private class Adapter extends CustomFragmentStatePageAdapter {

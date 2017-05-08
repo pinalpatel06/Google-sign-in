@@ -98,4 +98,9 @@ public class TickReportConfirmFragment extends Fragment implements CommonNodeInt
     public String getTitle() {
         return null;
     }
+
+    @Override
+    public boolean shouldDisplayHomeAsUpEnabled() {
+        return true;
+    }
 }

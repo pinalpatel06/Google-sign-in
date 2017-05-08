@@ -4,7 +4,6 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -30,7 +29,6 @@
 
     </LinearLayout>
 
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -42,7 +40,6 @@
                       android:paddingLeft="@dimen/login_layout_padding"
                       android:paddingRight="@dimen/login_layout_padding"
                       android:paddingTop="@dimen/login_layout_padding">
-
 
             <LinearLayout
                 android:id="@+id/login_field_layout"
@@ -90,25 +87,21 @@
                 android:orientation="vertical">
 
                 <tekkan.synappz.com.tekkan.custom.CustomButtonView
+                    style="@style/TeekAppButtonStyle"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/app_button_height"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/default_margin"
-                    android:background="@drawable/bg_button_with_ripple"
+                    android:padding="@dimen/extra_margin_20dp"
                     android:text="@string/qr_scanner_botton1_text"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/app_button_text"
-                    android:theme="@style/AppButtonStyle"
                     app:customfont="OpenSansSemiBold"/>
 
                 <tekkan.synappz.com.tekkan.custom.CustomButtonView
+                    style="@style/TeekAppButtonStyle"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/app_button_height"
-                    android:layout_marginTop="@dimen/default_margin"
-                    android:background="@drawable/bg_button_with_ripple"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/extra_margin_20dp"
+                    android:layout_marginTop="@dimen/extra_margin_15dp"
                     android:text="@string/qr_scanner_botton2_text"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/app_button_text"
-                    android:theme="@style/AppButtonStyle"
                     app:customfont="OpenSansSemiBold"/>
 
             </LinearLayout>

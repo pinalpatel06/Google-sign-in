@@ -6,4 +6,5 @@ package tekkan.synappz.com.tekkan.custom.nestedfragments;
 
 public interface CommonNodeInterface     {
     String getTitle();
+    boolean shouldDisplayHomeAsUpEnabled();
 }

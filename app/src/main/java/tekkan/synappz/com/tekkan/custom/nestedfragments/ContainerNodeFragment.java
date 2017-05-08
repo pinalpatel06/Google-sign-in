@@ -38,4 +38,13 @@ public abstract class ContainerNodeFragment extends Fragment implements Containe
     public FragmentChangeCallback getChangeCallback() {
         return mCallback;
     }
+
+    @Override
+    public boolean shouldDisplayHomeAsUpEnabled() {
+        return NestedFragmentUtil.shouldDisplayHomeAsUpEnabled(getContainerId(),true,getChildFragmentManager());
+    }
+
+    protected Fragment getChild(){
+        return getChildFragmentManager().findFragmentById(getContainerId());
+    }
 }

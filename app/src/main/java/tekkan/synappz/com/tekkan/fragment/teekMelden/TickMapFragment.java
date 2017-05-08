@@ -1,7 +1,9 @@
 package tekkan.synappz.com.tekkan.fragment.teekMelden;
 
 import android.Manifest;
-import android.animation.LayoutTransition;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
@@ -11,10 +13,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -46,7 +51,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import tekkan.synappz.com.tekkan.R;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.ContainerNodeFragment;
-import tekkan.synappz.com.tekkan.custom.nestedfragments.FragmentChangeCallback;
+import tekkan.synappz.com.tekkan.custom.nestedfragments.NestedFragmentUtil;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
@@ -109,7 +114,7 @@ public class TickMapFragment extends ContainerNodeFragment
 
 
     private int mCurrentLocLayoutHeight, mCustomLocLayoutHeight;
-    private boolean isTouchModeActivated = false;
+    private boolean mIsTouchModeActivated = false;
 
     public static TickMapFragment newInstance(int locationType) {
 
@@ -124,9 +129,11 @@ public class TickMapFragment extends ContainerNodeFragment
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mLocationType = getArguments().getInt(ARGS_LOCATION_TYPE);
+
         if (savedInstanceState != null) {
             mLocationType = savedInstanceState.getInt(ARGS_LOCATION_TYPE);
-            isTouchModeActivated = savedInstanceState.getBoolean(ARGS_LISTENER_MODE, false);
+            mIsTouchModeActivated = savedInstanceState.getBoolean(ARGS_LISTENER_MODE, false);
             mLatLng = savedInstanceState.getParcelable(ARGS_LOCATION_LATLNG);
         }
 
@@ -160,23 +167,40 @@ public class TickMapFragment extends ContainerNodeFragment
         View v = inflater.inflate(R.layout.fragment_teek_map, container, false);
         init(v);
 
-        // v.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.bg_blurred));
+        v.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.bg_blurred));
 
-       /* ViewTreeObserver vto = mCustomBottomView.getViewTreeObserver();
+        ViewTreeObserver vto = mCustomBottomView.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
                 mCustomBottomView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 mCustomLocLayoutHeight = mCustomBottomView.getHeight();
-                mCustomBottomView.getLayoutParams().height = 0;
-                //mCustomBottomView.requestLayout();
-                mCustomBottomView.invalidate();
-            }
-        });*/
-        mTeekMeldenFL.getLayoutTransition().setStartDelay(LayoutTransition.CHANGE_DISAPPEARING, 10);
-        mTeekMeldenFL.getLayoutTransition().setStartDelay(LayoutTransition.APPEARING, -100);
+                if (mLocationType == LOCATION_CURRENT) {
+                    mCustomBottomView.getLayoutParams().height = 0;
+                    mCustomBottomView.requestLayout();
+                    mCustomBottomView.invalidate();
+                    mBottomViewLT.setVisibility(View.VISIBLE);
+                }
 
-        updateUI();
+            }
+        });
+
+        ViewTreeObserver vto1 = mBottomViewLT.getViewTreeObserver();
+        vto1.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                mBottomViewLT.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                mCurrentLocLayoutHeight = mBottomViewLT.getHeight();
+                if (mLocationType == LOCATION_CUSTOM) {
+                    mBottomViewLT.getLayoutParams().height = 0;
+                    mCustomBottomView.requestLayout();
+                    mCustomBottomView.invalidate();
+                    mIsTouchModeActivated = true;
+                    mCustomBottomView.setVisibility(View.VISIBLE);
+                }
+
+            }
+        });
         return v;
     }
 
@@ -198,37 +222,8 @@ public class TickMapFragment extends ContainerNodeFragment
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(ARGS_LOCATION_TYPE, mLocationType);
-        outState.putBoolean(ARGS_LISTENER_MODE, isTouchModeActivated);
+        outState.putBoolean(ARGS_LISTENER_MODE, mIsTouchModeActivated);
         outState.putParcelable(ARGS_LOCATION_LATLNG, mLatLng);
-    }
-
-    private void updateUI() {
-        switch (mLocationType) {
-            case 0:
-                mBottomViewLT.setVisibility(View.VISIBLE);
-                mCustomBottomView.setVisibility(View.GONE);
-                if (mMap != null) {
-                    mMap.setOnMapClickListener(null);
-                }
-                break;
-            case 1:
-                mBottomViewLT.setVisibility(View.GONE);
-                mCustomBottomView.setVisibility(View.VISIBLE);
-                if (mMap != null) {
-                    mMap.setOnMapClickListener(this);
-                }
-                break;
-            case 2:
-                mBottomViewLT.setVisibility(View.GONE);
-                mCustomBottomView.setVisibility(View.GONE);
-                break;
-            case 3:
-                mBottomViewLT.setVisibility(View.VISIBLE);
-                mCustomBottomView.setVisibility(View.GONE);
-                mPinTitleTV.setText(getString(R.string.pin_droped_title));
-                mPinDropDetailTV.setText(getString(R.string.pin_droped_detail));
-                mCustomizeLocationBtn.setText(getString(R.string.pin_drop_no_btn_text));
-        }
     }
 
     @OnClick(R.id.btn_ok)
@@ -248,88 +243,129 @@ public class TickMapFragment extends ContainerNodeFragment
         if (mMap != null) {
             mMap.clear();
             mMap.setOnMapClickListener(this);
-            isTouchModeActivated = true;
+            mIsTouchModeActivated = true;
         }
 
-        mLocationType = LOCATION_CUSTOM;
-        mLatLng = null;
-        updateUI();
-
-       /* mBottomViewLT.animate()
-                .translationY(mBottomViewLT.getHeight())
-                .alpha(0.0f)
-                .withLayer()
-                .setDuration(300)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        super.onAnimationEnd(animation);
-                        mBottomViewLT.setVisibility(View.GONE);
-                    }
-                });*/
-
-      /*  ValueAnimator va = null;
-
-        va = ValueAnimator.ofInt((int) mBottomViewLT.getY(), 0);
-
-      *//*  if (mSelectedSearchSells.size() == 1) {
-            //it has newly added element hence slide in
-            va = ValueAnimator.ofInt(0, mSummaryHeight);
-        } else if (mSelectedSearchSells.size() == 0) {
-            //it has gone to 0 and hence slide out
-            va = ValueAnimator.ofInt(mSummaryHeight, 0);
-        }*//*
-
+        ValueAnimator va = null;
+        mCurrentLocLayoutHeight = mBottomViewLT.getHeight();
+        va = ValueAnimator.ofInt(mCurrentLocLayoutHeight, 0);
         if (va != null) {
             va.setInterpolator(new AccelerateDecelerateInterpolator());
-            va.setDuration(400);
+            va.setDuration(300);
             va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 public void onAnimationUpdate(ValueAnimator animation) {
                     Integer value = (Integer) animation.getAnimatedValue();
                     mBottomViewLT.getLayoutParams().height = value.intValue();
                     mBottomViewLT.requestLayout();
-                    // mTeekMeldenFL.requestLayout();
+                    mTeekMeldenFL.requestLayout();
+                    mTeekMeldenFL.invalidate();
                 }
             });
-
             va.addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     super.onAnimationEnd(animation);
-                    mCustomBottomView.getLayoutParams().height = mCustomLocLayoutHeight;
-                    mCustomBottomView.requestLayout();
-
+                   // mBottomViewLT.setVisibility(View.GONE);
+                    mCustomBottomView.setVisibility(View.VISIBLE);
+                    mCustomBottomView.animate()
+                            .setDuration(1000)
+                            .setStartDelay(300)
+                            .setInterpolator(new AccelerateDecelerateInterpolator())
+                            .setUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                                @Override
+                                public void onAnimationUpdate(ValueAnimator animation) {
+                                    mCustomBottomView.getLayoutParams().height = mCustomLocLayoutHeight;
+                                    mCustomBottomView.setVisibility(View.VISIBLE);
+                                    mCustomBottomView.requestLayout();
+                                    mTeekMeldenFL.requestLayout();
+                                    mTeekMeldenFL.invalidate();
+                                }
+                            })
+                            .start();
                 }
             });
-
-
-            va.start();
-        }*/
-
+        }
+        va.start();
+        mLocationType = LOCATION_CUSTOM;
+        mLatLng = null;
     }
+
+    private void animetPinDropView() {
+        if (mLocationType == LOCATION_CUSTOM) {
+            ValueAnimator va1 = null;
+            va1 = ValueAnimator.ofInt(mCustomLocLayoutHeight, 0);
+            va1.setDuration(300);
+            va1.setStartDelay(300);
+            va1.setInterpolator(new AccelerateDecelerateInterpolator());
+            va1.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    Integer value = (Integer) animation.getAnimatedValue();
+                    mCustomBottomView.getLayoutParams().height = value.intValue();
+                    mCustomBottomView.requestLayout();
+                    mTeekMeldenFL.requestLayout();
+                    mTeekMeldenFL.invalidate();
+                }
+            });
+            va1.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    mLocationType = PIN_FINALLIZE_VIEW;
+                    animate();
+                }
+            });
+            va1.start();
+        } else {
+            animate();
+        }
+    }
+
+    private void animate() {
+        ValueAnimator va = null;
+        mBottomViewLT.setVisibility(View.VISIBLE);
+        mPinTitleTV.setText(getString(R.string.pin_droped_title));
+        mPinDropDetailTV.setText(getString(R.string.pin_droped_detail));
+        mCustomizeLocationBtn.setText(getString(R.string.pin_drop_no_btn_text));
+        va = ValueAnimator.ofInt(0, mCurrentLocLayoutHeight);
+        if (va != null) {
+            va.setInterpolator(new AccelerateDecelerateInterpolator());
+            va.setDuration(300);
+            va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    Integer value = (Integer) animation.getAnimatedValue();
+                    mBottomViewLT.getLayoutParams().height = value.intValue();
+                    mBottomViewLT.requestLayout();
+                    mTeekMeldenFL.requestLayout();
+                    mTeekMeldenFL.invalidate();
+                }
+            });
+            va.start();
+        }
+    }
+
 
     @OnClick(R.id.iv_close)
     public void closeBottomView() {
         mLocationType = NO_BOTTOM_VIEW;
         mLatLng = null;
-        updateUI();
-
-        /*ValueAnimator va = null;
+        ValueAnimator va = null;
 
         va = ValueAnimator.ofInt((int) mCustomLocLayoutHeight, 0);
-        if (va != null) {
-            va.setInterpolator(new AccelerateDecelerateInterpolator());
-            va.setDuration(400);
-            va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    Integer value = (Integer) animation.getAnimatedValue();
-                    mCustomBottomView.getLayoutParams().height = value.intValue();
-                    mCustomBottomView.requestLayout();
-                    // mTeekMeldenFL.requestLayout();
-                }
-            });
-        }
-        va.start();*/
+        va.setDuration(700);
+        va.setStartDelay(300);
+        va.setInterpolator(new AccelerateDecelerateInterpolator());
+        va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                Integer value = (Integer) animation.getAnimatedValue();
+                mCustomBottomView.getLayoutParams().height = value.intValue();
+                mCustomBottomView.requestLayout();
+                mTeekMeldenFL.requestLayout();
+                mTeekMeldenFL.invalidate();
+            }
+        });
+        va.start();
 
     }
 
@@ -348,9 +384,10 @@ public class TickMapFragment extends ContainerNodeFragment
         return R.id.fragment_container;
     }
 
+
     @Override
-    public FragmentChangeCallback getChangeCallback() {
-        return null;
+    public boolean shouldDisplayHomeAsUpEnabled() {
+       return NestedFragmentUtil.shouldDisplayHomeAsUpEnabled(getContainerId(),false,getChildFragmentManager());
     }
 
     @Override
@@ -366,10 +403,10 @@ public class TickMapFragment extends ContainerNodeFragment
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.getUiSettings().setRotateGesturesEnabled(false);
-        if (isTouchModeActivated) {
+        if (mIsTouchModeActivated) {
             mMap.setOnMapClickListener(this);
         }
-        if(mLatLng != null){
+        if (mLatLng != null) {
             drawMarker(mLatLng);
         }
     }
@@ -492,13 +529,12 @@ public class TickMapFragment extends ContainerNodeFragment
     @Override
     public void onMapClick(LatLng latLng) {
         drawMarker(latLng);
-        isTouchModeActivated = false;
+        mIsTouchModeActivated = false;
         mLatLng = latLng;
         if (mMap != null) {
             mMap.setOnMapClickListener(null);
         }
-        mLocationType = PIN_FINALLIZE_VIEW;
-        updateUI();
+        animetPinDropView();
     }
 
     private void drawMarker(LatLng latLng) {
