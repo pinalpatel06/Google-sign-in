@@ -52,6 +52,12 @@
     <color name="profile_default_text_color">#a9abaf</color>
 
 
+    <!--View Profile Fragment-->
+    <color name="color_view_profile_text_default"> #6B6C6F</color>
+
+
+
+
     <!--Profile Conditions Activity-->
     <color name="condtions_web_link_color">#669880</color>
 

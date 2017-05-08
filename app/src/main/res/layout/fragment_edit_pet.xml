@@ -45,58 +45,91 @@
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/content_margin_start"
             android:layout_marginTop="@dimen/default_margin"
+            android:layout_marginEnd="@dimen/default_margin"
             android:orientation="vertical">
 
-            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            <EditText
+                android:id="@+id/et_pet_name"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/default_edit_text_height"
                 android:background="@drawable/bg_bottom_line"
                 android:gravity="center_vertical"
-                tools:text="@string/what_is_your_pet_name"/>
+                android:hint="@string/what_is_your_pet_name"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textColor="@color/profile_default_text_color"
+                android:textColorHint="@color/profile_default_text_color"
+                android:textSize="@dimen/profile_default_text_size" />
 
 
-            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/default_edit_text_height"
-                android:background="@drawable/bg_bottom_line"
-                android:drawableEnd="@drawable/ic_expand_button"
-                android:gravity="center_vertical"
-                tools:text="@string/is_it_dog_or_cat"/>
-
-
-            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/default_edit_text_height"
-                android:background="@drawable/bg_bottom_line"
-                android:drawableEnd="@drawable/ic_expand_button"
-                android:gravity="center_vertical"
-                tools:text="@string/what_is_the_breed"/>
-
-            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            <EditText
+                android:id="@+id/tv_is_cat_or_dog"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/default_edit_text_height"
                 android:background="@drawable/bg_bottom_line"
                 android:drawableEnd="@drawable/ic_expand_button"
                 android:gravity="center_vertical"
-                tools:text="@string/date_of_birth"/>
+                android:focusable="false"
+                android:focusableInTouchMode="true"
+                android:hint="@string/is_it_dog_or_cat"
+                android:textColor="@color/profile_default_text_color"
+                android:textColorHint="@color/profile_default_text_color"
+                android:textSize="@dimen/profile_default_text_size" />
 
 
-            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            <EditText
+                android:id="@+id/tv_breed"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/default_edit_text_height"
                 android:background="@drawable/bg_bottom_line"
                 android:drawableEnd="@drawable/ic_expand_button"
                 android:gravity="center_vertical"
-                tools:text="@string/what_is_the_gender"/>
+                android:focusable="false"
+                android:hint="@string/what_is_the_breed"
+                android:textColor="@color/profile_default_text_color"
+                android:textColorHint="@color/profile_default_text_color"
+                android:textSize="@dimen/profile_default_text_size" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_edit_text_height"
+                android:id="@+id/tv_date_of_birth"
+                android:background="@drawable/bg_bottom_line"
+                android:textSize="@dimen/profile_default_text_size"
+                android:focusable="false"
+                android:drawableEnd="@drawable/ic_expand_button"
+                android:textColor="@color/profile_default_text_color"
+                android:textColorHint="@color/profile_default_text_color"
+                android:gravity="center_vertical"
+                android:hint="@string/date_of_birth"/>
 
 
-            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/default_edit_text_height"
                 android:background="@drawable/bg_bottom_line"
+                android:textSize="@dimen/profile_default_text_size"
+                android:id="@+id/tv_gender"
+                android:focusable="false"
+                android:textColor="@color/profile_default_text_color"
+                android:textColorHint="@color/profile_default_text_color"
                 android:drawableEnd="@drawable/ic_expand_button"
                 android:gravity="center_vertical"
-                tools:text="@string/what_is_the_weight"/>
+                android:hint="@string/what_is_the_gender"/>
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_edit_text_height"
+                android:background="@drawable/bg_bottom_line"
+                android:textSize="@dimen/profile_default_text_size"
+                android:id="@+id/tv_weight"
+                android:inputType="number"
+                android:drawableEnd="@drawable/ic_expand_button"
+                android:textColor="@color/profile_default_text_color"
+                android:textColorHint="@color/profile_default_text_color"
+                android:gravity="center_vertical"
+                android:hint="@string/what_is_the_weight"/>
 
         </LinearLayout>
 

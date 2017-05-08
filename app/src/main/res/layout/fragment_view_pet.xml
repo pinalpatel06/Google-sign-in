@@ -47,7 +47,32 @@
             <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/default_edit_text_height"
+                android:textColor="@color/color_view_profile_text_default"
                 android:background="@drawable/bg_bottom_line"
+                android:gravity="center_vertical"
+                android:id="@+id/tv_is_cat_or_dog"
+                android:textSize="@dimen/profile_default_text_size"
+                tools:text="@string/what_is_your_pet_name"/>
+
+
+            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_edit_text_height"
+                android:id="@+id/tv_breed"
+                android:textColor="@color/color_view_profile_text_default"
+                android:background="@drawable/bg_bottom_line"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/profile_default_text_size"
+                tools:text="@string/what_is_your_pet_name"/>
+
+
+            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_edit_text_height"
+                android:id="@+id/tv_date_of_birth"
+                android:background="@drawable/bg_bottom_line"
+                android:textColor="@color/color_view_profile_text_default"
+                android:textSize="@dimen/profile_default_text_size"
                 android:gravity="center_vertical"
                 tools:text="@string/what_is_your_pet_name"/>
 
@@ -56,6 +81,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/default_edit_text_height"
                 android:background="@drawable/bg_bottom_line"
+                android:id="@+id/tv_gender"
+                android:textColor="@color/color_view_profile_text_default"
+                android:textSize="@dimen/profile_default_text_size"
                 android:gravity="center_vertical"
                 tools:text="@string/what_is_your_pet_name"/>
 
@@ -63,23 +91,10 @@
             <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/default_edit_text_height"
+                android:textColor="@color/color_view_profile_text_default"
+                android:id="@+id/tv_weight"
                 android:background="@drawable/bg_bottom_line"
-                android:gravity="center_vertical"
-                tools:text="@string/what_is_your_pet_name"/>
-
-
-            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/default_edit_text_height"
-                android:background="@drawable/bg_bottom_line"
-                android:gravity="center_vertical"
-                tools:text="@string/what_is_your_pet_name"/>
-
-
-            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/default_edit_text_height"
-                android:background="@drawable/bg_bottom_line"
+                android:textSize="@dimen/profile_default_text_size"
                 android:gravity="center_vertical"
                 tools:text="@string/what_is_your_pet_name"/>
 
@@ -92,7 +107,8 @@
             android:layout_marginTop="@dimen/default_margin"
             android:textColor="@color/profile_title_color"
             app:customfont="OpenSansSemiBold"
-            tools:text="@string/second_list_title"
+            android:textSize="@dimen/profile_default_text_size"
+            android:text="@string/second_list_title"
         />
 
         <tekkan.synappz.com.tekkan.custom.CustomFontTextView
@@ -103,7 +119,8 @@
             android:layout_marginTop="@dimen/default_margin"
             android:drawableEnd="@drawable/ic_chevron_right_green"
             android:textColor="@color/profile_title_color"
-            tools:text="@string/what_is_the_weight"/>
+            android:textSize="@dimen/profile_default_text_size"
+            android:text="@string/bottom_result_text"/>
 
 
     </LinearLayout>

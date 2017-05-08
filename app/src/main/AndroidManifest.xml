@@ -48,6 +48,7 @@
         <activity android:name=".activity.ApplyForPetActivity" />
 
         <activity android:name=".activity.ApplyPetAgreementActivity" />
+        <activity android:name=".activity.ViewPetActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

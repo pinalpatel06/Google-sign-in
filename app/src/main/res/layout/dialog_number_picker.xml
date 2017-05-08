@@ -1,0 +1,41 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content" >
+
+    <NumberPicker
+         android:id="@+id/numberPicker"
+         android:layout_gravity="center"
+         android:layout_width="@dimen/picker_width"
+         android:layout_height="wrap_content"
+         />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
+        android:gravity="center"
+        android:orientation="horizontal"
+        >
+        <tekkan.synappz.com.tekkan.custom.CustomButtonView
+            android:id="@+id/cancel_btn"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:theme="@style/AppButtonStyle"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:text="@string/picker_cancel_text" />
+
+        <tekkan.synappz.com.tekkan.custom.CustomButtonView
+            android:id="@+id/set_btn"
+            android:layout_weight="1"
+            android:theme="@style/AppButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:text="@string/picker_set_text" />
+    </LinearLayout>
+
+
+
+</LinearLayout>

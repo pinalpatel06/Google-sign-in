@@ -23,6 +23,7 @@ import butterknife.OnClick;
 import tekkan.synappz.com.tekkan.R;
 import tekkan.synappz.com.tekkan.activity.ConditionsActivity;
 import tekkan.synappz.com.tekkan.activity.EditPetActivity;
+import tekkan.synappz.com.tekkan.activity.ViewPetActivity;
 import tekkan.synappz.com.tekkan.custom.ListFragment;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.CommonNodeInterface;
 
@@ -234,7 +235,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         }
     }
 
-    class PetVH extends RecyclerView.ViewHolder {
+    class PetVH extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.tv_pet_name)
         TextView mPetNameTV;
@@ -244,11 +245,20 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         PetVH(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(this);
         }
 
         void bind(Pet pet) {
             mPetNameTV.setText(pet.getName());
             mPetCountTV.setText(String.valueOf(pet.getCount()));
+        }
+
+        @Override
+        public void onClick(View view) {
+
+            Intent intent = new Intent(getContext(), ViewPetActivity.class);
+            startActivity(intent);
+
         }
     }
 
