@@ -3,8 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/TekenApp-Android.iml" filepath="$PROJECT_DIR$/TekenApp-Android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Tekkan.iml" filepath="$PROJECT_DIR$/Tekkan.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/tekkan.iml" filepath="$PROJECT_DIR$/tekkan.iml" />
     </modules>
   </component>
 </project>

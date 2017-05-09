@@ -5,11 +5,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,6 +25,10 @@ import tekkan.synappz.com.tekkan.activity.ProfileActivity;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.ContainerNodeFragment;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.FragmentChangeCallback;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.NestedFragmentUtil;
+import tekkan.synappz.com.tekkan.custom.network.TekenStringRequest;
+import tekkan.synappz.com.tekkan.utils.Constants;
+import tekkan.synappz.com.tekkan.utils.LoginUtils;
+import tekkan.synappz.com.tekkan.utils.VolleyHelper;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,6 +41,10 @@ public class LoginFragment extends ContainerNodeFragment {
     Button mLoginBtn;
     @BindView(R.id.tv_create_account)
     TextView mCreateAccountTV;
+    @BindView(R.id.et_email)
+    EditText mEmailET;
+    @BindView(R.id.et_password)
+    EditText mPasswordET;
 
     private FragmentChangeCallback mCallback;
 
@@ -64,9 +78,37 @@ public class LoginFragment extends ContainerNodeFragment {
         return v;
     }
 
+    private final String
+            PARAM_EMAIL = "email",
+            PARAM_PASSWORD = "password";
+
     @OnClick(R.id.btn_log_in)
     public void logIn() {
-        setChild(ProfileFragment.newInstance(false));
+        //setChild(ProfileFragment.newInstance(false));
+        String email = mEmailET.getText().toString();
+        String encrPassword = LoginUtils.encode(mPasswordET.getText().toString());
+        Log.d(TAG , encrPassword);
+
+        TekenStringRequest request = new TekenStringRequest(
+                Request.Method.POST,
+                Constants.Api.getUrl(Constants.Api.FUNC_LOGIN),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d(TAG , "Success");
+                        setChild(ProfileFragment.newInstance(false));
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d(TAG , "Failure");
+                    }
+                }
+        );
+        request.addParam(PARAM_EMAIL, email);
+        request.addParam(PARAM_PASSWORD, encrPassword);
+        VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
     }
 
     @OnClick(R.id.tv_create_account)
