@@ -36,7 +36,7 @@ import tekkan.synappz.com.tekkan.utils.VolleyHelper;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class LoginFragment extends ContainerNodeFragment implements Response.Listener, Response.ErrorListener {
+public class LoginFragment extends ContainerNodeFragment implements Response.Listener<String>, Response.ErrorListener {
 
     private static final String
             TAG = LoginFragment.class.getSimpleName(),
@@ -90,7 +90,6 @@ public class LoginFragment extends ContainerNodeFragment implements Response.Lis
 
     @OnClick(R.id.btn_log_in)
     public void logIn() {
-        //setChild(ProfileFragment.newInstance(false));
         String email = mEmailET.getText().toString();
         String encrPassword = LoginUtils.encode(mPasswordET.getText().toString());
         Log.d(TAG, encrPassword);
@@ -149,7 +148,7 @@ public class LoginFragment extends ContainerNodeFragment implements Response.Lis
     }
 
     @Override
-    public void onResponse(Object response) {
+    public void onResponse(String response) {
         Log.d(TAG, "Success");
         ProgressDialogFragment fragment = (ProgressDialogFragment) getFragmentManager().findFragmentByTag(TAG_PROGRESS_DIALOG);
         fragment.dismiss();
