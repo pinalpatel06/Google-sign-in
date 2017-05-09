@@ -9,6 +9,8 @@ import com.android.volley.toolbox.HttpHeaderParser;
 
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -66,12 +68,23 @@ public abstract class TekenRequest<T> extends Request<T> {
             Uri.Builder builder = uri.buildUpon();
 
             for (Map.Entry<String, String> param : mParams.entrySet()) {
-                builder.appendQueryParameter(param.getKey(), param.getValue());
+
+                try {
+                    builder.appendQueryParameter(param.getKey(), URLEncoder.encode(param.getValue(), getParamsEncoding()));
+
+                } catch (UnsupportedEncodingException e) {
+                    throw new UnsupportedOperationException(e);
+                }
             }
             return builder.build().toString();
         } else {
             return super.getUrl();
         }
+    }
+
+    @Override
+    protected String getParamsEncoding() {
+        return super.getParamsEncoding();
     }
 
     public Map<String, String> getParams() {

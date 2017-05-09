@@ -15,7 +15,8 @@ public class Constants {
                 END_POINT = "dev.bayerpetcare.nl",
                 PATH_SCRIPT = "scripts",
                 PATH_WEB_SERVICES = "webservice.app.php",
-                QUERY_PARAMETER_KEY = "m",
+                QUERY_PARAMETER_KEY = "m";
+        public static final String
                 QUERY_PARAMETER1 = "p1",
                 QUERY_PARAMETER2 = "p2";
 

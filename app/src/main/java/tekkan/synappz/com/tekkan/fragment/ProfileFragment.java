@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,6 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,25 +34,30 @@ import tekkan.synappz.com.tekkan.activity.EditPetActivity;
 import tekkan.synappz.com.tekkan.activity.ViewPetActivity;
 import tekkan.synappz.com.tekkan.custom.ListFragment;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.CommonNodeInterface;
+import tekkan.synappz.com.tekkan.custom.network.TekenJsonObjectRequest;
 import tekkan.synappz.com.tekkan.utils.Constants;
+import tekkan.synappz.com.tekkan.utils.VolleyHelper;
 
 
 public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolder> implements CommonNodeInterface {
 
     private static final String
             TAG = ProfileFragment.class.getSimpleName(),
-            ARGS_PROFILE_TYPE = TAG + "ARGS_PROFILE_TYPE";
+            ARGS_PROFILE_TYPE = TAG + "ARGS_PROFILE_TYPE",
+            ARGS_EMAIL = TAG + "ARGS_EMAIL";
 
     private static final int
             TYPE_PROFILE_FIELDS = 0,
             TYPE_PET = 1;
 
     private boolean mIsNewProfile = false;
+    private String mEmail = null;
 
-    public static ProfileFragment newInstance(boolean profileType) {
+    public static ProfileFragment newInstance(boolean profileType,String email) {
 
         Bundle args = new Bundle();
         args.putBoolean(ARGS_PROFILE_TYPE, profileType);
+        args.putString(ARGS_EMAIL,email);
         ProfileFragment fragment = new ProfileFragment();
         fragment.setArguments(args);
         return fragment;
@@ -95,6 +107,8 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
         mIsNewProfile = args.getBoolean(ARGS_PROFILE_TYPE);
+        mEmail = args.getString(ARGS_EMAIL);
+
     }
 
     @Nullable
@@ -103,7 +117,32 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         View v = super.onCreateView(inflater, container, savedInstanceState);
         v.setBackgroundColor(ContextCompat.getColor(getActivity(), android.R.color.white));
         setHasOptionsMenu(true);
+        fetchProfileData();
         return v;
+    }
+
+    private void fetchProfileData(){
+
+        TekenJsonObjectRequest request = new TekenJsonObjectRequest(
+                Request.Method.GET,
+                Constants.Api.getUrl(Constants.Api.FUNC_USER),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG , "Succes");
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d(TAG , "Failure ");
+                    }
+                }
+        );
+
+        request.addParam(Constants.Api.QUERY_PARAMETER1, mEmail);
+        Log.d(TAG, request.getUrl());
+        VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
     }
 
     @Override

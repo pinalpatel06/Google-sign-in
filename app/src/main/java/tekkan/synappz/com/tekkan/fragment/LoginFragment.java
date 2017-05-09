@@ -152,6 +152,6 @@ public class LoginFragment extends ContainerNodeFragment implements Response.Lis
         Log.d(TAG, "Success");
         ProgressDialogFragment fragment = (ProgressDialogFragment) getFragmentManager().findFragmentByTag(TAG_PROGRESS_DIALOG);
         fragment.dismiss();
-        setChild(ProfileFragment.newInstance(false));
+        setChild(ProfileFragment.newInstance(false,mEmailET.getText().toString()));
     }
 }
