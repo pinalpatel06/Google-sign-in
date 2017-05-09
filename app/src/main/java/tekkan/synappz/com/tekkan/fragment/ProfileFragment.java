@@ -2,6 +2,7 @@ package tekkan.synappz.com.tekkan.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -26,6 +27,7 @@ import tekkan.synappz.com.tekkan.activity.EditPetActivity;
 import tekkan.synappz.com.tekkan.activity.ViewPetActivity;
 import tekkan.synappz.com.tekkan.custom.ListFragment;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.CommonNodeInterface;
+import tekkan.synappz.com.tekkan.utils.Constants;
 
 
 public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolder> implements CommonNodeInterface {
@@ -73,6 +75,11 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
             case R.id.action_done:
                 return true;
             case R.id.action_logout:
+                PreferenceManager.getDefaultSharedPreferences(getActivity())
+                        .edit()
+                        .putBoolean(Constants.SP.BOOLEAN_LOGED_IN, false)
+                        .apply();
+
                 getActivity().onBackPressed();
                 return true;
             case android.R.id.home:

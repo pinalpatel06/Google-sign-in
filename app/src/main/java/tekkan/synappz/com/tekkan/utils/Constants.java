@@ -50,4 +50,9 @@ public class Constants {
             return builder.build().toString();
         }
     }
+
+    public static class SP{
+        public static final String
+                BOOLEAN_LOGED_IN = "loged_in";
+    }
 }

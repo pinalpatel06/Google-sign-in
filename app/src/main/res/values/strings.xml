@@ -300,5 +300,8 @@ zien of de teek besmet is met een ziekte.</string>
     <string name="picker_set_text">Set</string>
 
     <string name="blank_filed_message">This field cannot be blank</string>
+    <string name="invalid_login">Email or Password incorrect</string>
+    <string name="error">Error</string>
+    <string name="wait">Loading Profiel</string>
 
 </resources>

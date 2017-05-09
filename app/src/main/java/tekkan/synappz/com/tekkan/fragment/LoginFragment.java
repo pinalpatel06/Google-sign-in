@@ -4,6 +4,7 @@ package tekkan.synappz.com.tekkan.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +27,8 @@ import tekkan.synappz.com.tekkan.custom.nestedfragments.ContainerNodeFragment;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.FragmentChangeCallback;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.NestedFragmentUtil;
 import tekkan.synappz.com.tekkan.custom.network.TekenStringRequest;
+import tekkan.synappz.com.tekkan.dialogs.AlertDialogFragment;
+import tekkan.synappz.com.tekkan.dialogs.ProgressDialogFragment;
 import tekkan.synappz.com.tekkan.utils.Constants;
 import tekkan.synappz.com.tekkan.utils.LoginUtils;
 import tekkan.synappz.com.tekkan.utils.VolleyHelper;
@@ -33,9 +36,12 @@ import tekkan.synappz.com.tekkan.utils.VolleyHelper;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class LoginFragment extends ContainerNodeFragment {
+public class LoginFragment extends ContainerNodeFragment implements Response.Listener, Response.ErrorListener {
 
-    private static final String TAG = LoginFragment.class.getSimpleName();
+    private static final String
+            TAG = LoginFragment.class.getSimpleName(),
+            TAG_ALERT_DIALOG = TAG + ".TAG_ALERT_DIALOG",
+            TAG_PROGRESS_DIALOG = TAG + ".TAG_PROGRESS_DIALOG";
 
     @BindView(R.id.btn_log_in)
     Button mLoginBtn;
@@ -64,7 +70,7 @@ public class LoginFragment extends ContainerNodeFragment {
     public void setHasOptionsMenu(boolean hasMenu) {
         super.setHasOptionsMenu(hasMenu);
         Fragment childFragment = getChild();
-        if(childFragment!=null){
+        if (childFragment != null) {
             childFragment.setHasOptionsMenu(hasMenu);
         }
     }
@@ -87,24 +93,16 @@ public class LoginFragment extends ContainerNodeFragment {
         //setChild(ProfileFragment.newInstance(false));
         String email = mEmailET.getText().toString();
         String encrPassword = LoginUtils.encode(mPasswordET.getText().toString());
-        Log.d(TAG , encrPassword);
+        Log.d(TAG, encrPassword);
+
+        final ProgressDialogFragment fragment = ProgressDialogFragment.newInstance(getString(R.string.wait));
+        fragment.show(getFragmentManager(), TAG_PROGRESS_DIALOG);
 
         TekenStringRequest request = new TekenStringRequest(
                 Request.Method.POST,
                 Constants.Api.getUrl(Constants.Api.FUNC_LOGIN),
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d(TAG , "Success");
-                        setChild(ProfileFragment.newInstance(false));
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d(TAG , "Failure");
-                    }
-                }
+                this,
+                this
         );
         request.addParam(PARAM_EMAIL, email);
         request.addParam(PARAM_PASSWORD, encrPassword);
@@ -135,6 +133,26 @@ public class LoginFragment extends ContainerNodeFragment {
 
     @Override
     public boolean shouldDisplayHomeAsUpEnabled() {
-        return NestedFragmentUtil.shouldDisplayHomeAsUpEnabled(getContainerId(),false,getChildFragmentManager());
+        return NestedFragmentUtil.shouldDisplayHomeAsUpEnabled(getContainerId(), false, getChildFragmentManager());
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        Log.d(TAG, "Failure");
+        ProgressDialogFragment fragment = (ProgressDialogFragment) getFragmentManager().findFragmentByTag(TAG_PROGRESS_DIALOG);
+        fragment.dismiss();
+        AlertDialogFragment fragment1 = AlertDialogFragment.newInstance(R.string.error, R.string.invalid_login);
+        fragment1.show(getFragmentManager(), TAG_ALERT_DIALOG);
+        PreferenceManager.getDefaultSharedPreferences(getActivity()).edit()
+                .putBoolean(Constants.SP.BOOLEAN_LOGED_IN, true)
+                .apply();
+    }
+
+    @Override
+    public void onResponse(Object response) {
+        Log.d(TAG, "Success");
+        ProgressDialogFragment fragment = (ProgressDialogFragment) getFragmentManager().findFragmentByTag(TAG_PROGRESS_DIALOG);
+        fragment.dismiss();
+        setChild(ProfileFragment.newInstance(false));
     }
 }
