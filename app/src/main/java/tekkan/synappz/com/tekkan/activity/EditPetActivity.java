@@ -26,5 +26,8 @@ public class EditPetActivity extends ToolbarActivity {
         super.onCreate(savedInstanceState);
         setTitle(getString(R.string.pet_profile_app_title));
     }
+
+
+
 }
 
