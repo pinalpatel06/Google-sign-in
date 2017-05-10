@@ -40,8 +40,8 @@ public class LoginFragment extends ContainerNodeFragment implements Response.Lis
 
     private static final String
             TAG = LoginFragment.class.getSimpleName(),
-            TAG_ALERT_DIALOG = TAG + ".TAG_ALERT_DIALOG",
-            TAG_PROGRESS_DIALOG = TAG + ".TAG_PROGRESS_DIALOG";
+            TAG_ALERT_DIALOG = TAG + ".TAG_PROGRESS_DIALOG";
+    public static final String  TAG_PROGRESS_DIALOG = TAG + ".TAG_ALERT_DIALOG";
 
     @BindView(R.id.btn_log_in)
     Button mLoginBtn;
@@ -94,7 +94,7 @@ public class LoginFragment extends ContainerNodeFragment implements Response.Lis
         String encrPassword = LoginUtils.encode(mPasswordET.getText().toString());
         Log.d(TAG, encrPassword);
 
-        final ProgressDialogFragment fragment = ProgressDialogFragment.newInstance(getString(R.string.wait));
+        final ProgressDialogFragment fragment = ProgressDialogFragment.newInstance(getString(R.string.login));
         fragment.show(getFragmentManager(), TAG_PROGRESS_DIALOG);
 
         TekenStringRequest request = new TekenStringRequest(
@@ -150,8 +150,8 @@ public class LoginFragment extends ContainerNodeFragment implements Response.Lis
     @Override
     public void onResponse(String response) {
         Log.d(TAG, "Success");
-        ProgressDialogFragment fragment = (ProgressDialogFragment) getFragmentManager().findFragmentByTag(TAG_PROGRESS_DIALOG);
-        fragment.dismiss();
+        /*ProgressDialogFragment fragment = (ProgressDialogFragment) getFragmentManager().findFragmentByTag(TAG_PROGRESS_DIALOG);
+        fragment.dismiss();*/
         setChild(ProfileFragment.newInstance(false,mEmailET.getText().toString()));
     }
 }

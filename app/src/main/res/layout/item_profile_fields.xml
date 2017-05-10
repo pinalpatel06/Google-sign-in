@@ -52,58 +52,58 @@
 
         <tekkan.synappz.com.tekkan.custom.CustomFontEditText
             android:id="@+id/et_first_name"
+            style="@style/ProfileEditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_edit_text_height"
             android:layout_marginTop="@dimen/default_margin"
-            android:background="@drawable/bg_bottom_line"
             android:hint="@string/first_name_placeholder"
             android:inputType="text"/>
 
 
         <tekkan.synappz.com.tekkan.custom.CustomFontEditText
             android:id="@+id/et_last_name"
+            style="@style/ProfileEditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_edit_text_height"
             android:layout_marginTop="@dimen/default_margin"
-            android:background="@drawable/bg_bottom_line"
             android:hint="@string/last_name_placeholder"
             android:inputType="text"/>
 
 
         <tekkan.synappz.com.tekkan.custom.CustomFontEditText
             android:id="@+id/et_email"
+            style="@style/ProfileEditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_edit_text_height"
             android:layout_marginTop="@dimen/default_margin"
-            android:background="@drawable/bg_bottom_line"
             android:hint="@string/email_placeholder"
             android:inputType="textEmailAddress"/>
 
         <tekkan.synappz.com.tekkan.custom.CustomFontEditText
             android:id="@+id/et_password"
+            style="@style/ProfileEditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_edit_text_height"
             android:layout_marginTop="@dimen/default_margin"
-            android:background="@drawable/bg_bottom_line"
             android:hint="@string/password_placeholder"
             android:inputType="textPassword"/>
 
 
         <tekkan.synappz.com.tekkan.custom.CustomFontEditText
             android:id="@+id/et_match_password"
+            style="@style/ProfileEditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_edit_text_height"
             android:layout_marginTop="@dimen/default_margin"
-            android:background="@drawable/bg_bottom_line"
             android:hint="@string/confirm_password_placeholder"
             android:inputType="textPassword"/>
 
         <tekkan.synappz.com.tekkan.custom.CustomFontEditText
             android:id="@+id/et_street"
+            style="@style/ProfileEditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_edit_text_height"
             android:layout_marginTop="@dimen/default_margin"
-            android:background="@drawable/bg_bottom_line"
             android:hint="@string/street_name_placeholder"
             android:inputType="textPostalAddress"/>
 
@@ -125,7 +125,8 @@
                 android:background="@color/transparent"
                 android:hint="@string/postal_code_placeholder"
                 android:imeOptions="actionNext"
-                android:inputType="number"/>
+                android:inputType="number"
+                android:textColor="@color/default_body_text"/>
 
             <tekkan.synappz.com.tekkan.custom.CustomFontEditText
                 android:id="@+id/et_place"
@@ -135,15 +136,16 @@
                 android:layout_weight="1"
                 android:background="@color/transparent"
                 android:hint="@string/place_placeholder"
-                android:inputType="textPostalAddress"/>
+                android:inputType="textPostalAddress"
+                android:textColor="@color/default_body_text"/>
         </LinearLayout>
 
         <tekkan.synappz.com.tekkan.custom.CustomFontEditText
             android:id="@+id/et_tel_no"
+            style="@style/ProfileEditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_edit_text_height"
             android:layout_marginTop="@dimen/default_margin"
-            android:background="@drawable/bg_bottom_line"
             android:hint="@string/mobile_number_placeholder"
             android:imeOptions="actionDone"
             android:inputType="phone"/>
@@ -164,7 +166,6 @@
                 android:textSize="@dimen/profile_default_text_size"/>
 
             <tekkan.synappz.com.tekkan.custom.CustomFontTextView
-
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/padding_5dp"
@@ -174,6 +175,7 @@
                 android:textSize="@dimen/profile_default_text_size"/>
 
             <CheckBox
+                android:id="@+id/cb_agree"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/padding_10dp"

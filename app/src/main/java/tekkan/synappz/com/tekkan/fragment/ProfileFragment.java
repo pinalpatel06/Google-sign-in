@@ -37,6 +37,7 @@ import tekkan.synappz.com.tekkan.activity.ViewPetActivity;
 import tekkan.synappz.com.tekkan.custom.ListFragment;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.CommonNodeInterface;
 import tekkan.synappz.com.tekkan.custom.network.TekenJsonObjectRequest;
+import tekkan.synappz.com.tekkan.dialogs.ProgressDialogFragment;
 import tekkan.synappz.com.tekkan.utils.Constants;
 import tekkan.synappz.com.tekkan.utils.VolleyHelper;
 
@@ -46,7 +47,8 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
     private static final String
             TAG = ProfileFragment.class.getSimpleName(),
             ARGS_PROFILE_TYPE = TAG + "ARGS_PROFILE_TYPE",
-            ARGS_EMAIL = TAG + "ARGS_EMAIL";
+            ARGS_EMAIL = TAG + "ARGS_EMAIL",
+            TAG_PROGRESS_DIALOG = TAG + ".TAG_PROGRESS_DIALOG";
 
     private static final int
             TYPE_PROFILE_FIELDS = 0,
@@ -111,7 +113,6 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         Bundle args = getArguments();
         mIsNewProfile = args.getBoolean(ARGS_PROFILE_TYPE);
         mEmail = args.getString(ARGS_EMAIL);
-        fetchProfileData();
     }
 
     @Nullable
@@ -120,6 +121,9 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         View v = super.onCreateView(inflater, container, savedInstanceState);
         v.setBackgroundColor(ContextCompat.getColor(getActivity(), android.R.color.white));
         setHasOptionsMenu(true);
+        if(!mIsNewProfile) {
+            fetchProfileData();
+        }
         return v;
     }
 
@@ -140,6 +144,11 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
                             }
                         }
                         loadNewItems(mListItems);
+
+                        ProgressDialogFragment fragment = (ProgressDialogFragment) getParentFragment().getFragmentManager().findFragmentByTag(LoginFragment.TAG_PROGRESS_DIALOG);
+                        if(fragment != null) {
+                            fragment.dismiss();
+                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -157,9 +166,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
     @Override
     public List<Object> onCreateItems(Bundle savedInstanceState) {
         mListItems = new ArrayList<>();
-        if(mIsNewProfile){
-            mListItems.add(new ProfileItem());
-        }
+        mListItems.add(new ProfileItem());
         return mListItems;
     }
 
@@ -292,7 +299,8 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
                 JSON_S_EMAIL = "email",
                 JSON_N_MOBILE = "mobile";
 
-        public ProfileItem(){}
+        public ProfileItem() {
+        }
 
         public ProfileItem(JSONObject jSonObject) {
             mGender = jSonObject.optString(JSON_S_GENDER).equalsIgnoreCase("M") ? MR : MRS;
