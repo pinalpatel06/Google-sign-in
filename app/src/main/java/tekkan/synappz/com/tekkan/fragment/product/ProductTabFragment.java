@@ -85,7 +85,7 @@ public class ProductTabFragment extends ContainerNodeListFragment<ProductTabFrag
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d(TAG, "Failure");
+                        Log.d(TAG, error.toString());
                     }
                 }
         );

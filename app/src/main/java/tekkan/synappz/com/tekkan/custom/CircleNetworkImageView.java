@@ -4,10 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -50,23 +48,23 @@ public class CircleNetworkImageView extends CircleImageView {
         ScaleType scaleType = this.getScaleType();
         boolean wrapWidth = false;
         boolean wrapHeight = false;
-        if(this.getLayoutParams() != null) {
+        if (this.getLayoutParams() != null) {
             wrapWidth = this.getLayoutParams().width == -2;
             wrapHeight = this.getLayoutParams().height == -2;
         }
 
         boolean isFullyWrapContent = wrapWidth && wrapHeight;
-        if(width != 0 || height != 0 || isFullyWrapContent) {
-            if(TextUtils.isEmpty(this.mUrl)) {
-                if(this.mImageContainer != null) {
+        if (width != 0 || height != 0 || isFullyWrapContent) {
+            if (TextUtils.isEmpty(this.mUrl)) {
+                if (this.mImageContainer != null) {
                     this.mImageContainer.cancelRequest();
                     this.mImageContainer = null;
                 }
 
                 this.setDefaultImageOrNull();
             } else {
-                if(this.mImageContainer != null && this.mImageContainer.getRequestUrl() != null) {
-                    if(this.mImageContainer.getRequestUrl().equals(this.mUrl)) {
+                if (this.mImageContainer != null && this.mImageContainer.getRequestUrl() != null) {
+                    if (this.mImageContainer.getRequestUrl().equals(this.mUrl)) {
                         return;
                     }
 
@@ -74,27 +72,27 @@ public class CircleNetworkImageView extends CircleImageView {
                     this.setDefaultImageOrNull();
                 }
 
-                int maxWidth = wrapWidth?0:width;
-                int maxHeight = wrapHeight?0:height;
+                int maxWidth = wrapWidth ? 0 : width;
+                int maxHeight = wrapHeight ? 0 : height;
                 ImageLoader.ImageContainer newContainer = this.mImageLoader.get(this.mUrl, new ImageLoader.ImageListener() {
                     public void onErrorResponse(VolleyError error) {
-                        if(CircleNetworkImageView.this.mErrorImageId != 0) {
+                        if (CircleNetworkImageView.this.mErrorImageId != 0) {
                             CircleNetworkImageView.this.setImageResource(CircleNetworkImageView.this.mErrorImageId);
                         }
 
                     }
 
                     public void onResponse(final ImageLoader.ImageContainer response, boolean isImmediate) {
-                        if(isImmediate && isInLayoutPass) {
+                        if (isImmediate && isInLayoutPass) {
                             CircleNetworkImageView.this.post(new Runnable() {
                                 public void run() {
                                     onResponse(response, false);
                                 }
                             });
                         } else {
-                            if(response.getBitmap() != null) {
+                            if (response.getBitmap() != null) {
                                 CircleNetworkImageView.this.setImageBitmap(response.getBitmap());
-                            } else if(CircleNetworkImageView.this.mDefaultImageId != 0) {
+                            } else if (CircleNetworkImageView.this.mDefaultImageId != 0) {
                                 CircleNetworkImageView.this.setImageResource(CircleNetworkImageView.this.mDefaultImageId);
                             }
 
@@ -107,12 +105,11 @@ public class CircleNetworkImageView extends CircleImageView {
     }
 
     private void setDefaultImageOrNull() {
-        if(this.mDefaultImageId != 0) {
+        if (this.mDefaultImageId != 0) {
             this.setImageResource(this.mDefaultImageId);
         } else {
-            this.setImageBitmap((Bitmap)null);
+            this.setImageBitmap((Bitmap) null);
         }
-
     }
 
     @Override
@@ -123,12 +120,11 @@ public class CircleNetworkImageView extends CircleImageView {
 
     @Override
     protected void onDetachedFromWindow() {
-        if(this.mImageContainer != null) {
+        if (this.mImageContainer != null) {
             this.mImageContainer.cancelRequest();
-            this.setImageBitmap((Bitmap)null);
+            this.setImageBitmap((Bitmap) null);
             this.mImageContainer = null;
         }
-
         super.onDetachedFromWindow();
     }
 
