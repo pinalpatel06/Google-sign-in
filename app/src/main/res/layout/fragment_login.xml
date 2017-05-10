@@ -117,6 +117,7 @@
                         android:layout_height="wrap_content"
                         android:background="@color/transparent"
                         android:padding="@dimen/default_margin"
+                        android:inputType="textPassword"
                         android:textAlignment="textEnd"
                         android:textColor="@color/color_login_fields"
                         android:textSize="@dimen/login_default_text_size"

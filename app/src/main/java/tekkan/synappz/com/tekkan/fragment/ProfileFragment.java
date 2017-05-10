@@ -13,7 +13,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -52,12 +54,13 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
 
     private boolean mIsNewProfile = false;
     private String mEmail = null;
+    ArrayList<Object> mListItems;
 
-    public static ProfileFragment newInstance(boolean profileType,String email) {
+    public static ProfileFragment newInstance(boolean profileType, String email) {
 
         Bundle args = new Bundle();
         args.putBoolean(ARGS_PROFILE_TYPE, profileType);
-        args.putString(ARGS_EMAIL,email);
+        args.putString(ARGS_EMAIL, email);
         ProfileFragment fragment = new ProfileFragment();
         fragment.setArguments(args);
         return fragment;
@@ -108,7 +111,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         Bundle args = getArguments();
         mIsNewProfile = args.getBoolean(ARGS_PROFILE_TYPE);
         mEmail = args.getString(ARGS_EMAIL);
-
+        fetchProfileData();
     }
 
     @Nullable
@@ -117,11 +120,10 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         View v = super.onCreateView(inflater, container, savedInstanceState);
         v.setBackgroundColor(ContextCompat.getColor(getActivity(), android.R.color.white));
         setHasOptionsMenu(true);
-        fetchProfileData();
         return v;
     }
 
-    private void fetchProfileData(){
+    private void fetchProfileData() {
 
         TekenJsonObjectRequest request = new TekenJsonObjectRequest(
                 Request.Method.GET,
@@ -129,36 +131,36 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d(TAG , "Succes");
+                        Log.d(TAG, "Success " + response.toString());
+                        mListItems = new ArrayList<>();
+                        mListItems.add(new ProfileItem(response));
+                        if (!mIsNewProfile) {
+                            for (int i = 0; i < 4; i++) {
+                                mListItems.add(new Pet("Pet #" + (i + 1), (i + 1)));
+                            }
+                        }
+                        loadNewItems(mListItems);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d(TAG , "Failure ");
+                        Log.d(TAG, "Failure ");
                     }
                 }
         );
 
         request.addParam(Constants.Api.QUERY_PARAMETER1, mEmail);
-        Log.d(TAG, request.getUrl());
         VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
     }
 
     @Override
     public List<Object> onCreateItems(Bundle savedInstanceState) {
-        ArrayList<Object> listItems = new ArrayList<>();
-
-        //first item null to accommodate profile
-        if (!mIsNewProfile) {
-            listItems.add(null);
-            for (int i = 0; i < 4; i++) {
-                listItems.add(new Pet("Pet #" + (i + 1), (i + 1)));
-            }
-        } else {
-            listItems.add(new ProfileItem(1, "Jhon", "Smith", "jhon@anb.com", "303", "1234PR", "Greece", "000111000"));
+        mListItems = new ArrayList<>();
+        if(mIsNewProfile){
+            mListItems.add(new ProfileItem());
         }
-        return listItems;
+        return mListItems;
     }
 
     @Override
@@ -194,6 +196,8 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
     public void onBindViewHolder(RecyclerView.ViewHolder holder, Object item) {
         if (holder instanceof PetVH && item instanceof Pet) {
             ((PetVH) holder).bind((Pet) item);
+        } else if (holder instanceof ProfileFieldVH && item instanceof ProfileItem) {
+            ((ProfileFieldVH) holder).bind((ProfileItem) item);
         }
     }
 
@@ -212,11 +216,47 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         LinearLayout mConditionsLT;
         @BindView(R.id.tv_add_pet)
         TextView mAddPetTV;
+        @BindView(R.id.rb_male)
+        RadioButton mMaleRB;
+        @BindView(R.id.rb_female)
+        RadioButton mFemaleRB;
+        @BindView(R.id.et_first_name)
+        EditText mFirstNameET;
+        @BindView(R.id.et_last_name)
+        EditText mLastNameET;
+        @BindView(R.id.et_email)
+        EditText mEmailET;
+        @BindView(R.id.et_password)
+        EditText mPasswordET;
+        @BindView(R.id.et_match_password)
+        EditText mMatchPasswordET;
+        @BindView(R.id.et_street)
+        EditText mStreetET;
+        @BindView(R.id.et_postal_code)
+        EditText mPostalCodeET;
+        @BindView(R.id.et_place)
+        EditText mPlaceET;
+        @BindView(R.id.et_tel_no)
+        EditText mPhoneNoET;
 
         ProfileFieldVH(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             mAddPetTV.setEnabled(!mIsNewProfile);
+        }
+
+        void bind(ProfileItem item) {
+            mMaleRB.setChecked(item.getGender() == ProfileItem.MR);
+            mFemaleRB.setChecked(item.getGender() == ProfileItem.MRS);
+            mFirstNameET.setText(item.getFirstName());
+            mLastNameET.setText(item.getLastName());
+            mEmailET.setText(item.getEmail());
+            mStreetET.setText(item.getAddress());
+            mPostalCodeET.setText(item.getPinCode());
+            mPlaceET.setText(item.getPlace());
+            mPhoneNoET.setText(item.getPhoneNo());
+            mPasswordET.setText("123456");
+            mMatchPasswordET.setText("123456");
         }
 
         @OnClick(R.id.lt_conditions)
@@ -233,29 +273,41 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
     }
 
     class ProfileItem {
-        private int mTitle;
         private String mFirstName, mLastName;
         private String mEmail;
         private String mAddress, mPinCode, mPlace;
         private String mPhoneNo;
-        private static final int
+        private int mGender;
+        public static final int
                 MR = 0,
                 MRS = 1;
 
+        private static final String
+                JSON_S_GENDER = "gender",
+                JSON_S_FIRST_NAME = "firstname",
+                JSON_S_LAST_NAME = "lastname",
+                JSON_S_STREET = "street",
+                JSON_S_POSTAL_CODE = "postalcode",
+                JSON_S_POSTAL_ADDRESS = "postaladdress",
+                JSON_S_EMAIL = "email",
+                JSON_N_MOBILE = "mobile";
 
-        public ProfileItem(int title, String firstName, String lastName, String email, String address, String pinCode, String place, String phoneNo) {
-            mTitle = title;
-            mFirstName = firstName;
-            mLastName = lastName;
-            mEmail = email;
-            mAddress = address;
-            mPinCode = pinCode;
-            mPlace = place;
-            mPhoneNo = phoneNo;
+        public ProfileItem(){}
+
+        public ProfileItem(JSONObject jSonObject) {
+            mGender = jSonObject.optString(JSON_S_GENDER).equalsIgnoreCase("M") ? MR : MRS;
+            mFirstName = jSonObject.optString(JSON_S_FIRST_NAME);
+            mLastName = jSonObject.optString(JSON_S_LAST_NAME);
+            mLastName = jSonObject.optString(JSON_S_STREET);
+            mAddress = jSonObject.optString(JSON_S_STREET);
+            mPinCode = jSonObject.optString(JSON_S_POSTAL_CODE);
+            mPlace = jSonObject.optString(JSON_S_POSTAL_ADDRESS);
+            mEmail = jSonObject.optString(JSON_S_EMAIL);
+            mPhoneNo = String.valueOf(jSonObject.optInt(JSON_N_MOBILE));
         }
 
-        public int getTitle() {
-            return mTitle;
+        public int getGender() {
+            return mGender;
         }
 
         public String getFirstName() {
