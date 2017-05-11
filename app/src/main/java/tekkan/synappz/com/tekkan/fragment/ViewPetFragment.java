@@ -10,17 +10,23 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import tekkan.synappz.com.tekkan.R;
 import tekkan.synappz.com.tekkan.activity.EditPetActivity;
+import tekkan.synappz.com.tekkan.activity.ViewPetActivity;
 
+import static tekkan.synappz.com.tekkan.fragment.EditPetFragment.ARGS_PET_PROFILE;
 import static tekkan.synappz.com.tekkan.fragment.EditPetFragment.TAG_BREED;
 import static tekkan.synappz.com.tekkan.fragment.EditPetFragment.TAG_DOB;
 import static tekkan.synappz.com.tekkan.fragment.EditPetFragment.TAG_GENDER;
 import static tekkan.synappz.com.tekkan.fragment.EditPetFragment.TAG_IS_CAT_OR_DOG;
+import static tekkan.synappz.com.tekkan.fragment.EditPetFragment.TAG_PET_ID;
+import static tekkan.synappz.com.tekkan.fragment.EditPetFragment.TAG_PET_NAME;
+import static tekkan.synappz.com.tekkan.fragment.EditPetFragment.TAG_PROFILE_TYPE;
 import static tekkan.synappz.com.tekkan.fragment.EditPetFragment.TAG_WEIGHT;
 
 /**
@@ -28,10 +34,12 @@ import static tekkan.synappz.com.tekkan.fragment.EditPetFragment.TAG_WEIGHT;
  */
 public class ViewPetFragment extends Fragment {
 
-//    @BindView(R.id.et_pet_name)
-//    EditText mPetNameEt;
+    @BindView(R.id.tv_pet_name)
+    TextView mPetNameTv;
 
     Bundle mArgs;
+
+    String mPetId;
 
     @BindView(R.id.tv_date_of_birth)
     TextView mDateOfBirthTv;
@@ -83,8 +91,7 @@ public class ViewPetFragment extends Fragment {
                 return true;
             case R.id.action_edit:
                 getActivity().invalidateOptionsMenu();
-                Intent intent = new Intent(getActivity(), EditPetActivity.class);
-                startActivity(intent);
+                onEditAnimalProfile();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -98,12 +105,31 @@ public class ViewPetFragment extends Fragment {
     }
 
 
+    public void onEditAnimalProfile(){
+        Bundle bundle = new Bundle();
+        bundle.putString(TAG_PET_NAME, mPetNameTv.getText().toString());
+        bundle.putString(TAG_IS_CAT_OR_DOG, mIsCatOrDogTv.getText().toString());
+        bundle.putString(TAG_BREED, mBreedTv.getText().toString());
+        bundle.putString(TAG_DOB, mDateOfBirthTv.getText().toString());
+        bundle.putString(TAG_GENDER, mGenderTv.getText().toString());
+        bundle.putString(TAG_WEIGHT, mWeightTv.getText().toString());
+        bundle.putString(TAG_PET_ID,mPetId);
+        bundle.putBoolean(TAG_PROFILE_TYPE,false);
+        Intent intent = new Intent(getActivity(), EditPetActivity.class);
+        intent.putExtra(ARGS_PET_PROFILE, bundle);
+        startActivity(intent);
+        getActivity().finish();
+
+    }
+
     private void updateUI() {
+        mPetNameTv.setText(mArgs.getString(TAG_PET_NAME));
         mIsCatOrDogTv.setText(mArgs.getString(TAG_IS_CAT_OR_DOG));
         mBreedTv.setText(mArgs.getString(TAG_BREED));
         mDateOfBirthTv.setText(mArgs.getString(TAG_DOB));
         mGenderTv.setText(mArgs.getString(TAG_GENDER));
         mWeightTv.setText(mArgs.getString(TAG_WEIGHT));
+        mPetId = mArgs.getString(TAG_PET_ID);
 
     }
 

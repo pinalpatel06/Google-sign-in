@@ -5,14 +5,23 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,10 +35,16 @@ import tekkan.synappz.com.tekkan.activity.EditPetActivity;
 import tekkan.synappz.com.tekkan.activity.ViewPetActivity;
 import tekkan.synappz.com.tekkan.custom.ListFragment;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.CommonNodeInterface;
+import tekkan.synappz.com.tekkan.custom.network.TekenStringRequest;
+import tekkan.synappz.com.tekkan.utils.Constants;
+import tekkan.synappz.com.tekkan.utils.LoginUtils;
+import tekkan.synappz.com.tekkan.utils.VolleyHelper;
 
 
 public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolder> implements CommonNodeInterface {
 
+
+    private ProfileFieldVH mProfileViewHolder;
     private static final String
             TAG = ProfileFragment.class.getSimpleName(),
             ARGS_PROFILE_TYPE = TAG + "ARGS_PROFILE_TYPE";
@@ -39,7 +54,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
             TYPE_PET = 1;
 
     private boolean mIsNewProfile = false;
-
+    ProfileItem mProfileItem;
     public static ProfileFragment newInstance(boolean profileType) {
 
         Bundle args = new Bundle();
@@ -71,6 +86,10 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_done:
+                if(mProfileViewHolder.isValidFields()){
+                    createOrUpdateUser();
+                }
+
                 return true;
             case R.id.action_logout:
                 getActivity().onBackPressed();
@@ -78,6 +97,12 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
             case android.R.id.home:
                 getActivity().onBackPressed();
                 return true;
+
+            case R.id.action_customize:
+                mProfileViewHolder.setEditableFields(true);
+                return true;
+
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -96,8 +121,13 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         View v = super.onCreateView(inflater, container, savedInstanceState);
         v.setBackgroundColor(ContextCompat.getColor(getActivity(), android.R.color.white));
         setHasOptionsMenu(true);
-        return v;
+
+                return v;
     }
+
+
+
+
 
     @Override
     public List<Object> onCreateItems(Bundle savedInstanceState) {
@@ -109,11 +139,74 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
             for (int i = 0; i < 4; i++) {
                 listItems.add(new Pet("Pet #" + (i + 1), (i + 1)));
             }
+
+
+
         } else {
-            listItems.add(new ProfileItem(1, "Jhon", "Smith", "jhon@anb.com", "303", "1234PR", "Greece", "000111000"));
+            listItems.add(new ProfileItem(1,"M","Jhon", "Smith", "jhon@anb.com", "303", "1234PR", "Greece", "000111000","test","test"));
         }
         return listItems;
     }
+
+    public void createOrUpdateUser(){
+
+        String url = Constants.Api.getUrl(Constants.Api.FUNC_CREATE_USER);
+
+        String  PARM_GENDER = "gender",
+                PARM_FIRST_NAME = "firstname",
+                PARM_LAST_NAME = "lastname",
+                PARM_STREET_NAME = "street",
+                PARM_POSTAL_CODE = "postalcode",
+                PARM_PLACE_NAME = "postaladdress",
+                PARM_MOBILE_NO = "mobile",
+                PARM_EMAIL = "email",
+                PARM_PASSWORD = "password",
+                PARM_OLD_EMAIL = "old_email",
+                PARM_NEW_EMAIL = "new_email";
+
+        if(!mIsNewProfile){
+            url = Constants.Api.getUrl(Constants.Api.FUNC_EDIT_USER);
+        }
+
+        TekenStringRequest request = new TekenStringRequest(
+                Request.Method.POST,
+                url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d(TAG , "Success");
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG , "Failure");
+            }
+        }
+        );
+        request.addParam(PARM_GENDER,mProfileItem.getGender());
+        request.addParam(PARM_FIRST_NAME,mProfileItem.getFirstName());
+        request.addParam(PARM_LAST_NAME,mProfileItem.getLastName());
+        request.addParam(PARM_STREET_NAME,mProfileItem.getAddress());
+        request.addParam(PARM_POSTAL_CODE,mProfileItem.getPinCode());
+        request.addParam(PARM_PLACE_NAME,mProfileItem.getPlace());
+        request.addParam(PARM_MOBILE_NO,mProfileItem.getPhoneNo());
+        request.addParam(PARM_EMAIL,mProfileItem.getEmail());
+        request.addParam(PARM_PASSWORD,LoginUtils.encode(mProfileItem.getPhoneNo()));
+
+        // For Edit email of the Profile
+
+      /*  if(!mIsNewProfile){
+            request.addParam(PARM_OLD_EMAIL,"");
+            request.addParam(PARM_NEW_EMAIL,"");
+        }*/
+
+        VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
+    }
+
+
+
+
+
 
     @Override
     protected int getItemViewType(int position) {
@@ -149,6 +242,9 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         if (holder instanceof PetVH && item instanceof Pet) {
             ((PetVH) holder).bind((Pet) item);
         }
+//        else if (holder instanceof ProfileFieldVH && item instanceof ProfileItem) {
+//            ((ProfileFieldVH) holder).bind((ProfileItem) item);
+//        }
     }
 
     @Override
@@ -167,11 +263,68 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         @BindView(R.id.tv_add_pet)
         TextView mAddPetTV;
 
+        @BindView(R.id.radio_group_gender)
+        RadioGroup mGenderRadioGroup;
+
+        @BindView(R.id.et_first_name)
+        EditText mFirstNameEt;
+
+        @BindView(R.id.et_last_name)
+        EditText mLastNameEt;
+
+        @BindView(R.id.et_email)
+        EditText mEmailEt;
+
+        @BindView(R.id.et_password)
+        EditText mPasswordEt;
+
+        @BindView(R.id.et_confirm_password)
+        EditText mConfirmPasswordEt;
+
+        @BindView(R.id.et_street_name)
+        EditText mStreetNameEt;
+
+        @BindView(R.id.et_postel_code)
+        EditText mPostalCodeEt;
+
+        @BindView(R.id.et_place_name)
+        EditText mPlaceNameEt;
+
+        @BindView(R.id.et_tel_no)
+        EditText mTelNoEt;
+
+        @BindView(R.id.cb_term_condetions)
+        CheckBox mTermsCondetionCb;
+
         ProfileFieldVH(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             mAddPetTV.setEnabled(!mIsNewProfile);
+            mProfileViewHolder = this;
+            if (!mIsNewProfile){
+                setEditableFields(false);
+            }
+            if (!mIsNewProfile){
+              ProfileItem profileItem = new ProfileItem(1,"M","Jhon", "Smith", "jhon@anb.com", "303", "1234PR", "Greece", "000111000","test","test");
+               bind(profileItem);
+            }
+
         }
+
+        void bind(ProfileItem profileItem) {
+            //mFirstNameEt.setText(profileItem.getFirstName());
+            mFirstNameEt.setText(profileItem.getFirstName());
+            mLastNameEt.setText(profileItem.getLastName());
+            mStreetNameEt.setText(profileItem.getAddress());
+            mPostalCodeEt.setText(profileItem.getPinCode());
+            mPlaceNameEt.setText(profileItem.getPlace());
+            mTelNoEt.setText(profileItem.getPhoneNo());
+            mEmailEt.setText(profileItem.getEmail());
+            mPasswordEt.setText(profileItem.getPassword());
+            mConfirmPasswordEt.setText(profileItem.getPassword());
+
+        }
+
 
         @OnClick(R.id.lt_conditions)
         public void showConditions() {
@@ -184,6 +337,82 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
             Intent intent = new Intent(getActivity(), EditPetActivity.class);
             startActivity(intent);
         }
+
+        public void setEditableFields(Boolean isEditable){
+
+            LinearLayout linearLayout = (LinearLayout)itemView.findViewById(R.id.profile_fields);
+            for( int i = 0; i < linearLayout.getChildCount(); i++ ) {
+                if (linearLayout.getChildAt(i) instanceof EditText){
+                    ((EditText)linearLayout.getChildAt(i)).setEnabled(isEditable);
+                }else if(linearLayout.getChildAt(i) instanceof LinearLayout){
+                    LinearLayout linearLayout1 = (LinearLayout) linearLayout.getChildAt(i);
+                    for( int j = 0; j < linearLayout1.getChildCount(); j++ ) {
+                        if (linearLayout1.getChildAt(j) instanceof EditText){
+                            ((EditText)linearLayout1.getChildAt(j)).setEnabled(isEditable);
+                        }
+                    }
+
+                }
+            }
+
+        }
+
+
+        public  boolean isValidFields(){
+
+            String gender = "";
+            if(mGenderRadioGroup.getCheckedRadioButtonId() == R.id.rb_male){
+                gender = "M";
+            }else if (mGenderRadioGroup.getCheckedRadioButtonId() == R.id.rb_female){
+                gender = "F";
+            }
+
+
+            mProfileItem = new ProfileItem(1,gender,mFirstNameEt.getText().toString(),
+                    mLastNameEt.getText().toString(),
+                    mEmailEt.getText().toString(),mStreetNameEt.getText().toString(),
+                    mPostalCodeEt.getText().toString(),mPlaceNameEt.getText().toString(),
+                    mTelNoEt.getText().toString(),mPasswordEt.getText().toString(),mConfirmPasswordEt.getText().toString());
+
+            if (mProfileItem.getGender().equals("")) {
+                Toast.makeText(getContext(), "Please select the gender ", Toast.LENGTH_SHORT).show();
+                return false;
+            } else if (mProfileItem.getFirstName().equals("")) {
+                mFirstNameEt.setError(getString(R.string.blank_filed_message));
+                return false;
+            } else if (mProfileItem.getLastName().equals("")) {
+                mLastNameEt.setError(getString(R.string.blank_filed_message));
+                return false;
+            } else if (mProfileItem.getEmail().equals("")) {
+                mEmailEt.setError(getString(R.string.blank_filed_message));
+                return false;
+            }else if (mProfileItem.getPassword().equals("")) {
+                mPasswordEt.setError(getString(R.string.blank_filed_message));
+                return false;
+            }else if (mProfileItem.getConfirmPassword().equals("")) {
+                mConfirmPasswordEt.setError(getString(R.string.blank_filed_message));
+                return false;
+            }
+            else if (mProfileItem.getAddress().equals("")) {
+                mStreetNameEt.setError(getString(R.string.blank_filed_message));
+                return false;
+            } else if (mProfileItem.getPinCode().equals("")) {
+                mPostalCodeEt.setError(getString(R.string.blank_filed_message));
+                return false;
+            } else if (mProfileItem.getPlace().equals("")) {
+                mPlaceNameEt.setError(getString(R.string.blank_filed_message));
+                return false;
+            }
+            else if (mProfileItem.getPhoneNo().equals("")) {
+                mTelNoEt.setError(getString(R.string.blank_filed_message));
+                return false;
+            }
+            else {
+                return true;
+            }
+
+        }
+
     }
 
     class ProfileItem {
@@ -192,12 +421,21 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         private String mEmail;
         private String mAddress, mPinCode, mPlace;
         private String mPhoneNo;
+        private String mPassword;
+
+        private String mConfirmPassword;
+
+
+
+        private String mGender;
         private static final int
                 MR = 0,
                 MRS = 1;
 
 
-        public ProfileItem(int title, String firstName, String lastName, String email, String address, String pinCode, String place, String phoneNo) {
+        public ProfileItem(int title,String gender ,String firstName, String lastName, String email,
+                           String address, String pinCode, String place, String phoneNo,String
+                                   password,String confirmPassword) {
             mTitle = title;
             mFirstName = firstName;
             mLastName = lastName;
@@ -206,8 +444,35 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
             mPinCode = pinCode;
             mPlace = place;
             mPhoneNo = phoneNo;
+            mGender = gender;
+            mPassword = password;
         }
 
+
+
+        public String getConfirmPassword() {
+            return mConfirmPassword;
+        }
+
+        public void setConfirmPassword(String mConfirmPassword) {
+            this.mConfirmPassword = mConfirmPassword;
+        }
+
+        public String getGender() {
+            return mGender;
+        }
+
+        public void setGender(String mGender) {
+            this.mGender = mGender;
+        }
+
+        public String getPassword() {
+            return mPassword;
+        }
+
+        public void setPassword(String mPassword) {
+            this.mPassword = mPassword;
+        }
         public int getTitle() {
             return mTitle;
         }

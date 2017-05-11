@@ -27,8 +27,8 @@ public class CustomFontEditText extends TextInputEditText {
         setTypeface(TypeFaceHelper.getTypeFaceFromAttr(context,attrs,DEFAULT_FONT_FACE));
     }
 
-    @Override
-    public void setError(CharSequence error) {
-        ((TextInputLayout)getParent().getParent()).setError(error);
-    }
+//    @Override
+//    public void setError(CharSequence error) {
+//        ((TextInputLayout)getParent().getParent()).setError(error);
+//    }
 }

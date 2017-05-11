@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import tekkan.synappz.com.tekkan.R;
 import tekkan.synappz.com.tekkan.fragment.ViewPetFragment;
 
+import static tekkan.synappz.com.tekkan.fragment.EditPetFragment.ARGS_PET_PROFILE;
+
 /**
  * Created by Admin on 04/05/17.
  */
@@ -23,6 +25,8 @@ public class ViewPetActivity extends ToolbarActivity {
 
     @Override
     protected Fragment getFragment() {
-        return new ViewPetFragment();
+        ViewPetFragment viewPetFragment = new ViewPetFragment();
+        viewPetFragment.setArguments(getIntent().getBundleExtra(ARGS_PET_PROFILE));
+        return viewPetFragment;
     }
 }
