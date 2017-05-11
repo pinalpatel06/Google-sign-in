@@ -2,9 +2,8 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:gravity="bottom">
         <shape android:shape="rectangle">
-
-            <solid android:color="@color/bg_detail_title_underline" />
-            <size android:height="1dp" />
+            <solid android:color="@color/bg_detail_title_underline"/>
+            <size android:height="1dp"/>
         </shape>
     </item>
 </layer-list>

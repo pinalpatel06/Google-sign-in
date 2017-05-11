@@ -2,8 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="tekkan.synappz.com.tekkan">
 
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
         android:allowBackup="true"
@@ -66,7 +67,10 @@
                   android:screenOrientation="portrait"/>
 
         <activity android:name=".activity.ViewPetActivity"
-            android:screenOrientation="portrait" />
+                  android:screenOrientation="portrait"/>
+
+        <activity android:name=".activity.BarcodeCaptureActivity"
+                  android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

@@ -47,7 +47,10 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_rounded_corner"
                 android:orientation="vertical"
-                android:padding="@dimen/login_inner_layout_default_padding">
+                android:paddingBottom="@dimen/extra_padding_15dp"
+                android:paddingLeft="@dimen/login_inner_layout_default_padding"
+                android:paddingRight="@dimen/login_inner_layout_default_padding"
+                android:paddingTop="@dimen/login_inner_layout_default_padding">
 
                 <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                     android:layout_width="match_parent"
@@ -62,6 +65,7 @@
                 <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_10dp"
                     android:paddingLeft="@dimen/qr_details_text_padding"
                     android:paddingRight="@dimen/qr_details_text_padding"
                     android:text="@string/qr_scanner_detail_text"
@@ -71,12 +75,14 @@
                     app:customfont="OpenSansRegular"/>
 
                 <ImageView
+                    android:id="@+id/iv_code"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/default_margin"
                     android:padding="@dimen/default_margin"
                     android:src="@drawable/ic_qr_scan"/>
+
             </LinearLayout>
 
             <LinearLayout
@@ -87,6 +93,7 @@
                 android:orientation="vertical">
 
                 <tekkan.synappz.com.tekkan.custom.CustomButtonView
+                    android:id="@+id/btn_send"
                     style="@style/TeekAppButtonStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -96,11 +103,12 @@
                     app:customfont="OpenSansSemiBold"/>
 
                 <tekkan.synappz.com.tekkan.custom.CustomButtonView
+                    android:id="@+id/btn_have_code"
                     style="@style/TeekAppButtonStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/extra_margin_20dp"
                     android:layout_marginTop="@dimen/extra_margin_15dp"
+                    android:padding="@dimen/extra_margin_20dp"
                     android:text="@string/qr_scanner_botton2_text"
                     app:customfont="OpenSansSemiBold"/>
 

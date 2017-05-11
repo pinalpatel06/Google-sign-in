@@ -1,29 +1,35 @@
 package tekkan.synappz.com.tekkan.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 
-import com.google.android.gms.vision.barcode.Barcode;
-import com.google.android.gms.vision.barcode.BarcodeDetector;
-
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import tekkan.synappz.com.tekkan.R;
+import tekkan.synappz.com.tekkan.activity.BarcodeCaptureActivity;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class QRScannerFragment extends Fragment {
-    private static final String TAG = QRScannerFragment.class.getSimpleName();
+public class QRScannerFragment extends Fragment{
+    private static final String
+            TAG = QRScannerFragment.class.getSimpleName();
 
-    private BarcodeDetector mDetector;
+    @BindView(R.id.btn_send)
+    Button mScanBtn;
+    @BindView(R.id.iv_code)
+    ImageView mCodeIV;
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -42,22 +48,17 @@ public class QRScannerFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mDetector = new BarcodeDetector.Builder(getActivity())
-                .setBarcodeFormats(Barcode.QR_CODE)
-                .build();
-        if(!mDetector.isOperational()){
-            Log.d(TAG , "Detector not initialize");
-        }
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_qrscanner, container, false);
+        ButterKnife.bind(this, v);
         setHasOptionsMenu(true);
         return v;
     }
 
+    @OnClick(R.id.btn_send)
+    public void scanQRCode() {
+        Intent intent = new Intent(getActivity(), BarcodeCaptureActivity.class);
+        startActivity(intent);
+    }
 }

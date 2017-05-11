@@ -360,5 +360,8 @@
     <string name="picker_cancel_text">Cancel</string>
     <string name="picker_set_text">Set</string>
     <string name="blank_filed_message">This field cannot be blank</string>
+    <string name="confirm_camera_request_permission">Need camera permission to scan QR code.
+    </string>
+    <string name="low_storage_error">Can\'t start scanning due to low memory</string>
 
 </resources>
