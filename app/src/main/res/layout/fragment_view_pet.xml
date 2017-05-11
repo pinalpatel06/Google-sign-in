@@ -50,7 +50,7 @@
                 android:textColor="@color/color_view_profile_text_default"
                 android:background="@drawable/bg_bottom_line"
                 android:gravity="center_vertical"
-                android:id="@+id/tv_is_cat_or_dog"
+                android:id="@+id/tv_animal_type"
                 android:textSize="@dimen/profile_default_text_size"
                 tools:text="@string/what_is_your_pet_name"/>
 

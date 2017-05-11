@@ -88,6 +88,9 @@
     <string name="what_is_the_gender">Wat is het geslacht</string>
     <string name="what_is_the_weight">Wat is het gewicht (kg)?</string>
 
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+
     <!--Profile Your Pet Activity Final-->
     <string name="second_list_title">ONDERZOEKEN</string>
     <string name="bottom_result_text">Er staat een uitslag klaar</string>
@@ -325,6 +328,8 @@
 
     <!--Petprofile activity -->
     <string name="pet_profile_app_title">Jouw huisdier</string>
+    <string name="dog">Hond</string>
+    <string name="cat">Kat</string>
 
     <!-- apply pet fragment -->
     <string name="apply_pet_text">Klopt het dat je een ondrzoek wilt aanvragen voor onderstaand

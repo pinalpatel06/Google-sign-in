@@ -36,7 +36,7 @@ public class ViewPetFragment extends Fragment {
     @BindView(R.id.tv_date_of_birth)
     TextView mDateOfBirthTv;
 
-    @BindView(R.id.tv_is_cat_or_dog)
+    @BindView(R.id.tv_animal_type)
     TextView mIsCatOrDogTv;
 
     @BindView(R.id.tv_breed)
