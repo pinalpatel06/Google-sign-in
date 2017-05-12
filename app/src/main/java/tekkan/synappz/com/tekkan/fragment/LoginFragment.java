@@ -3,6 +3,7 @@ package tekkan.synappz.com.tekkan.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -142,16 +143,15 @@ public class LoginFragment extends ContainerNodeFragment implements Response.Lis
         fragment.dismiss();
         AlertDialogFragment fragment1 = AlertDialogFragment.newInstance(R.string.error, R.string.invalid_login);
         fragment1.show(getFragmentManager(), TAG_ALERT_DIALOG);
-        PreferenceManager.getDefaultSharedPreferences(getActivity()).edit()
-                .putBoolean(Constants.SP.BOOLEAN_LOGED_IN, true)
-                .apply();
     }
 
     @Override
     public void onResponse(String response) {
         Log.d(TAG, "Success");
-        /*ProgressDialogFragment fragment = (ProgressDialogFragment) getFragmentManager().findFragmentByTag(TAG_PROGRESS_DIALOG);
-        fragment.dismiss();*/
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                sp.edit().putBoolean(Constants.SP.BOOLEAN_LOGED_IN, true).apply();
+                sp.edit().putString(Constants.SP.STRING_USER_EMAIL,mEmailET.getText().toString()).apply();
+
         setChild(ProfileFragment.newInstance(false,mEmailET.getText().toString()));
     }
 }

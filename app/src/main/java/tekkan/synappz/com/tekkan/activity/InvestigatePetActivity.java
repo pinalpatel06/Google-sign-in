@@ -14,6 +14,9 @@ import tekkan.synappz.com.tekkan.fragment.TestKitResearchList;
  */
 
 public class InvestigatePetActivity extends ToolbarActivity {
+    private static final String TAG = InvestigatePetActivity.class.getSimpleName();
+
+    public static final String EXTRA_TEEK_BUNDLE = TAG + ".EXTRA_TEEK_BUNDLE";
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -28,7 +31,7 @@ public class InvestigatePetActivity extends ToolbarActivity {
 
     @Override
     protected Fragment getFragment() {
-        return new TestKitResearchList();
+        return TestKitResearchList.newInstance(getIntent().getBundleExtra(EXTRA_TEEK_BUNDLE));
     }
 
     @Override

@@ -13,9 +13,13 @@ import tekkan.synappz.com.tekkan.fragment.QRScannerFragment;
  */
 
 public class QRScannerActivity extends ToolbarActivity {
+    private static final String TAG = QRScannerActivity.class.getSimpleName();
+
+    public static final String EXTRA_TEEK_BUNDLE = TAG + ".EXTRA_TEEK_BUNDLE";
+
     @Override
     protected Fragment getFragment() {
-        return new QRScannerFragment();
+        return QRScannerFragment.newInstance(getIntent().getBundleExtra(EXTRA_TEEK_BUNDLE));
     }
 
     @Override

@@ -363,5 +363,7 @@
     <string name="confirm_camera_request_permission">Need camera permission to scan QR code.
     </string>
     <string name="low_storage_error">Can\'t start scanning due to low memory</string>
+    <string name="tick_msg">Animal has already reported tick</string>
+    <string name="done">Done</string>
 
 </resources>

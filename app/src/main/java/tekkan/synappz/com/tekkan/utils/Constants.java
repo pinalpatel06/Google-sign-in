@@ -60,6 +60,7 @@ public class Constants {
 
     public static class SP{
         public static final String
-                BOOLEAN_LOGED_IN = "loged_in";
+                BOOLEAN_LOGED_IN = "loged_in",
+                STRING_USER_EMAIL ="email";
     }
 }

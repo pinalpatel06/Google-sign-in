@@ -14,7 +14,7 @@
                 android:paddingTop="@dimen/padding_10dp">
 
     <ImageView
-        android:id="@+id/profile_image"
+        android:id="@+id/iv_pet_image"
         android:layout_width="@dimen/list_item_image_width"
         android:layout_height="@dimen/list_item_image_width"
         android:layout_alignParentTop="true"
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_margin="@dimen/default_margin"
-        android:layout_toEndOf="@id/profile_image"
+        android:layout_toEndOf="@id/iv_pet_image"
         android:layout_toStartOf="@+id/tv_pet_count"
         android:textColor="@color/profile_title_color"
         android:textSize="@dimen/list_item_name_text_height"

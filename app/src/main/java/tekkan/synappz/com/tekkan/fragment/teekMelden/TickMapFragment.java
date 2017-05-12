@@ -68,8 +68,11 @@ public class TickMapFragment extends ContainerNodeFragment
     private static final String
             TAG = TickMapFragment.class.getSimpleName(),
             ARGS_LOCATION_TYPE = TAG + ".ARGS_LOCATION_TYPE",
-            ARGS_LOCATION_LATLNG = TAG + ".ARGS_LOCATION_LATLNG",
             ARGS_LISTENER_MODE = TAG + ".ARGS_LISTENER_MODE";
+
+    public static final String
+            ARGS_LOCATION_LATLNG = TAG + ".ARGS_LOCATION_LATLNG",
+            ARGS_ZOOM_LEVEL = TAG + ".ARGS_ZOOM_LEVEL";
 
     private int mLocationType = LOCATION_CURRENT;
 
@@ -108,16 +111,15 @@ public class TickMapFragment extends ContainerNodeFragment
     TextView mPinTitleTV;
     @BindView(R.id.tv_pin_drop_detail)
     TextView mPinDropDetailTV;
-
     @BindView(R.id.ll_teek_melden_map)
     LinearLayout mTeekMeldenFL;
 
 
     private int mCurrentLocLayoutHeight, mCustomLocLayoutHeight;
     private boolean mIsTouchModeActivated = false;
+    private float mZoomLevel;
 
     public static TickMapFragment newInstance(int locationType) {
-
         Bundle args = new Bundle();
         args.putInt(ARGS_LOCATION_TYPE, locationType);
         TickMapFragment fragment = new TickMapFragment();
@@ -224,14 +226,18 @@ public class TickMapFragment extends ContainerNodeFragment
         outState.putInt(ARGS_LOCATION_TYPE, mLocationType);
         outState.putBoolean(ARGS_LISTENER_MODE, mIsTouchModeActivated);
         outState.putParcelable(ARGS_LOCATION_LATLNG, mLatLng);
+        outState.putFloat(ARGS_ZOOM_LEVEL, mZoomLevel);
     }
 
     @OnClick(R.id.btn_ok)
     public void onCloseLocationClick() {
         String title = mPinTitleTV.getText().toString();
 
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(ARGS_LOCATION_LATLNG, mLatLng);
+        bundle.putFloat(ARGS_ZOOM_LEVEL, mZoomLevel);
         setChild(
-                TickReportConfirmFragment.newInstance(
+                TickReportConfirmFragment.newInstance(bundle,
                         title.equals(getString(R.string.pin_droped_title))
                                 ? 1 : 0)
         );
@@ -265,7 +271,7 @@ public class TickMapFragment extends ContainerNodeFragment
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     super.onAnimationEnd(animation);
-                   // mBottomViewLT.setVisibility(View.GONE);
+                    // mBottomViewLT.setVisibility(View.GONE);
                     mCustomBottomView.setVisibility(View.VISIBLE);
                     mCustomBottomView.animate()
                             .setDuration(1000)
@@ -387,7 +393,7 @@ public class TickMapFragment extends ContainerNodeFragment
 
     @Override
     public boolean shouldDisplayHomeAsUpEnabled() {
-       return NestedFragmentUtil.shouldDisplayHomeAsUpEnabled(getContainerId(),false,getChildFragmentManager());
+        return NestedFragmentUtil.shouldDisplayHomeAsUpEnabled(getContainerId(), false, getChildFragmentManager());
     }
 
     @Override
@@ -429,6 +435,8 @@ public class TickMapFragment extends ContainerNodeFragment
                 CameraPosition myPosition = new CameraPosition.Builder().target(lastLocationLatLng).zoom(18).bearing(0).tilt(0).build();
                 mMap.moveCamera(CameraUpdateFactory.newCameraPosition(myPosition));
                 if (mLocationType == LOCATION_CURRENT) {
+                    mLatLng = lastLocationLatLng;
+                    mZoomLevel = mMap.getCameraPosition().zoom;
                     drawMarker(lastLocationLatLng);
                 }
 
@@ -531,6 +539,7 @@ public class TickMapFragment extends ContainerNodeFragment
         drawMarker(latLng);
         mIsTouchModeActivated = false;
         mLatLng = latLng;
+        mZoomLevel = mMap.getCameraPosition().zoom;
         if (mMap != null) {
             mMap.setOnMapClickListener(null);
         }

@@ -24,12 +24,22 @@ import tekkan.synappz.com.tekkan.activity.BarcodeCaptureActivity;
  */
 public class QRScannerFragment extends Fragment{
     private static final String
-            TAG = QRScannerFragment.class.getSimpleName();
+            TAG = QRScannerFragment.class.getSimpleName(),
+            ARGS_TEEK_BUNDLE = TAG + ".ARGS_TEEK_BUNDLE";
 
     @BindView(R.id.btn_send)
     Button mScanBtn;
     @BindView(R.id.iv_code)
     ImageView mCodeIV;
+
+    public static QRScannerFragment newInstance(Bundle bundle) {
+
+        Bundle args = new Bundle();
+        args.putBundle(ARGS_TEEK_BUNDLE,bundle);
+        QRScannerFragment fragment = new QRScannerFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -59,6 +69,7 @@ public class QRScannerFragment extends Fragment{
     @OnClick(R.id.btn_send)
     public void scanQRCode() {
         Intent intent = new Intent(getActivity(), BarcodeCaptureActivity.class);
+        intent.putExtra(BarcodeCaptureActivity.EXTRA_TEEK_BUNDLE, getArguments().getBundle(ARGS_TEEK_BUNDLE));
         startActivity(intent);
     }
 }

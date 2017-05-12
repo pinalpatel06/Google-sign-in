@@ -1,5 +1,7 @@
 package tekkan.synappz.com.tekkan.custom.network;
 
+import android.util.Log;
+
 import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -24,6 +26,7 @@ public class TekenStringRequest extends TekenRequest<String> {
     @Override
     protected Response<String> parseNetworkResponse(NetworkResponse response) {
         if(getStatus(response) != HttpURLConnection.HTTP_OK){
+            Log.d("TAG", getStatus(response) + "" + getMessage(response));
             return Response.error(new VolleyError(response));
         }else{
             return Response.success(getMessage(response), HttpHeaderParser.parseCacheHeaders(response));

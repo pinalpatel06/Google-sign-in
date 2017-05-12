@@ -44,6 +44,10 @@ public class BarcodeCaptureActivity extends AppCompatActivity implements Confirm
             TAG = BarcodeCaptureActivity.class.getSimpleName(),
             PERMISSION_DIALOG = TAG + ".PERMISSION_DIALOG";
 
+    public static final String
+            EXTRA_TEEK_BUNDLE = TAG + ".EXTRA_TEEK_BUNDLE",
+            ARGS_QR_CODE = TAG + ".ARGS_QR_CODE";
+
     private static final int
             RC_HANDLE_GMS = 9001,
             RC_CAMERA_PERMISSION = 0;
@@ -147,6 +151,9 @@ public class BarcodeCaptureActivity extends AppCompatActivity implements Confirm
                 if (barcodes.size() > 0) {
                     Log.d(TAG, barcodes.valueAt(0).rawValue);
                     Intent intent = new Intent(BarcodeCaptureActivity.this, InvestigatePetActivity.class);
+                    Bundle bundle = getIntent().getBundleExtra(EXTRA_TEEK_BUNDLE);
+                    bundle.putString(ARGS_QR_CODE, barcodes.valueAt(0).rawValue);
+                    intent.putExtra(InvestigatePetActivity.EXTRA_TEEK_BUNDLE, bundle);
                     startActivity(intent);
                     finish();
                 }
