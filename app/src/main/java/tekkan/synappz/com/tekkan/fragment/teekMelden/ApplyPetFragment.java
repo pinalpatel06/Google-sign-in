@@ -82,8 +82,8 @@ public class ApplyPetFragment extends Fragment {
     private void updateUI(){
         mPetNameTV.setText(mPet.getName());
         mPetIV.setDefaultImageResId(R.drawable.ic_splash_pets);
-        if(mPet.getProfileImgUrl() != null) {
-            mPetIV.setImageUrl(mPet.getProfileImgUrl(), VolleyHelper.getInstance(getActivity()).getImageLoader());
+        if(mPet.getPhoto() != null) {
+            mPetIV.setImageUrl(mPet.getPhoto(), VolleyHelper.getInstance(getActivity()).getImageLoader());
         }
     }
 

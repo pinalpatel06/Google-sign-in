@@ -198,9 +198,9 @@ public class TestKitResearchList extends ListFragment<Object, RecyclerView.ViewH
             mPetNameTV.setText(pet.getName());
             mPetIV.setDefaultImageResId(R.drawable.ic_splash_pets);
 
-            if (pet.getProfileImgUrl() != null) {
-                Log.d(TAG, pet.getProfileImgUrl());
-                mPetIV.setImageUrl(pet.getProfileImgUrl(), VolleyHelper.getInstance(getActivity()).getImageLoader());
+            if (pet.getPhoto() != null) {
+                Log.d(TAG, pet.getPhoto());
+                mPetIV.setImageUrl(pet.getPhoto(), VolleyHelper.getInstance(getActivity()).getImageLoader());
             }
         }
 
@@ -208,7 +208,7 @@ public class TestKitResearchList extends ListFragment<Object, RecyclerView.ViewH
         public void showApplyPetActivity() {
             Intent intent = new Intent(getActivity(), ApplyForPetActivity.class);
             Bundle bundle = getArguments().getBundle(ARGS_TEEK_BUNDLE);
-            bundle.putInt(ARGS_PET_ID, mItem.getPetId());
+            bundle.putLong(ARGS_PET_ID, mItem.getId());
             bundle.putParcelable(ARGS_PET_DATA,mItem);
             intent.putExtra(ApplyForPetActivity.EXTRA_PET_BUNDLE, bundle);
             startActivity(intent);
