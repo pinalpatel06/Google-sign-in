@@ -85,7 +85,7 @@
                 android:spinnerMode="dialog"/>
 
             <EditText
-                android:id="@+id/tv_breed"
+                android:id="@+id/et_breed"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/default_edit_text_height"
                 android:background="@drawable/bg_bottom_line"

@@ -18,14 +18,13 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <ImageView
+            <tekkan.synappz.com.tekkan.custom.CircleNetworkImageView
+                android:id="@+id/iv_pet_image"
                 android:layout_width="@dimen/camera_image_width"
-                android:layout_height="@dimen/camera_image_width"
-                android:layout_gravity="center"
-                android:background="@drawable/circle"
-                android:scaleType="center"/>
+                android:layout_height="@dimen/camera_image_width"/>
 
             <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+                android:id="@+id/tv_pet_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_margin"
@@ -45,57 +44,57 @@
 
 
             <tekkan.synappz.com.tekkan.custom.CustomFontTextView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/default_edit_text_height"
-                android:textColor="@color/color_view_profile_text_default"
-                android:background="@drawable/bg_bottom_line"
-                android:gravity="center_vertical"
                 android:id="@+id/tv_animal_type"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_edit_text_height"
+                android:background="@drawable/bg_bottom_line"
+                android:gravity="center_vertical"
+                android:textColor="@color/color_view_profile_text_default"
                 android:textSize="@dimen/profile_default_text_size"
                 tools:text="@string/what_is_your_pet_name"/>
 
 
             <tekkan.synappz.com.tekkan.custom.CustomFontTextView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/default_edit_text_height"
                 android:id="@+id/tv_breed"
-                android:textColor="@color/color_view_profile_text_default"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_edit_text_height"
                 android:background="@drawable/bg_bottom_line"
                 android:gravity="center_vertical"
+                android:textColor="@color/color_view_profile_text_default"
                 android:textSize="@dimen/profile_default_text_size"
                 tools:text="@string/what_is_your_pet_name"/>
 
 
             <tekkan.synappz.com.tekkan.custom.CustomFontTextView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/default_edit_text_height"
                 android:id="@+id/tv_date_of_birth"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_edit_text_height"
                 android:background="@drawable/bg_bottom_line"
+                android:gravity="center_vertical"
                 android:textColor="@color/color_view_profile_text_default"
                 android:textSize="@dimen/profile_default_text_size"
-                android:gravity="center_vertical"
                 tools:text="@string/what_is_your_pet_name"/>
 
 
             <tekkan.synappz.com.tekkan.custom.CustomFontTextView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/default_edit_text_height"
-                android:background="@drawable/bg_bottom_line"
                 android:id="@+id/tv_gender"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_edit_text_height"
+                android:background="@drawable/bg_bottom_line"
+                android:gravity="center_vertical"
                 android:textColor="@color/color_view_profile_text_default"
                 android:textSize="@dimen/profile_default_text_size"
-                android:gravity="center_vertical"
                 tools:text="@string/what_is_your_pet_name"/>
 
 
             <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+                android:id="@+id/tv_weight"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/default_edit_text_height"
-                android:textColor="@color/color_view_profile_text_default"
-                android:id="@+id/tv_weight"
                 android:background="@drawable/bg_bottom_line"
-                android:textSize="@dimen/profile_default_text_size"
                 android:gravity="center_vertical"
+                android:textColor="@color/color_view_profile_text_default"
+                android:textSize="@dimen/profile_default_text_size"
                 tools:text="@string/what_is_your_pet_name"/>
 
         </LinearLayout>
@@ -105,10 +104,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/default_margin"
             android:layout_marginTop="@dimen/default_margin"
-            android:textColor="@color/profile_title_color"
-            app:customfont="OpenSansSemiBold"
-            android:textSize="@dimen/profile_default_text_size"
             android:text="@string/second_list_title"
+            android:textColor="@color/profile_title_color"
+            android:textSize="@dimen/profile_default_text_size"
+            app:customfont="OpenSansSemiBold"
         />
 
         <tekkan.synappz.com.tekkan.custom.CustomFontTextView
@@ -118,9 +117,9 @@
             android:layout_marginStart="@dimen/content_margin_start"
             android:layout_marginTop="@dimen/default_margin"
             android:drawableEnd="@drawable/ic_chevron_right_green"
+            android:text="@string/bottom_result_text"
             android:textColor="@color/profile_title_color"
-            android:textSize="@dimen/profile_default_text_size"
-            android:text="@string/bottom_result_text"/>
+            android:textSize="@dimen/profile_default_text_size"/>
 
 
     </LinearLayout>

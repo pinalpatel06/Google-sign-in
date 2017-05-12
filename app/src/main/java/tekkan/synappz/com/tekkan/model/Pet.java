@@ -38,14 +38,13 @@ public class Pet implements Parcelable {
             JSON_WEIGHT = "weight",
             JSON_RESEARCH = "research";
 
-    public static final SimpleDateFormat FULL_DATE_FORMAT
-            = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+    public Pet(){}
 
     public Pet(JSONObject jSonObject) {
         mPetId = jSonObject.optInt(JSON_ID);
         mName = jSonObject.optString(JSON_NAME);
         String dateStr = jSonObject.optString(JSON_BIRTHDATE);
-        Calendar c = parseDate(FULL_DATE_FORMAT, dateStr);
+        Calendar c = parseDate(dateStr);
         mDateOfBirth = c.getTimeInMillis();
         mGender = jSonObject.optString(JSON_GENDER);
         mProfileImgUrl = jSonObject.optString(JSON_PHOTO);
@@ -94,16 +93,24 @@ public class Pet implements Parcelable {
         }
     };
 
-    public Calendar parseDate(SimpleDateFormat FORMAT, String dateStr) {
+    public static final SimpleDateFormat FULL_DATE_FORMAT
+            = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+
+    public static Calendar parseDate(String dateStr) {
         try {
-            Date date = FORMAT.parse(dateStr);
+            Date date = FULL_DATE_FORMAT.parse(dateStr);
             Calendar c = Calendar.getInstance();
             c.setTime(date);
-
             return c;
         } catch (ParseException e) {
             return null;
         }
+    }
+
+    public static String toStringDate(long date){
+        Calendar c =Calendar.getInstance();
+        c.setTimeInMillis(date);
+        return FULL_DATE_FORMAT.format(c.getTime());
     }
 
     public Pet(String name) {
@@ -136,5 +143,41 @@ public class Pet implements Parcelable {
 
     public int getWeight() {
         return mWeight;
+    }
+
+    public void setName(String name) {
+        mName = name;
+    }
+
+    public void setPetId(int petId) {
+        mPetId = petId;
+    }
+
+    public void setDateOfBirth(long dateOfBirth) {
+        mDateOfBirth = dateOfBirth;
+    }
+
+    public void setGender(String gender) {
+        mGender = gender;
+    }
+
+    public void setProfileImgUrl(String profileImgUrl) {
+        mProfileImgUrl = profileImgUrl;
+    }
+
+    public void setBreedId(int breedId) {
+        mBreedId = breedId;
+    }
+
+    public void setWeight(int weight) {
+        mWeight = weight;
+    }
+
+    public String getAnimalType() {
+        return mAnimalType;
+    }
+
+    public void setAnimalType(String animalType) {
+        mAnimalType = animalType;
     }
 }

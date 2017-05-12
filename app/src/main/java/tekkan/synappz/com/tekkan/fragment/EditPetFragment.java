@@ -25,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Calendar;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,23 +33,17 @@ import tekkan.synappz.com.tekkan.R;
 import tekkan.synappz.com.tekkan.activity.ViewPetActivity;
 import tekkan.synappz.com.tekkan.custom.CustomSpinner;
 import tekkan.synappz.com.tekkan.custom.network.TekenJsonArrayRequest;
+import tekkan.synappz.com.tekkan.model.Pet;
 import tekkan.synappz.com.tekkan.utils.Constants;
 import tekkan.synappz.com.tekkan.utils.VolleyHelper;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class EditPetFragment extends Fragment implements View.OnClickListener, CustomSpinner.OnItemChosenListener {
+public class EditPetFragment extends Fragment
+        implements View.OnClickListener, CustomSpinner.OnItemChosenListener {
 
     private static final String TAG = EditPetFragment.class.getSimpleName();
-
-    public static String TAG_PET_NAME = "PET_NAME",
-            TAG_BREED = "BREED",
-            TAG_DOB = "DOB",
-            TAG_IS_CAT_OR_DOG = "IS_CAT_OR_DOG",
-            TAG_WEIGHT = "WEIGHT",
-            TAG_GENDER = "GENDER",
-            ARGS_PET_PROFILE = "PET_PROFILE_DATA";
 
     private boolean mIsUpdate = false;
     private boolean mIsDone = true;
@@ -61,7 +56,7 @@ public class EditPetFragment extends Fragment implements View.OnClickListener, C
     EditText mDateOfBirthEt;
     @BindView(R.id.tv_animal_type)
     EditText mAnimalType;
-    @BindView(R.id.tv_breed)
+    @BindView(R.id.et_breed)
     EditText mBreedEt;
     @BindView(R.id.sp_breed_type)
     CustomSpinner mBreedSP;
@@ -71,6 +66,10 @@ public class EditPetFragment extends Fragment implements View.OnClickListener, C
     EditText mGenderEt;
     @BindView(R.id.sp_animal_gender)
     CustomSpinner mAnimalGenderSP;
+
+    private Pet mPet;
+    private HashMap<String, Integer> mBreedListForCat;
+    private HashMap<String, Integer> mBreedListForDog;
 
     public static EditPetFragment newInstance() {
 
@@ -104,25 +103,28 @@ public class EditPetFragment extends Fragment implements View.OnClickListener, C
                 mIsUpdate = true;
                 mIsDone = false;
                 if (isValidate()) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString(TAG_PET_NAME, mPetNameEt.getText().toString());
-                    bundle.putString(TAG_IS_CAT_OR_DOG, mAnimalType.getText().toString());
-                    bundle.putString(TAG_BREED, mBreedEt.getText().toString());
-                    bundle.putString(TAG_DOB, mDateOfBirthEt.getText().toString());
-                    bundle.putString(TAG_GENDER, mGenderEt.getText().toString());
-                    bundle.putString(TAG_WEIGHT, mWeightEt.getText().toString());
+                    mPet = new Pet();
+                    mPet.setName(mPetNameEt.getText().toString());
+                    mPet.setAnimalType(mAnimalType.getText().toString());
+                    mPet.setBreedId(mBreedListForCat.get(mBreedEt.getText().toString()));
+                    String dateStr = mDateOfBirthEt.getText().toString();
+                    Calendar c = Pet.parseDate(dateStr);
+                    if (c != null) {
+                        mPet.setDateOfBirth(c.getTimeInMillis());
+                    }
+                    mPet.setGender(mGenderEt.getText().toString());
+                    mPet.setWeight(Integer.valueOf(mWeightEt.getText().toString()));
+
                     Intent intent = new Intent(getActivity(), ViewPetActivity.class);
-                    intent.putExtra(ARGS_PET_PROFILE, bundle);
+                    intent.putExtra(ViewPetActivity.EXTRA_PET_DATA, mPet);
                     startActivity(intent);
                     getActivity().finish();
                 }
-                getActivity().invalidateOptionsMenu();
                 return true;
             case R.id.action_edit:
                 mIsDone = true;
                 mIsUpdate = false;
                 getActivity().invalidateOptionsMenu();
-
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -158,7 +160,7 @@ public class EditPetFragment extends Fragment implements View.OnClickListener, C
                 mAnimalTypeSP.performClick();
                 break;
 
-            case R.id.tv_breed:
+            case R.id.et_breed:
                 mBreedSP.performClick();
                 break;
 
@@ -232,12 +234,14 @@ public class EditPetFragment extends Fragment implements View.OnClickListener, C
                             @Override
                             public void onResponse(JSONArray response) {
                                 Log.d(TAG, "Success");
+                                mBreedListForCat = new HashMap<>();
                                 String[] breedTypes = new String[response.length()];
                                 JSONObject jsonObject;
                                 for (int i = 0; i < response.length(); i++) {
                                     try {
                                         jsonObject = response.getJSONObject(i);
                                         breedTypes[i] = jsonObject.getString(JSON_S_BREED_NAME);
+                                        mBreedListForCat.put(jsonObject.getString(JSON_S_BREED_NAME), jsonObject.getInt("id"));
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
@@ -269,7 +273,6 @@ public class EditPetFragment extends Fragment implements View.OnClickListener, C
                 break;
             case R.id.sp_animal_gender:
                 mGenderEt.setText((String) mAnimalGenderSP.getSelectedItem());
-
         }
     }
 }
