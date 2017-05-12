@@ -38,6 +38,7 @@ import tekkan.synappz.com.tekkan.R;
 import tekkan.synappz.com.tekkan.custom.CustomSpinner;
 import tekkan.synappz.com.tekkan.custom.network.TekenJsonArrayRequest;
 import tekkan.synappz.com.tekkan.custom.network.TekenStringRequest;
+import tekkan.synappz.com.tekkan.dialogs.AlertDialogFragment;
 import tekkan.synappz.com.tekkan.dialogs.ProgressDialogFragment;
 import tekkan.synappz.com.tekkan.model.Breed;
 import tekkan.synappz.com.tekkan.model.Pet;
@@ -58,7 +59,7 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
             ARGS_PET = TAG + ".ARGS_PET",
             STATE_DOG_BREEDS = TAG + ".STATE_DOG_BREEDS",
             STATE_CAT_BREEDS = TAG + ".STATE_CAT_BREEDS",
-            TAG_DIALOG_BREEDS = TAG + ".TAG_DIALOG_BREEDS";
+            TAG_DIALOG = TAG + ".TAG_DIALOG";
 
     @BindView(R.id.et_pet_name)
     EditText mPetNameET;
@@ -91,6 +92,10 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
     private ProgressDialogFragment
             mBreedFetchPD,
             mPetUpdatePD;
+
+    private AlertDialogFragment
+            mEditSuccessAD,
+            mEditFailureAD;
 
     private boolean mIsFetchingDogBreeds = false, mIsFetchingCatBreeds = false;
 
@@ -163,7 +168,7 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
         }
 
         if (mIsFetchingCatBreeds || mIsFetchingDogBreeds) {
-            mBreedFetchPD.show(getFragmentManager(), TAG_DIALOG_BREEDS);
+            mBreedFetchPD.show(getFragmentManager(), TAG_DIALOG);
         }
 
         mBreedSP.setAdapter(mBreedSpinnerAdapter);
@@ -191,6 +196,9 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
         mPetUpdatePD = ProgressDialogFragment.newInstance(getString(
                 mPet.getId() > 0 ? R.string.progress_updating_pet : R.string.progress_creating_pet
         ));
+
+        mEditSuccessAD = AlertDialogFragment.newInstance(mPet.getId() > 0 ? R.string.success_update_pet : R.string.success_create_pet);
+        mEditFailureAD = AlertDialogFragment.newInstance(mPet.getId() > 0 ? R.string.error_update_pet : R.string.error_create_pet);
     }
 
     @OnClick({R.id.tv_date_of_birth, R.id.tv_animal_type, R.id.tv_breed, R.id.tv_gender})
@@ -485,19 +493,23 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
 
         String url = mPet.getId() > 0 ? Constants.Api.FUNC_EDIT_ANIMAL : Constants.Api.FUNC_CREATE_ANIMAL;
 
+        mPetUpdatePD.show(getFragmentManager(), TAG_DIALOG);
+
         TekenStringRequest request = new TekenStringRequest(
                 Request.Method.POST,
-                url,
+                Constants.Api.getUrl(url),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
+                        mPetUpdatePD.dismiss();
+                        mEditSuccessAD.show(getFragmentManager(),TAG_DIALOG);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        mPetUpdatePD.dismiss();
+                        mEditFailureAD.show(getFragmentManager(),TAG_DIALOG);
                     }
                 }
         );

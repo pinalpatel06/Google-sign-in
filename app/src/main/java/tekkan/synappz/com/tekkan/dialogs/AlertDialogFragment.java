@@ -17,14 +17,20 @@ public class AlertDialogFragment extends DialogFragment {
             ARGS_MESSAGE = TAG + ".ARGS_MESSAGE",
             ARGS_TITLE = TAG + ".ARGS_TITLE";
 
-    public static AlertDialogFragment newInstance(int title, int message) {
+    private static final int
+            NULL_STRING = -1;
 
+    public static AlertDialogFragment newInstance(int title, int message) {
         Bundle args = new Bundle();
-        args.putInt(ARGS_TITLE,title);
+        args.putInt(ARGS_TITLE, title);
         args.putInt(ARGS_MESSAGE, message);
         AlertDialogFragment fragment = new AlertDialogFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public static AlertDialogFragment newInstance(int message) {
+        return newInstance(NULL_STRING, message);
     }
 
     @NonNull
@@ -32,11 +38,18 @@ public class AlertDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Bundle arguments = getArguments();
         AlertDialog.Builder builder
-                = new AlertDialog.Builder(getActivity())
-                .setMessage(arguments.getInt(ARGS_MESSAGE))
-                .setTitle(arguments.getInt(ARGS_TITLE))
-                .setPositiveButton(android.R.string.ok, null);
+                = new AlertDialog.Builder(getActivity());
 
+        int message = arguments.getInt(ARGS_MESSAGE);
+        int title = arguments.getInt(ARGS_TITLE);
+
+        if (message > 0) {
+            builder.setMessage(message);
+        }
+        if (title > 0) {
+            builder.setTitle(title);
+        }
+        builder.setPositiveButton(android.R.string.ok, null);
         return builder.create();
     }
 }
