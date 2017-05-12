@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:orientation="vertical"
-                  android:paddingBottom="@dimen/splash_default_margin">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/splash_default_margin">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,7 +24,7 @@
                 android:layout_gravity="center"
                 android:background="@drawable/circle"
                 android:scaleType="center"
-                android:src="@drawable/ic_camera"/>
+                android:src="@drawable/ic_camera" />
 
             <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                 android:layout_width="match_parent"
@@ -35,7 +34,7 @@
                 android:text="@string/add_photo_text"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/profile_name_text_size"
-                app:customfont="OpenSansSemiBold"/>
+                app:customfont="OpenSansSemiBold" />
 
         </LinearLayout>
 
@@ -59,7 +58,7 @@
                 android:maxLines="1"
                 android:textColor="@color/profile_default_text_color"
                 android:textColorHint="@color/profile_default_text_color"
-                android:textSize="@dimen/profile_default_text_size"/>
+                android:textSize="@dimen/profile_default_text_size" />
 
 
             <EditText
@@ -75,14 +74,14 @@
                 android:hint="@string/is_it_dog_or_cat"
                 android:textColor="@color/profile_default_text_color"
                 android:textColorHint="@color/profile_default_text_color"
-                android:textSize="@dimen/profile_default_text_size"/>
+                android:textSize="@dimen/profile_default_text_size" />
 
             <tekkan.synappz.com.tekkan.custom.CustomSpinner
                 android:id="@+id/sp_animal_type"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:entries="@array/animal_type"
-                android:spinnerMode="dialog"/>
+                android:spinnerMode="dialog" />
 
             <EditText
                 android:id="@+id/et_breed"
@@ -95,13 +94,13 @@
                 android:hint="@string/what_is_the_breed"
                 android:textColor="@color/profile_default_text_color"
                 android:textColorHint="@color/profile_default_text_color"
-                android:textSize="@dimen/profile_default_text_size"/>
+                android:textSize="@dimen/profile_default_text_size" />
 
             <tekkan.synappz.com.tekkan.custom.CustomSpinner
                 android:id="@+id/sp_breed_type"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:spinnerMode="dialog"/>
+                android:spinnerMode="dialog" />
 
             <EditText
                 android:id="@+id/tv_date_of_birth"
@@ -115,7 +114,7 @@
                 android:inputType="date"
                 android:textColor="@color/profile_default_text_color"
                 android:textColorHint="@color/profile_default_text_color"
-                android:textSize="@dimen/profile_default_text_size"/>
+                android:textSize="@dimen/profile_default_text_size" />
 
             <EditText
                 android:id="@+id/tv_gender"
@@ -128,13 +127,14 @@
                 android:hint="@string/what_is_the_gender"
                 android:textColor="@color/profile_default_text_color"
                 android:textColorHint="@color/profile_default_text_color"
-                android:textSize="@dimen/profile_default_text_size"/>
+                android:textSize="@dimen/profile_default_text_size" />
+
             <tekkan.synappz.com.tekkan.custom.CustomSpinner
                 android:id="@+id/sp_animal_gender"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:entries="@array/animal_gender_type"
-                android:spinnerMode="dialog"/>
+                android:spinnerMode="dialog" />
 
             <EditText
                 android:id="@+id/tv_weight"
@@ -147,7 +147,7 @@
                 android:inputType="number"
                 android:textColor="@color/profile_default_text_color"
                 android:textColorHint="@color/profile_default_text_color"
-                android:textSize="@dimen/profile_default_text_size"/>
+                android:textSize="@dimen/profile_default_text_size" />
 
         </LinearLayout>
     </LinearLayout>
