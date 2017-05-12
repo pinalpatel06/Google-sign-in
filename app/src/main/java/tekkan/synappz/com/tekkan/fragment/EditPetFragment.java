@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -24,6 +25,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import butterknife.BindView;
@@ -72,6 +74,13 @@ public class EditPetFragment extends Fragment implements View.OnClickListener, C
     @BindView(R.id.sp_animal_gender)
     CustomSpinner mAnimalGenderSP;
 
+    private BreedSpinnerAdapter mBreedSpinnerAdapter;
+
+    private ArrayList<Breed>
+            mCatBreeds = new ArrayList<>(),
+            mDogBreeds = new ArrayList<>(),
+            mCurrentBreeds = new ArrayList<>();
+
     public static EditPetFragment newInstance() {
 
         Bundle args = new Bundle();
@@ -111,6 +120,7 @@ public class EditPetFragment extends Fragment implements View.OnClickListener, C
                     bundle.putString(TAG_DOB, mDateOfBirthEt.getText().toString());
                     bundle.putString(TAG_GENDER, mGenderEt.getText().toString());
                     bundle.putString(TAG_WEIGHT, mWeightEt.getText().toString());
+
                     Intent intent = new Intent(getActivity(), ViewPetActivity.class);
                     intent.putExtra(ARGS_PET_PROFILE, bundle);
                     startActivity(intent);
@@ -134,19 +144,28 @@ public class EditPetFragment extends Fragment implements View.OnClickListener, C
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_edit_pet, container, false);
 
-        ButterKnife.bind(this, v);
+        init(v);
+
         setHasOptionsMenu(true);
 
         mDateOfBirthEt.setOnClickListener(this);
         mAnimalType.setOnClickListener(this);
         mBreedEt.setOnClickListener(this);
         mGenderEt.setOnClickListener(this);
-        mAnimalTypeSP.setOnItemChoosenListener(this);
-        mBreedSP.setOnItemChoosenListener(this);
-        mAnimalGenderSP.setOnItemChoosenListener(this);
+        mAnimalTypeSP.setOnItemChosenListener(this);
+        mBreedSP.setOnItemChosenListener(this);
+        mAnimalGenderSP.setOnItemChosenListener(this);
+
+        mBreedSP.setAdapter(mBreedSpinnerAdapter);
 
         return v;
     }
+
+    private void init(View v) {
+        ButterKnife.bind(this, v);
+        mBreedSpinnerAdapter = new BreedSpinnerAdapter();
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -215,38 +234,48 @@ public class EditPetFragment extends Fragment implements View.OnClickListener, C
         }
     }
 
-    private static final String JSON_S_BREED_NAME = "name";
 
     @Override
-    public void onItemChosen(int position, int id) {
+    public void onItemChosen(AdapterView<?> adapterView, int position) {
         Log.d(TAG, (String) mAnimalTypeSP.getSelectedItem());
-        switch (id) {
+        switch (adapterView.getId()) {
             case R.id.sp_animal_type:
-                String selectedAnimal = (String) mAnimalTypeSP.getSelectedItem();
+                final String selectedAnimal = (String) mAnimalTypeSP.getSelectedItem();
                 mAnimalType.setText(selectedAnimal);
 
-                TekenJsonArrayRequest request = new TekenJsonArrayRequest(
+                final TekenJsonArrayRequest request = new TekenJsonArrayRequest(
                         Request.Method.GET,
                         Constants.Api.getUrl(Constants.Api.FUNC_GET_BREEDS),
                         new Response.Listener<JSONArray>() {
                             @Override
                             public void onResponse(JSONArray response) {
-                                Log.d(TAG, "Success");
-                                String[] breedTypes = new String[response.length()];
-                                JSONObject jsonObject;
+
+                                ArrayList<Breed> breeds = null;
+
+                                if (selectedAnimal.equalsIgnoreCase(getString(R.string.dog))) {
+                                    breeds = mDogBreeds;
+                                } else if (selectedAnimal.equalsIgnoreCase(getString(R.string.cat))){
+                                    breeds = mCatBreeds;
+                                }else{
+                                    Log.e(TAG,"No such breed");
+                                    return;
+                                }
+
+
                                 for (int i = 0; i < response.length(); i++) {
                                     try {
-                                        jsonObject = response.getJSONObject(i);
-                                        breedTypes[i] = jsonObject.getString(JSON_S_BREED_NAME);
+                                        JSONObject breedObject = response.getJSONObject(i);
+                                        breeds.add(new Breed(breedObject));
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
                                 }
 
-                                final ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                                        getContext(), android.R.layout.simple_spinner_item, breedTypes);
-                                adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-                                mBreedSP.setAdapter(adapter);
+                                mCurrentBreeds.clear();
+                                mCurrentBreeds.addAll(breeds);
+
+                                mBreedSpinnerAdapter.notifyDataSetChanged();
+
                             }
                         },
                         new Response.ErrorListener() {
@@ -257,12 +286,25 @@ public class EditPetFragment extends Fragment implements View.OnClickListener, C
                         }
                 );
 
+                boolean hasFetched = false;
                 if (selectedAnimal.equalsIgnoreCase(getString(R.string.dog))) {
-                    request.addParam(Constants.Api.QUERY_PARAMETER1, Constants.Api.ANIMAL_HOND);
+                    if (mDogBreeds.isEmpty()) {
+                        request.addParam(Constants.Api.QUERY_PARAMETER1, Constants.Api.ANIMAL_HOND);
+                    } else {
+                        hasFetched = true;
+                    }
+
                 } else {
-                    request.addParam(Constants.Api.QUERY_PARAMETER1, Constants.Api.ANIMAL_CAT);
+                    if (mCatBreeds.isEmpty()) {
+                        request.addParam(Constants.Api.QUERY_PARAMETER1, Constants.Api.ANIMAL_CAT);
+                    } else {
+                        hasFetched = true;
+                    }
                 }
-                VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
+
+                if (!hasFetched) {
+                    VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
+                }
                 break;
             case R.id.sp_breed_type:
                 mBreedEt.setText((String) mBreedSP.getSelectedItem());
@@ -270,6 +312,41 @@ public class EditPetFragment extends Fragment implements View.OnClickListener, C
             case R.id.sp_animal_gender:
                 mGenderEt.setText((String) mAnimalGenderSP.getSelectedItem());
 
+        }
+    }
+
+    private class BreedSpinnerAdapter extends ArrayAdapter<Breed> {
+        BreedSpinnerAdapter() {
+            super(getActivity(), android.R.layout.simple_spinner_item, mCurrentBreeds);
+            setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        }
+    }
+
+    private class Breed {
+
+        private static final String
+                JSON_N_ID = "id",
+                JSON_S_NAME = "name";
+
+        private long mId;
+        private String mName;
+
+        public Breed(JSONObject object) {
+            mId = object.optLong(JSON_N_ID);
+            mName = object.optString(JSON_S_NAME);
+        }
+
+        public long getId() {
+            return mId;
+        }
+
+        public String getName() {
+            return mName;
+        }
+
+        @Override
+        public String toString() {
+            return getName();
         }
     }
 }

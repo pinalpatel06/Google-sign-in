@@ -3,6 +3,7 @@ package tekkan.synappz.com.tekkan.custom;
 import android.content.Context;
 import android.support.v7.widget.AppCompatSpinner;
 import android.util.AttributeSet;
+import android.widget.AdapterView;
 
 /**
  * Created by Tejas Sherdiwala on 5/10/2017.
@@ -12,7 +13,7 @@ import android.util.AttributeSet;
 public class CustomSpinner extends AppCompatSpinner {
 
     public interface OnItemChosenListener {
-        void onItemChosen(int position, int id);
+        void onItemChosen(AdapterView<?> parent, int position);
     }
 
     private OnItemChosenListener mItemChosenListener;
@@ -25,11 +26,11 @@ public class CustomSpinner extends AppCompatSpinner {
     public void setSelection(int position) {
         super.setSelection(position);
         if (mItemChosenListener != null) {
-            mItemChosenListener.onItemChosen(position,getId());
+            mItemChosenListener.onItemChosen(this,position);
         }
     }
 
-    public void setOnItemChoosenListener(OnItemChosenListener listener) {
+    public void setOnItemChosenListener(OnItemChosenListener listener) {
         mItemChosenListener = listener;
     }
 }
