@@ -6,15 +6,17 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -89,9 +91,9 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_done:
-                if(mProfileViewHolder.isValidFields()){
+                /*if(mProfileViewHolder.isValidFields()){
                     createOrUpdateUser();
-                }
+                }*/
 
                 return true;
             case R.id.action_logout:
@@ -107,7 +109,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
                 return true;
 
             case R.id.action_customize:
-                mProfileViewHolder.setEditableFields(true);
+                //mProfileViewHolder.setEditableFields(true);
                 return true;
 
 
@@ -181,7 +183,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
 
     public void createOrUpdateUser(){
 
-        String url = Constants.Api.getUrl(Constants.Api.FUNC_CREATE_USER);
+        /*String url = Constants.Api.getUrl(Constants.Api.FUNC_CREATE_USER);
 
         String  PARM_GENDER = "gender",
                 PARM_FIRST_NAME = "firstname",
@@ -222,16 +224,16 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         request.addParam(PARM_PLACE_NAME,mProfileItem.getPlace());
         request.addParam(PARM_MOBILE_NO,mProfileItem.getPhoneNo());
         request.addParam(PARM_EMAIL,mProfileItem.getEmail());
-        request.addParam(PARM_PASSWORD,LoginUtils.encode(mProfileItem.getPhoneNo()));
+        request.addParam(PARM_PASSWORD, LoginUtils.encode(mProfileItem.getPhoneNo()));
 
         // For Edit email of the Profile
 
-      /*  if(!mIsNewProfile){
+      *//*  if(!mIsNewProfile){
             request.addParam(PARM_OLD_EMAIL,"");
             request.addParam(PARM_NEW_EMAIL,"");
-        }*/
+        }*//*
 
-        VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
+        VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);*/
     }
 
 
@@ -314,10 +316,10 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         @BindView(R.id.et_street_name)
         EditText mStreetNameEt;
 
-        @BindView(R.id.et_postel_code)
+        @BindView(R.id.et_postal_code)
         EditText mPostalCodeEt;
 
-        @BindView(R.id.et_place_name)
+        @BindView(R.id.et_place)
         EditText mPlaceNameEt;
 
         @BindView(R.id.et_tel_no)
@@ -333,7 +335,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         }
 
         void bind(ProfileItem item) {
-            mMaleRB.setChecked(item.getGender() == ProfileItem.MR);
+            /*mMaleRB.setChecked(item.getGender() == ProfileItem.MR);
             mFemaleRB.setChecked(item.getGender() == ProfileItem.MRS);
             mFirstNameET.setText(item.getFirstName());
             mLastNameET.setText(item.getLastName());
@@ -343,7 +345,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
             mPlaceET.setText(item.getPlace());
             mPhoneNoET.setText(item.getPhoneNo());
             mPasswordET.setText("123456");
-            mMatchPasswordET.setText("123456");
+            mMatchPasswordET.setText("123456");*/
         }
 
         @OnClick(R.id.lt_conditions)

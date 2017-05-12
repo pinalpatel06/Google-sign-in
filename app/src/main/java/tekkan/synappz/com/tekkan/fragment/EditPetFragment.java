@@ -2,75 +2,106 @@ package tekkan.synappz.com.tekkan.fragment;
 
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.NumberPicker;
+import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnTextChanged;
 import tekkan.synappz.com.tekkan.R;
-import tekkan.synappz.com.tekkan.activity.ViewPetActivity;
+import tekkan.synappz.com.tekkan.custom.CustomSpinner;
+import tekkan.synappz.com.tekkan.custom.network.TekenJsonArrayRequest;
+import tekkan.synappz.com.tekkan.custom.network.TekenStringRequest;
+import tekkan.synappz.com.tekkan.dialogs.ProgressDialogFragment;
+import tekkan.synappz.com.tekkan.model.Breed;
+import tekkan.synappz.com.tekkan.model.Pet;
+import tekkan.synappz.com.tekkan.utils.Constants;
+import tekkan.synappz.com.tekkan.utils.DateUtils;
+import tekkan.synappz.com.tekkan.utils.VolleyHelper;
+
+import static tekkan.synappz.com.tekkan.utils.Constants.PetType.CAT;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class EditPetFragment extends Fragment implements View.OnClickListener, CustomSpinner.OnItemChosenListener {
+public class EditPetFragment extends Fragment implements CustomSpinner.OnItemChosenListener {
 
-    private static final String TAG = EditPetFragment.class.getSimpleName();
-
-    public static String TAG_PET_NAME = "PET_NAME",
-            TAG_BREED = "BREED",
-            TAG_DOB = "DOB",
-            TAG_IS_CAT_OR_DOG = "IS_CAT_OR_DOG",
-            TAG_WEIGHT = "WEIGHT",
-            TAG_GENDER = "GENDER",
-            ARGS_PET_PROFILE = "PET_PROFILE_DATA";
+    private static final String
+            TAG = EditPetFragment.class.getSimpleName(),
+            ARGS_PET = TAG + ".ARGS_PET",
+            STATE_DOG_BREEDS = TAG + ".STATE_DOG_BREEDS",
+            STATE_CAT_BREEDS = TAG + ".STATE_CAT_BREEDS",
+            TAG_DIALOG_BREEDS = TAG + ".TAG_DIALOG_BREEDS";
 
     private boolean mIsUpdate = false;
     private boolean mIsDone = true;
 
     @BindView(R.id.et_pet_name)
-    EditText mPetNameEt;
+    EditText mPetNameET;
+
+    @BindView(R.id.tv_animal_type)
+    TextView mAnimalTypeTV;
     @BindView(R.id.sp_animal_type)
     CustomSpinner mAnimalTypeSP;
-    @BindView(R.id.tv_date_of_birth)
-    EditText mDateOfBirthEt;
-    @BindView(R.id.tv_animal_type)
-    EditText mAnimalType;
+
     @BindView(R.id.tv_breed)
-    EditText mBreedEt;
+    TextView mBreedTV;
     @BindView(R.id.sp_breed_type)
     CustomSpinner mBreedSP;
-    @BindView(R.id.tv_weight)
-    EditText mWeightEt;
+
+    @BindView(R.id.tv_date_of_birth)
+    TextView mDateOfBirthTV;
+
     @BindView(R.id.tv_gender)
-    EditText mGenderEt;
+    TextView mGenderTV;
     @BindView(R.id.sp_animal_gender)
     CustomSpinner mAnimalGenderSP;
 
+    @BindView(R.id.et_weight)
+    EditText mWeightET;
+
     private BreedSpinnerAdapter mBreedSpinnerAdapter;
+
+    private Pet mPet;
+
+    private ProgressDialogFragment mProgressDialogFragment;
+
+    private boolean mIsFetchingDogBreeds = false, mIsFetchingCatBreeds = false;
 
     private ArrayList<Breed>
             mCatBreeds = new ArrayList<>(),
             mDogBreeds = new ArrayList<>(),
             mCurrentBreeds = new ArrayList<>();
 
-    public static EditPetFragment newInstance(boolean profileType) {
-
+    public static EditPetFragment newInstance(Pet pet) {
         Bundle args = new Bundle();
+        args.putParcelable(ARGS_PET, pet);
         EditPetFragment fragment = new EditPetFragment();
         fragment.setArguments(args);
         return fragment;
@@ -116,38 +147,62 @@ public class EditPetFragment extends Fragment implements View.OnClickListener, C
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_edit_pet, container, false);
-        ButterKnife.bind(this, v);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        mDateOfBirthEt.setOnClickListener(this);
-        mIsCatOrDogEt.setOnClickListener(this);
-        mBreedEt.setOnClickListener(this);
-        mGenderEt.setOnClickListener(this);
 
-
-        if (mArgs != null) {
-            if(!mArgs.getBoolean(TAG_PROFILE_TYPE)){
-                mIsNewProfile = false;
-                updateUI();
-            }else {
-                mIsNewProfile = true;
-
-            }
-
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            mPet = arguments.getParcelable(ARGS_PET);
+        } else {
+            mPet = new Pet();
         }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_edit_pet, container, false);
+        init(v);
+
+        if (savedInstanceState != null) {
+            mDogBreeds = savedInstanceState.getParcelableArrayList(STATE_DOG_BREEDS);
+            mCatBreeds = savedInstanceState.getParcelableArrayList(STATE_CAT_BREEDS);
+        }
+
+        if (mDogBreeds.isEmpty()) {
+            mIsFetchingDogBreeds = true;
+            getBreeds(Constants.PetType.DOG);
+        }
+
+        if (mCatBreeds.isEmpty()) {
+            mIsFetchingCatBreeds = true;
+            getBreeds(CAT);
+        }
+
+        if (mIsFetchingCatBreeds || mIsFetchingDogBreeds) {
+            mProgressDialogFragment.show(getFragmentManager(), TAG_DIALOG_BREEDS);
+        }
+
+        updateUI();
         return v;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putParcelableArrayList(STATE_DOG_BREEDS, mDogBreeds);
+        outState.putParcelableArrayList(STATE_CAT_BREEDS, mCatBreeds);
+        super.onSaveInstanceState(outState);
+
     }
 
     private void init(View v) {
         ButterKnife.bind(this, v);
         mBreedSpinnerAdapter = new BreedSpinnerAdapter();
+        mProgressDialogFragment = ProgressDialogFragment.newInstance(getString(R.string.progress_fetching_breeds));
     }
 
-
-    @Override
-    public void onClick(View v) {
+    @OnClick({R.id.tv_date_of_birth, R.id.tv_animal_type, R.id.tv_breed, R.id.tv_gender})
+    void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_date_of_birth:
                 datePicker();
@@ -166,20 +221,71 @@ public class EditPetFragment extends Fragment implements View.OnClickListener, C
         }
     }
 
-    private void updateUI() {
-        mPetNameEt.setText(mArgs.getString(TAG_PET_NAME));
-        mIsCatOrDogEt.setText(mArgs.getString(TAG_IS_CAT_OR_DOG));
-        mBreedEt.setText(mArgs.getString(TAG_BREED));
-        mDateOfBirthEt.setText(mArgs.getString(TAG_DOB));
-        mGenderEt.setText(mArgs.getString(TAG_GENDER));
-        mWeightEt.setText(mArgs.getString(TAG_WEIGHT));
-        mPetId = mArgs.getString(TAG_PET_ID);
+    @OnTextChanged(R.id.et_pet_name)
+    void onNameChanged(CharSequence text) {
+        mPet.setName(text.toString());
+    }
 
+    @OnTextChanged(R.id.et_weight)
+    void onWeightChanged(CharSequence weight) {
+        try {
+            int weightInt = Integer.parseInt(weight.toString());
+            mPet.setWeight(weightInt);
+        } catch (Exception e) {
+            mPet.setWeight(0);
+        }
+    }
+
+    private void updateUI() {
+
+        if (mPet == null) {
+            return;
+        }
+
+        mPetNameET.setText(mPet.getName());
+
+        Constants.PetType petType = mPet.getType();
+        switch (petType) {
+            case CAT:
+                mAnimalTypeTV.setText(R.string.cat);
+                break;
+            case DOG:
+                mAnimalTypeTV.setText(R.string.dog);
+                break;
+        }
+
+        Breed breed = getBreed(mPet.getType(), mPet.getBreedId());
+
+        if (breed != null) {
+            mBreedTV.setText(breed.getName());
+        }
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(mPet.getBirthDate());
+
+        mDateOfBirthTV.setText(
+                getString(R.string.date_of_birth_format,
+                        calendar.get(Calendar.DATE),
+                        calendar.get(Calendar.MONTH) + 1,
+                        calendar.get(Calendar.YEAR)
+                )
+        );
+
+        Constants.Gender gender = mPet.getGender();
+
+        switch (gender) {
+            case MALE:
+                mGenderTV.setText(R.string.male);
+                break;
+            case FEMALE:
+                mGenderTV.setText(R.string.female);
+                break;
+        }
+        mWeightET.setText(String.valueOf(mPet.getWeight()));
     }
 
     private void datePicker() {
         int mYear, mMonth, mDay;
-        // Get Current Date
         final Calendar c = Calendar.getInstance();
         mYear = c.get(Calendar.YEAR);
         mMonth = c.get(Calendar.MONTH);
@@ -192,151 +298,220 @@ public class EditPetFragment extends Fragment implements View.OnClickListener, C
                     public void onDateSet(DatePicker view, int year,
                                           int monthOfYear, int dayOfMonth) {
 
-                        mDateOfBirthEt.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
-                        mDateOfBirthEt.setError(null);
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.set(Calendar.YEAR, year);
+                        calendar.set(Calendar.MONTH, monthOfYear);
+                        calendar.set(Calendar.DATE, dayOfMonth);
+                        mPet.setBirthDate(calendar.getTime());
+
+                        updateUI();
                     }
                 }, mYear, mMonth, mDay);
         datePickerDialog.show();
     }
 
     private boolean isValidate() {
+        return !TextUtils.isEmpty(mPet.getName())
+                && mPet.getType() != null
+                && mPet.getBreedId() > 0
+                && mPet.getBirthDate() != null
+                && mPet.getGender() != null
+                && mPet.getWeight() > 0;
+    }
 
-        if (mPetNameEt.getText().toString().equals("")) {
-            mPetNameEt.setError(getString(R.string.blank_filed_message));
-            return false;
-        } else if (mIsCatOrDogEt.getText().toString().equals("")) {
-            mIsCatOrDogEt.setError(getString(R.string.blank_filed_message));
-            return false;
-        } else if (mBreedEt.getText().toString().equals("")) {
-            mBreedEt.setError(getString(R.string.blank_filed_message));
-            return false;
-        } else if (mDateOfBirthEt.getText().toString().equals("")) {
-            mDateOfBirthEt.setError(getString(R.string.blank_filed_message));
-            return false;
-        } else if (mGenderEt.getText().toString().equals("")) {
-            mGenderEt.setError(getString(R.string.blank_filed_message));
-            return false;
-        } else if (mWeightEt.getText().toString().equals("")) {
-            mWeightEt.setError(getString(R.string.blank_filed_message));
-            return false;
-        } else {
-            return true;
+    private Breed getBreed(Constants.PetType petType, String name) {
+
+        ArrayList<Breed> breeds = null;
+
+        switch (petType) {
+            case CAT:
+                breeds = mCatBreeds;
+                break;
+            case DOG:
+                breeds = mDogBreeds;
+                break;
         }
+
+        if (breeds != null) {
+            for (int i = 0; i < breeds.size(); i++) {
+                Breed breed = breeds.get(i);
+                if (breed.getName().equalsIgnoreCase(name)) {
+                    return breed;
+                }
+            }
+        }
+        return null;
+    }
+
+    private Breed getBreed(Constants.PetType petType, long id) {
+        ArrayList<Breed> breeds = null;
+        switch (petType) {
+            case CAT:
+                breeds = mCatBreeds;
+                break;
+            case DOG:
+                breeds = mDogBreeds;
+                break;
+        }
+
+        if (breeds != null) {
+            for (int i = 0; i < breeds.size(); i++) {
+                Breed breed = breeds.get(i);
+                if (breed.getId() == id) {
+                    return breed;
+                }
+            }
+        }
+        return null;
     }
 
 
     @Override
     public void onItemChosen(AdapterView<?> adapterView, int position) {
-        Log.d(TAG, (String) mAnimalTypeSP.getSelectedItem());
         switch (adapterView.getId()) {
             case R.id.sp_animal_type:
-                final String selectedAnimal = (String) mAnimalTypeSP.getSelectedItem();
-                mAnimalType.setText(selectedAnimal);
 
-                final TekenJsonArrayRequest request = new TekenJsonArrayRequest(
-                        Request.Method.GET,
-                        Constants.Api.getUrl(Constants.Api.FUNC_GET_BREEDS),
-                        new Response.Listener<JSONArray>() {
-                            @Override
-                            public void onResponse(JSONArray response) {
+                String animalType = (String) adapterView.getSelectedItem();
 
-                                ArrayList<Breed> breeds = null;
+                mCurrentBreeds.clear();
 
-                                if (selectedAnimal.equalsIgnoreCase(getString(R.string.dog))) {
-                                    breeds = mDogBreeds;
-                                } else if (selectedAnimal.equalsIgnoreCase(getString(R.string.cat))){
-                                    breeds = mCatBreeds;
-                                }else{
-                                    Log.e(TAG,"No such breed");
-                                    return;
-                                }
-
-
-                                for (int i = 0; i < response.length(); i++) {
-                                    try {
-                                        JSONObject breedObject = response.getJSONObject(i);
-                                        breeds.add(new Breed(breedObject));
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-
-                                mCurrentBreeds.clear();
-                                mCurrentBreeds.addAll(breeds);
-
-                                mBreedSpinnerAdapter.notifyDataSetChanged();
-
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.d(TAG, "failure");
-                            }
-                        }
-                );
-
-                boolean hasFetched = false;
-                if (selectedAnimal.equalsIgnoreCase(getString(R.string.dog))) {
-                    if (mDogBreeds.isEmpty()) {
-                        request.addParam(Constants.Api.QUERY_PARAMETER1, Constants.Api.ANIMAL_HOND);
-                    } else {
-                        hasFetched = true;
-                    }
-
+                if (getString(R.string.cat).equalsIgnoreCase(animalType)) {
+                    mPet.setType(Constants.PetType.CAT);
+                    mCurrentBreeds.addAll(mCatBreeds);
+                } else if (getString(R.string.dog).equalsIgnoreCase(animalType)) {
+                    mPet.setType(Constants.PetType.DOG);
+                    mCurrentBreeds.addAll(mDogBreeds);
                 } else {
-                    if (mCatBreeds.isEmpty()) {
-                        request.addParam(Constants.Api.QUERY_PARAMETER1, Constants.Api.ANIMAL_CAT);
-                    } else {
-                        hasFetched = true;
-                    }
+                    mPet.setType(null);
                 }
-
-                if (!hasFetched) {
-                    VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
-                }
+                mBreedSpinnerAdapter.notifyDataSetChanged();
                 break;
             case R.id.sp_breed_type:
-                mBreedEt.setText((String) mBreedSP.getSelectedItem());
+
+                Constants.PetType type = mPet.getType();
+                String breedName = (String) adapterView.getSelectedItem();
+
+                Breed breed = getBreed(type, breedName);
+                if (breed != null) {
+                    mPet.setBreedId(breed.getId());
+                } else {
+                    mPet.setBreedId(0);
+                }
                 break;
             case R.id.sp_animal_gender:
-                mGenderEt.setText((String) mAnimalGenderSP.getSelectedItem());
+                String gender = (String) adapterView.getSelectedItem();
+                if (getString(R.string.male).equalsIgnoreCase(gender)) {
+                    mPet.setGender(Constants.Gender.MALE);
+                } else if (getString(R.string.female).equalsIgnoreCase(gender)) {
+                    mPet.setGender(Constants.Gender.FEMALE);
+                }
 
         }
+        updateUI();
+    }
+
+    private void getBreeds(final Constants.PetType petType) {
+        TekenJsonArrayRequest request = new TekenJsonArrayRequest(
+                Request.Method.GET,
+                Constants.Api.getUrl(Constants.Api.FUNC_GET_BREEDS),
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        ArrayList<Breed> breeds = null;
+
+                        switch (petType) {
+                            case DOG:
+                                breeds = mDogBreeds;
+                                break;
+                            case CAT:
+                                breeds = mCatBreeds;
+                                break;
+                        }
+
+                        if (breeds == null) {
+                            Log.e(TAG, "No such breed");
+                            return;
+                        }
+
+                        for (int i = 0; i < response.length(); i++) {
+                            try {
+                                JSONObject breedObject = response.getJSONObject(i);
+                                breeds.add(new Breed(breedObject));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        if (!mIsFetchingCatBreeds && !mIsFetchingDogBreeds) {
+                            mProgressDialogFragment.dismiss();
+                        }
+
+                        updateUI();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if (!mIsFetchingCatBreeds && !mIsFetchingDogBreeds) {
+                            mProgressDialogFragment.dismiss();
+                        }
+                    }
+                }
+        );
+        request.addParam(Constants.Api.QUERY_PARAMETER1, petType.toApi());
+        VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
+    }
+
+    private static final String
+            PARAM_EMAIL = "email",
+            PARAM_NAME = "name",
+            PARAM_FAMILY_NAME = "familyname",
+            PARAM_TYPE = "type",
+            PARAM_BREED = "breed",
+            PARAM_BIRTHDATE = "birthdate",
+            PARAM_GENDER = "gender",
+            PARAM_WEIGHT = "weight";
+
+    private void createOrEditAnimalProfile() {
+
+        String url = mPet.getId() > 0 ? Constants.Api.FUNC_EDIT_ANIMAL : Constants.Api.FUNC_CREATE_ANIMAL;
+
+        TekenStringRequest request = new TekenStringRequest(
+                Request.Method.POST,
+                url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }
+        );
+
+        request.addParam(PARAM_EMAIL, "roy@synappz.nl");
+        request.addParam(PARAM_NAME, mPet.getName());
+        request.addParam(PARAM_FAMILY_NAME, "");
+        request.addParam(PARAM_TYPE, mPet.getType().toApi());
+        request.addParam(PARAM_BREED, String.valueOf(mPet.getBreedId()));
+        request.addParam(PARAM_BIRTHDATE, DateUtils.toApi(mPet.getBirthDate()));
+        request.addParam(PARAM_GENDER, mPet.getGender().toApi());
+        request.addParam(PARAM_WEIGHT, String.valueOf(mPet.getWeight()));
+
+
+        VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
+
     }
 
     private class BreedSpinnerAdapter extends ArrayAdapter<Breed> {
         BreedSpinnerAdapter() {
             super(getActivity(), android.R.layout.simple_spinner_item, mCurrentBreeds);
             setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        }
-    }
-
-    private class Breed {
-
-        private static final String
-                JSON_N_ID = "id",
-                JSON_S_NAME = "name";
-
-        private long mId;
-        private String mName;
-
-        public Breed(JSONObject object) {
-            mId = object.optLong(JSON_N_ID);
-            mName = object.optString(JSON_S_NAME);
-        }
-
-        public long getId() {
-            return mId;
-        }
-
-        public String getName() {
-            return mName;
-        }
-
-        @Override
-        public String toString() {
-            return getName();
         }
     }
 }

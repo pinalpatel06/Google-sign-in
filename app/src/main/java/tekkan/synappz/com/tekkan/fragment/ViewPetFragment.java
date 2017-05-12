@@ -1,7 +1,6 @@
 package tekkan.synappz.com.tekkan.fragment;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,24 +9,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import tekkan.synappz.com.tekkan.R;
-import tekkan.synappz.com.tekkan.activity.EditPetActivity;
-import tekkan.synappz.com.tekkan.activity.ViewPetActivity;
-
-import static tekkan.synappz.com.tekkan.fragment.EditPetFragment.ARGS_PET_PROFILE;
-import static tekkan.synappz.com.tekkan.fragment.EditPetFragment.TAG_BREED;
-import static tekkan.synappz.com.tekkan.fragment.EditPetFragment.TAG_DOB;
-import static tekkan.synappz.com.tekkan.fragment.EditPetFragment.TAG_GENDER;
-import static tekkan.synappz.com.tekkan.fragment.EditPetFragment.TAG_IS_CAT_OR_DOG;
-import static tekkan.synappz.com.tekkan.fragment.EditPetFragment.TAG_PET_ID;
-import static tekkan.synappz.com.tekkan.fragment.EditPetFragment.TAG_PET_NAME;
-import static tekkan.synappz.com.tekkan.fragment.EditPetFragment.TAG_PROFILE_TYPE;
-import static tekkan.synappz.com.tekkan.fragment.EditPetFragment.TAG_WEIGHT;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -106,7 +92,7 @@ public class ViewPetFragment extends Fragment {
 
 
     public void onEditAnimalProfile(){
-        Bundle bundle = new Bundle();
+        /*Bundle bundle = new Bundle();
         bundle.putString(TAG_PET_NAME, mPetNameTv.getText().toString());
         bundle.putString(TAG_IS_CAT_OR_DOG, mIsCatOrDogTv.getText().toString());
         bundle.putString(TAG_BREED, mBreedTv.getText().toString());
@@ -118,18 +104,18 @@ public class ViewPetFragment extends Fragment {
         Intent intent = new Intent(getActivity(), EditPetActivity.class);
         intent.putExtra(ARGS_PET_PROFILE, bundle);
         startActivity(intent);
-        getActivity().finish();
+        getActivity().finish();*/
 
     }
 
     private void updateUI() {
-        mPetNameTv.setText(mArgs.getString(TAG_PET_NAME));
+        /*mPetNameTv.setText(mArgs.getString(TAG_PET_NAME));
         mIsCatOrDogTv.setText(mArgs.getString(TAG_IS_CAT_OR_DOG));
         mBreedTv.setText(mArgs.getString(TAG_BREED));
         mDateOfBirthTv.setText(mArgs.getString(TAG_DOB));
         mGenderTv.setText(mArgs.getString(TAG_GENDER));
         mWeightTv.setText(mArgs.getString(TAG_WEIGHT));
-        mPetId = mArgs.getString(TAG_PET_ID);
+        mPetId = mArgs.getString(TAG_PET_ID);*/
 
     }
 
