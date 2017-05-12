@@ -2,26 +2,26 @@ package tekkan.synappz.com.tekkan.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
+import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,30 +35,33 @@ import tekkan.synappz.com.tekkan.activity.EditPetActivity;
 import tekkan.synappz.com.tekkan.activity.ViewPetActivity;
 import tekkan.synappz.com.tekkan.custom.ListFragment;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.CommonNodeInterface;
-import tekkan.synappz.com.tekkan.custom.network.TekenStringRequest;
+import tekkan.synappz.com.tekkan.custom.network.TekenJsonObjectRequest;
+import tekkan.synappz.com.tekkan.dialogs.ProgressDialogFragment;
 import tekkan.synappz.com.tekkan.utils.Constants;
-import tekkan.synappz.com.tekkan.utils.LoginUtils;
 import tekkan.synappz.com.tekkan.utils.VolleyHelper;
 
 
 public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolder> implements CommonNodeInterface {
 
-
-    private ProfileFieldVH mProfileViewHolder;
     private static final String
             TAG = ProfileFragment.class.getSimpleName(),
-            ARGS_PROFILE_TYPE = TAG + "ARGS_PROFILE_TYPE";
+            ARGS_PROFILE_TYPE = TAG + "ARGS_PROFILE_TYPE",
+            ARGS_EMAIL = TAG + "ARGS_EMAIL",
+            TAG_PROGRESS_DIALOG = TAG + ".TAG_PROGRESS_DIALOG";
 
     private static final int
             TYPE_PROFILE_FIELDS = 0,
             TYPE_PET = 1;
 
     private boolean mIsNewProfile = false;
-    ProfileItem mProfileItem;
-    public static ProfileFragment newInstance(boolean profileType) {
+    private String mEmail = null;
+    ArrayList<Object> mListItems;
+
+    public static ProfileFragment newInstance(boolean profileType, String email) {
 
         Bundle args = new Bundle();
         args.putBoolean(ARGS_PROFILE_TYPE, profileType);
+        args.putString(ARGS_EMAIL, email);
         ProfileFragment fragment = new ProfileFragment();
         fragment.setArguments(args);
         return fragment;
@@ -92,6 +95,11 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
 
                 return true;
             case R.id.action_logout:
+                PreferenceManager.getDefaultSharedPreferences(getActivity())
+                        .edit()
+                        .putBoolean(Constants.SP.BOOLEAN_LOGED_IN, false)
+                        .apply();
+
                 getActivity().onBackPressed();
                 return true;
             case android.R.id.home:
@@ -113,6 +121,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
         mIsNewProfile = args.getBoolean(ARGS_PROFILE_TYPE);
+        mEmail = args.getString(ARGS_EMAIL);
     }
 
     @Nullable
@@ -121,31 +130,53 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         View v = super.onCreateView(inflater, container, savedInstanceState);
         v.setBackgroundColor(ContextCompat.getColor(getActivity(), android.R.color.white));
         setHasOptionsMenu(true);
-
-                return v;
+        if(!mIsNewProfile) {
+            fetchProfileData();
+        }
+        return v;
     }
 
+    private void fetchProfileData() {
 
+        TekenJsonObjectRequest request = new TekenJsonObjectRequest(
+                Request.Method.GET,
+                Constants.Api.getUrl(Constants.Api.FUNC_USER),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, "Success " + response.toString());
+                        mListItems = new ArrayList<>();
+                        mListItems.add(new ProfileItem(response));
+                        if (!mIsNewProfile) {
+                            for (int i = 0; i < 4; i++) {
+                                mListItems.add(new Pet("Pet #" + (i + 1), (i + 1)));
+                            }
+                        }
+                        loadNewItems(mListItems);
 
+                        ProgressDialogFragment fragment = (ProgressDialogFragment) getParentFragment().getFragmentManager().findFragmentByTag(LoginFragment.TAG_PROGRESS_DIALOG);
+                        if(fragment != null) {
+                            fragment.dismiss();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d(TAG, "Failure ");
+                    }
+                }
+        );
 
+        request.addParam(Constants.Api.QUERY_PARAMETER1, mEmail);
+        VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
+    }
 
     @Override
     public List<Object> onCreateItems(Bundle savedInstanceState) {
-        ArrayList<Object> listItems = new ArrayList<>();
-
-        //first item null to accommodate profile
-        if (!mIsNewProfile) {
-            listItems.add(null);
-            for (int i = 0; i < 4; i++) {
-                listItems.add(new Pet("Pet #" + (i + 1), (i + 1)));
-            }
-
-
-
-        } else {
-            listItems.add(new ProfileItem(1,"M","Jhon", "Smith", "jhon@anb.com", "303", "1234PR", "Greece", "000111000","test","test"));
-        }
-        return listItems;
+        mListItems = new ArrayList<>();
+        mListItems.add(new ProfileItem());
+        return mListItems;
     }
 
     public void createOrUpdateUser(){
@@ -241,10 +272,9 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
     public void onBindViewHolder(RecyclerView.ViewHolder holder, Object item) {
         if (holder instanceof PetVH && item instanceof Pet) {
             ((PetVH) holder).bind((Pet) item);
+        } else if (holder instanceof ProfileFieldVH && item instanceof ProfileItem) {
+            ((ProfileFieldVH) holder).bind((ProfileItem) item);
         }
-//        else if (holder instanceof ProfileFieldVH && item instanceof ProfileItem) {
-//            ((ProfileFieldVH) holder).bind((ProfileItem) item);
-//        }
     }
 
     @Override
@@ -300,31 +330,21 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
             super(itemView);
             ButterKnife.bind(this, itemView);
             mAddPetTV.setEnabled(!mIsNewProfile);
-            mProfileViewHolder = this;
-            if (!mIsNewProfile){
-                setEditableFields(false);
-            }
-            if (!mIsNewProfile){
-              ProfileItem profileItem = new ProfileItem(1,"M","Jhon", "Smith", "jhon@anb.com", "303", "1234PR", "Greece", "000111000","test","test");
-               bind(profileItem);
-            }
-
         }
 
-        void bind(ProfileItem profileItem) {
-            //mFirstNameEt.setText(profileItem.getFirstName());
-            mFirstNameEt.setText(profileItem.getFirstName());
-            mLastNameEt.setText(profileItem.getLastName());
-            mStreetNameEt.setText(profileItem.getAddress());
-            mPostalCodeEt.setText(profileItem.getPinCode());
-            mPlaceNameEt.setText(profileItem.getPlace());
-            mTelNoEt.setText(profileItem.getPhoneNo());
-            mEmailEt.setText(profileItem.getEmail());
-            mPasswordEt.setText(profileItem.getPassword());
-            mConfirmPasswordEt.setText(profileItem.getPassword());
-
+        void bind(ProfileItem item) {
+            mMaleRB.setChecked(item.getGender() == ProfileItem.MR);
+            mFemaleRB.setChecked(item.getGender() == ProfileItem.MRS);
+            mFirstNameET.setText(item.getFirstName());
+            mLastNameET.setText(item.getLastName());
+            mEmailET.setText(item.getEmail());
+            mStreetET.setText(item.getAddress());
+            mPostalCodeET.setText(item.getPinCode());
+            mPlaceET.setText(item.getPlace());
+            mPhoneNoET.setText(item.getPhoneNo());
+            mPasswordET.setText("123456");
+            mMatchPasswordET.setText("123456");
         }
-
 
         @OnClick(R.id.lt_conditions)
         public void showConditions() {
@@ -337,144 +357,45 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
             Intent intent = new Intent(getActivity(), EditPetActivity.class);
             startActivity(intent);
         }
-
-        public void setEditableFields(Boolean isEditable){
-
-            LinearLayout linearLayout = (LinearLayout)itemView.findViewById(R.id.profile_fields);
-            for( int i = 0; i < linearLayout.getChildCount(); i++ ) {
-                if (linearLayout.getChildAt(i) instanceof EditText){
-                    ((EditText)linearLayout.getChildAt(i)).setEnabled(isEditable);
-                }else if(linearLayout.getChildAt(i) instanceof LinearLayout){
-                    LinearLayout linearLayout1 = (LinearLayout) linearLayout.getChildAt(i);
-                    for( int j = 0; j < linearLayout1.getChildCount(); j++ ) {
-                        if (linearLayout1.getChildAt(j) instanceof EditText){
-                            ((EditText)linearLayout1.getChildAt(j)).setEnabled(isEditable);
-                        }
-                    }
-
-                }
-            }
-
-        }
-
-
-        public  boolean isValidFields(){
-
-            String gender = "";
-            if(mGenderRadioGroup.getCheckedRadioButtonId() == R.id.rb_male){
-                gender = "M";
-            }else if (mGenderRadioGroup.getCheckedRadioButtonId() == R.id.rb_female){
-                gender = "F";
-            }
-
-
-            mProfileItem = new ProfileItem(1,gender,mFirstNameEt.getText().toString(),
-                    mLastNameEt.getText().toString(),
-                    mEmailEt.getText().toString(),mStreetNameEt.getText().toString(),
-                    mPostalCodeEt.getText().toString(),mPlaceNameEt.getText().toString(),
-                    mTelNoEt.getText().toString(),mPasswordEt.getText().toString(),mConfirmPasswordEt.getText().toString());
-
-            if (mProfileItem.getGender().equals("")) {
-                Toast.makeText(getContext(), "Please select the gender ", Toast.LENGTH_SHORT).show();
-                return false;
-            } else if (mProfileItem.getFirstName().equals("")) {
-                mFirstNameEt.setError(getString(R.string.blank_filed_message));
-                return false;
-            } else if (mProfileItem.getLastName().equals("")) {
-                mLastNameEt.setError(getString(R.string.blank_filed_message));
-                return false;
-            } else if (mProfileItem.getEmail().equals("")) {
-                mEmailEt.setError(getString(R.string.blank_filed_message));
-                return false;
-            }else if (mProfileItem.getPassword().equals("")) {
-                mPasswordEt.setError(getString(R.string.blank_filed_message));
-                return false;
-            }else if (mProfileItem.getConfirmPassword().equals("")) {
-                mConfirmPasswordEt.setError(getString(R.string.blank_filed_message));
-                return false;
-            }
-            else if (mProfileItem.getAddress().equals("")) {
-                mStreetNameEt.setError(getString(R.string.blank_filed_message));
-                return false;
-            } else if (mProfileItem.getPinCode().equals("")) {
-                mPostalCodeEt.setError(getString(R.string.blank_filed_message));
-                return false;
-            } else if (mProfileItem.getPlace().equals("")) {
-                mPlaceNameEt.setError(getString(R.string.blank_filed_message));
-                return false;
-            }
-            else if (mProfileItem.getPhoneNo().equals("")) {
-                mTelNoEt.setError(getString(R.string.blank_filed_message));
-                return false;
-            }
-            else {
-                return true;
-            }
-
-        }
-
     }
 
     class ProfileItem {
-        private int mTitle;
         private String mFirstName, mLastName;
         private String mEmail;
         private String mAddress, mPinCode, mPlace;
         private String mPhoneNo;
-        private String mPassword;
-
-        private String mConfirmPassword;
-
-
-
-        private String mGender;
-        private static final int
+        private int mGender;
+        public static final int
                 MR = 0,
                 MRS = 1;
 
+        private static final String
+                JSON_S_GENDER = "gender",
+                JSON_S_FIRST_NAME = "firstname",
+                JSON_S_LAST_NAME = "lastname",
+                JSON_S_STREET = "street",
+                JSON_S_POSTAL_CODE = "postalcode",
+                JSON_S_POSTAL_ADDRESS = "postaladdress",
+                JSON_S_EMAIL = "email",
+                JSON_N_MOBILE = "mobile";
 
-        public ProfileItem(int title,String gender ,String firstName, String lastName, String email,
-                           String address, String pinCode, String place, String phoneNo,String
-                                   password,String confirmPassword) {
-            mTitle = title;
-            mFirstName = firstName;
-            mLastName = lastName;
-            mEmail = email;
-            mAddress = address;
-            mPinCode = pinCode;
-            mPlace = place;
-            mPhoneNo = phoneNo;
-            mGender = gender;
-            mPassword = password;
+        public ProfileItem() {
         }
 
-
-
-        public String getConfirmPassword() {
-            return mConfirmPassword;
+        public ProfileItem(JSONObject jSonObject) {
+            mGender = jSonObject.optString(JSON_S_GENDER).equalsIgnoreCase("M") ? MR : MRS;
+            mFirstName = jSonObject.optString(JSON_S_FIRST_NAME);
+            mLastName = jSonObject.optString(JSON_S_LAST_NAME);
+            mLastName = jSonObject.optString(JSON_S_STREET);
+            mAddress = jSonObject.optString(JSON_S_STREET);
+            mPinCode = jSonObject.optString(JSON_S_POSTAL_CODE);
+            mPlace = jSonObject.optString(JSON_S_POSTAL_ADDRESS);
+            mEmail = jSonObject.optString(JSON_S_EMAIL);
+            mPhoneNo = String.valueOf(jSonObject.optInt(JSON_N_MOBILE));
         }
 
-        public void setConfirmPassword(String mConfirmPassword) {
-            this.mConfirmPassword = mConfirmPassword;
-        }
-
-        public String getGender() {
+        public int getGender() {
             return mGender;
-        }
-
-        public void setGender(String mGender) {
-            this.mGender = mGender;
-        }
-
-        public String getPassword() {
-            return mPassword;
-        }
-
-        public void setPassword(String mPassword) {
-            this.mPassword = mPassword;
-        }
-        public int getTitle() {
-            return mTitle;
         }
 
         public String getFirstName() {

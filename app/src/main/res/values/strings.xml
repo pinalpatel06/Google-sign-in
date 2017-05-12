@@ -4,25 +4,35 @@
 
     <!--splash activity -->
     <string name="title">TEKENSCANNER</string>
-    <string name="sub_title">Ontdek het aantal teken in jouw buurt,\nmeld zelf een teek en vraag onderzoek aan. </string>
+    <string name="sub_title">Ontdek het aantal teken in jouw buurt,\nmeld zelf een teek en vraag
+        onderzoek aan.
+    </string>
     <string name="splash_bottom_text">JE SPEELT TOCH NIET MET DE GEZONDHEID VAN JE HUISDIER?
     </string>
 
     <!--disclaimer activity -->
     <string name="text_akkoord">akkoord</string>
-    <string name="disclaimer_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. \n \nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum
-        dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet,
-        consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. \n\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris
-        nisi ut aliquip ex ea commodo consequat, Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-        non proident, sunt in cupla qui officia deserunt mollit anim id est laborum.</string>
+    <string name="disclaimer_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        \n \nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum
+        dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+        culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet,
+        consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+        aliqua. \n\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris
+        nisi ut aliquip ex ea commodo consequat, Duis aute irure dolor in reprehenderit in voluptate
+        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+        non proident, sunt in cupla qui officia deserunt mollit anim id est laborum.
+    </string>
 
     <string name="disclaimer_title">Disclaimer</string>
 
     <!-- profile setup activity -->
     <string name="back">VORIGE</string>
     <string name="next">VOLGENDE</string>
-    <string name="step_1_text">Bekijk het aantal gemelde teken in \njouw omgeving op de Tekenscanner.</string>
+    <string name="step_1_text">Bekijk het aantal gemelde teken in \njouw omgeving op de
+        Tekenscanner.
+    </string>
     <string name="action_close">Close</string>
     <string name="profile_setup_title">Helpschermen</string>
 
@@ -39,26 +49,37 @@
     <string name="postal_code_placeholder">Postcode</string>
     <string name="place_placeholder">Plaats</string>
     <string name="mobile_number_placeholder">Telefoonnummer</string>
-    <string name="agree_terms_conditions">Ik ga akkoord met de </string>
-    <string name="condtions_text"><u>voorwaarden</u></string>
+    <string name="agree_terms_conditions">Ik ga akkoord met de</string>
+    <string name="condtions_text">
+        <u>voorwaarden</u>
+    </string>
     <string name="my_pet_title">MIJN HUISDIEREN</string>
     <string name="add_new_pet_placeholder">Nieuw huisdier toevoegen</string>
     <string name="add_new_pet_title">MIJN HUISDIEREN</string>
+    <string name="wait">Loading Profiel</string>
 
 
     <!--Conditions Activity-->
     <string name="conditions_title">Voorwaarden</string>
-    <string name="conditions_text">Hierbij geef ik Bayer B.V. (Energieweg 1, 3641 RT Mijdrecht, Nederland) toestemming om mijn persoonlijke gegevens (namelijk mijn naam, adres,
-        woonplaats, e-mailadres, (mobiel) telefoonnummer) te verzamelen, verwerken en gebruiken voor statistische, communicatie en marketing doeleinden en om mij te voorzien
-        van gepersonaliseerde diensten.\nIk ga er hierbij mee akkoord dat Bayer B.V. mijn bovengenoemde persoonlijke gegevens voor dit doeleinde mag doorgeven naar externe dienstverleners. Ik ga hierbij akkoord dat
-        mijn persoonlijke gegevens mogen worden doorgegeven, verwerkt en gebruikt in landen waar het niveau van data protectie niet als adequaat is aangemerkt door de Europese Commissie.\n
-        Ik ben mij ervan bewust dat ik meer informatie kan krijgen over de verwerking van persoonsgegevens, of kan vragen naar wijziging of verwijdering van mijn persoonsgegevens. Het staat me vrij
-        om mijn toestemming op elk moment in te trekken met toekomstig effect. Enig verzoek of een verklaring van intrekking kan worden geadresseerd aan </string>
+    <string name="conditions_text">Hierbij geef ik Bayer B.V. (Energieweg 1, 3641 RT Mijdrecht,
+        Nederland) toestemming om mijn persoonlijke gegevens (namelijk mijn naam, adres,
+        woonplaats, e-mailadres, (mobiel) telefoonnummer) te verzamelen, verwerken en gebruiken voor
+        statistische, communicatie en marketing doeleinden en om mij te voorzien
+        van gepersonaliseerde diensten.\nIk ga er hierbij mee akkoord dat Bayer B.V. mijn
+        bovengenoemde persoonlijke gegevens voor dit doeleinde mag doorgeven naar externe
+        dienstverleners. Ik ga hierbij akkoord dat
+        mijn persoonlijke gegevens mogen worden doorgegeven, verwerkt en gebruikt in landen waar het
+        niveau van data protectie niet als adequaat is aangemerkt door de Europese Commissie.\n
+        Ik ben mij ervan bewust dat ik meer informatie kan krijgen over de verwerking van
+        persoonsgegevens, of kan vragen naar wijziging of verwijdering van mijn persoonsgegevens.
+        Het staat me vrij
+        om mijn toestemming op elk moment in te trekken met toekomstig effect. Enig verzoek of een
+        verklaring van intrekking kan worden geadresseerd aan
+    </string>
     <string name="conditions_web_link">dataprivacy.nl@bayer.com.</string>
 
 
     <!--Profile Your Pet Activity-->
-
     <string name="add_photo_text">Voeg een foto toe</string>
     <string name="what_is_your_pet_name">Wat is de naam van jouw huisdier?</string>
     <string name="is_it_dog_or_cat">Is het een hond of kat?</string>
@@ -67,17 +88,26 @@
     <string name="what_is_the_gender">Wat is het geslacht</string>
     <string name="what_is_the_weight">Wat is het gewicht (kg)?</string>
 
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+
     <!--Profile Your Pet Activity Final-->
     <string name="second_list_title">ONDERZOEKEN</string>
     <string name="bottom_result_text">Er staat een uitslag klaar</string>
 
     <!--Product Fragment-->
-    <string name="dummy_text">Secondary text Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nam massa quam. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</string>
+    <string name="dummy_text">Secondary text Lorem ipsum dolor sit amet, consectetuer adipiscing
+        elit. Nam massa quam. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+    </string>
 
     <!--Product Details Fragment-->
-
-    <string name="product_details_title">Bestrijding en preventie van vlooien en luizen bij de hond</string>
-    <string name="product_details_description">Advantage®  is een snelwerkend middel dat vlooien en luizen doodt. De toediening is eenvoudig: u druppelt de inhoud van de pipet tussen de haren van uw hond op de intacte huid.</string>
+    <string name="product_details_title">Bestrijding en preventie van vlooien en luizen bij de
+        hond
+    </string>
+    <string name="product_details_description">Advantage® is een snelwerkend middel dat vlooien en
+        luizen doodt. De toediening is eenvoudig: u druppelt de inhoud van de pipet tussen de haren
+        van uw hond op de intacte huid.
+    </string>
     <string name="button_text_more_information">MEER INFORMATIE</string>
 
 
@@ -92,26 +122,35 @@
 
     <!--login fragment-->
 
-    <string name="login_top_text">Met een Bayer Petcare account kan je een gratis tekenonderzoek aanvragen voor jouw hond of kat.</string>
+    <string name="login_top_text">Met een Bayer Petcare account kan je een gratis tekenonderzoek
+        aanvragen voor jouw hond of kat.
+    </string>
     <string name="login_email_text">E-mail:</string>
     <string name="login_password_text">Wachtwoord:</string>
-    <string name="forgot_password_text"><u>Wachtwoord vergeten</u></string>
+    <string name="forgot_password_text">
+        <u>Wachtwoord vergeten</u>
+    </string>
     <string name="login_button_text">INLOGGEN</string>
-    <string name="dont_have_account_text"><u>Ik heb nog geen BayerPetCare account</u></string>
-
+    <string name="dont_have_account_text">
+        <u>Ik heb nog geen BayerPetCare account</u>
+    </string>
+    <string name="invalid_login">Email or Password incorrect</string>
+    <string name="error">Error</string>
+    <string name="login">LogIn..Please wait..</string>
 
     <!--report fragment step 1-->
 
     <string name="report_step1_title">TOELICHTING</string>
     <string name="report_step1_detail_text">Duid op de kaart aan waar je de teek hebt gevonden.\n\n
-Daarna kan je ook een onderzoek aanvragen om te
-zien of de teek besmet is met een ziekte.</string>
+        Daarna kan je ook een onderzoek aanvragen om te
+        zien of de teek besmet is met een ziekte.
+    </string>
     <string name="report_step1_botton_text">VOLGENDE</string>
 
 
     <!--report fragment step 2-->
     <string name="report_step2_title">TOELICHTING</string>
-    <string name="report_step2_detail_text">Zit de teek op jouw hond of kat? </string>
+    <string name="report_step2_detail_text">Zit de teek op jouw hond of kat?</string>
     <string name="report_step2_botton1_text">HOND</string>
     <string name="report_step2_botton2_text">KAT</string>
     <string name="report_step2_botton3_text">ANDERS</string>
@@ -120,19 +159,23 @@ zien of de teek besmet is met een ziekte.</string>
     <!--report fragment step 3-->
 
     <string name="report_step3_title">TOELICHTING</string>
-    <string name="report_step3_detail_text">Let op! \n\nJe kunt enkel meldingen maken van teken die op honden of katten zitten / hebben gezeten.</string>
+    <string name="report_step3_detail_text">Let op! \n\nJe kunt enkel meldingen maken van teken die
+        op honden of katten zitten / hebben gezeten.
+    </string>
     <string name="report_step3_botton_text">VORIGE</string>
 
 
     <!--report fragment step 4-->
     <string name="report_step4_title">TEEK MELDEN</string>
-    <string name="report_step4_detail_text">Waar denk je dat jouw hond de teek heeft opgelopen? </string>
+    <string name="report_step4_detail_text">Waar denk je dat jouw hond de teek heeft opgelopen?
+    </string>
     <string name="report_step4_botton1_text">OP MIJN HUIDIGE LOCATIE</string>
     <string name="report_step4_botton2_text">OP EEN ANDERE LOCATIE</string>
 
     <!--report fragment step 5-->
     <string name="report_step5_title">TEEK MELDEN</string>
-    <string name="report_step5_detail_text">Waar denkt je dat jouw kat de teek heeft opgelopen? </string>
+    <string name="report_step5_detail_text">Waar denkt je dat jouw kat de teek heeft opgelopen?
+    </string>
     <string name="report_step5_botton1_text">OP MIJN HUIDIGE LOCATIE</string>
     <string name="report_step5_botton2_text">OP EEN ANDERE LOCATIE</string>
 
@@ -145,7 +188,8 @@ zien of de teek besmet is met een ziekte.</string>
     <string name="qr_scanner_botton2_text">IK HEB GEEN CODE</string>
 
     <!--test_kit step 2 fragment-->
-    <string name="test_kit_step2_detail_text">Voor welk dier wil je een onderzoek aanvragen?</string>
+    <string name="test_kit_step2_detail_text">Voor welk dier wil je een onderzoek aanvragen?
+    </string>
 
 
     <!--tekenscanner fragment -->
@@ -169,7 +213,8 @@ zien of de teek besmet is met een ziekte.</string>
 
     <!-- filter option activity -->
     <string name="filter_option_toolbar_text">Tekenscanner</string>
-    <string name="text_filter_option_info">De teek kan besmet zijn\n met 4 verschillende ziekten.\n Alle
+    <string name="text_filter_option_info">De teek kan besmet zijn\n met 4 verschillende ziekten.\n
+        Alle
         vier de ziekten kunnen\n worden overgedragen op\n hond of kat.
     </string>
     <string name="more_info">Meer informatie</string>
@@ -181,12 +226,20 @@ zien of de teek besmet is met een ziekte.</string>
 
     <!-- more info fragment -->
     <string name="more_info_heading">Header</string>
-    <string name="more_info_detail">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-     veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. \n\nDuis  aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-    fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in cupla qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing
-    elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. \n\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in cupla qui officia
-    deserunt mollit anim id est laborum.</string>
+    <string name="more_info_detail">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        \n\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+        fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in cupla qui
+        officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur
+        adipiscing
+        elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. \n\nUt enim ad
+        minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+        fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in cupla qui
+        officia
+        deserunt mollit anim id est laborum.
+    </string>
     <string name="more_info_title">Meer informatie</string>
 
     <!-- onderzoek fragment -->
@@ -205,7 +258,9 @@ zien of de teek besmet is met een ziekte.</string>
     <!-- Fragment teek melden -->
     <string name="title_report_tick">Teek Melden</string>
     <string name="teek_melden_title">TOELICHTING</string>
-    <string name="teek_melden_detail">Duid op de kaart aan waar je de teek hebt gevonden. \n\n Daarna kan je ook een onderzoek aanvragen om te zien of de teek besmet is met een ziekte.</string>
+    <string name="teek_melden_detail">Duid op de kaart aan waar je de teek hebt gevonden. \n\n
+        Daarna kan je ook een onderzoek aanvragen om te zien of de teek besmet is met een ziekte.
+    </string>
     <string name="teek_melden_btn_text">VOLGENDE</string>
 
     <!-- Fragment pet selection -->
@@ -214,12 +269,14 @@ zien of de teek besmet is met een ziekte.</string>
     <string name="pet_kat">KAT</string>
     <string name="pet_hond">HOND</string>
     <string name="teek_melden">TEEK MELDEN</string>
-    <string name="pet_hond_location_text">Waar denkt je dat jouw hond de teek heeft opgelopen?</string>
-    <string name="pet_kat_location_text">Waar denkt je dat jouw kat de teek heeft opgelopen?</string>
+    <string name="pet_hond_location_text">Waar denkt je dat jouw hond de teek heeft opgelopen?
+    </string>
+    <string name="pet_kat_location_text">Waar denkt je dat jouw kat de teek heeft opgelopen?
+    </string>
     <string name="location_others">OP EEN ANDERE LOCATIE</string>
     <string name="location_current">OP MIJN HUIDIGE LOCATIE</string>
-    <string name="other_pet_selected_text">Let op! \n\nje kunt enkel meldingen maken van teken die op
-        honden of katten zitten/hebben gezeten.
+    <string name="other_pet_selected_text">Let op! \n\nje kunt enkel meldingen maken van teken die
+        op honden of katten zitten/hebben gezeten.
     </string>
     <string name="previous">VORIGE</string>
     <string name="teek_melden_map_title">JOUW HUIDIGE LOCATE</string>
@@ -250,6 +307,7 @@ zien of de teek besmet is met een ziekte.</string>
 
     <!-- product fragment-->
     <string name="title_product">Product</string>
+    <string name="product_list_title">Producten</string>
     <string name="research_text">Wist de dat een teek verschillende ziekten kan overdragen op jouw
         hond of kat? Het is van belang om te weten of de teek die je van jouw dier hebt afgehaald
         geen kaans heeft gekregen een ziekte over te dragen? wil je de teek die je hebt gemeld
@@ -259,6 +317,7 @@ zien of de teek besmet is met een ziekte.</string>
     <string name="login_profile_title_text">Om een onderzoek te kunnen aanvragen moet je inloggen of
         een profiel aanmaken.
     </string>
+    <string name="link_err">Invalid Url</string>
 
     <!--Login profile activity -->
     <string name="login_profile_btn_text">PROFIEL AANMAKEN</string>
@@ -269,6 +328,8 @@ zien of de teek besmet is met een ziekte.</string>
 
     <!--Petprofile activity -->
     <string name="pet_profile_app_title">Jouw huisdier</string>
+    <string name="dog">Hond</string>
+    <string name="cat">Kat</string>
 
     <!-- apply pet fragment -->
     <string name="apply_pet_text">Klopt het dat je een ondrzoek wilt aanvragen voor onderstaand
@@ -298,7 +359,9 @@ zien of de teek besmet is met een ziekte.</string>
 
     <string name="picker_cancel_text">Cancel</string>
     <string name="picker_set_text">Set</string>
-
     <string name="blank_filed_message">This field cannot be blank</string>
+    <string name="confirm_camera_request_permission">Need camera permission to scan QR code.
+    </string>
+    <string name="low_storage_error">Can\'t start scanning due to low memory</string>
 
 </resources>

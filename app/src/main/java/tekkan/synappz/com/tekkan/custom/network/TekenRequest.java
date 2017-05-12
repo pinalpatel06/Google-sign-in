@@ -34,29 +34,6 @@ public abstract class TekenRequest<T> extends Request<T> {
         mFiles = new HashMap<>();
     }
 
-    /*@Override
-    protected Response<T> parseNetworkResponse(NetworkResponse response) {
-        try {
-
-            String jsonString = new String(response.data,
-                    HttpHeaderParser.parseCharset(response.headers));
-
-            JSONObject responseObject = new JSONObject(jsonString);
-
-            int status = responseObject.optInt(JSON_N_STATUS);
-
-            if(status == HttpURLConnection.HTTP_OK){
-
-                return Response.success(new JSONObject(jsonString),
-                        HttpHeaderParser.parseCacheHeaders(response));
-            }else{
-                return Response.error(new VolleyError(response));
-            }
-        } catch (Exception e) {
-            return Response.error(new ParseError(e));
-        }
-    }*/
-
     @Override
     public String getUrl() {
         if (getMethod() == Method.GET) {

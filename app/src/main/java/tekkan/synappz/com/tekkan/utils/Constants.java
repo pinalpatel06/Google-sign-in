@@ -10,14 +10,21 @@ import android.net.Uri;
 public class Constants {
 
     public static class Api {
+
         private static final String
                 SCHEME = "http",
                 END_POINT = "dev.bayerpetcare.nl",
                 PATH_SCRIPT = "scripts",
                 PATH_WEB_SERVICES = "webservice.app.php",
-                QUERY_PARAMETER_KEY = "m",
+                QUERY_PARAMETER_KEY = "m";
+
+        public static final String
                 QUERY_PARAMETER1 = "p1",
                 QUERY_PARAMETER2 = "p2";
+
+        public static final String
+                ANIMAL_HOND = "D",
+                ANIMAL_CAT = "C";
 
         private static final Uri
                 BASE_URI = new Uri.Builder()
@@ -49,5 +56,10 @@ public class Constants {
             builder.appendQueryParameter(QUERY_PARAMETER_KEY,funcName);
             return builder.build().toString();
         }
+    }
+
+    public static class SP{
+        public static final String
+                BOOLEAN_LOGED_IN = "loged_in";
     }
 }

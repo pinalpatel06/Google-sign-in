@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -18,6 +17,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import tekkan.synappz.com.tekkan.R;
+import tekkan.synappz.com.tekkan.custom.CircleNetworkImageView;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.ContainerNodeListFragment;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.NestedFragmentUtil;
 
@@ -73,7 +73,7 @@ public class InformationListFragment extends ContainerNodeListFragment<Informati
         @BindView(R.id.tv_product_details)
         TextView mDescriptionTV;
         @BindView(R.id.iv_product_image)
-        ImageView mProductImageIV;
+        CircleNetworkImageView mProductImageIV;
 
         public ProductVH(View itemView) {
             super(itemView);
@@ -84,6 +84,7 @@ public class InformationListFragment extends ContainerNodeListFragment<Informati
             mTitleTV.setText(item.getTitle());
             mDescriptionTV.setText(item.getDescription());
             itemView.setTag(item);
+            mProductImageIV.setDefaultImageResId(R.drawable.ic_splash_pets);
             itemView.setOnClickListener(this);
         }
 
