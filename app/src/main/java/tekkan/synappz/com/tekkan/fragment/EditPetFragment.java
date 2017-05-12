@@ -46,6 +46,7 @@ import tekkan.synappz.com.tekkan.utils.DateUtils;
 import tekkan.synappz.com.tekkan.utils.VolleyHelper;
 
 import static tekkan.synappz.com.tekkan.utils.Constants.PetType.CAT;
+import static tekkan.synappz.com.tekkan.utils.Constants.PetType.DOG;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -58,9 +59,6 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
             STATE_DOG_BREEDS = TAG + ".STATE_DOG_BREEDS",
             STATE_CAT_BREEDS = TAG + ".STATE_CAT_BREEDS",
             TAG_DIALOG_BREEDS = TAG + ".TAG_DIALOG_BREEDS";
-
-    private boolean mIsUpdate = false;
-    private boolean mIsDone = true;
 
     @BindView(R.id.et_pet_name)
     EditText mPetNameET;
@@ -90,7 +88,9 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
 
     private Pet mPet;
 
-    private ProgressDialogFragment mProgressDialogFragment;
+    private ProgressDialogFragment
+            mBreedFetchPD,
+            mPetUpdatePD;
 
     private boolean mIsFetchingDogBreeds = false, mIsFetchingCatBreeds = false;
 
@@ -112,14 +112,6 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
         inflater.inflate(R.menu.menu_pet_profile_update, menu);
     }
 
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        MenuItem editItem = menu.findItem(R.id.action_edit);
-        MenuItem doneItem = menu.findItem(R.id.action_done);
-        editItem.setVisible(mIsUpdate);
-        doneItem.setVisible(mIsDone);
-        super.onPrepareOptionsMenu(menu);
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -128,18 +120,9 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
                 getActivity().onBackPressed();
                 return true;
             case R.id.action_done:
-                mIsUpdate = true;
-                mIsDone = false;
                 if (isValidate()) {
                     createOrEditAnimalProfile();
                 }
-                getActivity().invalidateOptionsMenu();
-                return true;
-            case R.id.action_edit:
-                mIsDone = true;
-                mIsUpdate = false;
-                getActivity().invalidateOptionsMenu();
-
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -171,7 +154,7 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
 
         if (mDogBreeds.isEmpty()) {
             mIsFetchingDogBreeds = true;
-            getBreeds(Constants.PetType.DOG);
+            getBreeds(DOG);
         }
 
         if (mCatBreeds.isEmpty()) {
@@ -180,8 +163,14 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
         }
 
         if (mIsFetchingCatBreeds || mIsFetchingDogBreeds) {
-            mProgressDialogFragment.show(getFragmentManager(), TAG_DIALOG_BREEDS);
+            mBreedFetchPD.show(getFragmentManager(), TAG_DIALOG_BREEDS);
         }
+
+        mBreedSP.setAdapter(mBreedSpinnerAdapter);
+
+        mAnimalTypeSP.setOnItemChosenListener(this);
+        mAnimalGenderSP.setOnItemChosenListener(this);
+        mBreedSP.setOnItemChosenListener(this);
 
         updateUI();
         return v;
@@ -198,7 +187,10 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
     private void init(View v) {
         ButterKnife.bind(this, v);
         mBreedSpinnerAdapter = new BreedSpinnerAdapter();
-        mProgressDialogFragment = ProgressDialogFragment.newInstance(getString(R.string.progress_fetching_breeds));
+        mBreedFetchPD = ProgressDialogFragment.newInstance(getString(R.string.progress_fetching_breeds));
+        mPetUpdatePD = ProgressDialogFragment.newInstance(getString(
+                mPet.getId() > 0 ? R.string.progress_updating_pet : R.string.progress_creating_pet
+        ));
     }
 
     @OnClick({R.id.tv_date_of_birth, R.id.tv_animal_type, R.id.tv_breed, R.id.tv_gender})
@@ -245,43 +237,51 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
         mPetNameET.setText(mPet.getName());
 
         Constants.PetType petType = mPet.getType();
-        switch (petType) {
-            case CAT:
-                mAnimalTypeTV.setText(R.string.cat);
-                break;
-            case DOG:
-                mAnimalTypeTV.setText(R.string.dog);
-                break;
+
+        if (petType == CAT) {
+            mAnimalTypeTV.setText(R.string.cat);
+        } else if (petType == DOG) {
+            mAnimalTypeTV.setText(R.string.dog);
+        } else {
+            mAnimalTypeTV.setText("");
         }
 
         Breed breed = getBreed(mPet.getType(), mPet.getBreedId());
-
         if (breed != null) {
             mBreedTV.setText(breed.getName());
+        } else {
+            mBreedTV.setText("");
         }
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(mPet.getBirthDate());
-
-        mDateOfBirthTV.setText(
-                getString(R.string.date_of_birth_format,
-                        calendar.get(Calendar.DATE),
-                        calendar.get(Calendar.MONTH) + 1,
-                        calendar.get(Calendar.YEAR)
-                )
-        );
+        if (mPet.getBirthDate() != null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(mPet.getBirthDate());
+            mDateOfBirthTV.setText(
+                    getString(R.string.date_of_birth_format,
+                            calendar.get(Calendar.DATE),
+                            calendar.get(Calendar.MONTH) + 1,
+                            calendar.get(Calendar.YEAR)
+                    )
+            );
+        }
 
         Constants.Gender gender = mPet.getGender();
 
-        switch (gender) {
-            case MALE:
-                mGenderTV.setText(R.string.male);
-                break;
-            case FEMALE:
-                mGenderTV.setText(R.string.female);
-                break;
+        if (gender == Constants.Gender.MALE) {
+            mGenderTV.setText(R.string.male);
+        } else if (gender == Constants.Gender.FEMALE) {
+            mGenderTV.setText(R.string.female);
+        } else {
+            mGenderTV.setText("");
         }
-        mWeightET.setText(String.valueOf(mPet.getWeight()));
+
+        int weight = mPet.getWeight();
+        if (weight > 0) {
+            mWeightET.setText(String.valueOf(weight));
+        } else {
+            mWeightET.setText("");
+        }
+
     }
 
     private void datePicker() {
@@ -323,13 +323,12 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
 
         ArrayList<Breed> breeds = null;
 
-        switch (petType) {
-            case CAT:
-                breeds = mCatBreeds;
-                break;
-            case DOG:
-                breeds = mDogBreeds;
-                break;
+        if (petType == CAT) {
+            breeds = mCatBreeds;
+        } else if (petType == DOG) {
+            breeds = mDogBreeds;
+        } else {
+            return null;
         }
 
         if (breeds != null) {
@@ -345,21 +344,19 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
 
     private Breed getBreed(Constants.PetType petType, long id) {
         ArrayList<Breed> breeds = null;
-        switch (petType) {
-            case CAT:
-                breeds = mCatBreeds;
-                break;
-            case DOG:
-                breeds = mDogBreeds;
-                break;
+
+        if (petType == CAT) {
+            breeds = mCatBreeds;
+        } else if (petType == DOG) {
+            breeds = mDogBreeds;
+        } else {
+            return null;
         }
 
-        if (breeds != null) {
-            for (int i = 0; i < breeds.size(); i++) {
-                Breed breed = breeds.get(i);
-                if (breed.getId() == id) {
-                    return breed;
-                }
+        for (int i = 0; i < breeds.size(); i++) {
+            Breed breed = breeds.get(i);
+            if (breed.getId() == id) {
+                return breed;
             }
         }
         return null;
@@ -379,19 +376,18 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
                     mPet.setType(Constants.PetType.CAT);
                     mCurrentBreeds.addAll(mCatBreeds);
                 } else if (getString(R.string.dog).equalsIgnoreCase(animalType)) {
-                    mPet.setType(Constants.PetType.DOG);
+                    mPet.setType(DOG);
                     mCurrentBreeds.addAll(mDogBreeds);
                 } else {
                     mPet.setType(null);
                 }
+                mPet.setBreedId(0);
                 mBreedSpinnerAdapter.notifyDataSetChanged();
                 break;
             case R.id.sp_breed_type:
 
-                Constants.PetType type = mPet.getType();
-                String breedName = (String) adapterView.getSelectedItem();
+                Breed breed = (Breed) adapterView.getSelectedItem();
 
-                Breed breed = getBreed(type, breedName);
                 if (breed != null) {
                     mPet.setBreedId(breed.getId());
                 } else {
@@ -443,8 +439,14 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
                             }
                         }
 
+                        if (petType == DOG) {
+                            mIsFetchingDogBreeds = false;
+                        } else if (petType == CAT) {
+                            mIsFetchingCatBreeds = false;
+                        }
+
                         if (!mIsFetchingCatBreeds && !mIsFetchingDogBreeds) {
-                            mProgressDialogFragment.dismiss();
+                            mBreedFetchPD.dismiss();
                         }
 
                         updateUI();
@@ -453,8 +455,14 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        if (petType == DOG) {
+                            mIsFetchingDogBreeds = false;
+                        } else if (petType == CAT) {
+                            mIsFetchingCatBreeds = false;
+                        }
+
                         if (!mIsFetchingCatBreeds && !mIsFetchingDogBreeds) {
-                            mProgressDialogFragment.dismiss();
+                            mBreedFetchPD.dismiss();
                         }
                     }
                 }

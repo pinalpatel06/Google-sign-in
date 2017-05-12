@@ -62,10 +62,8 @@ public class ViewPetFragment extends Fragment {
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        MenuItem editItem = menu.findItem(R.id.action_edit);
         MenuItem doneItem = menu.findItem(R.id.action_done);
         doneItem.setVisible(false);
-        editItem.setVisible(true);
         super.onPrepareOptionsMenu(menu);
     }
 
@@ -74,10 +72,6 @@ public class ViewPetFragment extends Fragment {
         switch (item.getItemId()) {
             case android.R.id.home:
                 getActivity().onBackPressed();
-                return true;
-            case R.id.action_edit:
-                getActivity().invalidateOptionsMenu();
-                onEditAnimalProfile();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

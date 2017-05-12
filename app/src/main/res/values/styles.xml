@@ -108,6 +108,8 @@
     <style name="PetTextViewStyle" parent="@style/PetEditTextStyle">
         <item name="android:drawableEnd">@drawable/ic_expand_button</item>
         <item name="android:clickable">true</item>
+        <item name="android:focusable">false</item>
+        <item name="android:focusableInTouchMode">true</item>
     </style>
 
 </resources>

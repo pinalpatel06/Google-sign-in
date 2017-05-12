@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:app="http://schemas.android.com/apk/res-auto"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <View
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:background="@color/colorPrimary"/>
+            android:background="@color/colorPrimary" />
 
         <View
             android:id="@+id/view_cyan"
             android:layout_width="match_parent"
             android:layout_height="@dimen/cyan_view_height"
-            android:background="@color/color_cyan_view"/>
+            android:background="@color/color_cyan_view" />
 
         <View
             android:id="@+id/view_brown"
@@ -38,11 +39,12 @@
         android:layout_height="match_parent"
         android:fillViewport="true">
 
-        <RelativeLayout android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="@dimen/login_layout_padding"
-                        android:paddingRight="@dimen/login_layout_padding"
-                        android:paddingTop="@dimen/login_layout_padding">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/login_layout_padding"
+            android:paddingRight="@dimen/login_layout_padding"
+            android:paddingTop="@dimen/login_layout_padding">
 
 
             <LinearLayout
@@ -61,7 +63,7 @@
                     android:text="@string/login_top_text"
                     android:textColor="@color/color_login_top_text"
                     android:textSize="@dimen/login_top_text_size"
-                    app:customfont="OpenSansRegular"/>
+                    app:customfont="OpenSansRegular" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -78,18 +80,20 @@
                         android:text="@string/login_email_text"
                         android:textColor="@color/color_login_fields"
                         android:textSize="@dimen/login_default_text_size"
-                        app:customfont="OpenSansRegular"/>
+                        app:customfont="OpenSansRegular" />
 
                     <tekkan.synappz.com.tekkan.custom.CustomFontEditText
                         android:id="@+id/et_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/transparent"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1"
                         android:padding="@dimen/default_margin"
                         android:textAlignment="textEnd"
                         android:textColor="@color/color_login_fields"
                         android:textSize="@dimen/login_default_text_size"
-                        app:customfont="OpenSansRegular"/>
+                        app:customfont="OpenSansRegular" />
 
                 </LinearLayout>
 
@@ -108,7 +112,7 @@
                         android:text="@string/login_password_text"
                         android:textColor="@color/color_login_fields"
                         android:textSize="@dimen/login_default_text_size"
-                        app:customfont="OpenSansRegular"/>
+                        app:customfont="OpenSansRegular" />
 
 
                     <tekkan.synappz.com.tekkan.custom.CustomFontEditText
@@ -116,12 +120,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/transparent"
-                        android:padding="@dimen/default_margin"
                         android:inputType="textPassword"
+                        android:padding="@dimen/default_margin"
                         android:textAlignment="textEnd"
                         android:textColor="@color/color_login_fields"
                         android:textSize="@dimen/login_default_text_size"
-                        app:customfont="OpenSansRegular"/>
+                        app:customfont="OpenSansRegular" />
 
                 </LinearLayout>
 
@@ -133,7 +137,7 @@
                     android:textAlignment="textEnd"
                     android:textColor="@color/color_forgot_password_text"
                     android:textSize="@dimen/login_default_text_size"
-                    app:customfont="OpenSansRegular"/>
+                    app:customfont="OpenSansRegular" />
 
             </LinearLayout>
 
@@ -149,7 +153,7 @@
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/app_button_text"
                 android:theme="@style/AppButtonStyle"
-                app:customfont="OpenSansSemiBold"/>
+                app:customfont="OpenSansSemiBold" />
 
             <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                 android:id="@+id/tv_create_account"
@@ -161,7 +165,7 @@
                 android:textAlignment="center"
                 android:textColor="@color/color_bottom_text_white"
                 android:textSize="@dimen/login_default_text_size"
-                app:customfont="OpenSansRegular"/>
+                app:customfont="OpenSansRegular" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -175,7 +179,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/login_inner_layout_default_padding"
-                    android:src="@drawable/ic_bayer_pet_care_text"/>
+                    android:src="@drawable/ic_bayer_pet_care_text" />
 
                 <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                     android:id="@+id/tv_bottom"
@@ -186,16 +190,17 @@
                     android:text="@string/splash_bottom_text"
                     android:textColor="@color/color_bottom_text_white"
                     android:textSize="@dimen/login_default_text_size"
-                    app:customfont="DimboRegular"/>
+                    app:customfont="DimboRegular" />
 
             </LinearLayout>
 
         </RelativeLayout>
 
     </ScrollView>
+
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
 </FrameLayout>

@@ -367,4 +367,6 @@
     <!--edit pet-->
     <string name="date_of_birth_format"><xliff:g id="date" example="14">%02d</xliff:g>-<xliff:g id="month" example="01">%02d</xliff:g>-<xliff:g id="year" example="2017">%04d</xliff:g></string>
     <string name="progress_fetching_breeds">Fetching breeds</string>
+    <string name="progress_creating_pet">Creating Pet</string>
+    <string name="progress_updating_pet">Updating Pet</string>
 </resources>
