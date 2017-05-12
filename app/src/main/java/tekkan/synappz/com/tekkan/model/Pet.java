@@ -5,75 +5,96 @@ import android.os.Parcelable;
 
 import org.json.JSONObject;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
+
+import tekkan.synappz.com.tekkan.utils.Constants;
+import tekkan.synappz.com.tekkan.utils.DateUtils;
 
 /**
- * Created by Tejas Sherdiwala on 5/12/2017.
- * &copy; Knoxpo
+ * Created by Tejas Sherdiwala on 12/05/17.
  */
 
 public class Pet implements Parcelable {
-    private String mName;
-    private int mPetId;
-    private long mDateOfBirth;
-    private String mGender;
-    private String mProfileImgUrl;
-    private int mBreedId;
-    private int mWeight;
-    private String mAnimalType;
 
     private static final String
-            JSON_ID = "id",
-            JSON_BIRTHDATE = "birthdate",
-            JSON_GENDER = "gender",
-            JSON_TYPE = "type",
-            JSON_BREED_ID = "breed_id",
-            JSON_PHOTO = "photo",
-            JSON_NAME = "name",
-            JSON_AGE = "age",
-            JSON_WEIGHT = "weight",
-            JSON_RESEARCH = "research";
+            JSON_N_ID = "id",
+            JSON_S_BIRTHDATE = "birthdate",
+            JSON_S_GENDER = "gender",
+            JSON_S_TYPE = "type",
+            JSON_N_BREED_ID = "breed_id",
+            JSON_S_PHOTO = "photo",
+            JSON_S_NAME = "name",
+            JSON_N_AGE = "age",
+            JSON_N_WEIGHT = "weight",
+            JSON_S_RESEARCH = "research",
+            JSON_S_TICK = "tick",
+            JSON_S_DISEASES = "diseases",
+            JSON_S_STADIUM = "stadium",
+            JSON_S_CONTAMINATED = "contaminated",
+            JSON_S_PATHOGENES = "pathogenes",
+            JSON_S_SUBTYPES = "subtypes",
+            JSON_S_COMMENT = "comment";
 
-    public Pet(){}
+    private long mId, mBreedId;
+    private Date mBirthDate;
+    private Constants.Gender mGender;
+    private Constants.PetType mType;
+    private String mPhoto, mName;
+    private int mAge, mWeight;
 
-    public Pet(JSONObject jSonObject) {
-        mPetId = jSonObject.optInt(JSON_ID);
-        mName = jSonObject.optString(JSON_NAME);
-        String dateStr = jSonObject.optString(JSON_BIRTHDATE);
-        Calendar c = parseDate(dateStr);
-        mDateOfBirth = c.getTimeInMillis();
-        mGender = jSonObject.optString(JSON_GENDER);
-        mProfileImgUrl = jSonObject.optString(JSON_PHOTO);
-        mBreedId = jSonObject.optInt(JSON_BREED_ID);
-        mWeight = jSonObject.optInt(JSON_WEIGHT);
-        mAnimalType = jSonObject.optString(JSON_TYPE);
+    public Pet(){
+
+    }
+
+
+    public Pet(JSONObject object){
+        mId = object.optLong(JSON_N_ID);
+        mBreedId = object.optLong(JSON_N_BREED_ID);
+        mBirthDate = DateUtils.toDate(object.optString(JSON_S_BIRTHDATE));
+
+        String gender = object.optString(JSON_S_GENDER);
+        if(Constants.Gender.MALE.toApi().equalsIgnoreCase(gender)){
+            mGender = Constants.Gender.MALE;
+        }else if(Constants.Gender.FEMALE.toApi().equalsIgnoreCase(gender)){
+            mGender = Constants.Gender.FEMALE;
+        }
+
+        String type = object.optString(JSON_S_TYPE);
+        if(Constants.PetType.CAT.toApi().equalsIgnoreCase(type)){
+            mType = Constants.PetType.CAT;
+        }else if(Constants.PetType.DOG.toApi().equalsIgnoreCase(type)){
+            mType = Constants.PetType.DOG;
+        }
+
+        mPhoto = object.optString(JSON_S_PHOTO);
+        mName = object.optString(JSON_S_NAME);
+        mAge = object.optInt(JSON_N_AGE);
+        mWeight = object.optInt(JSON_N_WEIGHT);
     }
 
     protected Pet(Parcel in) {
+        mId = in.readLong();
+        mBreedId = in.readLong();
+        mPhoto = in.readString();
         mName = in.readString();
-        mPetId = in.readInt();
-        mDateOfBirth = in.readLong();
-        mGender = in.readString();
-        mProfileImgUrl = in.readString();
-        mBreedId = in.readInt();
+        mAge = in.readInt();
         mWeight = in.readInt();
-        mAnimalType = in.readString();
+
+        mGender = Constants.Gender.valueOf(in.readString());
+        mType = Constants.PetType.valueOf(in.readString());
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(mId);
+        dest.writeLong(mBreedId);
+        dest.writeString(mPhoto);
         dest.writeString(mName);
-        dest.writeInt(mPetId);
-        dest.writeLong(mDateOfBirth);
-        dest.writeString(mGender);
-        dest.writeString(mProfileImgUrl);
-        dest.writeInt(mBreedId);
+        dest.writeInt(mAge);
         dest.writeInt(mWeight);
-        dest.writeString(mAnimalType);
+
+        dest.writeString(mGender.name());
+        dest.writeString(mType.name());
     }
 
     @Override
@@ -93,91 +114,71 @@ public class Pet implements Parcelable {
         }
     };
 
-    public static final SimpleDateFormat FULL_DATE_FORMAT
-            = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
-
-    public static Calendar parseDate(String dateStr) {
-        try {
-            Date date = FULL_DATE_FORMAT.parse(dateStr);
-            Calendar c = Calendar.getInstance();
-            c.setTime(date);
-            return c;
-        } catch (ParseException e) {
-            return null;
-        }
+    public long getId() {
+        return mId;
     }
 
-    public static String toStringDate(long date){
-        Calendar c =Calendar.getInstance();
-        c.setTimeInMillis(date);
-        return FULL_DATE_FORMAT.format(c.getTime());
+    public long getBreedId() {
+        return mBreedId;
     }
 
-    public Pet(String name) {
-        mName = name;
+    public Date getBirthDate() {
+        return mBirthDate;
+    }
+
+    public Constants.Gender getGender() {
+        return mGender;
+    }
+
+    public Constants.PetType getType() {
+        return mType;
+    }
+
+    public String getPhoto() {
+        return mPhoto;
     }
 
     public String getName() {
         return mName;
     }
 
-    public int getPetId() {
-        return mPetId;
-    }
-
-    public long getDateOfBirth() {
-        return mDateOfBirth;
-    }
-
-    public String getGender() {
-        return mGender;
-    }
-
-    public String getProfileImgUrl() {
-        return mProfileImgUrl;
-    }
-
-    public int getBreedId() {
-        return mBreedId;
+    public int getAge() {
+        return mAge;
     }
 
     public int getWeight() {
         return mWeight;
     }
 
+    public void setBirthDate(Date birthDate) {
+        mBirthDate = birthDate;
+    }
+
+    public void setBreedId(long breedId) {
+        mBreedId = breedId;
+    }
+
+    public void setGender(Constants.Gender gender) {
+        mGender = gender;
+    }
+
+    public void setType(Constants.PetType type) {
+        mType = type;
+    }
+
+    public void setPhoto(String photo) {
+        mPhoto = photo;
+    }
+
     public void setName(String name) {
         mName = name;
     }
 
-    public void setPetId(int petId) {
-        mPetId = petId;
-    }
-
-    public void setDateOfBirth(long dateOfBirth) {
-        mDateOfBirth = dateOfBirth;
-    }
-
-    public void setGender(String gender) {
-        mGender = gender;
-    }
-
-    public void setProfileImgUrl(String profileImgUrl) {
-        mProfileImgUrl = profileImgUrl;
-    }
-
-    public void setBreedId(int breedId) {
-        mBreedId = breedId;
+    public void setAge(int age) {
+        mAge = age;
     }
 
     public void setWeight(int weight) {
         mWeight = weight;
-    }
-
-    public String getAnimalType() {
-        return mAnimalType;
-    }
-
-    public void setAnimalType(String animalType) {
-        mAnimalType = animalType;
     }
 }

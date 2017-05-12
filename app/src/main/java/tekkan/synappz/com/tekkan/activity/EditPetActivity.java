@@ -15,10 +15,12 @@ import tekkan.synappz.com.tekkan.fragment.EditPetFragment;
 public class EditPetActivity extends ToolbarActivity {
 
     private static final String TAG = EditPetActivity.class.getSimpleName();
+    Bundle mArgs;
 
     @Override
     protected Fragment getFragment() {
-        return new EditPetFragment();
+        EditPetFragment editPetFragment = new EditPetFragment();
+        return editPetFragment;
     }
 
     @Override
@@ -26,5 +28,7 @@ public class EditPetActivity extends ToolbarActivity {
         super.onCreate(savedInstanceState);
         setTitle(getString(R.string.pet_profile_app_title));
     }
+
+
 }
 

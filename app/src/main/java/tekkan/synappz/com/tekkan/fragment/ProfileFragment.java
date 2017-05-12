@@ -13,9 +13,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -90,6 +91,10 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_done:
+                /*if(mProfileViewHolder.isValidFields()){
+                    createOrUpdateUser();
+                }*/
+
                 return true;
             case R.id.action_logout:
                 PreferenceManager.getDefaultSharedPreferences(getActivity())
@@ -102,6 +107,12 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
             case android.R.id.home:
                 getActivity().onBackPressed();
                 return true;
+
+            case R.id.action_customize:
+                //mProfileViewHolder.setEditableFields(true);
+                return true;
+
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -170,6 +181,66 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         return mListItems;
     }
 
+    public void createOrUpdateUser(){
+
+        /*String url = Constants.Api.getUrl(Constants.Api.FUNC_CREATE_USER);
+
+        String  PARM_GENDER = "gender",
+                PARM_FIRST_NAME = "firstname",
+                PARM_LAST_NAME = "lastname",
+                PARM_STREET_NAME = "street",
+                PARM_POSTAL_CODE = "postalcode",
+                PARM_PLACE_NAME = "postaladdress",
+                PARM_MOBILE_NO = "mobile",
+                PARM_EMAIL = "email",
+                PARM_PASSWORD = "password",
+                PARM_OLD_EMAIL = "old_email",
+                PARM_NEW_EMAIL = "new_email";
+
+        if(!mIsNewProfile){
+            url = Constants.Api.getUrl(Constants.Api.FUNC_EDIT_USER);
+        }
+
+        TekenStringRequest request = new TekenStringRequest(
+                Request.Method.POST,
+                url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d(TAG , "Success");
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG , "Failure");
+            }
+        }
+        );
+        request.addParam(PARM_GENDER,mProfileItem.getGender());
+        request.addParam(PARM_FIRST_NAME,mProfileItem.getFirstName());
+        request.addParam(PARM_LAST_NAME,mProfileItem.getLastName());
+        request.addParam(PARM_STREET_NAME,mProfileItem.getAddress());
+        request.addParam(PARM_POSTAL_CODE,mProfileItem.getPinCode());
+        request.addParam(PARM_PLACE_NAME,mProfileItem.getPlace());
+        request.addParam(PARM_MOBILE_NO,mProfileItem.getPhoneNo());
+        request.addParam(PARM_EMAIL,mProfileItem.getEmail());
+        request.addParam(PARM_PASSWORD, LoginUtils.encode(mProfileItem.getPhoneNo()));
+
+        // For Edit email of the Profile
+
+      *//*  if(!mIsNewProfile){
+            request.addParam(PARM_OLD_EMAIL,"");
+            request.addParam(PARM_NEW_EMAIL,"");
+        }*//*
+
+        VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);*/
+    }
+
+
+
+
+
+
     @Override
     protected int getItemViewType(int position) {
         return position == 0 ? TYPE_PROFILE_FIELDS : TYPE_PET;
@@ -223,28 +294,39 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         LinearLayout mConditionsLT;
         @BindView(R.id.tv_add_pet)
         TextView mAddPetTV;
-        @BindView(R.id.rb_male)
-        RadioButton mMaleRB;
-        @BindView(R.id.rb_female)
-        RadioButton mFemaleRB;
+
+        @BindView(R.id.radio_group_gender)
+        RadioGroup mGenderRadioGroup;
+
         @BindView(R.id.et_first_name)
-        EditText mFirstNameET;
+        EditText mFirstNameEt;
+
         @BindView(R.id.et_last_name)
-        EditText mLastNameET;
+        EditText mLastNameEt;
+
         @BindView(R.id.et_email)
-        EditText mEmailET;
+        EditText mEmailEt;
+
         @BindView(R.id.et_password)
-        EditText mPasswordET;
-        @BindView(R.id.et_match_password)
-        EditText mMatchPasswordET;
-        @BindView(R.id.et_street)
-        EditText mStreetET;
+        EditText mPasswordEt;
+
+        @BindView(R.id.et_confirm_password)
+        EditText mConfirmPasswordEt;
+
+        @BindView(R.id.et_street_name)
+        EditText mStreetNameEt;
+
         @BindView(R.id.et_postal_code)
-        EditText mPostalCodeET;
+        EditText mPostalCodeEt;
+
         @BindView(R.id.et_place)
-        EditText mPlaceET;
+        EditText mPlaceNameEt;
+
         @BindView(R.id.et_tel_no)
-        EditText mPhoneNoET;
+        EditText mTelNoEt;
+
+        @BindView(R.id.cb_term_condetions)
+        CheckBox mTermsCondetionCb;
 
         ProfileFieldVH(View itemView) {
             super(itemView);
@@ -253,7 +335,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         }
 
         void bind(ProfileItem item) {
-            mMaleRB.setChecked(item.getGender() == ProfileItem.MR);
+            /*mMaleRB.setChecked(item.getGender() == ProfileItem.MR);
             mFemaleRB.setChecked(item.getGender() == ProfileItem.MRS);
             mFirstNameET.setText(item.getFirstName());
             mLastNameET.setText(item.getLastName());
@@ -263,7 +345,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
             mPlaceET.setText(item.getPlace());
             mPhoneNoET.setText(item.getPhoneNo());
             mPasswordET.setText("123456");
-            mMatchPasswordET.setText("123456");
+            mMatchPasswordET.setText("123456");*/
         }
 
         @OnClick(R.id.lt_conditions)

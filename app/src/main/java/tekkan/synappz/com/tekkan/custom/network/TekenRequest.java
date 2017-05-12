@@ -43,17 +43,12 @@ public abstract class TekenRequest<T> extends Request<T> {
             Uri.Builder builder = uri.buildUpon();
 
             for (Map.Entry<String, String> param : mParams.entrySet()) {
-                    builder.appendQueryParameter(param.getKey(), param.getValue());
+                builder.appendQueryParameter(param.getKey(), param.getValue());
             }
             return builder.build().toString();
         } else {
             return super.getUrl();
         }
-    }
-
-    @Override
-    protected String getParamsEncoding() {
-        return super.getParamsEncoding();
     }
 
     public Map<String, String> getParams() {

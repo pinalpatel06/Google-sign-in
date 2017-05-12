@@ -93,8 +93,23 @@
         <item name="android:background">@drawable/bg_bottom_line</item>
     </style>
 
-    <declare-styleable name="PetSpinner">
-        <attr name="animalsType" format="reference" />
-    </declare-styleable>
+    <style name="PetEditTextStyle" parent="@style/Widget.AppCompat.EditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/default_edit_text_height</item>
+        <item name="android:background">@drawable/bg_bottom_line</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:inputType">text</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/profile_default_text_color</item>
+        <item name="android:textColorHint">@color/profile_default_text_color</item>
+        <item name="android:textSize">@dimen/profile_default_text_size</item>
+    </style>
+
+    <style name="PetTextViewStyle" parent="@style/PetEditTextStyle">
+        <item name="android:drawableEnd">@drawable/ic_expand_button</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">false</item>
+        <item name="android:focusableInTouchMode">true</item>
+    </style>
 
 </resources>

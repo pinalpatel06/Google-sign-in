@@ -16,8 +16,8 @@
         <item name="dec">dec</item>
     </string-array>
     <string-array name="animal_type">
-        <item name="cat">@string/cat</item>
         <item name="dog">@string/dog</item>
+        <item name="cat">@string/cat</item>
     </string-array>
 
     <string-array name="animal_gender_type">

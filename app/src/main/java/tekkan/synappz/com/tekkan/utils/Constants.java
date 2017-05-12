@@ -22,10 +22,6 @@ public class Constants {
                 QUERY_PARAMETER1 = "p1",
                 QUERY_PARAMETER2 = "p2";
 
-        public static final String
-                ANIMAL_HOND = "D",
-                ANIMAL_CAT = "C";
-
         private static final Uri
                 BASE_URI = new Uri.Builder()
                 .scheme(SCHEME)
@@ -51,16 +47,48 @@ public class Constants {
                 FUNC_GET_ANIMALS_BY_USER = "GetAnimalsbyUser",
                 FUNC_CREATE_ANIMAL = "CreateAnimal";
 
-        public static String getUrl(String funcName){
+        public static String getUrl(String funcName) {
             Uri.Builder builder = BASE_URI.buildUpon();
-            builder.appendQueryParameter(QUERY_PARAMETER_KEY,funcName);
+            builder.appendQueryParameter(QUERY_PARAMETER_KEY, funcName);
             return builder.build().toString();
         }
     }
 
-    public static class SP{
+    public static class SP {
         public static final String
                 BOOLEAN_LOGED_IN = "loged_in",
                 STRING_USER_EMAIL ="email";
     }
+
+    public enum Gender {
+        MALE("M"),
+        FEMALE("F");
+
+        private String mString;
+
+        Gender(String string) {
+            mString = string;
+        }
+
+        public String toApi() {
+            return mString;
+        }
+    }
+
+    public enum PetType{
+        DOG("D"),
+        CAT("C");
+
+        private String mString;
+
+        PetType(String string){
+            mString = string;
+        }
+
+        public String toApi(){
+            return mString;
+        }
+    }
+
+
 }
