@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -143,9 +144,9 @@ public class EditPetFragment extends Fragment
         mAnimalType.setOnClickListener(this);
         mBreedEt.setOnClickListener(this);
         mGenderEt.setOnClickListener(this);
-        mAnimalTypeSP.setOnItemChoosenListener(this);
-        mBreedSP.setOnItemChoosenListener(this);
-        mAnimalGenderSP.setOnItemChoosenListener(this);
+        mAnimalTypeSP.setOnItemChosenListener(this);
+        mBreedSP.setOnItemChosenListener(this);
+        mAnimalGenderSP.setOnItemChosenListener(this);
 
         return v;
     }
@@ -220,9 +221,9 @@ public class EditPetFragment extends Fragment
     private static final String JSON_S_BREED_NAME = "name";
 
     @Override
-    public void onItemChosen(int position, int id) {
+    public void onItemChosen(AdapterView<?> parent, int position) {
         Log.d(TAG, (String) mAnimalTypeSP.getSelectedItem());
-        switch (id) {
+        switch (parent.getId()) {
             case R.id.sp_animal_type:
                 String selectedAnimal = (String) mAnimalTypeSP.getSelectedItem();
                 mAnimalType.setText(selectedAnimal);
@@ -275,4 +276,5 @@ public class EditPetFragment extends Fragment
                 mGenderEt.setText((String) mAnimalGenderSP.getSelectedItem());
         }
     }
+
 }
