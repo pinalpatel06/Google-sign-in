@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.android.volley.Response;
+import com.android.volley.Request;
 import com.android.volley.VolleyError;
 
 import org.json.JSONArray;
@@ -29,7 +29,12 @@ import tekkan.synappz.com.tekkan.activity.ApplyForPetActivity;
 import tekkan.synappz.com.tekkan.activity.EditPetActivity;
 import tekkan.synappz.com.tekkan.custom.CircleNetworkImageView;
 import tekkan.synappz.com.tekkan.custom.ListFragment;
+import tekkan.synappz.com.tekkan.custom.network.TekenErrorListener;
+import tekkan.synappz.com.tekkan.custom.network.TekenJsonArrayRequest;
+import tekkan.synappz.com.tekkan.custom.network.TekenResponseListener;
 import tekkan.synappz.com.tekkan.model.Pet;
+import tekkan.synappz.com.tekkan.model.User;
+import tekkan.synappz.com.tekkan.utils.Constants;
 import tekkan.synappz.com.tekkan.utils.VolleyHelper;
 
 /**
@@ -38,7 +43,7 @@ import tekkan.synappz.com.tekkan.utils.VolleyHelper;
 
 //Allow user with test click to choose the animal for research
 
-public class TestKitResearchList extends ListFragment<Object, RecyclerView.ViewHolder> implements Response.Listener<JSONArray>, Response.ErrorListener {
+public class TestKitResearchList extends ListFragment<Object, RecyclerView.ViewHolder> implements TekenResponseListener, TekenErrorListener {
     private static final String
             TAG = TestKitResearchList.class.getSimpleName(),
             ARGS_TEEK_BUNDLE = TAG + ".ARGS_TEEK_BUNDLE";
@@ -49,7 +54,8 @@ public class TestKitResearchList extends ListFragment<Object, RecyclerView.ViewH
 
     private static final int
             TYPE_HEADER = 0,
-            TYPE_PET = 1;
+            TYPE_PET = 1,
+            REQUEST_PET = 2;
 
     private ArrayList<Object> mListItems;
 
@@ -74,10 +80,6 @@ public class TestKitResearchList extends ListFragment<Object, RecyclerView.ViewH
 
         //first item null to accommodate header
         mListItems.add(null);
-/*
-        for (int i = 0; i < 4; i++) {
-            mListItems.add(new TestKitResearchList.Pet("Pet #" + (i + 1)));
-        }*/
         return mListItems;
     }
 
@@ -118,42 +120,40 @@ public class TestKitResearchList extends ListFragment<Object, RecyclerView.ViewH
     }
 
     private void fetchUserPetData() {
-        /*String email = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(Constants.SP.STRING_USER_EMAIL, null);
-
-        if (email != null) {
+        if (User.getInstance(getActivity()).getEmail() != null) {
             TekenJsonArrayRequest request = new TekenJsonArrayRequest(
                     Request.Method.GET,
                     Constants.Api.getUrl(Constants.Api.FUNC_GET_ANIMALS_BY_USER),
                     this,
-                    this
+                    this,
+                    REQUEST_PET
             );
 
-            request.addParam(Constants.Api.QUERY_PARAMETER1, email);
+            request.addParam(Constants.Api.QUERY_PARAMETER1, User.getInstance(getActivity()).getEmail());
             VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
-        }*/
-
+        }
     }
 
     @Override
-    public void onErrorResponse(VolleyError error) {
-        Log.d(TAG, error.getMessage());
-    }
-
-    @Override
-    public void onResponse(JSONArray response) {
-        Log.d(TAG, response.length() + "");
+    public void onResponse(int requestCode, Object response) {
+        JSONArray jsonArray = (JSONArray) response;
         mListItems = new ArrayList<>();
         mListItems.add(null);
-        for (int i = 0; i < response.length(); i++) {
+        for (int i = 0; i < jsonArray.length(); i++) {
 
             try {
-                JSONObject jsonObject = response.getJSONObject(i);
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
                 mListItems.add(new Pet(jsonObject));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
         loadNewItems(mListItems);
+    }
+
+    @Override
+    public void onErrorResponse(int requestCode, VolleyError error, int status, String message) {
+        Log.d(TAG , status + " " + message);
     }
 
     class ProfileFieldVH extends RecyclerView.ViewHolder {
