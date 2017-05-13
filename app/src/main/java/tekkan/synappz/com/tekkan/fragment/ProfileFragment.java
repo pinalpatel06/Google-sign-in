@@ -325,7 +325,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         EditText mTelNoEt;
 
         @BindView(R.id.cb_term_condetions)
-        CheckBox mTermsCondetionCb;
+        CheckBox mTermsConditionCb;
 
         ProfileFieldVH(View itemView) {
             super(itemView);
