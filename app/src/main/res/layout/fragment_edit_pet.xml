@@ -98,7 +98,7 @@
                 style="@style/PetEditTextStyle"
                 android:drawableEnd="@drawable/ic_expand_button"
                 android:hint="@string/what_is_the_weight"
-                android:inputType="numberDecimal" />
+                android:inputType="number" />
 
         </LinearLayout>
     </LinearLayout>

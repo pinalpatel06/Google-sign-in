@@ -126,6 +126,11 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
         mIsNewProfile = args.getBoolean(ARGS_PROFILE_TYPE);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         fetchUserPetData();
     }
 
@@ -360,7 +365,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         @OnClick(R.id.tv_add_pet)
         public void showPetProfile() {
             Intent intent = new Intent(getActivity(), EditPetActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent,REQUEST_PET);
         }
     }
 
