@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.android.volley.Request;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
 import org.json.JSONArray;
@@ -26,7 +25,9 @@ import tekkan.synappz.com.tekkan.custom.CircleNetworkImageView;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.CommonNodeInterface;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.ContainerNodeListFragment;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.NestedFragmentUtil;
+import tekkan.synappz.com.tekkan.custom.network.TekenErrorListener;
 import tekkan.synappz.com.tekkan.custom.network.TekenJsonArrayRequest;
+import tekkan.synappz.com.tekkan.custom.network.TekenResponseListener;
 import tekkan.synappz.com.tekkan.model.ProductItem;
 import tekkan.synappz.com.tekkan.utils.Constants;
 import tekkan.synappz.com.tekkan.utils.VolleyHelper;
@@ -63,9 +64,9 @@ public class ProductTabFragment extends ContainerNodeListFragment<ProductTabFrag
         TekenJsonArrayRequest request = new TekenJsonArrayRequest(
                 Request.Method.GET,
                 Constants.Api.getUrl(Constants.Api.FUNC_GET_PRODUCTS),
-                new Response.Listener<JSONArray>() {
+                new TekenResponseListener<JSONArray>() {
                     @Override
-                    public void onResponse(JSONArray response) {
+                    public void onResponse(int requestCode, JSONArray response) {
                         Log.d(TAG, "Success" + response.length());
                         listItems = new ArrayList<>();
                         for (int i = 0; i < response.length(); i++) {
@@ -82,12 +83,13 @@ public class ProductTabFragment extends ContainerNodeListFragment<ProductTabFrag
 
                     }
                 },
-                new Response.ErrorListener() {
+                new TekenErrorListener() {
                     @Override
-                    public void onErrorResponse(VolleyError error) {
+                    public void onErrorResponse(int requestCode, VolleyError error, int status, String message) {
                         Log.d(TAG, error.toString());
                     }
-                }
+                },
+                0
         );
         VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
     }

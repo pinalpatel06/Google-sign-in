@@ -3,7 +3,6 @@ package tekkan.synappz.com.tekkan.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +11,6 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
@@ -31,9 +29,7 @@ import tekkan.synappz.com.tekkan.activity.ApplyForPetActivity;
 import tekkan.synappz.com.tekkan.activity.EditPetActivity;
 import tekkan.synappz.com.tekkan.custom.CircleNetworkImageView;
 import tekkan.synappz.com.tekkan.custom.ListFragment;
-import tekkan.synappz.com.tekkan.custom.network.TekenJsonArrayRequest;
 import tekkan.synappz.com.tekkan.model.Pet;
-import tekkan.synappz.com.tekkan.utils.Constants;
 import tekkan.synappz.com.tekkan.utils.VolleyHelper;
 
 /**
@@ -122,7 +118,7 @@ public class TestKitResearchList extends ListFragment<Object, RecyclerView.ViewH
     }
 
     private void fetchUserPetData() {
-        String email = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(Constants.SP.STRING_USER_EMAIL, null);
+        /*String email = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(Constants.SP.STRING_USER_EMAIL, null);
 
         if (email != null) {
             TekenJsonArrayRequest request = new TekenJsonArrayRequest(
@@ -134,7 +130,7 @@ public class TestKitResearchList extends ListFragment<Object, RecyclerView.ViewH
 
             request.addParam(Constants.Api.QUERY_PARAMETER1, email);
             VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
-        }
+        }*/
 
     }
 

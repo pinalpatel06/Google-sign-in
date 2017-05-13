@@ -2,7 +2,6 @@ package tekkan.synappz.com.tekkan.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -20,7 +19,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.android.volley.Request;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
 import org.json.JSONObject;
@@ -37,7 +35,9 @@ import tekkan.synappz.com.tekkan.activity.EditPetActivity;
 import tekkan.synappz.com.tekkan.activity.ViewPetActivity;
 import tekkan.synappz.com.tekkan.custom.ListFragment;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.CommonNodeInterface;
+import tekkan.synappz.com.tekkan.custom.network.TekenErrorListener;
 import tekkan.synappz.com.tekkan.custom.network.TekenJsonObjectRequest;
+import tekkan.synappz.com.tekkan.custom.network.TekenResponseListener;
 import tekkan.synappz.com.tekkan.dialogs.ProgressDialogFragment;
 import tekkan.synappz.com.tekkan.utils.Constants;
 import tekkan.synappz.com.tekkan.utils.VolleyHelper;
@@ -97,10 +97,10 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
 
                 return true;
             case R.id.action_logout:
-                PreferenceManager.getDefaultSharedPreferences(getActivity())
+                /*PreferenceManager.getDefaultSharedPreferences(getActivity())
                         .edit()
                         .putBoolean(Constants.SP.BOOLEAN_LOGED_IN, false)
-                        .apply();
+                        .apply();*/
 
                 getActivity().onBackPressed();
                 return true;
@@ -132,7 +132,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         View v = super.onCreateView(inflater, container, savedInstanceState);
         v.setBackgroundColor(ContextCompat.getColor(getActivity(), android.R.color.white));
         setHasOptionsMenu(true);
-        if(!mIsNewProfile) {
+        if (!mIsNewProfile) {
             fetchProfileData();
         }
         return v;
@@ -143,9 +143,9 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         TekenJsonObjectRequest request = new TekenJsonObjectRequest(
                 Request.Method.GET,
                 Constants.Api.getUrl(Constants.Api.FUNC_USER),
-                new Response.Listener<JSONObject>() {
+                new TekenResponseListener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONObject response) {
+                    public void onResponse(int requestCode, JSONObject response) {
                         Log.d(TAG, "Success " + response.toString());
                         mListItems = new ArrayList<>();
                         mListItems.add(new ProfileItem(response));
@@ -157,17 +157,18 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
                         loadNewItems(mListItems);
 
                         ProgressDialogFragment fragment = (ProgressDialogFragment) getParentFragment().getFragmentManager().findFragmentByTag(LoginFragment.TAG_PROGRESS_DIALOG);
-                        if(fragment != null) {
+                        if (fragment != null) {
                             fragment.dismiss();
                         }
                     }
                 },
-                new Response.ErrorListener() {
+                new TekenErrorListener() {
                     @Override
-                    public void onErrorResponse(VolleyError error) {
+                    public void onErrorResponse(int requestCode, VolleyError error, int status, String message) {
                         Log.d(TAG, "Failure ");
                     }
-                }
+                },
+                0
         );
 
         request.addParam(Constants.Api.QUERY_PARAMETER1, mEmail);
@@ -181,7 +182,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         return mListItems;
     }
 
-    public void createOrUpdateUser(){
+    public void createOrUpdateUser() {
 
         /*String url = Constants.Api.getUrl(Constants.Api.FUNC_CREATE_USER);
 
@@ -235,10 +236,6 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
 
         VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);*/
     }
-
-
-
-
 
 
     @Override

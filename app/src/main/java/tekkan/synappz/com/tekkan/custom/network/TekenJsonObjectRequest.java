@@ -19,11 +19,8 @@ import java.net.HttpURLConnection;
 
 public class TekenJsonObjectRequest extends TekenRequest<JSONObject> {
 
-    private Response.Listener<JSONObject> mListener;
-
-    public TekenJsonObjectRequest(int method, String url, Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) {
-        super(method, url, listener, errorListener);
-        mListener = listener;
+    public TekenJsonObjectRequest(int method, String url, TekenResponseListener<JSONObject> listener, TekenErrorListener errorListener, int requestCode) {
+        super(method, url, listener, errorListener,requestCode);
     }
 
     @Override
@@ -38,13 +35,6 @@ public class TekenJsonObjectRequest extends TekenRequest<JSONObject> {
             } catch (JSONException e) {
                 return Response.error(new VolleyError(e));
             }
-        }
-    }
-
-    @Override
-    protected void deliverResponse(JSONObject response) {
-        if(mListener!=null){
-            mListener.onResponse(response);
         }
     }
 }

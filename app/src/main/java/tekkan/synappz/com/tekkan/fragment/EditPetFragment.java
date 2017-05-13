@@ -20,7 +20,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.android.volley.Request;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
 import org.json.JSONArray;
@@ -36,7 +35,9 @@ import butterknife.OnClick;
 import butterknife.OnTextChanged;
 import tekkan.synappz.com.tekkan.R;
 import tekkan.synappz.com.tekkan.custom.CustomSpinner;
+import tekkan.synappz.com.tekkan.custom.network.TekenErrorListener;
 import tekkan.synappz.com.tekkan.custom.network.TekenJsonArrayRequest;
+import tekkan.synappz.com.tekkan.custom.network.TekenResponseListener;
 import tekkan.synappz.com.tekkan.custom.network.TekenStringRequest;
 import tekkan.synappz.com.tekkan.dialogs.AlertDialogFragment;
 import tekkan.synappz.com.tekkan.dialogs.ProgressDialogFragment;
@@ -60,6 +61,9 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
             STATE_DOG_BREEDS = TAG + ".STATE_DOG_BREEDS",
             STATE_CAT_BREEDS = TAG + ".STATE_CAT_BREEDS",
             TAG_DIALOG = TAG + ".TAG_DIALOG";
+
+    private static final int
+            REQUEST_GET_BREEDS = 0;
 
     @BindView(R.id.et_pet_name)
     EditText mPetNameET;
@@ -418,9 +422,9 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
         TekenJsonArrayRequest request = new TekenJsonArrayRequest(
                 Request.Method.GET,
                 Constants.Api.getUrl(Constants.Api.FUNC_GET_BREEDS),
-                new Response.Listener<JSONArray>() {
+                new TekenResponseListener<JSONArray>() {
                     @Override
-                    public void onResponse(JSONArray response) {
+                    public void onResponse(int requestCode, JSONArray response) {
 
                         ArrayList<Breed> breeds = null;
 
@@ -460,9 +464,9 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
                         updateUI();
                     }
                 },
-                new Response.ErrorListener() {
+                new TekenErrorListener() {
                     @Override
-                    public void onErrorResponse(VolleyError error) {
+                    public void onErrorResponse(int requestCode, VolleyError error, int status, String message) {
                         if (petType == DOG) {
                             mIsFetchingDogBreeds = false;
                         } else if (petType == CAT) {
@@ -473,7 +477,8 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
                             mBreedFetchPD.dismiss();
                         }
                     }
-                }
+                },
+                REQUEST_GET_BREEDS
         );
         request.addParam(Constants.Api.QUERY_PARAMETER1, petType.toApi());
         VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
@@ -498,20 +503,21 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
         TekenStringRequest request = new TekenStringRequest(
                 Request.Method.POST,
                 Constants.Api.getUrl(url),
-                new Response.Listener<String>() {
+                new TekenResponseListener<String>() {
                     @Override
-                    public void onResponse(String response) {
+                    public void onResponse(int requestCode, String response) {
                         mPetUpdatePD.dismiss();
-                        mEditSuccessAD.show(getFragmentManager(),TAG_DIALOG);
+                        mEditSuccessAD.show(getFragmentManager(), TAG_DIALOG);
                     }
                 },
-                new Response.ErrorListener() {
+                new TekenErrorListener() {
                     @Override
-                    public void onErrorResponse(VolleyError error) {
+                    public void onErrorResponse(int requestCode, VolleyError error, int status, String message) {
                         mPetUpdatePD.dismiss();
-                        mEditFailureAD.show(getFragmentManager(),TAG_DIALOG);
+                        mEditFailureAD.show(getFragmentManager(), TAG_DIALOG);
                     }
-                }
+                },
+                0
         );
 
         request.addParam(PARAM_EMAIL, "roy@synappz.nl");

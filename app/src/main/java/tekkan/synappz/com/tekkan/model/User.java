@@ -2,6 +2,7 @@ package tekkan.synappz.com.tekkan.model;
 
 import android.content.Context;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import tekkan.synappz.com.tekkan.utils.Constants;
@@ -95,5 +96,23 @@ public class User {
 
     public long getMobile() {
         return mMobile;
+    }
+
+    public String toJSON() {
+        try {
+            JSONObject object = new JSONObject();
+            object.put(JSON_S_GENDER, mGender.toApi());
+            object.put(JSON_S_FIRSTNAME, mFirstName);
+            object.put(JSON_S_LASTNAME, mLastName);
+            object.put(JSON_S_STREET, mStreet);
+            object.put(JSON_S_POSTALCODE, mPostalCode);
+            object.put(JSON_S_POSTALADDRESS, mPostalAddress);
+            object.put(JSON_S_EMAIL, mEmail);
+            object.put(JSON_N_MOBILE, mMobile);
+
+            return object.toString();
+        } catch (JSONException e) {
+            return "";
+        }
     }
 }

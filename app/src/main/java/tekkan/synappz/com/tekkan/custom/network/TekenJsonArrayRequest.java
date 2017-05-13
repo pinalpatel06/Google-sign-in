@@ -17,11 +17,8 @@ import java.net.HttpURLConnection;
 
 public class TekenJsonArrayRequest extends TekenRequest<JSONArray> {
 
-    private Response.Listener<JSONArray> mListener;
-
-    public TekenJsonArrayRequest(int method, String url, Response.Listener<JSONArray> listener, Response.ErrorListener errorListener) {
-        super(method, url, listener, errorListener);
-        mListener = listener;
+    public TekenJsonArrayRequest(int method, String url, TekenResponseListener<JSONArray> listener, TekenErrorListener errorListener, int requestCode) {
+        super(method, url, listener, errorListener,requestCode);
     }
 
     @Override
@@ -34,13 +31,6 @@ public class TekenJsonArrayRequest extends TekenRequest<JSONArray> {
             } catch (JSONException e) {
                 return Response.error(new VolleyError(e));
             }
-        }
-    }
-
-    @Override
-    protected void deliverResponse(JSONArray response) {
-        if(mListener!=null){
-            mListener.onResponse(response);
         }
     }
 }

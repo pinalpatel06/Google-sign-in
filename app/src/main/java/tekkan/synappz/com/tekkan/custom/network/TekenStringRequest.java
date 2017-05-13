@@ -16,27 +16,17 @@ import java.net.HttpURLConnection;
 
 public class TekenStringRequest extends TekenRequest<String> {
 
-    private Response.Listener<String> mListener;
-
-    public TekenStringRequest(int method, String url, Response.Listener<String> listener, Response.ErrorListener errorListener) {
-        super(method, url, listener, errorListener);
-        mListener = listener;
+    public TekenStringRequest(int method, String url, TekenResponseListener<String> listener, TekenErrorListener errorListener, int requestCode) {
+        super(method, url, listener, errorListener, requestCode);
     }
 
     @Override
     protected Response<String> parseNetworkResponse(NetworkResponse response) {
-        if(getStatus(response) != HttpURLConnection.HTTP_OK){
+        if (getStatus(response) != HttpURLConnection.HTTP_OK) {
             Log.d("TAG", getStatus(response) + "" + getMessage(response));
             return Response.error(new VolleyError(response));
-        }else{
+        } else {
             return Response.success(getMessage(response), HttpHeaderParser.parseCacheHeaders(response));
-        }
-    }
-
-    @Override
-    protected void deliverResponse(String response) {
-        if(mListener!=null){
-            mListener.onResponse(response);
         }
     }
 }

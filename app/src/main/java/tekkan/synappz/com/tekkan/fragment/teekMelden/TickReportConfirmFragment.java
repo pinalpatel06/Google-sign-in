@@ -2,7 +2,6 @@ package tekkan.synappz.com.tekkan.fragment.teekMelden;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -16,11 +15,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import tekkan.synappz.com.tekkan.R;
-import tekkan.synappz.com.tekkan.activity.InvestigatePetActivity;
-import tekkan.synappz.com.tekkan.activity.LogInAndProfileActivity;
 import tekkan.synappz.com.tekkan.activity.QRScannerActivity;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.CommonNodeInterface;
-import tekkan.synappz.com.tekkan.utils.Constants;
 
 /**
  * Created by Tejas Sherdiwala on 4/26/2017.
@@ -86,7 +82,7 @@ public class TickReportConfirmFragment extends Fragment implements CommonNodeInt
     @OnClick(R.id.btn_apply_kit)
     public void showLogInOrPetDetail() {
         Bundle bundle = getArguments().getBundle(ARGS_BUNDLE);
-        mIsLogged = PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean(Constants.SP.BOOLEAN_LOGED_IN,false);
+        /*mIsLogged = PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean(Constants.SP.BOOLEAN_LOGED_IN,false);
         String email = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(Constants.SP.STRING_USER_EMAIL,null);
         if (mIsLogged && email != null) {
             bundle.putString(ARGS_APPLY_RESEARCH,"N");
@@ -98,7 +94,7 @@ public class TickReportConfirmFragment extends Fragment implements CommonNodeInt
             Intent intent = new Intent(getActivity(), LogInAndProfileActivity.class);
             intent.putExtra(LogInAndProfileActivity.EXTRA_TEEK_BUNDLE,bundle);
             startActivity(intent);
-        }
+        }*/
     }
 
     @OnClick(R.id.btn_have_kit)

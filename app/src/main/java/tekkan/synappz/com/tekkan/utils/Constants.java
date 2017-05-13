@@ -56,8 +56,7 @@ public class Constants {
 
     public static class SP {
         public static final String
-                BOOLEAN_LOGED_IN = "loged_in",
-                STRING_USER_EMAIL ="email";
+                JSON_USER = "JSON_USER";
     }
 
     public enum Gender {
@@ -75,17 +74,17 @@ public class Constants {
         }
     }
 
-    public enum PetType{
+    public enum PetType {
         DOG("D"),
         CAT("C");
 
         private String mString;
 
-        PetType(String string){
+        PetType(String string) {
             mString = string;
         }
 
-        public String toApi(){
+        public String toApi() {
             return mString;
         }
     }

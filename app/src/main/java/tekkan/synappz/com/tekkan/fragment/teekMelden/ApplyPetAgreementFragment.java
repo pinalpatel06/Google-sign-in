@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.android.volley.Request;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -21,6 +20,8 @@ import butterknife.OnClick;
 import tekkan.synappz.com.tekkan.R;
 import tekkan.synappz.com.tekkan.activity.BarcodeCaptureActivity;
 import tekkan.synappz.com.tekkan.activity.MainActivity;
+import tekkan.synappz.com.tekkan.custom.network.TekenErrorListener;
+import tekkan.synappz.com.tekkan.custom.network.TekenResponseListener;
 import tekkan.synappz.com.tekkan.custom.network.TekenStringRequest;
 import tekkan.synappz.com.tekkan.fragment.TestKitResearchList;
 import tekkan.synappz.com.tekkan.utils.Constants;
@@ -31,7 +32,7 @@ import tekkan.synappz.com.tekkan.utils.VolleyHelper;
  * &copy; Knoxpo
  */
 
-public class ApplyPetAgreementFragment extends Fragment implements Response.Listener<String>, Response.ErrorListener {
+public class ApplyPetAgreementFragment extends Fragment implements TekenResponseListener<String>, TekenErrorListener {
     private static final String
             TAG = ApplyPetAgreementFragment.class.getSimpleName(),
             ARGS_PET_BUNDLE = TAG + ".ARGS_PET_BUNDLE",
@@ -71,7 +72,8 @@ public class ApplyPetAgreementFragment extends Fragment implements Response.List
                 Request.Method.POST,
                 Constants.Api.getUrl(Constants.Api.FUNC_CREATE_TICK__REPORT),
                 this,
-                this
+                this,
+                0
         );
 
         request.addParam(PARAM_ANIMALS_ID, String.valueOf(bundle.getInt(TestKitResearchList.ARGS_PET_ID)));
@@ -88,16 +90,16 @@ public class ApplyPetAgreementFragment extends Fragment implements Response.List
     }
 
     @Override
-    public void onErrorResponse(VolleyError error) {
-        Log.d(TAG, "Failure");
+    public void onResponse(int requestCode, String response) {
+        Log.d(TAG, "Success " + response);
         Intent intent = new Intent(getActivity(), MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 
     @Override
-    public void onResponse(String response) {
-        Log.d(TAG, "Success " + response);
+    public void onErrorResponse(int requestCode, VolleyError error, int status, String message) {
+        Log.d(TAG, "Failure");
         Intent intent = new Intent(getActivity(), MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
