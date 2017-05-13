@@ -370,6 +370,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         TextView mPetNameTV;
         @BindView(R.id.tv_pet_count)
         TextView mPetCountTV;
+        Pet mPet;
 
         PetVH(View itemView) {
             super(itemView);
@@ -378,6 +379,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         }
 
         void bind(Pet pet) {
+            mPet = pet;
             mPetNameTV.setText(pet.getName());
             mPetCountTV.setText(String.valueOf("1"));
         }
@@ -385,6 +387,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         @Override
         public void onClick(View view) {
             Intent intent = new Intent(getContext(), ViewPetActivity.class);
+            intent.putExtra(ViewPetActivity.EXTRA_PET,mPet);
             startActivity(intent);
 
         }

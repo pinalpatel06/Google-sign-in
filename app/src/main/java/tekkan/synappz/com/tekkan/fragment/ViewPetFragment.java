@@ -16,6 +16,7 @@ import butterknife.ButterKnife;
 import tekkan.synappz.com.tekkan.R;
 import tekkan.synappz.com.tekkan.custom.CircleNetworkImageView;
 import tekkan.synappz.com.tekkan.model.Pet;
+import tekkan.synappz.com.tekkan.utils.Constants;
 import tekkan.synappz.com.tekkan.utils.DateUtils;
 import tekkan.synappz.com.tekkan.utils.VolleyHelper;
 
@@ -27,8 +28,6 @@ public class ViewPetFragment extends Fragment {
             TAG = ViewPetFragment.class.getSimpleName(),
             ARGS_PET_DATA = TAG + ".ARGS_PET_DATA";
 
-
-    Bundle mArgs;
     @BindView(R.id.iv_pet_image)
     CircleNetworkImageView mPetPicIV;
     @BindView(R.id.tv_pet_name)
@@ -55,6 +54,7 @@ public class ViewPetFragment extends Fragment {
         return fragment;
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -75,14 +75,7 @@ public class ViewPetFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_pet_profile_update, menu);
-    }
-
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        MenuItem doneItem = menu.findItem(R.id.action_done);
-        doneItem.setVisible(false);
-        super.onPrepareOptionsMenu(menu);
+        inflater.inflate(R.menu.menu_pet_profile_view, menu);
     }
 
     @Override
@@ -96,18 +89,16 @@ public class ViewPetFragment extends Fragment {
         }
     }
 
-    @Override
-    public void setArguments(Bundle args) {
-        super.setArguments(args);
-        mArgs = args;
-    }
-
-
     private void updateUI() {
         mPetPicIV.setDefaultImageResId(R.drawable.ic_splash_pets);
         mPetPicIV.setImageUrl(mPet.getPhoto(), VolleyHelper.getInstance(getActivity()).getImageLoader());
         mPetNameTV.setText(mPet.getName());
-        mIsCatOrDogTv.setText(mPet.getType().toApi());
+        mIsCatOrDogTv.setText(
+                mPet.getType().toApi()
+                        .equalsIgnoreCase(Constants.PetType.DOG.toApi())
+                        ? getString(R.string.dog)
+                        : getString(R.string.cat)
+        );
         mBreedTV.setText(String.valueOf(mPet.getBreedId()));
         mDateOfBirthTv.setText(DateUtils.toApi(mPet.getBirthDate()));
         mGenderTv.setText(String.valueOf(mPet.getGender()));

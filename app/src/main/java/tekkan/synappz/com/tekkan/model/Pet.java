@@ -43,7 +43,6 @@ public class Pet implements Parcelable {
     private int mAge, mWeight;
 
     public Pet(){
-
     }
 
 
@@ -79,7 +78,10 @@ public class Pet implements Parcelable {
         mName = in.readString();
         mAge = in.readInt();
         mWeight = in.readInt();
-
+        long birthTime = in.readLong();
+        if(birthTime > 0){
+            mBirthDate = new Date(birthTime);
+        }
         mGender = Constants.Gender.valueOf(in.readString());
         mType = Constants.PetType.valueOf(in.readString());
     }
@@ -92,7 +94,7 @@ public class Pet implements Parcelable {
         dest.writeString(mName);
         dest.writeInt(mAge);
         dest.writeInt(mWeight);
-
+        dest.writeLong(mBirthDate == null ? -1 : mBirthDate.getTime());
         dest.writeString(mGender.name());
         dest.writeString(mType.name());
     }
