@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,6 +17,13 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
+import com.android.volley.Request;
+import com.android.volley.VolleyError;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,12 +37,18 @@ import tekkan.synappz.com.tekkan.activity.EditPetActivity;
 import tekkan.synappz.com.tekkan.activity.ViewPetActivity;
 import tekkan.synappz.com.tekkan.custom.ListFragment;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.CommonNodeInterface;
+import tekkan.synappz.com.tekkan.custom.network.TekenErrorListener;
+import tekkan.synappz.com.tekkan.custom.network.TekenJsonArrayRequest;
+import tekkan.synappz.com.tekkan.custom.network.TekenResponseListener;
 import tekkan.synappz.com.tekkan.model.Pet;
 import tekkan.synappz.com.tekkan.model.User;
 import tekkan.synappz.com.tekkan.utils.Constants;
+import tekkan.synappz.com.tekkan.utils.VolleyHelper;
 
 
-public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolder> implements CommonNodeInterface {
+public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolder>
+        implements CommonNodeInterface,
+        TekenResponseListener,TekenErrorListener{
 
     private static final String
             TAG = ProfileFragment.class.getSimpleName(),
@@ -43,7 +57,8 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
 
     private static final int
             TYPE_PROFILE_FIELDS = 0,
-            TYPE_PET = 1;
+            TYPE_PET = 1,
+            REQUEST_PET = 2;
 
     private boolean mIsNewProfile = false;
     ArrayList<Object> mListItems;
@@ -111,6 +126,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
         mIsNewProfile = args.getBoolean(ARGS_PROFILE_TYPE);
+        fetchUserPetData();
     }
 
     @Nullable
@@ -232,6 +248,44 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
     @Override
     public boolean shouldDisplayHomeAsUpEnabled() {
         return false;
+    }
+
+    private void fetchUserPetData(){
+        String email = User.getInstance(getActivity()).getEmail();
+        TekenJsonArrayRequest request = new TekenJsonArrayRequest(
+                Request.Method.GET,
+                Constants.Api.getUrl(Constants.Api.FUNC_GET_ANIMALS_BY_USER),
+                (TekenResponseListener<JSONArray>) this,
+                this,
+                REQUEST_PET
+        );
+
+        request.addParam(Constants.Api.QUERY_PARAMETER1,email);
+
+        VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
+    }
+
+    @Override
+    public void onResponse(int requestCode, Object response) {
+        if(requestCode == REQUEST_PET){
+            mListItems = new ArrayList<>();
+            mListItems.add(User.getInstance(getActivity()));
+            JSONArray jsonArray = (JSONArray) response;
+            for(int i = 0; i< jsonArray.length(); i++){
+                try {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    mListItems.add(new Pet(jsonObject));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            loadNewItems(mListItems);
+        }
+    }
+
+    @Override
+    public void onErrorResponse(int requestCode, VolleyError error, int status, String message) {
+        Log.d(TAG , status + " " + message);
     }
 
     class ProfileFieldVH extends RecyclerView.ViewHolder {
