@@ -52,7 +52,7 @@ public class User {
     public void loadUser(JSONObject object) {
         mFirstName = object.optString(JSON_S_FIRSTNAME);
         mLastName = object.optString(JSON_S_LASTNAME);
-        mStreet = object.optString(JSON_S_LASTNAME);
+        mStreet = object.optString(JSON_S_STREET);
         mPostalCode = object.optString(JSON_S_POSTALCODE);
         mPostalAddress = object.optString(JSON_S_POSTALADDRESS);
         mEmail = object.optString(JSON_S_EMAIL);

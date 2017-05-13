@@ -375,4 +375,5 @@
     <string name="success_create_pet">Pet has been created</string>
     <string name="error_update_pet">Could not update pet. Please try again.</string>
     <string name="error_create_pet">Could not create pet. Please try again.</string>
+    <string name="loading_profile">Cannot load profiel</string>
 </resources>
