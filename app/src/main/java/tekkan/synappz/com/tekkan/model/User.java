@@ -138,4 +138,40 @@ public class User {
             return "";
         }
     }
+
+    public void setGender(Constants.Gender gender) {
+        mGender = gender;
+    }
+
+    public void setFirstName(String firstName) {
+        mFirstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        mLastName = lastName;
+    }
+
+    public void setStreet(String street) {
+        mStreet = street;
+    }
+
+    public void setPostalCode(String postalCode) {
+        mPostalCode = postalCode;
+    }
+
+    public void setPostalAddress(String postalAddress) {
+        mPostalAddress = postalAddress;
+    }
+
+    public void setEmail(String email) {
+        mEmail = email;
+    }
+
+    public void setMobile(long mobile) {
+        mMobile = mobile;
+    }
+
+    public void setLoaded(boolean loaded) {
+        mIsLoaded = loaded;
+    }
 }

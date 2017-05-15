@@ -1,6 +1,7 @@
 package tekkan.synappz.com.tekkan.fragment;
 
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -40,33 +41,34 @@ import tekkan.synappz.com.tekkan.custom.nestedfragments.CommonNodeInterface;
 import tekkan.synappz.com.tekkan.custom.network.TekenErrorListener;
 import tekkan.synappz.com.tekkan.custom.network.TekenJsonArrayRequest;
 import tekkan.synappz.com.tekkan.custom.network.TekenResponseListener;
+import tekkan.synappz.com.tekkan.databinding.ItemProfileFieldsBinding;
 import tekkan.synappz.com.tekkan.model.Pet;
 import tekkan.synappz.com.tekkan.model.User;
 import tekkan.synappz.com.tekkan.utils.Constants;
 import tekkan.synappz.com.tekkan.utils.VolleyHelper;
 
 
+
 public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolder>
         implements CommonNodeInterface,
-        TekenResponseListener,TekenErrorListener{
+        TekenResponseListener, TekenErrorListener {
 
     private static final String
             TAG = ProfileFragment.class.getSimpleName(),
-            ARGS_PROFILE_TYPE = TAG + "ARGS_PROFILE_TYPE",
-            TAG_PROGRESS_DIALOG = TAG + ".TAG_PROGRESS_DIALOG";
+            ARGS_CAN_EDIT = TAG + "ARGS_CAN_EDIT";
 
     private static final int
             TYPE_PROFILE_FIELDS = 0,
             TYPE_PET = 1,
             REQUEST_PET = 2;
 
-    private boolean mIsNewProfile = false;
     ArrayList<Object> mListItems;
 
-    public static ProfileFragment newInstance(boolean profileType) {
+    private boolean mCanEdit = false;
 
+    public static ProfileFragment newInstance(boolean profileType) {
         Bundle args = new Bundle();
-        args.putBoolean(ARGS_PROFILE_TYPE, profileType);
+        args.putBoolean(ARGS_CAN_EDIT, profileType);
         ProfileFragment fragment = new ProfileFragment();
         fragment.setArguments(args);
         return fragment;
@@ -80,13 +82,13 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         MenuItem menuItemDone = menu.findItem(R.id.action_done);
-        menuItemDone.setVisible(mIsNewProfile);
+        menuItemDone.setVisible(mCanEdit);
         MenuItem menuItemLogOut = menu.findItem(R.id.action_logout);
-        menuItemLogOut.setVisible(!mIsNewProfile);
+        menuItemLogOut.setVisible(!mCanEdit);
         MenuItem menuItemChangePwd = menu.findItem(R.id.action_change_pwd);
-        menuItemChangePwd.setVisible(!mIsNewProfile);
+        menuItemChangePwd.setVisible(!mCanEdit);
         MenuItem menuItemCustomize = menu.findItem(R.id.action_customize);
-        menuItemCustomize.setVisible(!mIsNewProfile);
+        menuItemCustomize.setVisible(!mCanEdit);
         super.onPrepareOptionsMenu(menu);
     }
 
@@ -94,28 +96,23 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_done:
-                /*if(mProfileViewHolder.isValidFields()){
+                if (isUserValid()) {
                     createOrUpdateUser();
-                }*/
-
+                }
+                mCanEdit = false;
+                notifyDatasetChanged();
+                getActivity().invalidateOptionsMenu();
+                Constants.closeKeyBoard(getActivity());
                 return true;
             case R.id.action_logout:
-                /*PreferenceManager.getDefaultSharedPreferences(getActivity())
-                        .edit()
-                        .putBoolean(Constants.SP.BOOLEAN_LOGED_IN, false)
-                        .apply();*/
-
-                getActivity().onBackPressed();
                 return true;
             case android.R.id.home:
-                getActivity().onBackPressed();
                 return true;
-
             case R.id.action_customize:
-                //mProfileViewHolder.setEditableFields(true);
+                mCanEdit = true;
+                notifyDatasetChanged();
+                getActivity().invalidateOptionsMenu();
                 return true;
-
-
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -125,7 +122,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
-        mIsNewProfile = args.getBoolean(ARGS_PROFILE_TYPE);
+        mCanEdit = args.getBoolean(ARGS_CAN_EDIT);
     }
 
     @Override
@@ -149,6 +146,10 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         mListItems = new ArrayList<>();
         mListItems.add(User.getInstance(getActivity()));
         return mListItems;
+    }
+
+    private boolean isUserValid(){
+        return true;
     }
 
     public void createOrUpdateUser() {
@@ -255,28 +256,27 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         return false;
     }
 
-    private void fetchUserPetData(){
+    private void fetchUserPetData() {
         String email = User.getInstance(getActivity()).getEmail();
         TekenJsonArrayRequest request = new TekenJsonArrayRequest(
                 Request.Method.GET,
                 Constants.Api.getUrl(Constants.Api.FUNC_GET_ANIMALS_BY_USER),
-                (TekenResponseListener<JSONArray>) this,
+                this,
                 this,
                 REQUEST_PET
         );
-
-        request.addParam(Constants.Api.QUERY_PARAMETER1,email);
+        request.addParam(Constants.Api.QUERY_PARAMETER1, email);
 
         VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
     }
 
     @Override
     public void onResponse(int requestCode, Object response) {
-        if(requestCode == REQUEST_PET){
+        if (requestCode == REQUEST_PET) {
             mListItems = new ArrayList<>();
             mListItems.add(User.getInstance(getActivity()));
             JSONArray jsonArray = (JSONArray) response;
-            for(int i = 0; i< jsonArray.length(); i++){
+            for (int i = 0; i < jsonArray.length(); i++) {
                 try {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                     mListItems.add(new Pet(jsonObject));
@@ -290,7 +290,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
 
     @Override
     public void onErrorResponse(int requestCode, VolleyError error, int status, String message) {
-        Log.d(TAG , status + " " + message);
+        Log.d(TAG, status + " " + message);
     }
 
     class ProfileFieldVH extends RecyclerView.ViewHolder {
@@ -303,57 +303,64 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         RadioGroup mGenderRadioGroup;
 
         @BindView(R.id.et_first_name)
-        EditText mFirstNameEt;
+        EditText mFirstNameET;
 
         @BindView(R.id.et_last_name)
-        EditText mLastNameEt;
+        EditText mLastNameET;
 
         @BindView(R.id.et_email)
-        EditText mEmailEt;
+        EditText mEmailET;
 
         @BindView(R.id.et_password)
-        EditText mPasswordEt;
+        EditText mPasswordET;
 
         @BindView(R.id.et_confirm_password)
-        EditText mConfirmPasswordEt;
+        EditText mConfirmPasswordET;
 
         @BindView(R.id.et_street_name)
-        EditText mStreetNameEt;
+        EditText mStreetNameET;
 
         @BindView(R.id.et_postal_code)
         EditText mPostalCodeEt;
 
         @BindView(R.id.et_place)
-        EditText mPlaceNameEt;
+        EditText mPlaceNameET;
 
         @BindView(R.id.et_tel_no)
-        EditText mTelNoEt;
+        EditText mTelNoET;
 
-        @BindView(R.id.cb_term_condetions)
+        @BindView(R.id.cb_term_conditions)
         CheckBox mTermsConditionCb;
 
         ProfileFieldVH(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            mAddPetTV.setEnabled(!mIsNewProfile);
         }
 
         void bind(User item) {
 
-            if(item.getGender() == Constants.Gender.MALE) {
-                mGenderRadioGroup.check(R.id.rb_male);
-            }else{
-                mGenderRadioGroup.check(R.id.rb_female);
+
+            ItemProfileFieldsBinding binding = DataBindingUtil.bind(itemView);
+            binding.setUser(item);
+
+
+            mPasswordET.setText("123456");
+            mConfirmPasswordET.setText("123456");
+
+            for(int i=0;i<mGenderRadioGroup.getChildCount();i++){
+                View v = mGenderRadioGroup.getChildAt(i);
+                v.setEnabled(mCanEdit);
             }
-            mFirstNameEt.setText(item.getFirstName());
-            mLastNameEt.setText(item.getLastName());
-            mEmailEt.setText(item.getEmail());
-            mStreetNameEt.setText(item.getStreet());
-            mPostalCodeEt.setText(item.getPostalCode());
-            mPlaceNameEt.setText(item.getPostalAddress());
-            mTelNoEt.setText(String.valueOf(item.getMobile()));
-            mPasswordEt.setText("123456");
-            mConfirmPasswordEt.setText("123456");
+
+            mFirstNameET.setEnabled(mCanEdit);
+            mLastNameET.setEnabled(mCanEdit);
+            mEmailET.setEnabled(mCanEdit);
+            mStreetNameET.setEnabled(mCanEdit);
+            mPostalCodeEt.setEnabled(mCanEdit);
+            mPlaceNameET.setEnabled(mCanEdit);
+            mTelNoET.setEnabled(mCanEdit);
+            mPasswordET.setEnabled(mCanEdit);
+            mConfirmPasswordET.setEnabled(mCanEdit);
         }
 
         @OnClick(R.id.lt_conditions)
@@ -365,7 +372,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         @OnClick(R.id.tv_add_pet)
         public void showPetProfile() {
             Intent intent = new Intent(getActivity(), EditPetActivity.class);
-            startActivityForResult(intent,REQUEST_PET);
+            startActivityForResult(intent, REQUEST_PET);
         }
     }
 
@@ -392,7 +399,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         @Override
         public void onClick(View view) {
             Intent intent = new Intent(getContext(), ViewPetActivity.class);
-            intent.putExtra(ViewPetActivity.EXTRA_PET,mPet);
+            intent.putExtra(ViewPetActivity.EXTRA_PET, mPet);
             startActivity(intent);
 
         }
