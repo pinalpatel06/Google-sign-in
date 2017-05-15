@@ -61,7 +61,7 @@ public class Constants {
 
     public enum Gender {
         MALE("M"),
-        FEMALE("F");
+        FEMALE("V");
 
         private String mString;
 

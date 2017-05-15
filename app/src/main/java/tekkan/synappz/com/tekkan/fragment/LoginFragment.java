@@ -4,6 +4,7 @@ package tekkan.synappz.com.tekkan.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,6 +33,7 @@ import tekkan.synappz.com.tekkan.custom.network.TekenResponseListener;
 import tekkan.synappz.com.tekkan.custom.network.TekenStringRequest;
 import tekkan.synappz.com.tekkan.dialogs.AlertDialogFragment;
 import tekkan.synappz.com.tekkan.dialogs.ProgressDialogFragment;
+import tekkan.synappz.com.tekkan.model.User;
 import tekkan.synappz.com.tekkan.utils.Constants;
 import tekkan.synappz.com.tekkan.utils.LoginUtils;
 import tekkan.synappz.com.tekkan.utils.VolleyHelper;
@@ -147,10 +149,17 @@ public class LoginFragment extends ContainerNodeFragment implements TekenRespons
     @Override
     public void onErrorResponse(int requestCode, VolleyError error, int status, String message) {
         Log.d(TAG, "Failure");
-        ProgressDialogFragment fragment = (ProgressDialogFragment) getFragmentManager().findFragmentByTag(TAG_PROGRESS_DIALOG);
-        fragment.dismiss();
-        AlertDialogFragment fragment1 = AlertDialogFragment.newInstance(R.string.error, R.string.invalid_login);
-        fragment1.show(getFragmentManager(), TAG_ALERT_DIALOG);
+        if(requestCode == REQUEST_LOGIN) {
+            ProgressDialogFragment fragment = (ProgressDialogFragment) getFragmentManager().findFragmentByTag(TAG_PROGRESS_DIALOG);
+            fragment.dismiss();
+            AlertDialogFragment fragment1 = AlertDialogFragment.newInstance(R.string.error, R.string.invalid_login);
+            fragment1.show(getFragmentManager(), TAG_ALERT_DIALOG);
+        }else if(requestCode == REQUEST_USER){
+            ProgressDialogFragment fragment = (ProgressDialogFragment) getFragmentManager().findFragmentByTag(TAG_PROGRESS_DIALOG);
+            fragment.dismiss();
+            AlertDialogFragment fragment1 = AlertDialogFragment.newInstance(R.string.error, R.string.loading_profile);
+            fragment1.show(getFragmentManager(), TAG_ALERT_DIALOG);
+        }
     }
 
     @Override
@@ -158,8 +167,16 @@ public class LoginFragment extends ContainerNodeFragment implements TekenRespons
 
         if(requestCode == REQUEST_LOGIN){
             getUserDetails();
+        }else if(requestCode == REQUEST_USER){
+            User user = User.getInstance(getActivity());
+            user.loadUser((JSONObject) response);
+            PreferenceManager.getDefaultSharedPreferences(getActivity()).edit()
+                    .putString(Constants.SP.JSON_USER,user.toJSON())
+                    .apply();
+            ProgressDialogFragment fragment = (ProgressDialogFragment) getFragmentManager().findFragmentByTag(TAG_PROGRESS_DIALOG);
+            fragment.dismiss();
+            setChild(ProfileFragment.newInstance(false));
         }
-        setChild(ProfileFragment.newInstance(false, mEmailET.getText().toString()));
     }
 
     private void getUserDetails(){
@@ -167,12 +184,13 @@ public class LoginFragment extends ContainerNodeFragment implements TekenRespons
 
         TekenJsonObjectRequest request = new TekenJsonObjectRequest(
                 Request.Method.GET,
-                Constants.Api.getUrl(Constants.Api.FUNC_LOGIN),
+                Constants.Api.getUrl(Constants.Api.FUNC_USER),
                 (TekenResponseListener<JSONObject>) this,
                 this,
                 REQUEST_USER
         );
-        request.addParam(PARAM_EMAIL, email);
+        request.addParam(Constants.Api.QUERY_PARAMETER1, email);
+        Log.d(TAG , request.getUrl());
         VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
     }
 }

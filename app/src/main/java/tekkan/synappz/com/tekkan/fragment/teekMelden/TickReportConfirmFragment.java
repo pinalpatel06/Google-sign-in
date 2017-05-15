@@ -15,8 +15,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import tekkan.synappz.com.tekkan.R;
+import tekkan.synappz.com.tekkan.activity.InvestigatePetActivity;
+import tekkan.synappz.com.tekkan.activity.LogInAndProfileActivity;
 import tekkan.synappz.com.tekkan.activity.QRScannerActivity;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.CommonNodeInterface;
+import tekkan.synappz.com.tekkan.model.User;
 
 /**
  * Created by Tejas Sherdiwala on 4/26/2017.
@@ -82,9 +85,8 @@ public class TickReportConfirmFragment extends Fragment implements CommonNodeInt
     @OnClick(R.id.btn_apply_kit)
     public void showLogInOrPetDetail() {
         Bundle bundle = getArguments().getBundle(ARGS_BUNDLE);
-        /*mIsLogged = PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean(Constants.SP.BOOLEAN_LOGED_IN,false);
-        String email = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(Constants.SP.STRING_USER_EMAIL,null);
-        if (mIsLogged && email != null) {
+
+        if (User.getInstance(getActivity()).getEmail() != null) {
             bundle.putString(ARGS_APPLY_RESEARCH,"N");
             Intent intent = new Intent(getActivity(), InvestigatePetActivity.class);
             intent.putExtra(InvestigatePetActivity.EXTRA_TEEK_BUNDLE,bundle);
@@ -94,7 +96,7 @@ public class TickReportConfirmFragment extends Fragment implements CommonNodeInt
             Intent intent = new Intent(getActivity(), LogInAndProfileActivity.class);
             intent.putExtra(LogInAndProfileActivity.EXTRA_TEEK_BUNDLE,bundle);
             startActivity(intent);
-        }*/
+        }
     }
 
     @OnClick(R.id.btn_have_kit)

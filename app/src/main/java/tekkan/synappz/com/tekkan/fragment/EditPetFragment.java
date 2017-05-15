@@ -43,6 +43,7 @@ import tekkan.synappz.com.tekkan.dialogs.AlertDialogFragment;
 import tekkan.synappz.com.tekkan.dialogs.ProgressDialogFragment;
 import tekkan.synappz.com.tekkan.model.Breed;
 import tekkan.synappz.com.tekkan.model.Pet;
+import tekkan.synappz.com.tekkan.model.User;
 import tekkan.synappz.com.tekkan.utils.Constants;
 import tekkan.synappz.com.tekkan.utils.DateUtils;
 import tekkan.synappz.com.tekkan.utils.VolleyHelper;
@@ -146,6 +147,7 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
         Bundle arguments = getArguments();
         if (arguments != null) {
             mPet = arguments.getParcelable(ARGS_PET);
+            Log.d(TAG , mPet.getName());
         } else {
             mPet = new Pet();
         }
@@ -266,6 +268,7 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
         }
 
         if (mPet.getBirthDate() != null) {
+            Log.d(TAG,mPet.getBirthDate().toString());
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(mPet.getBirthDate());
             mDateOfBirthTV.setText(
@@ -492,7 +495,8 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
             PARAM_BREED = "breed",
             PARAM_BIRTHDATE = "birthdate",
             PARAM_GENDER = "gender",
-            PARAM_WEIGHT = "weight";
+            PARAM_WEIGHT = "weight",
+            PARAM_ANIMAL_ID = "animals_id";
 
     private void createOrEditAnimalProfile() {
 
@@ -520,7 +524,7 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
                 0
         );
 
-        request.addParam(PARAM_EMAIL, "roy@synappz.nl");
+        request.addParam(PARAM_EMAIL, User.getInstance(getActivity()).getEmail());
         request.addParam(PARAM_NAME, mPet.getName());
         request.addParam(PARAM_FAMILY_NAME, "");
         request.addParam(PARAM_TYPE, mPet.getType().toApi());
@@ -529,6 +533,9 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
         request.addParam(PARAM_GENDER, mPet.getGender().toApi());
         request.addParam(PARAM_WEIGHT, String.valueOf(mPet.getWeight()));
 
+        if(mPet.getId() > 0){
+            request.addParam(PARAM_ANIMAL_ID,String.valueOf(mPet.getId()));
+        }
 
         VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
 

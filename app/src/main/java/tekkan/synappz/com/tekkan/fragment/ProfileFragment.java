@@ -21,6 +21,8 @@ import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -36,34 +38,35 @@ import tekkan.synappz.com.tekkan.activity.ViewPetActivity;
 import tekkan.synappz.com.tekkan.custom.ListFragment;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.CommonNodeInterface;
 import tekkan.synappz.com.tekkan.custom.network.TekenErrorListener;
-import tekkan.synappz.com.tekkan.custom.network.TekenJsonObjectRequest;
+import tekkan.synappz.com.tekkan.custom.network.TekenJsonArrayRequest;
 import tekkan.synappz.com.tekkan.custom.network.TekenResponseListener;
-import tekkan.synappz.com.tekkan.dialogs.ProgressDialogFragment;
+import tekkan.synappz.com.tekkan.model.Pet;
+import tekkan.synappz.com.tekkan.model.User;
 import tekkan.synappz.com.tekkan.utils.Constants;
 import tekkan.synappz.com.tekkan.utils.VolleyHelper;
 
 
-public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolder> implements CommonNodeInterface {
+public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolder>
+        implements CommonNodeInterface,
+        TekenResponseListener,TekenErrorListener{
 
     private static final String
             TAG = ProfileFragment.class.getSimpleName(),
             ARGS_PROFILE_TYPE = TAG + "ARGS_PROFILE_TYPE",
-            ARGS_EMAIL = TAG + "ARGS_EMAIL",
             TAG_PROGRESS_DIALOG = TAG + ".TAG_PROGRESS_DIALOG";
 
     private static final int
             TYPE_PROFILE_FIELDS = 0,
-            TYPE_PET = 1;
+            TYPE_PET = 1,
+            REQUEST_PET = 2;
 
     private boolean mIsNewProfile = false;
-    private String mEmail = null;
     ArrayList<Object> mListItems;
 
-    public static ProfileFragment newInstance(boolean profileType, String email) {
+    public static ProfileFragment newInstance(boolean profileType) {
 
         Bundle args = new Bundle();
         args.putBoolean(ARGS_PROFILE_TYPE, profileType);
-        args.putString(ARGS_EMAIL, email);
         ProfileFragment fragment = new ProfileFragment();
         fragment.setArguments(args);
         return fragment;
@@ -123,7 +126,12 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
         mIsNewProfile = args.getBoolean(ARGS_PROFILE_TYPE);
-        mEmail = args.getString(ARGS_EMAIL);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        fetchUserPetData();
     }
 
     @Nullable
@@ -132,53 +140,14 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         View v = super.onCreateView(inflater, container, savedInstanceState);
         v.setBackgroundColor(ContextCompat.getColor(getActivity(), android.R.color.white));
         setHasOptionsMenu(true);
-        if (!mIsNewProfile) {
-            fetchProfileData();
-        }
         return v;
     }
 
-    private void fetchProfileData() {
-
-        TekenJsonObjectRequest request = new TekenJsonObjectRequest(
-                Request.Method.GET,
-                Constants.Api.getUrl(Constants.Api.FUNC_USER),
-                new TekenResponseListener<JSONObject>() {
-                    @Override
-                    public void onResponse(int requestCode, JSONObject response) {
-                        Log.d(TAG, "Success " + response.toString());
-                        mListItems = new ArrayList<>();
-                        mListItems.add(new ProfileItem(response));
-                        if (!mIsNewProfile) {
-                            for (int i = 0; i < 4; i++) {
-                                mListItems.add(new Pet("Pet #" + (i + 1), (i + 1)));
-                            }
-                        }
-                        loadNewItems(mListItems);
-
-                        ProgressDialogFragment fragment = (ProgressDialogFragment) getParentFragment().getFragmentManager().findFragmentByTag(LoginFragment.TAG_PROGRESS_DIALOG);
-                        if (fragment != null) {
-                            fragment.dismiss();
-                        }
-                    }
-                },
-                new TekenErrorListener() {
-                    @Override
-                    public void onErrorResponse(int requestCode, VolleyError error, int status, String message) {
-                        Log.d(TAG, "Failure ");
-                    }
-                },
-                0
-        );
-
-        request.addParam(Constants.Api.QUERY_PARAMETER1, mEmail);
-        VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
-    }
 
     @Override
     public List<Object> onCreateItems(Bundle savedInstanceState) {
         mListItems = new ArrayList<>();
-        mListItems.add(new ProfileItem());
+        mListItems.add(User.getInstance(getActivity()));
         return mListItems;
     }
 
@@ -271,8 +240,8 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
     public void onBindViewHolder(RecyclerView.ViewHolder holder, Object item) {
         if (holder instanceof PetVH && item instanceof Pet) {
             ((PetVH) holder).bind((Pet) item);
-        } else if (holder instanceof ProfileFieldVH && item instanceof ProfileItem) {
-            ((ProfileFieldVH) holder).bind((ProfileItem) item);
+        } else if (holder instanceof ProfileFieldVH && item instanceof User) {
+            ((ProfileFieldVH) holder).bind((User) item);
         }
     }
 
@@ -284,6 +253,44 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
     @Override
     public boolean shouldDisplayHomeAsUpEnabled() {
         return false;
+    }
+
+    private void fetchUserPetData(){
+        String email = User.getInstance(getActivity()).getEmail();
+        TekenJsonArrayRequest request = new TekenJsonArrayRequest(
+                Request.Method.GET,
+                Constants.Api.getUrl(Constants.Api.FUNC_GET_ANIMALS_BY_USER),
+                (TekenResponseListener<JSONArray>) this,
+                this,
+                REQUEST_PET
+        );
+
+        request.addParam(Constants.Api.QUERY_PARAMETER1,email);
+
+        VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
+    }
+
+    @Override
+    public void onResponse(int requestCode, Object response) {
+        if(requestCode == REQUEST_PET){
+            mListItems = new ArrayList<>();
+            mListItems.add(User.getInstance(getActivity()));
+            JSONArray jsonArray = (JSONArray) response;
+            for(int i = 0; i< jsonArray.length(); i++){
+                try {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    mListItems.add(new Pet(jsonObject));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            loadNewItems(mListItems);
+        }
+    }
+
+    @Override
+    public void onErrorResponse(int requestCode, VolleyError error, int status, String message) {
+        Log.d(TAG , status + " " + message);
     }
 
     class ProfileFieldVH extends RecyclerView.ViewHolder {
@@ -323,7 +330,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         EditText mTelNoEt;
 
         @BindView(R.id.cb_term_condetions)
-        CheckBox mTermsCondetionCb;
+        CheckBox mTermsConditionCb;
 
         ProfileFieldVH(View itemView) {
             super(itemView);
@@ -331,18 +338,22 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
             mAddPetTV.setEnabled(!mIsNewProfile);
         }
 
-        void bind(ProfileItem item) {
-            /*mMaleRB.setChecked(item.getGender() == ProfileItem.MR);
-            mFemaleRB.setChecked(item.getGender() == ProfileItem.MRS);
-            mFirstNameET.setText(item.getFirstName());
-            mLastNameET.setText(item.getLastName());
-            mEmailET.setText(item.getEmail());
-            mStreetET.setText(item.getAddress());
-            mPostalCodeET.setText(item.getPinCode());
-            mPlaceET.setText(item.getPlace());
-            mPhoneNoET.setText(item.getPhoneNo());
-            mPasswordET.setText("123456");
-            mMatchPasswordET.setText("123456");*/
+        void bind(User item) {
+
+            if(item.getGender() == Constants.Gender.MALE) {
+                mGenderRadioGroup.check(R.id.rb_male);
+            }else{
+                mGenderRadioGroup.check(R.id.rb_female);
+            }
+            mFirstNameEt.setText(item.getFirstName());
+            mLastNameEt.setText(item.getLastName());
+            mEmailEt.setText(item.getEmail());
+            mStreetNameEt.setText(item.getStreet());
+            mPostalCodeEt.setText(item.getPostalCode());
+            mPlaceNameEt.setText(item.getPostalAddress());
+            mTelNoEt.setText(String.valueOf(item.getMobile()));
+            mPasswordEt.setText("123456");
+            mConfirmPasswordEt.setText("123456");
         }
 
         @OnClick(R.id.lt_conditions)
@@ -354,75 +365,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         @OnClick(R.id.tv_add_pet)
         public void showPetProfile() {
             Intent intent = new Intent(getActivity(), EditPetActivity.class);
-            startActivity(intent);
-        }
-    }
-
-    class ProfileItem {
-        private String mFirstName, mLastName;
-        private String mEmail;
-        private String mAddress, mPinCode, mPlace;
-        private String mPhoneNo;
-        private int mGender;
-        public static final int
-                MR = 0,
-                MRS = 1;
-
-        private static final String
-                JSON_S_GENDER = "gender",
-                JSON_S_FIRST_NAME = "firstname",
-                JSON_S_LAST_NAME = "lastname",
-                JSON_S_STREET = "street",
-                JSON_S_POSTAL_CODE = "postalcode",
-                JSON_S_POSTAL_ADDRESS = "postaladdress",
-                JSON_S_EMAIL = "email",
-                JSON_N_MOBILE = "mobile";
-
-        public ProfileItem() {
-        }
-
-        public ProfileItem(JSONObject jSonObject) {
-            mGender = jSonObject.optString(JSON_S_GENDER).equalsIgnoreCase("M") ? MR : MRS;
-            mFirstName = jSonObject.optString(JSON_S_FIRST_NAME);
-            mLastName = jSonObject.optString(JSON_S_LAST_NAME);
-            mLastName = jSonObject.optString(JSON_S_STREET);
-            mAddress = jSonObject.optString(JSON_S_STREET);
-            mPinCode = jSonObject.optString(JSON_S_POSTAL_CODE);
-            mPlace = jSonObject.optString(JSON_S_POSTAL_ADDRESS);
-            mEmail = jSonObject.optString(JSON_S_EMAIL);
-            mPhoneNo = String.valueOf(jSonObject.optInt(JSON_N_MOBILE));
-        }
-
-        public int getGender() {
-            return mGender;
-        }
-
-        public String getFirstName() {
-            return mFirstName;
-        }
-
-        public String getLastName() {
-            return mLastName;
-        }
-
-        public String getEmail() {
-            return mEmail;
-        }
-
-        public String getAddress() {
-            return mAddress;
-        }
-
-        public String getPinCode() {
-            return mPinCode;
-        }
-
-        public String getPlace() {
-            return mPlace;
-        }
-
-        public String getPhoneNo() {
-            return mPhoneNo;
+            startActivityForResult(intent,REQUEST_PET);
         }
     }
 
@@ -432,6 +375,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         TextView mPetNameTV;
         @BindView(R.id.tv_pet_count)
         TextView mPetCountTV;
+        Pet mPet;
 
         PetVH(View itemView) {
             super(itemView);
@@ -440,34 +384,17 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         }
 
         void bind(Pet pet) {
+            mPet = pet;
             mPetNameTV.setText(pet.getName());
-            mPetCountTV.setText(String.valueOf(pet.getCount()));
+            mPetCountTV.setText(String.valueOf("1"));
         }
 
         @Override
         public void onClick(View view) {
-
             Intent intent = new Intent(getContext(), ViewPetActivity.class);
+            intent.putExtra(ViewPetActivity.EXTRA_PET,mPet);
             startActivity(intent);
 
-        }
-    }
-
-    class Pet {
-        private String mName;
-        private int mCount;
-
-        public Pet(String name, int count) {
-            mName = name;
-            mCount = count;
-        }
-
-        public String getName() {
-            return mName;
-        }
-
-        public int getCount() {
-            return mCount;
         }
     }
 }
