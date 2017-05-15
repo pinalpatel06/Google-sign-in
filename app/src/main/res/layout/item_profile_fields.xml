@@ -1,213 +1,236 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical"
-              android:paddingBottom="@dimen/splash_default_margin">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <tekkan.synappz.com.tekkan.custom.CustomFontTextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/default_margin"
-        android:paddingTop="@dimen/default_margin"
-        android:text="@string/profile_details_title"
-        android:textColor="@color/profile_title_color"
-        android:textSize="@dimen/profile_default_text_size"
-        app:customfont="OpenSansSemiBold"/>
+    <data>
+
+        <variable
+            name="gender"
+            type="tekkan.synappz.com.tekkan.utils.Constants.Gender" />
+
+        <variable
+            name="user"
+            type="tekkan.synappz.com.tekkan.model.User" />
+    </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/user_profile_padding"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/splash_default_margin">
 
 
-        <RadioGroup
-            android:id="@+id/radio_group_gender"
+        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/default_margin"
+            android:paddingTop="@dimen/default_margin"
+            android:text="@string/profile_details_title"
+            android:textColor="@color/profile_title_color"
+            android:textSize="@dimen/profile_default_text_size"
+            app:customfont="OpenSansSemiBold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/user_profile_padding"
+            android:orientation="vertical">
+
+
+            <RadioGroup
+                android:id="@+id/radio_group_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/radio_group_margin_top"
+                android:background="@drawable/bg_bottom_line"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/rb_male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/radio_button_tint"
+                    android:checked="@{user.gender == gender.MALE}"
+                    android:text="@string/radio_button_title_male"
+                    android:textColor="@color/profile_default_text_color"
+                    android:textSize="@dimen/profile_default_text_size" />
+
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/rb_female"
+                    android:layout_width="wrap_content"
+                    android:checked="@{user.gender == gender.FEMALE}"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/radio_button_tint"
+                    android:text="@string/radio_button_title_female"
+                    android:textColor="@color/profile_default_text_color"
+                    android:textSize="@dimen/profile_default_text_size" />
+            </RadioGroup>
+
+            <tekkan.synappz.com.tekkan.custom.CustomFontEditText
+                android:id="@+id/et_first_name"
+                style="@style/ProfileEditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_edit_text_height"
+                android:layout_marginTop="@dimen/default_margin"
+                android:hint="@string/first_name_placeholder"
+                android:text="@{user.firstName}"
+                android:inputType="text" />
+
+
+            <tekkan.synappz.com.tekkan.custom.CustomFontEditText
+                android:id="@+id/et_last_name"
+                style="@style/ProfileEditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_edit_text_height"
+                android:text="@{user.lastName}"
+                android:layout_marginTop="@dimen/default_margin"
+                android:hint="@string/last_name_placeholder"
+                android:inputType="text" />
+
+
+            <tekkan.synappz.com.tekkan.custom.CustomFontEditText
+                android:id="@+id/et_email"
+                style="@style/ProfileEditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_edit_text_height"
+                android:layout_marginTop="@dimen/default_margin"
+                android:hint="@string/email_placeholder"
+                android:text="@{user.email}"
+                android:inputType="textEmailAddress" />
+
+            <tekkan.synappz.com.tekkan.custom.CustomFontEditText
+                android:id="@+id/et_password"
+                style="@style/ProfileEditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_edit_text_height"
+                android:layout_marginTop="@dimen/default_margin"
+                android:fontFamily="sans-serif"
+                android:hint="@string/password_placeholder"
+                android:inputType="textPassword" />
+
+
+            <tekkan.synappz.com.tekkan.custom.CustomFontEditText
+                android:id="@+id/et_confirm_password"
+                style="@style/ProfileEditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_edit_text_height"
+                android:layout_marginTop="@dimen/default_margin"
+                android:fontFamily="sans-serif"
+                android:hint="@string/confirm_password_placeholder"
+                android:inputType="textPassword" />
+
+            <tekkan.synappz.com.tekkan.custom.CustomFontEditText
+                android:id="@+id/et_street_name"
+                style="@style/ProfileEditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_edit_text_height"
+                android:layout_marginTop="@dimen/default_margin"
+                android:hint="@string/street_name_placeholder"
+                android:text="@{user.street}"
+                android:inputType="textPostalAddress" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_edit_text_height"
+                android:layout_marginTop="@dimen/default_margin"
+                android:background="@drawable/bg_bottom_line"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <tekkan.synappz.com.tekkan.custom.CustomFontEditText
+                    android:id="@+id/et_postal_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_margin"
+                    android:layout_weight="1"
+                    android:background="@color/transparent"
+                    android:hint="@string/postal_code_placeholder"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:text="@{user.postalCode}"
+                    android:textColor="@color/default_body_text" />
+
+                <tekkan.synappz.com.tekkan.custom.CustomFontEditText
+                    android:id="@+id/et_place"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_margin"
+                    android:layout_weight="1"
+                    android:background="@color/transparent"
+                    android:hint="@string/place_placeholder"
+                    android:inputType="textPostalAddress"
+                    android:text="@{user.postalAddress}"
+                    android:textColor="@color/default_body_text" />
+            </LinearLayout>
+
+            <tekkan.synappz.com.tekkan.custom.CustomFontEditText
+                android:id="@+id/et_tel_no"
+                style="@style/ProfileEditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_edit_text_height"
+                android:layout_marginTop="@dimen/default_margin"
+                android:hint="@string/mobile_number_placeholder"
+                android:imeOptions="actionDone"
+                android:text="@{String.valueOf(user.mobile)}"
+                android:inputType="phone" />
+
+            <LinearLayout
+                android:id="@+id/lt_conditions"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_edit_text_height"
+                android:layout_marginStart="@dimen/checkbox_margin_left"
+                android:layout_marginTop="@dimen/default_margin"
+                android:background="@drawable/bg_bottom_line"
+                android:orientation="horizontal">
+
+                <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/agree_terms_conditions"
+                    android:textSize="@dimen/profile_default_text_size" />
+
+                <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/padding_5dp"
+                    android:layout_weight="1"
+                    android:hint="@string/condtions_text"
+                    android:textColorHint="@color/colorAccent"
+                    android:textSize="@dimen/profile_default_text_size" />
+
+                <CheckBox
+                    android:id="@+id/cb_term_conditions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/padding_10dp"
+                    android:buttonTint="@color/radio_button_tint" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/default_margin"
             android:layout_marginTop="@dimen/radio_group_margin_top"
+            android:text="@string/add_new_pet_title"
+            android:textColor="@color/profile_title_color"
+            android:textSize="@dimen/profile_default_text_size"
+            app:customfont="OpenSansSemiBold" />
+
+        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            android:id="@+id/tv_add_pet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/user_profile_padding"
+            android:layout_marginTop="@dimen/my_pet_title_margin_top"
             android:background="@drawable/bg_bottom_line"
-            android:orientation="horizontal">
-
-            <android.support.v7.widget.AppCompatRadioButton
-                android:id="@+id/rb_male"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:buttonTint="@color/radio_button_tint"
-                android:checked="true"
-                android:text="@string/radio_button_title_male"
-                android:textColor="@color/profile_default_text_color"
-                android:textSize="@dimen/profile_default_text_size"/>
-
-            <android.support.v7.widget.AppCompatRadioButton
-                android:id="@+id/rb_female"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:buttonTint="@color/radio_button_tint"
-                android:text="@string/radio_button_title_female"
-                android:textColor="@color/profile_default_text_color"
-                android:textSize="@dimen/profile_default_text_size"/>
-        </RadioGroup>
-
-        <tekkan.synappz.com.tekkan.custom.CustomFontEditText
-            android:id="@+id/et_first_name"
-            style="@style/ProfileEditTextStyle"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/default_edit_text_height"
-            android:layout_marginTop="@dimen/default_margin"
-            android:hint="@string/first_name_placeholder"
-            android:inputType="text"/>
-
-
-        <tekkan.synappz.com.tekkan.custom.CustomFontEditText
-            android:id="@+id/et_last_name"
-            style="@style/ProfileEditTextStyle"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/default_edit_text_height"
-            android:layout_marginTop="@dimen/default_margin"
-            android:hint="@string/last_name_placeholder"
-            android:inputType="text"/>
-
-
-        <tekkan.synappz.com.tekkan.custom.CustomFontEditText
-            android:id="@+id/et_email"
-            style="@style/ProfileEditTextStyle"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/default_edit_text_height"
-            android:layout_marginTop="@dimen/default_margin"
-            android:hint="@string/email_placeholder"
-            android:inputType="textEmailAddress"/>
-
-        <tekkan.synappz.com.tekkan.custom.CustomFontEditText
-            android:id="@+id/et_password"
-            style="@style/ProfileEditTextStyle"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/default_edit_text_height"
-            android:layout_marginTop="@dimen/default_margin"
-            android:fontFamily="sans-serif"
-            android:hint="@string/password_placeholder"
-            android:inputType="textPassword"/>
-
-
-        <tekkan.synappz.com.tekkan.custom.CustomFontEditText
-            android:id="@+id/et_confirm_password"
-            style="@style/ProfileEditTextStyle"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/default_edit_text_height"
-            android:layout_marginTop="@dimen/default_margin"
-            android:fontFamily="sans-serif"
-            android:hint="@string/confirm_password_placeholder"
-            android:inputType="textPassword"/>
-
-        <tekkan.synappz.com.tekkan.custom.CustomFontEditText
-            android:id="@+id/et_street_name"
-            style="@style/ProfileEditTextStyle"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/default_edit_text_height"
-            android:layout_marginTop="@dimen/default_margin"
-            android:hint="@string/street_name_placeholder"
-            android:inputType="textPostalAddress"/>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/default_edit_text_height"
-            android:layout_marginTop="@dimen/default_margin"
-            android:background="@drawable/bg_bottom_line"
-            android:orientation="horizontal"
-            android:weightSum="2">
-
-            <tekkan.synappz.com.tekkan.custom.CustomFontEditText
-                android:id="@+id/et_postal_code"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_margin"
-                android:layout_weight="1"
-                android:background="@color/transparent"
-                android:hint="@string/postal_code_placeholder"
-                android:imeOptions="actionNext"
-                android:inputType="number"
-                android:textColor="@color/default_body_text"/>
-
-            <tekkan.synappz.com.tekkan.custom.CustomFontEditText
-                android:id="@+id/et_place"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_margin"
-                android:layout_weight="1"
-                android:background="@color/transparent"
-                android:hint="@string/place_placeholder"
-                android:inputType="textPostalAddress"
-                android:textColor="@color/default_body_text"/>
-        </LinearLayout>
-
-        <tekkan.synappz.com.tekkan.custom.CustomFontEditText
-            android:id="@+id/et_tel_no"
-            style="@style/ProfileEditTextStyle"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/default_edit_text_height"
-            android:layout_marginTop="@dimen/default_margin"
-            android:hint="@string/mobile_number_placeholder"
-            android:imeOptions="actionDone"
-            android:inputType="phone"/>
-
-        <LinearLayout
-            android:id="@+id/lt_conditions"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/default_edit_text_height"
-            android:layout_marginStart="@dimen/checkbox_margin_left"
-            android:layout_marginTop="@dimen/default_margin"
-            android:background="@drawable/bg_bottom_line"
-            android:orientation="horizontal">
-
-            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="@string/agree_terms_conditions"
-                android:textSize="@dimen/profile_default_text_size"/>
-
-            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/padding_5dp"
-                android:layout_weight="1"
-                android:hint="@string/condtions_text"
-                android:textColorHint="@color/colorAccent"
-                android:textSize="@dimen/profile_default_text_size"/>
-
-            <CheckBox
-                android:id="@+id/cb_term_condetions"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/padding_10dp"
-                android:buttonTint="@color/radio_button_tint"/>
-
-        </LinearLayout>
-
+            android:drawableEnd="@drawable/ic_add_pet_button"
+            android:gravity="center_vertical"
+            android:hint="@string/add_new_pet_placeholder"
+            android:paddingBottom="@dimen/padding_10dp"
+            android:paddingEnd="@dimen/user_profile_padding"
+            android:textSize="@dimen/profile_default_text_size" />
     </LinearLayout>
-
-    <tekkan.synappz.com.tekkan.custom.CustomFontTextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/default_margin"
-        android:layout_marginTop="@dimen/radio_group_margin_top"
-        android:text="@string/add_new_pet_title"
-        android:textColor="@color/profile_title_color"
-        android:textSize="@dimen/profile_default_text_size"
-        app:customfont="OpenSansSemiBold"/>
-
-    <tekkan.synappz.com.tekkan.custom.CustomFontTextView
-        android:id="@+id/tv_add_pet"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/user_profile_padding"
-        android:layout_marginTop="@dimen/my_pet_title_margin_top"
-        android:background="@drawable/bg_bottom_line"
-        android:drawableEnd="@drawable/ic_add_pet_button"
-        android:gravity="center_vertical"
-        android:hint="@string/add_new_pet_placeholder"
-        android:paddingBottom="@dimen/padding_10dp"
-        android:paddingEnd="@dimen/user_profile_padding"
-        android:textSize="@dimen/profile_default_text_size"/>
-</LinearLayout>
+</layout>
