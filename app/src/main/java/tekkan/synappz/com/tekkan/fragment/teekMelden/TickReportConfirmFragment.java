@@ -86,7 +86,7 @@ public class TickReportConfirmFragment extends Fragment implements CommonNodeInt
     public void showLogInOrPetDetail() {
         Bundle bundle = getArguments().getBundle(ARGS_BUNDLE);
 
-        if (User.getInstance(getActivity()).getEmail() != null) {
+        if (User.getInstance(getActivity()).isLoaded()) {
             bundle.putString(ARGS_APPLY_RESEARCH,"N");
             Intent intent = new Intent(getActivity(), InvestigatePetActivity.class);
             intent.putExtra(InvestigatePetActivity.EXTRA_TEEK_BUNDLE,bundle);

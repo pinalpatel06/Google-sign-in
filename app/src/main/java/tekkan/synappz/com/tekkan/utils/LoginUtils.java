@@ -1,6 +1,13 @@
 package tekkan.synappz.com.tekkan.utils;
 
+import android.content.Context;
+import android.preference.PreferenceManager;
 import android.util.Base64;
+
+import com.android.volley.Request;
+import com.android.volley.VolleyError;
+
+import org.json.JSONObject;
 
 import java.security.Key;
 import java.util.Arrays;
@@ -8,12 +15,83 @@ import java.util.Arrays;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
+import tekkan.synappz.com.tekkan.custom.network.TekenErrorListener;
+import tekkan.synappz.com.tekkan.custom.network.TekenJsonObjectRequest;
+import tekkan.synappz.com.tekkan.custom.network.TekenResponseListener;
+import tekkan.synappz.com.tekkan.custom.network.TekenStringRequest;
+import tekkan.synappz.com.tekkan.model.User;
+
 /**
  * Created by Tejas Sherdiwala on 5/9/2017.
  * &copy; Knoxpo
  */
 
 public class LoginUtils {
+    private static final int
+            REQUEST_LOGIN = 0,
+            REQUEST_USER = 1;
+
+    public interface Listener {
+        void onSuccess();
+
+        void onFailure(VolleyError error, int errorCode, String errorString);
+    }
+
+    private static final String
+            PARAM_EMAIL = "email",
+            PARAM_PASSWORD = "password";
+
+    public static void logIn(final Context context, final String email, final String password, final LoginUtils.Listener callback) {
+        String encrPassword = encode(password);
+        TekenStringRequest request = new TekenStringRequest(
+                Request.Method.POST,
+                Constants.Api.getUrl(Constants.Api.FUNC_LOGIN),
+                new TekenResponseListener<String>() {
+                    @Override
+                    public void onResponse(int requestCode, String response) {
+                        getUserDetails(context,email,callback);
+                    }
+                },
+                new TekenErrorListener() {
+                    @Override
+                    public void onErrorResponse(int requestCode, VolleyError error, int status, String message) {
+                        callback.onFailure(error,status,message);
+                    }
+                },
+                REQUEST_LOGIN
+        );
+        request.addParam(PARAM_EMAIL, email);
+        request.addParam(PARAM_PASSWORD, encrPassword);
+        VolleyHelper.getInstance(context).addToRequestQueue(request);
+    }
+
+    private static void getUserDetails(final Context context , String email, final LoginUtils.Listener callback){
+
+        TekenJsonObjectRequest request = new TekenJsonObjectRequest(
+                Request.Method.GET,
+                Constants.Api.getUrl(Constants.Api.FUNC_USER),
+                new TekenResponseListener<JSONObject>() {
+                    @Override
+                    public void onResponse(int requestCode, JSONObject response) {
+                        User user = User.getInstance(context);
+                        user.loadUser(response);
+                        PreferenceManager.getDefaultSharedPreferences(context).edit()
+                                .putString(Constants.SP.JSON_USER,user.toJSON())
+                                .apply();
+                        callback.onSuccess();
+                    }
+                },
+                new TekenErrorListener() {
+                    @Override
+                    public void onErrorResponse(int requestCode, VolleyError error, int status, String message) {
+                        callback.onFailure(error,status,message);
+                    }
+                },
+                REQUEST_USER
+        );
+        request.addParam(Constants.Api.QUERY_PARAMETER1, email);
+        VolleyHelper.getInstance(context).addToRequestQueue(request);
+    }
 
     public static String encode(String pwd) {
         try {
@@ -35,6 +113,7 @@ public class LoginUtils {
             return null;
         }
     }
+
 
 
 }

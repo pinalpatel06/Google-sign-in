@@ -13,7 +13,7 @@ import tekkan.synappz.com.tekkan.fragment.teekMelden.LogInAndProfileFragment;
  * &copy; Knoxpo
  */
 
-public class LogInAndProfileActivity extends ToolbarActivity {
+public class LogInAndProfileActivity extends ToolbarActivity{
     private static final String TAG = LogInAndProfileActivity.class.getSimpleName();
 
     public static final String EXTRA_TEEK_BUNDLE = TAG + ".EXTRA_TEEK_BUNDLE";
