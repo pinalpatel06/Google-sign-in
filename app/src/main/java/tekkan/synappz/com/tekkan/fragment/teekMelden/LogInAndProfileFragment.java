@@ -101,6 +101,10 @@ public class LogInAndProfileFragment extends Fragment implements LoginUtils.List
     public void onSuccess() {
         ProgressDialogFragment fragment = (ProgressDialogFragment) getFragmentManager().findFragmentByTag(TAG_PROGRESS_DIALOG);
         fragment.dismiss();
+
+        mEmailET.setText("");
+        mPasswordET.setText("");
+
         Intent intent = new Intent(getActivity(), InvestigatePetActivity.class);
         intent.putExtra(InvestigatePetActivity.EXTRA_TEEK_BUNDLE, getArguments().getBundle(ARGS_TEEK_BUNDLE));
         startActivity(intent);

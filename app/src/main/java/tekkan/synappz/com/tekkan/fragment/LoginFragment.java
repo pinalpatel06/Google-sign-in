@@ -130,6 +130,10 @@ public class LoginFragment extends ContainerNodeFragment implements LoginUtils.L
     public void onSuccess() {
         ProgressDialogFragment fragment = (ProgressDialogFragment) getFragmentManager().findFragmentByTag(TAG_PROGRESS_DIALOG);
         fragment.dismiss();
+
+        mEmailET.setText("");
+        mPasswordET.setText("");
+
         setChild(ProfileFragment.newInstance(false));
     }
 
@@ -137,6 +141,7 @@ public class LoginFragment extends ContainerNodeFragment implements LoginUtils.L
     public void onFailure(VolleyError error, int errorCode, String errorString) {
         ProgressDialogFragment fragment = (ProgressDialogFragment) getFragmentManager().findFragmentByTag(TAG_PROGRESS_DIALOG);
         fragment.dismiss();
+
         AlertDialogFragment fragment1 = AlertDialogFragment.newInstance(R.string.error, R.string.invalid_login);
         fragment1.show(getFragmentManager(), TAG_ALERT_DIALOG);
     }

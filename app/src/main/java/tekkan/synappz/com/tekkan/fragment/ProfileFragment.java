@@ -122,6 +122,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
                 User.getInstance(getActivity()).unloadUser();
                 return true;
             case android.R.id.home:
+                getActivity().onBackPressed();
                 return true;
             case R.id.action_customize:
                 mCanEdit = true;
