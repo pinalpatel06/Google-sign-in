@@ -88,7 +88,6 @@ public class LogInAndProfileFragment extends Fragment implements LoginUtils.List
         fragment.show(getFragmentManager(), TAG_PROGRESS_DIALOG);
 
         LoginUtils.logIn(getActivity(), email, password, this);
-
     }
 
     @OnClick(R.id.btn_profile)

@@ -56,7 +56,7 @@ public class User {
         try{
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
             String userJson = preferences.getString(Constants.SP.JSON_USER,null);
-            sUser.loadUser(new JSONObject(userJson));
+            loadUser(new JSONObject(userJson));
         }catch (Exception e){
             Log.e(TAG, "Could not load user");
         }
@@ -84,6 +84,10 @@ public class User {
             mIsLoaded = false;
         }
 
+    }
+
+    public void unloadUser(){
+        sUser = null;
     }
 
     public Constants.Gender getGender() {

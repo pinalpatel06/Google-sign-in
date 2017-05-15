@@ -38,7 +38,7 @@ import tekkan.synappz.com.tekkan.utils.VolleyHelper;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ViewPetFragment extends Fragment implements TekenResponseListener,TekenErrorListener {
+public class ViewPetFragment extends Fragment implements TekenResponseListener, TekenErrorListener {
     private static final String
             TAG = ViewPetFragment.class.getSimpleName(),
             ARGS_PET_DATA = TAG + ".ARGS_PET_DATA";
@@ -61,7 +61,7 @@ public class ViewPetFragment extends Fragment implements TekenResponseListener,T
     TextView mGenderTv;
 
     private Pet mPet;
-    private HashMap<Long , String> mBreedList;
+    private HashMap<Long, String> mBreedList;
 
     public static ViewPetFragment newInstance(Pet pet) {
 
@@ -85,7 +85,7 @@ public class ViewPetFragment extends Fragment implements TekenResponseListener,T
                 return true;
             case R.id.action_edit:
                 Intent intent = new Intent(getActivity(), EditPetActivity.class);
-                intent.putExtra(EditPetActivity.EXTRA_PET,mPet);
+                intent.putExtra(EditPetActivity.EXTRA_PET, mPet);
                 getActivity().finish();
                 startActivity(intent);
             default:
@@ -121,17 +121,19 @@ public class ViewPetFragment extends Fragment implements TekenResponseListener,T
                         ? getString(R.string.dog)
                         : getString(R.string.cat)
         );
-        if(mBreedList != null){
+        if (mBreedList != null) {
             String breed = mBreedList.get(mPet.getBreedId());
             mBreedTV.setText(breed);
         }
 
+
         mDateOfBirthTv.setText(DateUtils.toApi(mPet.getBirthDate()));
+
         mGenderTv.setText(String.valueOf(mPet.getGender()));
         mWeightTv.setText(String.valueOf(mPet.getWeight()));
     }
 
-    private void fetchBreed(){
+    private void fetchBreed() {
         TekenJsonArrayRequest request = new TekenJsonArrayRequest(
                 Request.Method.GET,
                 Constants.Api.getUrl(Constants.Api.FUNC_GET_BREEDS),
@@ -140,10 +142,10 @@ public class ViewPetFragment extends Fragment implements TekenResponseListener,T
                 REQUEST_BREED
         );
 
-        if(mPet.getType().equals(Constants.PetType.CAT)){
-            request.addParam(Constants.Api.QUERY_PARAMETER1,Constants.PetType.CAT.toApi());
-        }else{
-            request.addParam(Constants.Api.QUERY_PARAMETER1,Constants.PetType.DOG.toApi());
+        if (mPet.getType().equals(Constants.PetType.CAT)) {
+            request.addParam(Constants.Api.QUERY_PARAMETER1, Constants.PetType.CAT.toApi());
+        } else {
+            request.addParam(Constants.Api.QUERY_PARAMETER1, Constants.PetType.DOG.toApi());
         }
 
         VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
@@ -152,15 +154,16 @@ public class ViewPetFragment extends Fragment implements TekenResponseListener,T
     private static final String
             JSON_ID = "id",
             JSON_NAME = "name";
+
     @Override
     public void onResponse(int requestCode, Object response) {
         JSONArray jsonArray = (JSONArray) response;
-        if(jsonArray.length() > 0){
+        if (jsonArray.length() > 0) {
             mBreedList = new HashMap<>();
-            for(int i=0; i< jsonArray.length(); i++){
+            for (int i = 0; i < jsonArray.length(); i++) {
                 try {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    mBreedList.put(jsonObject.optLong(JSON_ID),jsonObject.optString(JSON_NAME));
+                    mBreedList.put(jsonObject.optLong(JSON_ID), jsonObject.optString(JSON_NAME));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

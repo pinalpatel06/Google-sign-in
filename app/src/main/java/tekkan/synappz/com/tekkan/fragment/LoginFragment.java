@@ -4,6 +4,7 @@ package tekkan.synappz.com.tekkan.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ import tekkan.synappz.com.tekkan.custom.nestedfragments.FragmentChangeCallback;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.NestedFragmentUtil;
 import tekkan.synappz.com.tekkan.dialogs.AlertDialogFragment;
 import tekkan.synappz.com.tekkan.dialogs.ProgressDialogFragment;
+import tekkan.synappz.com.tekkan.model.User;
 import tekkan.synappz.com.tekkan.utils.LoginUtils;
 
 /**
@@ -66,6 +68,14 @@ public class LoginFragment extends ContainerNodeFragment implements LoginUtils.L
         Fragment childFragment = getChild();
         if (childFragment != null) {
             childFragment.setHasOptionsMenu(hasMenu);
+        }
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if(User.getInstance(getActivity()).isLoaded()){
+           setChild(ProfileFragment.newInstance(false));
         }
     }
 
@@ -129,5 +139,14 @@ public class LoginFragment extends ContainerNodeFragment implements LoginUtils.L
         fragment.dismiss();
         AlertDialogFragment fragment1 = AlertDialogFragment.newInstance(R.string.error, R.string.invalid_login);
         fragment1.show(getFragmentManager(), TAG_ALERT_DIALOG);
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        if(User.getInstance(getActivity()).isLoaded()){
+            return false;
+        }else {
+            return super.onBackPressed();
+        }
     }
 }

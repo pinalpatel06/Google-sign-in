@@ -3,7 +3,9 @@ package tekkan.synappz.com.tekkan.fragment;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -46,7 +48,6 @@ import tekkan.synappz.com.tekkan.model.Pet;
 import tekkan.synappz.com.tekkan.model.User;
 import tekkan.synappz.com.tekkan.utils.Constants;
 import tekkan.synappz.com.tekkan.utils.VolleyHelper;
-
 
 
 public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolder>
@@ -105,6 +106,20 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
                 Constants.closeKeyBoard(getActivity());
                 return true;
             case R.id.action_logout:
+                PreferenceManager.getDefaultSharedPreferences(getActivity())
+                        .edit()
+                        .remove(Constants.SP.JSON_USER)
+                        .apply();
+
+                Fragment fragment = getFragmentManager().findFragmentById(R.id.fragment_container);
+                if (fragment != null) {
+                    getFragmentManager()
+                            .beginTransaction()
+                            .remove(fragment)
+                            .commitNow();
+                }
+
+                User.getInstance(getActivity()).unloadUser();
                 return true;
             case android.R.id.home:
                 return true;
@@ -206,7 +221,6 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
 
         VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);*/
     }
-
 
     @Override
     protected int getItemViewType(int position) {
