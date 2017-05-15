@@ -185,7 +185,7 @@ public class LoginFragment extends ContainerNodeFragment implements TekenRespons
         TekenJsonObjectRequest request = new TekenJsonObjectRequest(
                 Request.Method.GET,
                 Constants.Api.getUrl(Constants.Api.FUNC_USER),
-                (TekenResponseListener<JSONObject>) this,
+                this,
                 this,
                 REQUEST_USER
         );

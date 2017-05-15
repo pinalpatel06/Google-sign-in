@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="tekkan.synappz.com.tekkan">
+    package="tekkan.synappz.com.tekkan">
 
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -14,67 +14,84 @@
         android:supportsRtl="true"
 
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.SplashActivity"
-                  android:screenOrientation="portrait">
+        <activity
+            android:name=".activity.SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.DisclaimerActivity"
-                  android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.DisclaimerActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".activity.ProfileSetupActivity"
-                  android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.ProfileSetupActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".activity.MainActivity"
-                  android:screenOrientation="portrait"
-                  android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".activity.MainActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
 
-        <activity android:name=".activity.FilterOptionActivity"
-                  android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.FilterOptionActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".activity.MoreInfoActivity"
-                  android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.MoreInfoActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".activity.LogInActivity"
-                  android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.LogInActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".activity.LogInAndProfileActivity"
-                  android:screenOrientation="portrait"
-                  android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".activity.LogInAndProfileActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
 
-        <activity android:name=".activity.QRScannerActivity"
-                  android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.QRScannerActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".activity.InvestigatePetActivity"
-                  android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.InvestigatePetActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".activity.EditPetActivity"
-                  android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.EditPetActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".activity.ProfileActivity"
-                  android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.ProfileActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".activity.ConditionsActivity"
-                  android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.ConditionsActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".activity.ApplyForPetActivity"
-                  android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.ApplyForPetActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".activity.ApplyPetAgreementActivity"
-                  android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.ApplyPetAgreementActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".activity.ViewPetActivity"
-                  android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.ViewPetActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".activity.BarcodeCaptureActivity"
-                  android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.BarcodeCaptureActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDK3Ip6wvb3XjCpCW4l5VBthLSBG57qI3c"/>
+            android:value="AIzaSyDK3Ip6wvb3XjCpCW4l5VBthLSBG57qI3c" />
     </application>
 
 </manifest>

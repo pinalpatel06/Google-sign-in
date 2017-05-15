@@ -1,6 +1,9 @@
 package tekkan.synappz.com.tekkan.model;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,6 +17,7 @@ import tekkan.synappz.com.tekkan.utils.Constants;
 public class User {
 
     private static final String
+            TAG = User.class.getSimpleName(),
             JSON_S_GENDER = "gender",
             JSON_S_FIRSTNAME = "firstname",
             JSON_S_LASTNAME = "lastname",
@@ -34,6 +38,8 @@ public class User {
 
     private long mMobile;
 
+    private boolean mIsLoaded = false;
+
     private static User sUser;
 
     private Context mContext;
@@ -47,23 +53,37 @@ public class User {
 
     private User(Context context) {
         mContext = context.getApplicationContext();
+        try{
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+            String userJson = preferences.getString(Constants.SP.JSON_USER,null);
+            sUser.loadUser(new JSONObject(userJson));
+        }catch (Exception e){
+            Log.e(TAG, "Could not load user");
+        }
     }
 
     public void loadUser(JSONObject object) {
-        mFirstName = object.optString(JSON_S_FIRSTNAME);
-        mLastName = object.optString(JSON_S_LASTNAME);
-        mStreet = object.optString(JSON_S_STREET);
-        mPostalCode = object.optString(JSON_S_POSTALCODE);
-        mPostalAddress = object.optString(JSON_S_POSTALADDRESS);
-        mEmail = object.optString(JSON_S_EMAIL);
-        mMobile = object.optLong(JSON_N_MOBILE);
+        try{
+            mFirstName = object.getString(JSON_S_FIRSTNAME);
+            mLastName = object.getString(JSON_S_LASTNAME);
+            mStreet = object.getString(JSON_S_STREET);
+            mPostalCode = object.getString(JSON_S_POSTALCODE);
+            mPostalAddress = object.getString(JSON_S_POSTALADDRESS);
+            mEmail = object.getString(JSON_S_EMAIL);
+            mMobile = object.getLong(JSON_N_MOBILE);
 
-        String gender = object.optString(JSON_S_GENDER);
-        if (Constants.Gender.MALE.toApi().equalsIgnoreCase(gender)) {
-            mGender = Constants.Gender.MALE;
-        } else if (Constants.Gender.FEMALE.toApi().equalsIgnoreCase(gender)) {
-            mGender = Constants.Gender.FEMALE;
+            String gender = object.getString(JSON_S_GENDER);
+            if (Constants.Gender.MALE.toApi().equalsIgnoreCase(gender)) {
+                mGender = Constants.Gender.MALE;
+            } else if (Constants.Gender.FEMALE.toApi().equalsIgnoreCase(gender)) {
+                mGender = Constants.Gender.FEMALE;
+            }
+            mIsLoaded = true;
+        }catch (JSONException e){
+            e.printStackTrace();
+            mIsLoaded = false;
         }
+
     }
 
     public Constants.Gender getGender() {
@@ -98,6 +118,10 @@ public class User {
         return mMobile;
     }
 
+    public boolean isLoaded() {
+        return mIsLoaded;
+    }
+
     public String toJSON() {
         try {
             JSONObject object = new JSONObject();
@@ -109,7 +133,6 @@ public class User {
             object.put(JSON_S_POSTALADDRESS, mPostalAddress);
             object.put(JSON_S_EMAIL, mEmail);
             object.put(JSON_N_MOBILE, mMobile);
-
             return object.toString();
         } catch (JSONException e) {
             return "";

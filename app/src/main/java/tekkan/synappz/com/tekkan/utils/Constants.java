@@ -56,7 +56,8 @@ public class Constants {
 
     public static class SP {
         public static final String
-                JSON_USER = "JSON_USER";
+                JSON_USER = "JSON_USER",
+                HAS_ACCEPTED_DISCLAIMER = "HAS_ACCEPTED_DISCLAIMER";
     }
 
     public enum Gender {
