@@ -28,20 +28,23 @@ import tekkan.synappz.com.tekkan.custom.nestedfragments.NestedFragmentUtil;
 import tekkan.synappz.com.tekkan.custom.network.TekenErrorListener;
 import tekkan.synappz.com.tekkan.custom.network.TekenJsonArrayRequest;
 import tekkan.synappz.com.tekkan.custom.network.TekenResponseListener;
+import tekkan.synappz.com.tekkan.dialogs.ProgressDialogFragment;
+import tekkan.synappz.com.tekkan.model.BaseProduct;
 import tekkan.synappz.com.tekkan.model.ProductItem;
 import tekkan.synappz.com.tekkan.utils.Constants;
 import tekkan.synappz.com.tekkan.utils.VolleyHelper;
 
-public class ProductTabFragment extends ContainerNodeListFragment<ProductTabFragment.ProductsListItem, ProductTabFragment.ProductVH> {
+import static tekkan.synappz.com.tekkan.fragment.LoginFragment.TAG_PROGRESS_DIALOG;
+
+public class ProductTabFragment extends ContainerNodeListFragment<Object, ProductTabFragment.ProductVH> {
 
     private static final String TAG = ProductTabFragment.class.getSimpleName();
 
     private static final int
-            INDEX_PRODUCT = 0,
-            INDEX_INFO_ARTICLE = 1,
-            INDEX_SCIENTIFIC = 2;
+            REQUEST_FETCH_PRODUCT = 0,
+            REQUEST_FETCH_INFORMATION = 1;
 
-    private ArrayList<ProductsListItem> listItems;
+    private ArrayList<Object> listItems;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,23 +53,23 @@ public class ProductTabFragment extends ContainerNodeListFragment<ProductTabFrag
     }
 
     @Override
-    public List<ProductsListItem> onCreateItems(Bundle savedInstanceState) {
+    public List<Object> onCreateItems(Bundle savedInstanceState) {
         listItems = new ArrayList<>();
-
-      /*  listItems.add(new ProductsListItem("Product", getString(R.string.dummy_text)));
-        listItems.add(new ProductsListItem("Informatie artikelen", getString(R.string.dummy_text)));
-        listItems.add(new ProductsListItem("Wetenschappelijk", getString(R.string.dummy_text)));
-*/
         return listItems;
     }
 
     private void fetchProduct() {
+
+        ProgressDialogFragment fragment = ProgressDialogFragment.newInstance(getString(R.string.fetch_product));
+        fragment.show(getFragmentManager(), TAG_PROGRESS_DIALOG);
+
         TekenJsonArrayRequest request = new TekenJsonArrayRequest(
                 Request.Method.GET,
                 Constants.Api.getUrl(Constants.Api.FUNC_GET_PRODUCTS),
                 new TekenResponseListener<JSONArray>() {
                     @Override
                     public void onResponse(int requestCode, JSONArray response) {
+                        fetchInformation();
                         Log.d(TAG, "Success" + response.length());
                         listItems = new ArrayList<>();
                         for (int i = 0; i < response.length(); i++) {
@@ -74,6 +77,44 @@ public class ProductTabFragment extends ContainerNodeListFragment<ProductTabFrag
                             try {
                                 jsonObject = response.getJSONObject(i);
                                 listItems.add(new ProductsListItem(jsonObject));
+                            } catch (JSONException e) {
+                                continue;
+                            }
+                        }
+
+                    }
+                },
+                new TekenErrorListener() {
+                    @Override
+                    public void onErrorResponse(int requestCode, VolleyError error, int status, String message) {
+                        Log.d(TAG, error.toString());
+                        ProgressDialogFragment fragment = (ProgressDialogFragment) getFragmentManager().findFragmentByTag(TAG_PROGRESS_DIALOG);
+                        fragment.dismiss();
+
+                    }
+                },
+                REQUEST_FETCH_PRODUCT
+        );
+        VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
+    }
+
+    private void fetchInformation() {
+        TekenJsonArrayRequest request = new TekenJsonArrayRequest(
+                Request.Method.GET,
+                Constants.Api.getUrl(Constants.Api.FUNC_GET_INFORMATIONS),
+                new TekenResponseListener<JSONArray>() {
+                    @Override
+                    public void onResponse(int requestCode, JSONArray response) {
+                        Log.d(TAG, "Success for Information" + response.length());
+
+                        ProgressDialogFragment fragment = (ProgressDialogFragment) getFragmentManager().findFragmentByTag(TAG_PROGRESS_DIALOG);
+                        fragment.dismiss();
+
+                        for (int i = 0; i < response.length(); i++) {
+                            JSONObject jsonObject;
+                            try {
+                                jsonObject = response.getJSONObject(i);
+                                listItems.add(new InformationListItem(jsonObject));
                                 loadNewItems(listItems);
 
                             } catch (JSONException e) {
@@ -87,12 +128,16 @@ public class ProductTabFragment extends ContainerNodeListFragment<ProductTabFrag
                     @Override
                     public void onErrorResponse(int requestCode, VolleyError error, int status, String message) {
                         Log.d(TAG, error.toString());
+                        ProgressDialogFragment fragment = (ProgressDialogFragment) getFragmentManager().findFragmentByTag(TAG_PROGRESS_DIALOG);
+                        fragment.dismiss();
+
                     }
                 },
-                0
+                REQUEST_FETCH_INFORMATION
         );
         VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
     }
+
 
     @Override
     public int getItemLayoutId(int viewType) {
@@ -105,7 +150,7 @@ public class ProductTabFragment extends ContainerNodeListFragment<ProductTabFrag
     }
 
     @Override
-    public void onBindViewHolder(ProductVH holder, ProductsListItem item) {
+    public void onBindViewHolder(ProductVH holder, Object item) {
         holder.bind(item);
     }
 
@@ -123,18 +168,31 @@ public class ProductTabFragment extends ContainerNodeListFragment<ProductTabFrag
         @BindView(R.id.iv_product_image)
         CircleNetworkImageView mProductImageIV;
         private ProductsListItem mItem;
+        private InformationListItem mInfoList;
 
         public ProductVH(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
 
-        public void bind(ProductsListItem item) {
-            mItem = item;
-            mTitleTV.setText(item.getTitle());
-            mDescriptionTV.setText(item.getDescription());
-            mProductImageIV.setImageUrl(item.getProfileUrl(), VolleyHelper.getInstance(getActivity()).getImageLoader());
-            mProductImageIV.setDefaultImageResId(R.drawable.ic_splash_pets);
+        public void bind(Object item) {
+            if (item instanceof ProductsListItem) {
+                mItem = (ProductsListItem) item;
+                mTitleTV.setText(mItem.getTitle());
+                mDescriptionTV.setText(mItem.getDescription());
+                if (!mItem.getProfileUrl().equals("null")) {
+                    mProductImageIV.setImageUrl(mItem.getProfileUrl(), VolleyHelper.getInstance(getActivity()).getImageLoader());
+                }
+                mProductImageIV.setDefaultImageResId(R.drawable.ic_splash_pets);
+            } else if (item instanceof InformationListItem) {
+                mInfoList = (InformationListItem) item;
+                mTitleTV.setText(mInfoList.getTitle());
+                mDescriptionTV.setText(mInfoList.getDescription());
+                if (!mInfoList.getProfileUrl().equals("null")) {
+                    mProductImageIV.setImageUrl(mInfoList.getProfileUrl(), VolleyHelper.getInstance(getActivity()).getImageLoader());
+                }
+                mProductImageIV.setDefaultImageResId(R.drawable.ic_splash_pets);
+            }
             itemView.setTag(item);
             itemView.setOnClickListener(this);
         }
@@ -143,43 +201,24 @@ public class ProductTabFragment extends ContainerNodeListFragment<ProductTabFrag
         public void onClick(View v) {
 
             CommonNodeInterface fragment = null;
-
-            switch (getAdapterPosition()) {
-                case INDEX_PRODUCT:
-                    fragment = ProductListFragment.newInstance(mItem.getProductList());
-                    break;
-                case INDEX_INFO_ARTICLE:
-                    fragment = new InformationListFragment();
-                    break;
-                case INDEX_SCIENTIFIC:
-                    fragment = new InformationDetailFragment();
-                    break;
-                default:
-                    throw new UnsupportedOperationException("No such view to display");
+            if (mItem != null) {
+                fragment = ProductListFragment.newInstance(mItem.getProductList());
+            } else if (mInfoList != null) {
+                fragment = InformationListFragment.newInstance(mInfoList.getInformationList());
             }
             setChild(fragment);
         }
     }
 
-    class ProductsListItem {
-        private String mCategoryId;
-        private String mTitle;
-        private String mDescription;
-        private String mProfileUrl;
+    class ProductsListItem extends BaseProduct {
+
         private ArrayList<ProductItem> mProductList;
 
         private static final String
-                JSON_S_CATEGORY_ID = "category_id",
-                JSON_S_CATEGORY_NAME = "category_name",
-                JSON_S_CATEGORY_DESCRIPTION = "category_description",
-                JSON_S_CATEGORY_PHOTO = "category_photo",
                 JSON_L_PRODUCTS = "products";
 
         private ProductsListItem(JSONObject jsonObject) {
-            mCategoryId = jsonObject.optString(JSON_S_CATEGORY_ID);
-            mTitle = jsonObject.optString(JSON_S_CATEGORY_NAME);
-            mDescription = jsonObject.optString(JSON_S_CATEGORY_DESCRIPTION);
-            mProfileUrl = jsonObject.optString(JSON_S_CATEGORY_PHOTO);
+            super(jsonObject);
             mProductList = toProductList(jsonObject.optJSONArray(JSON_L_PRODUCTS));
         }
 
@@ -195,24 +234,37 @@ public class ProductTabFragment extends ContainerNodeListFragment<ProductTabFrag
             return null;
         }
 
-        String getTitle() {
-            return mTitle;
-        }
-
-        String getDescription() {
-            return mDescription;
-        }
-
-        public String getCategoryId() {
-            return mCategoryId;
-        }
-
-        public String getProfileUrl() {
-            return mProfileUrl;
-        }
-
         public ArrayList<ProductItem> getProductList() {
             return mProductList;
+        }
+    }
+
+    class InformationListItem extends BaseProduct {
+
+        private ArrayList<ProductItem> mInformationList;
+
+        private static final String
+                JSON_L_PAGES = "pages";
+
+        private InformationListItem(JSONObject jsonObject) {
+            super(jsonObject);
+            mInformationList = toProductList(jsonObject.optJSONArray(JSON_L_PAGES));
+        }
+
+        private ArrayList<ProductItem> toProductList(JSONArray array) {
+            if (array != null) {
+                ArrayList<ProductItem> list = new ArrayList<>();
+
+                for (int i = 0; i < array.length(); i++) {
+                    list.add(new ProductItem(array.optJSONObject(i)));
+                }
+                return list;
+            }
+            return null;
+        }
+
+        public ArrayList<ProductItem> getInformationList() {
+            return mInformationList;
         }
     }
 }

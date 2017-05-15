@@ -66,10 +66,13 @@ public class ProductDetailsFragment extends Fragment implements CommonNodeInterf
     }
 
     private void updateUI() {
-        mBannerIV.setImageUrl(mProduct.getBannerUrl(), VolleyHelper.getInstance(getActivity()).getImageLoader());
+        if(!mProduct.getBannerUrl().equals("null")) {
+            mBannerIV.setImageUrl(mProduct.getBannerUrl(), VolleyHelper.getInstance(getActivity()).getImageLoader());
+        }
+        mBannerIV.setDefaultImageResId(R.drawable.ic_splash_pets);
         mProductDescriptionTV.setText(mProduct.getDescription());
         mProductContentTV.setText(mProduct.getContent());
-        if (mProduct.getDetailPageLink() == null) {
+        if (mProduct.getDetailPageLink().equals("null")) {
             mMoreInfoBtn.setVisibility(View.GONE);
         }
     }

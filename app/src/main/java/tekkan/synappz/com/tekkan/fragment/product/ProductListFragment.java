@@ -138,7 +138,10 @@ public class ProductListFragment extends ContainerNodeListFragment<ProductItem, 
             mTitleTV.setText(item.getTitle());
             mDescriptionTV.setText(item.getDescription());
             itemView.setTag(item);
-            mProductImageIV.setImageUrl(item.getProfileUrl(), VolleyHelper.getInstance(getActivity()).getImageLoader());
+            if(!item.getProfileUrl().equals("null")) {
+                mProductImageIV.setImageUrl(item.getProfileUrl(), VolleyHelper.getInstance(getActivity()).getImageLoader());
+            }
+            mProductImageIV.setDefaultImageResId(R.drawable.ic_splash_pets);
             itemView.setOnClickListener(this);
         }
 

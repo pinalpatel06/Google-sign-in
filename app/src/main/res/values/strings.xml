@@ -376,4 +376,5 @@
     <string name="error_update_pet">Could not update pet. Please try again.</string>
     <string name="error_create_pet">Could not create pet. Please try again.</string>
     <string name="loading_profile">Cannot load profiel</string>
+    <string name="fetch_product">Loading List</string>
 </resources>
