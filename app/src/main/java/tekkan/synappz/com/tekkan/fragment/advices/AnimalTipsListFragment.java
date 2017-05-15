@@ -25,11 +25,11 @@ import tekkan.synappz.com.tekkan.custom.ListFragment;
 /**
  * Created by Tejas Sherdiwala on 4/24/2017.
  * &copy; Knoxpo
- *
+ * <p>
  * Show in the view pager on tab research
  */
 
-public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.ViewHolder>{
+public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.ViewHolder> {
 
     private static final String
             TAG = AnimalTipsListFragment.class.getSimpleName(),
@@ -97,6 +97,7 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
         v.setBackgroundColor(ContextCompat.getColor(getActivity(), android.R.color.white));
+        updateEmptyView();
         return v;
     }
 
@@ -121,11 +122,6 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
             }
         }
         return mTipsItems;
-    }
-
-    @Override
-    protected int getViewLayoutId() {
-        return R.layout.fragment_onderzoek_list;
     }
 
     @Override
@@ -199,7 +195,7 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
 
         @OnClick(R.id.lt_item_tips)
         public void OnTipsItemViewClicked() {
-            mCallback.onListItemClicked(TYPE_TIPS,null);
+            mCallback.onListItemClicked(TYPE_TIPS, null);
         }
     }
 
