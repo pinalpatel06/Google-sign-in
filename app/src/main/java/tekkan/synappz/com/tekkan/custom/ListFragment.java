@@ -101,12 +101,6 @@ public abstract class ListFragment<T, VH extends RecyclerView.ViewHolder> extend
                         ? View.VISIBLE
                         : View.GONE
         );
-
-        mProgressBar.setVisibility(
-                (mItems == null || mItems.size() == 0 )
-                        ? View.VISIBLE
-                        : View.GONE
-        );
     }
 
     private int getRecyclerViewId() {

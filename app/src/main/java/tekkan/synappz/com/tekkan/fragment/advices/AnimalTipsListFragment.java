@@ -97,7 +97,6 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
         v.setBackgroundColor(ContextCompat.getColor(getActivity(), android.R.color.white));
-        updateEmptyView();
         return v;
     }
 
