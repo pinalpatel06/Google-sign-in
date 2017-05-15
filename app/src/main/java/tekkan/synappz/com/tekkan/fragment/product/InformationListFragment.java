@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -18,32 +17,42 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import tekkan.synappz.com.tekkan.R;
+import tekkan.synappz.com.tekkan.custom.CircleNetworkImageView;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.ContainerNodeListFragment;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.NestedFragmentUtil;
+import tekkan.synappz.com.tekkan.model.ProductItem;
+import tekkan.synappz.com.tekkan.utils.VolleyHelper;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class InformationListFragment extends ContainerNodeListFragment<InformationListFragment.ProductsItem, InformationListFragment.ProductVH> {
+public class InformationListFragment extends ContainerNodeListFragment<ProductItem, InformationListFragment.ProductVH> {
+    private static final String
+            TAG = InformationListFragment.class.getSimpleName(),
+            ARGS_INFORMATION_LIST = TAG + ".ARGS_INFORMATION_LIST";
+    private ArrayList<ProductItem> mProductList;
+
+    public static InformationListFragment newInstance(ArrayList<ProductItem> productList) {
+        Bundle args = new Bundle();
+        args.putParcelableArrayList(ARGS_INFORMATION_LIST, productList);
+        InformationListFragment fragment = new InformationListFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
-        v.setBackgroundColor(ContextCompat.getColor(getActivity(),android.R.color.white));
-        v.setClickable(true);
+        ButterKnife.bind(this, v);
+        v.setBackgroundColor(ContextCompat.getColor(getActivity(), android.R.color.white));
         return v;
     }
 
     @Override
-    public List<InformationListFragment.ProductsItem> onCreateItems(Bundle savedInstanceState) {
-        ArrayList<InformationListFragment.ProductsItem> listItems = new ArrayList<>();
-
-        for (int i = 0; i < 4; i++) {
-            listItems.add(new InformationListFragment.ProductsItem("Product #" + (i + 1), getString(R.string.dummy_text)));
-        }
-
-        return listItems;
+    public List<ProductItem> onCreateItems(Bundle savedInstanceState) {
+        mProductList = getArguments().getParcelableArrayList(ARGS_INFORMATION_LIST);
+        return mProductList;
     }
 
     @Override
@@ -57,7 +66,7 @@ public class InformationListFragment extends ContainerNodeListFragment<Informati
     }
 
     @Override
-    public void onBindViewHolder(InformationListFragment.ProductVH holder, InformationListFragment.ProductsItem item) {
+    public void onBindViewHolder(InformationListFragment.ProductVH holder, ProductItem item) {
         holder.bind(item);
     }
 
@@ -73,43 +82,30 @@ public class InformationListFragment extends ContainerNodeListFragment<Informati
         @BindView(R.id.tv_product_details)
         TextView mDescriptionTV;
         @BindView(R.id.iv_product_image)
-        ImageView mProductImageIV;
+        CircleNetworkImageView mProductImageIV;
+        ProductItem mProductItem;
 
         public ProductVH(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
 
-        public void bind(InformationListFragment.ProductsItem item) {
+        public void bind(ProductItem item) {
+            mProductItem = item;
             mTitleTV.setText(item.getTitle());
             mDescriptionTV.setText(item.getDescription());
             itemView.setTag(item);
+            mProductImageIV.setDefaultImageResId(R.drawable.ic_splash_pets);
+            if (item.getProfileUrl().equals("null")) {
+                mProductImageIV.setImageUrl(item.getProfileUrl(), VolleyHelper.getInstance(getActivity()).getImageLoader());
+            }
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            setChild(new InformationDetailFragment());
+            setChild(InformationDetailFragment.newInstance(mProductItem));
         }
     }
 
-    class ProductsItem {
-
-        private String mTitle;
-        private String mDescription;
-
-        public ProductsItem(String title, String description) {
-            mTitle = title;
-            mDescription = description;
-        }
-
-        public String getTitle() {
-            return mTitle;
-        }
-
-        public String getDescription() {
-            return mDescription;
-        }
-
-    }
 }

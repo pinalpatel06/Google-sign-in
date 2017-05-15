@@ -14,6 +14,9 @@ import tekkan.synappz.com.tekkan.fragment.teekMelden.ApplyPetAgreementFragment;
  */
 
 public class ApplyPetAgreementActivity extends ToolbarActivity {
+    private static final String TAG = ApplyPetAgreementActivity.class.getSimpleName();
+    public static final String EXTRA_PET_BUNDLE = TAG + ".EXTRA_PET_BUNDLE";
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -27,7 +30,7 @@ public class ApplyPetAgreementActivity extends ToolbarActivity {
 
     @Override
     protected Fragment getFragment() {
-        return new ApplyPetAgreementFragment();
+        return ApplyPetAgreementFragment.newInstance(getIntent().getBundleExtra(EXTRA_PET_BUNDLE));
     }
 
     @Override

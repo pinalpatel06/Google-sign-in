@@ -1,6 +1,10 @@
 package tekkan.synappz.com.tekkan.utils;
 
+import android.app.Activity;
+import android.content.Context;
 import android.net.Uri;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 /**
  * Created by Tejas Sherdiwala on 5/9/2017.
@@ -10,12 +14,15 @@ import android.net.Uri;
 public class Constants {
 
     public static class Api {
+
         private static final String
                 SCHEME = "http",
                 END_POINT = "dev.bayerpetcare.nl",
                 PATH_SCRIPT = "scripts",
                 PATH_WEB_SERVICES = "webservice.app.php",
-                QUERY_PARAMETER_KEY = "m",
+                QUERY_PARAMETER_KEY = "m";
+
+        public static final String
                 QUERY_PARAMETER1 = "p1",
                 QUERY_PARAMETER2 = "p2";
 
@@ -44,10 +51,56 @@ public class Constants {
                 FUNC_GET_ANIMALS_BY_USER = "GetAnimalsbyUser",
                 FUNC_CREATE_ANIMAL = "CreateAnimal";
 
-        public static String getUrl(String funcName){
+        public static String getUrl(String funcName) {
             Uri.Builder builder = BASE_URI.buildUpon();
-            builder.appendQueryParameter(QUERY_PARAMETER_KEY,funcName);
+            builder.appendQueryParameter(QUERY_PARAMETER_KEY, funcName);
             return builder.build().toString();
         }
     }
+
+    public static class SP {
+        public static final String
+                JSON_USER = "JSON_USER",
+                HAS_ACCEPTED_DISCLAIMER = "HAS_ACCEPTED_DISCLAIMER";
+    }
+
+    public enum Gender {
+        MALE("M"),
+        FEMALE("V");
+
+        private String mString;
+
+        Gender(String string) {
+            mString = string;
+        }
+
+        public String toApi() {
+            return mString;
+        }
+    }
+
+    public enum PetType {
+        DOG("D"),
+        CAT("C");
+
+        private String mString;
+
+        PetType(String string) {
+            mString = string;
+        }
+
+        public String toApi() {
+            return mString;
+        }
+    }
+
+    public static void closeKeyBoard(Activity activity){
+        View view = activity.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
+
 }

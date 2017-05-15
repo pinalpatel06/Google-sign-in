@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 
 import tekkan.synappz.com.tekkan.R;
 import tekkan.synappz.com.tekkan.fragment.EditPetFragment;
+import tekkan.synappz.com.tekkan.model.Pet;
 
 /**
  * Created by Tejas Sherdiwala on 5/2/2017.
@@ -15,10 +16,15 @@ import tekkan.synappz.com.tekkan.fragment.EditPetFragment;
 public class EditPetActivity extends ToolbarActivity {
 
     private static final String TAG = EditPetActivity.class.getSimpleName();
+    public static final String EXTRA_PET = TAG + ".EXTRA_PET";
 
     @Override
     protected Fragment getFragment() {
-        return new EditPetFragment();
+        if (getIntent().hasExtra(EXTRA_PET)) {
+            return EditPetFragment.newInstance((Pet)getIntent().getParcelableExtra(EXTRA_PET));
+        } else {
+            return new EditPetFragment();
+        }
     }
 
     @Override
@@ -26,5 +32,7 @@ public class EditPetActivity extends ToolbarActivity {
         super.onCreate(savedInstanceState);
         setTitle(getString(R.string.pet_profile_app_title));
     }
+
+
 }
 

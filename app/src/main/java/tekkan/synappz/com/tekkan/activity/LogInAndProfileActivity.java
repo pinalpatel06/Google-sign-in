@@ -14,6 +14,9 @@ import tekkan.synappz.com.tekkan.fragment.teekMelden.LogInAndProfileFragment;
  */
 
 public class LogInAndProfileActivity extends ToolbarActivity {
+    private static final String TAG = LogInAndProfileActivity.class.getSimpleName();
+
+    public static final String EXTRA_TEEK_BUNDLE = TAG + ".EXTRA_TEEK_BUNDLE";
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -28,7 +31,7 @@ public class LogInAndProfileActivity extends ToolbarActivity {
 
     @Override
     protected Fragment getFragment() {
-        return new LogInAndProfileFragment();
+        return LogInAndProfileFragment.newInstance(getIntent().getBundleExtra(EXTRA_TEEK_BUNDLE));
     }
 
     @Override

@@ -24,12 +24,24 @@ import tekkan.synappz.com.tekkan.activity.ProfileActivity;
  */
 
 public class LogInAndProfileFragment extends Fragment {
+    private static final String
+            TAG = LogInAndProfileFragment.class.getSimpleName(),
+            ARGS_TEEK_BUNDLE = TAG + ".ARGS_TEEK_BUNDLE";
 
 
     @BindView(R.id.btn_log_in)
     Button mLogInBtn;
     @BindView(R.id.btn_profile)
     Button mProfileBtn;
+
+    public static LogInAndProfileFragment newInstance(Bundle bundle) {
+
+        Bundle args = new Bundle();
+        args.putBundle(ARGS_TEEK_BUNDLE,bundle);
+        LogInAndProfileFragment fragment = new LogInAndProfileFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -60,6 +72,7 @@ public class LogInAndProfileFragment extends Fragment {
     public void logIn() {
         //after successfully Login
         Intent intent = new Intent(getActivity(), InvestigatePetActivity.class);
+        intent.putExtra(InvestigatePetActivity.EXTRA_TEEK_BUNDLE,getArguments().getBundle(ARGS_TEEK_BUNDLE));
         startActivity(intent);
     }
 

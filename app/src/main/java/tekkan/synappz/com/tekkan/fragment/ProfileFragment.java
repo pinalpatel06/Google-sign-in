@@ -1,18 +1,30 @@
 package tekkan.synappz.com.tekkan.fragment;
 
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+
+import com.android.volley.Request;
+import com.android.volley.VolleyError;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,24 +38,37 @@ import tekkan.synappz.com.tekkan.activity.EditPetActivity;
 import tekkan.synappz.com.tekkan.activity.ViewPetActivity;
 import tekkan.synappz.com.tekkan.custom.ListFragment;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.CommonNodeInterface;
+import tekkan.synappz.com.tekkan.custom.network.TekenErrorListener;
+import tekkan.synappz.com.tekkan.custom.network.TekenJsonArrayRequest;
+import tekkan.synappz.com.tekkan.custom.network.TekenResponseListener;
+import tekkan.synappz.com.tekkan.databinding.ItemProfileFieldsBinding;
+import tekkan.synappz.com.tekkan.model.Pet;
+import tekkan.synappz.com.tekkan.model.User;
+import tekkan.synappz.com.tekkan.utils.Constants;
+import tekkan.synappz.com.tekkan.utils.VolleyHelper;
 
 
-public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolder> implements CommonNodeInterface {
+
+public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolder>
+        implements CommonNodeInterface,
+        TekenResponseListener, TekenErrorListener {
 
     private static final String
             TAG = ProfileFragment.class.getSimpleName(),
-            ARGS_PROFILE_TYPE = TAG + "ARGS_PROFILE_TYPE";
+            ARGS_CAN_EDIT = TAG + "ARGS_CAN_EDIT";
 
     private static final int
             TYPE_PROFILE_FIELDS = 0,
-            TYPE_PET = 1;
+            TYPE_PET = 1,
+            REQUEST_PET = 2;
 
-    private boolean mIsNewProfile = false;
+    ArrayList<Object> mListItems;
+
+    private boolean mCanEdit = false;
 
     public static ProfileFragment newInstance(boolean profileType) {
-
         Bundle args = new Bundle();
-        args.putBoolean(ARGS_PROFILE_TYPE, profileType);
+        args.putBoolean(ARGS_CAN_EDIT, profileType);
         ProfileFragment fragment = new ProfileFragment();
         fragment.setArguments(args);
         return fragment;
@@ -57,13 +82,13 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         MenuItem menuItemDone = menu.findItem(R.id.action_done);
-        menuItemDone.setVisible(mIsNewProfile);
+        menuItemDone.setVisible(mCanEdit);
         MenuItem menuItemLogOut = menu.findItem(R.id.action_logout);
-        menuItemLogOut.setVisible(!mIsNewProfile);
+        menuItemLogOut.setVisible(!mCanEdit);
         MenuItem menuItemChangePwd = menu.findItem(R.id.action_change_pwd);
-        menuItemChangePwd.setVisible(!mIsNewProfile);
+        menuItemChangePwd.setVisible(!mCanEdit);
         MenuItem menuItemCustomize = menu.findItem(R.id.action_customize);
-        menuItemCustomize.setVisible(!mIsNewProfile);
+        menuItemCustomize.setVisible(!mCanEdit);
         super.onPrepareOptionsMenu(menu);
     }
 
@@ -71,12 +96,22 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_done:
+                if (isUserValid()) {
+                    createOrUpdateUser();
+                }
+                mCanEdit = false;
+                notifyDatasetChanged();
+                getActivity().invalidateOptionsMenu();
+                Constants.closeKeyBoard(getActivity());
                 return true;
             case R.id.action_logout:
-                getActivity().onBackPressed();
                 return true;
             case android.R.id.home:
-                getActivity().onBackPressed();
+                return true;
+            case R.id.action_customize:
+                mCanEdit = true;
+                notifyDatasetChanged();
+                getActivity().invalidateOptionsMenu();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -87,7 +122,13 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
-        mIsNewProfile = args.getBoolean(ARGS_PROFILE_TYPE);
+        mCanEdit = args.getBoolean(ARGS_CAN_EDIT);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        fetchUserPetData();
     }
 
     @Nullable
@@ -99,21 +140,73 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         return v;
     }
 
+
     @Override
     public List<Object> onCreateItems(Bundle savedInstanceState) {
-        ArrayList<Object> listItems = new ArrayList<>();
-
-        //first item null to accommodate profile
-        if (!mIsNewProfile) {
-            listItems.add(null);
-            for (int i = 0; i < 4; i++) {
-                listItems.add(new Pet("Pet #" + (i + 1), (i + 1)));
-            }
-        } else {
-            listItems.add(new ProfileItem(1, "Jhon", "Smith", "jhon@anb.com", "303", "1234PR", "Greece", "000111000"));
-        }
-        return listItems;
+        mListItems = new ArrayList<>();
+        mListItems.add(User.getInstance(getActivity()));
+        return mListItems;
     }
+
+    private boolean isUserValid(){
+        return true;
+    }
+
+    public void createOrUpdateUser() {
+
+        /*String url = Constants.Api.getUrl(Constants.Api.FUNC_CREATE_USER);
+
+        String  PARM_GENDER = "gender",
+                PARM_FIRST_NAME = "firstname",
+                PARM_LAST_NAME = "lastname",
+                PARM_STREET_NAME = "street",
+                PARM_POSTAL_CODE = "postalcode",
+                PARM_PLACE_NAME = "postaladdress",
+                PARM_MOBILE_NO = "mobile",
+                PARM_EMAIL = "email",
+                PARM_PASSWORD = "password",
+                PARM_OLD_EMAIL = "old_email",
+                PARM_NEW_EMAIL = "new_email";
+
+        if(!mIsNewProfile){
+            url = Constants.Api.getUrl(Constants.Api.FUNC_EDIT_USER);
+        }
+
+        TekenStringRequest request = new TekenStringRequest(
+                Request.Method.POST,
+                url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d(TAG , "Success");
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG , "Failure");
+            }
+        }
+        );
+        request.addParam(PARM_GENDER,mProfileItem.getGender());
+        request.addParam(PARM_FIRST_NAME,mProfileItem.getFirstName());
+        request.addParam(PARM_LAST_NAME,mProfileItem.getLastName());
+        request.addParam(PARM_STREET_NAME,mProfileItem.getAddress());
+        request.addParam(PARM_POSTAL_CODE,mProfileItem.getPinCode());
+        request.addParam(PARM_PLACE_NAME,mProfileItem.getPlace());
+        request.addParam(PARM_MOBILE_NO,mProfileItem.getPhoneNo());
+        request.addParam(PARM_EMAIL,mProfileItem.getEmail());
+        request.addParam(PARM_PASSWORD, LoginUtils.encode(mProfileItem.getPhoneNo()));
+
+        // For Edit email of the Profile
+
+      *//*  if(!mIsNewProfile){
+            request.addParam(PARM_OLD_EMAIL,"");
+            request.addParam(PARM_NEW_EMAIL,"");
+        }*//*
+
+        VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);*/
+    }
+
 
     @Override
     protected int getItemViewType(int position) {
@@ -148,6 +241,8 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
     public void onBindViewHolder(RecyclerView.ViewHolder holder, Object item) {
         if (holder instanceof PetVH && item instanceof Pet) {
             ((PetVH) holder).bind((Pet) item);
+        } else if (holder instanceof ProfileFieldVH && item instanceof User) {
+            ((ProfileFieldVH) holder).bind((User) item);
         }
     }
 
@@ -161,16 +256,111 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         return false;
     }
 
+    private void fetchUserPetData() {
+        String email = User.getInstance(getActivity()).getEmail();
+        TekenJsonArrayRequest request = new TekenJsonArrayRequest(
+                Request.Method.GET,
+                Constants.Api.getUrl(Constants.Api.FUNC_GET_ANIMALS_BY_USER),
+                this,
+                this,
+                REQUEST_PET
+        );
+        request.addParam(Constants.Api.QUERY_PARAMETER1, email);
+
+        VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
+    }
+
+    @Override
+    public void onResponse(int requestCode, Object response) {
+        if (requestCode == REQUEST_PET) {
+            mListItems = new ArrayList<>();
+            mListItems.add(User.getInstance(getActivity()));
+            JSONArray jsonArray = (JSONArray) response;
+            for (int i = 0; i < jsonArray.length(); i++) {
+                try {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    mListItems.add(new Pet(jsonObject));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            loadNewItems(mListItems);
+        }
+    }
+
+    @Override
+    public void onErrorResponse(int requestCode, VolleyError error, int status, String message) {
+        Log.d(TAG, status + " " + message);
+    }
+
     class ProfileFieldVH extends RecyclerView.ViewHolder {
         @BindView(R.id.lt_conditions)
         LinearLayout mConditionsLT;
         @BindView(R.id.tv_add_pet)
         TextView mAddPetTV;
 
+        @BindView(R.id.radio_group_gender)
+        RadioGroup mGenderRadioGroup;
+
+        @BindView(R.id.et_first_name)
+        EditText mFirstNameET;
+
+        @BindView(R.id.et_last_name)
+        EditText mLastNameET;
+
+        @BindView(R.id.et_email)
+        EditText mEmailET;
+
+        @BindView(R.id.et_password)
+        EditText mPasswordET;
+
+        @BindView(R.id.et_confirm_password)
+        EditText mConfirmPasswordET;
+
+        @BindView(R.id.et_street_name)
+        EditText mStreetNameET;
+
+        @BindView(R.id.et_postal_code)
+        EditText mPostalCodeEt;
+
+        @BindView(R.id.et_place)
+        EditText mPlaceNameET;
+
+        @BindView(R.id.et_tel_no)
+        EditText mTelNoET;
+
+        @BindView(R.id.cb_term_conditions)
+        CheckBox mTermsConditionCb;
+
         ProfileFieldVH(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            mAddPetTV.setEnabled(!mIsNewProfile);
+        }
+
+        void bind(User item) {
+
+
+            ItemProfileFieldsBinding binding = DataBindingUtil.bind(itemView);
+            binding.setUser(item);
+
+
+            mPasswordET.setText("123456");
+            mConfirmPasswordET.setText("123456");
+
+            for(int i=0;i<mGenderRadioGroup.getChildCount();i++){
+                View v = mGenderRadioGroup.getChildAt(i);
+                v.setEnabled(mCanEdit);
+            }
+
+            mFirstNameET.setEnabled(mCanEdit);
+            mLastNameET.setEnabled(mCanEdit);
+            mEmailET.setEnabled(mCanEdit);
+            mStreetNameET.setEnabled(mCanEdit);
+            mPostalCodeEt.setEnabled(mCanEdit);
+            mPlaceNameET.setEnabled(mCanEdit);
+            mTelNoET.setEnabled(mCanEdit);
+            mPasswordET.setEnabled(mCanEdit);
+            mConfirmPasswordET.setEnabled(mCanEdit);
         }
 
         @OnClick(R.id.lt_conditions)
@@ -182,62 +372,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         @OnClick(R.id.tv_add_pet)
         public void showPetProfile() {
             Intent intent = new Intent(getActivity(), EditPetActivity.class);
-            startActivity(intent);
-        }
-    }
-
-    class ProfileItem {
-        private int mTitle;
-        private String mFirstName, mLastName;
-        private String mEmail;
-        private String mAddress, mPinCode, mPlace;
-        private String mPhoneNo;
-        private static final int
-                MR = 0,
-                MRS = 1;
-
-
-        public ProfileItem(int title, String firstName, String lastName, String email, String address, String pinCode, String place, String phoneNo) {
-            mTitle = title;
-            mFirstName = firstName;
-            mLastName = lastName;
-            mEmail = email;
-            mAddress = address;
-            mPinCode = pinCode;
-            mPlace = place;
-            mPhoneNo = phoneNo;
-        }
-
-        public int getTitle() {
-            return mTitle;
-        }
-
-        public String getFirstName() {
-            return mFirstName;
-        }
-
-        public String getLastName() {
-            return mLastName;
-        }
-
-        public String getEmail() {
-            return mEmail;
-        }
-
-        public String getAddress() {
-            return mAddress;
-        }
-
-        public String getPinCode() {
-            return mPinCode;
-        }
-
-        public String getPlace() {
-            return mPlace;
-        }
-
-        public String getPhoneNo() {
-            return mPhoneNo;
+            startActivityForResult(intent, REQUEST_PET);
         }
     }
 
@@ -247,6 +382,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         TextView mPetNameTV;
         @BindView(R.id.tv_pet_count)
         TextView mPetCountTV;
+        Pet mPet;
 
         PetVH(View itemView) {
             super(itemView);
@@ -255,34 +391,17 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         }
 
         void bind(Pet pet) {
+            mPet = pet;
             mPetNameTV.setText(pet.getName());
-            mPetCountTV.setText(String.valueOf(pet.getCount()));
+            mPetCountTV.setText(String.valueOf("1"));
         }
 
         @Override
         public void onClick(View view) {
-
             Intent intent = new Intent(getContext(), ViewPetActivity.class);
+            intent.putExtra(ViewPetActivity.EXTRA_PET, mPet);
             startActivity(intent);
 
-        }
-    }
-
-    class Pet {
-        private String mName;
-        private int mCount;
-
-        public Pet(String name, int count) {
-            mName = name;
-            mCount = count;
-        }
-
-        public String getName() {
-            return mName;
-        }
-
-        public int getCount() {
-            return mCount;
         }
     }
 }

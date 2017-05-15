@@ -7,7 +7,7 @@
     android:padding="@dimen/default_margin"
     tools:context="tekkan.synappz.com.tekkan.fragment.product.ProductTabFragment">
 
-    <ImageView
+    <tekkan.synappz.com.tekkan.custom.CircleNetworkImageView
         android:id="@+id/iv_product_image"
         android:layout_width="50dp"
         android:layout_height="50dp"

@@ -4,7 +4,7 @@ import android.net.Uri;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
-import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 
 import org.json.JSONObject;
@@ -19,6 +19,8 @@ import java.util.Map;
 
 public abstract class TekenRequest<T> extends Request<T> {
 
+    public static int STATUS_UNKNOWN = -1;
+
     private static final String TAG = TekenRequest.class.getSimpleName();
 
     private static final String
@@ -28,34 +30,38 @@ public abstract class TekenRequest<T> extends Request<T> {
     private HashMap<String, String> mParams;
     private HashMap<String, Uri> mFiles;
 
-    public TekenRequest(int method, String url, Response.Listener<T> listener, Response.ErrorListener errorListener) {
-        super(method, url, errorListener);
+    private TekenErrorListener mErrorListener;
+    private TekenResponseListener<T> mListener;
+
+    private int mRequestCode;
+
+    public TekenRequest(int method, String url, TekenResponseListener<T> listener, TekenErrorListener errorListener, int requestCode) {
+        super(method, url, null);
         mParams = new HashMap<>();
         mFiles = new HashMap<>();
+        mErrorListener = errorListener;
+        mListener = listener;
+        mRequestCode  = requestCode;
     }
 
-    /*@Override
-    protected Response<T> parseNetworkResponse(NetworkResponse response) {
-        try {
+    @Override
+    public void deliverError(VolleyError error) {
+        if(mErrorListener!=null){
 
-            String jsonString = new String(response.data,
-                    HttpHeaderParser.parseCharset(response.headers));
-
-            JSONObject responseObject = new JSONObject(jsonString);
-
-            int status = responseObject.optInt(JSON_N_STATUS);
-
-            if(status == HttpURLConnection.HTTP_OK){
-
-                return Response.success(new JSONObject(jsonString),
-                        HttpHeaderParser.parseCacheHeaders(response));
+            if(error == null){
+                mErrorListener.onErrorResponse(mRequestCode,error,STATUS_UNKNOWN,null);
             }else{
-                return Response.error(new VolleyError(response));
+                mErrorListener.onErrorResponse(mRequestCode,error,getStatus(error.networkResponse),getMessage(error.networkResponse));
             }
-        } catch (Exception e) {
-            return Response.error(new ParseError(e));
         }
-    }*/
+    }
+
+    @Override
+    protected void deliverResponse(T response) {
+        if(mListener!=null){
+            mListener.onResponse(mRequestCode,response);
+        }
+    }
 
     @Override
     public String getUrl() {
@@ -95,7 +101,7 @@ public abstract class TekenRequest<T> extends Request<T> {
             String jsonString = new String(response.data,
                     HttpHeaderParser.parseCharset(response.headers));
             JSONObject responseObject = new JSONObject(jsonString);
-            return responseObject.optInt(JSON_N_STATUS, -1);
+            return responseObject.optInt(JSON_N_STATUS, STATUS_UNKNOWN);
         } catch (Exception e) {
             return -1;
         }

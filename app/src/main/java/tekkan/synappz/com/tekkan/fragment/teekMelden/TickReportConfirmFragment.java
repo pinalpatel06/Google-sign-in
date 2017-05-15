@@ -19,6 +19,7 @@ import tekkan.synappz.com.tekkan.activity.InvestigatePetActivity;
 import tekkan.synappz.com.tekkan.activity.LogInAndProfileActivity;
 import tekkan.synappz.com.tekkan.activity.QRScannerActivity;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.CommonNodeInterface;
+import tekkan.synappz.com.tekkan.model.User;
 
 /**
  * Created by Tejas Sherdiwala on 4/26/2017.
@@ -28,7 +29,10 @@ import tekkan.synappz.com.tekkan.custom.nestedfragments.CommonNodeInterface;
 public class TickReportConfirmFragment extends Fragment implements CommonNodeInterface {
     private static final String
             TAG = TickReportConfirmFragment.class.getSimpleName(),
+            ARGS_BUNDLE = TAG + "ARGS_BUNDLE",
             ARGS_LAYOUT_TYPE = TAG + ".ARGS_LAYOUT_TYPE";
+
+    public static final String  ARGS_APPLY_RESEARCH = TAG + ".ARGS_APPLY_RESEARCH";
 
     @BindView(R.id.tv_research_kit_detail)
     TextView mKitDetailTextTV;
@@ -42,10 +46,11 @@ public class TickReportConfirmFragment extends Fragment implements CommonNodeInt
     private int mLayoutType;
     private boolean mIsLogged = false;
 
-    public static TickReportConfirmFragment newInstance(int type) {
+    public static TickReportConfirmFragment newInstance(Bundle bundle, int type) {
 
         Bundle args = new Bundle();
         args.putInt(ARGS_LAYOUT_TYPE, type);
+        args.putBundle(ARGS_BUNDLE,bundle);
         TickReportConfirmFragment fragment = new TickReportConfirmFragment();
         fragment.setArguments(args);
         return fragment;
@@ -54,7 +59,7 @@ public class TickReportConfirmFragment extends Fragment implements CommonNodeInt
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mLayoutType = getArguments().getInt(ARGS_LAYOUT_TYPE,0);
+        mLayoutType = getArguments().getInt(ARGS_LAYOUT_TYPE, 0);
     }
 
     @Nullable
@@ -67,8 +72,8 @@ public class TickReportConfirmFragment extends Fragment implements CommonNodeInt
         return v;
     }
 
-    private void updateUI(){
-        switch (mLayoutType){
+    private void updateUI() {
+        switch (mLayoutType) {
             case 0:
                 mKitDetailTextTV.setText(getString(R.string.thnaks_detail_text));
                 break;
@@ -78,19 +83,28 @@ public class TickReportConfirmFragment extends Fragment implements CommonNodeInt
     }
 
     @OnClick(R.id.btn_apply_kit)
-    public void showLogInOrPetDetail(){
-        if(mIsLogged){
+    public void showLogInOrPetDetail() {
+        Bundle bundle = getArguments().getBundle(ARGS_BUNDLE);
+
+        if (User.getInstance(getActivity()).getEmail() != null) {
+            bundle.putString(ARGS_APPLY_RESEARCH,"N");
             Intent intent = new Intent(getActivity(), InvestigatePetActivity.class);
+            intent.putExtra(InvestigatePetActivity.EXTRA_TEEK_BUNDLE,bundle);
             startActivity(intent);
-        }else{
-            Intent intent  = new Intent(getActivity(), LogInAndProfileActivity.class);
+        } else {
+            bundle.putString(ARGS_APPLY_RESEARCH,"N");
+            Intent intent = new Intent(getActivity(), LogInAndProfileActivity.class);
+            intent.putExtra(LogInAndProfileActivity.EXTRA_TEEK_BUNDLE,bundle);
             startActivity(intent);
         }
     }
 
     @OnClick(R.id.btn_have_kit)
-    public void showQRCodeScannerActivity(){
-        Intent intent  = new Intent(getActivity(), QRScannerActivity.class);
+    public void showQRCodeScannerActivity() {
+        Bundle bundle = getArguments().getBundle(ARGS_BUNDLE);
+        bundle.putString(ARGS_APPLY_RESEARCH,"Y");
+        Intent intent = new Intent(getActivity(), QRScannerActivity.class);
+        intent.putExtra(QRScannerActivity.EXTRA_TEEK_BUNDLE,bundle);
         startActivity(intent);
     }
 

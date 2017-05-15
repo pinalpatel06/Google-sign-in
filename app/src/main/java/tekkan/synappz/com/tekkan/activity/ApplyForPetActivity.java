@@ -13,9 +13,12 @@ import tekkan.synappz.com.tekkan.fragment.teekMelden.ApplyPetFragment;
  */
 
 public class ApplyForPetActivity extends ToolbarActivity {
+    private static final String TAG = ApplyForPetActivity.class.getSimpleName();
+    public static final String EXTRA_PET_BUNDLE = TAG + ".EXTRA_PET_BUNDLE";
+
     @Override
     protected Fragment getFragment() {
-        return new ApplyPetFragment();
+        return ApplyPetFragment.newInstance(getIntent().getBundleExtra(EXTRA_PET_BUNDLE));
     }
 
     @Override

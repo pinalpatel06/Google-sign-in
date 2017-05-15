@@ -15,4 +15,14 @@
         <item name="nov">nov</item>
         <item name="dec">dec</item>
     </string-array>
+    <string-array name="animal_type">
+        <item name="dog">@string/dog</item>
+        <item name="cat">@string/cat</item>
+    </string-array>
+
+    <string-array name="animal_gender_type">
+        <item name="male">@string/male</item>
+        <item name="female">@string/female</item>
+    </string-array>
+
 </resources>

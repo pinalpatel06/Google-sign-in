@@ -4,6 +4,7 @@ package tekkan.synappz.com.tekkan.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,8 +15,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.android.volley.Request;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
+
+import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,7 +27,13 @@ import tekkan.synappz.com.tekkan.activity.ProfileActivity;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.ContainerNodeFragment;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.FragmentChangeCallback;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.NestedFragmentUtil;
+import tekkan.synappz.com.tekkan.custom.network.TekenErrorListener;
+import tekkan.synappz.com.tekkan.custom.network.TekenJsonObjectRequest;
+import tekkan.synappz.com.tekkan.custom.network.TekenResponseListener;
 import tekkan.synappz.com.tekkan.custom.network.TekenStringRequest;
+import tekkan.synappz.com.tekkan.dialogs.AlertDialogFragment;
+import tekkan.synappz.com.tekkan.dialogs.ProgressDialogFragment;
+import tekkan.synappz.com.tekkan.model.User;
 import tekkan.synappz.com.tekkan.utils.Constants;
 import tekkan.synappz.com.tekkan.utils.LoginUtils;
 import tekkan.synappz.com.tekkan.utils.VolleyHelper;
@@ -33,9 +41,17 @@ import tekkan.synappz.com.tekkan.utils.VolleyHelper;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class LoginFragment extends ContainerNodeFragment {
+public class LoginFragment extends ContainerNodeFragment implements TekenResponseListener, TekenErrorListener {
 
-    private static final String TAG = LoginFragment.class.getSimpleName();
+    private static final String
+            TAG = LoginFragment.class.getSimpleName(),
+            TAG_ALERT_DIALOG = TAG + ".TAG_PROGRESS_DIALOG";
+
+    public static final String TAG_PROGRESS_DIALOG = TAG + ".TAG_ALERT_DIALOG";
+
+    private static final int
+            REQUEST_LOGIN = 0,
+            REQUEST_USER = 1;
 
     @BindView(R.id.btn_log_in)
     Button mLoginBtn;
@@ -64,7 +80,7 @@ public class LoginFragment extends ContainerNodeFragment {
     public void setHasOptionsMenu(boolean hasMenu) {
         super.setHasOptionsMenu(hasMenu);
         Fragment childFragment = getChild();
-        if(childFragment!=null){
+        if (childFragment != null) {
             childFragment.setHasOptionsMenu(hasMenu);
         }
     }
@@ -84,27 +100,19 @@ public class LoginFragment extends ContainerNodeFragment {
 
     @OnClick(R.id.btn_log_in)
     public void logIn() {
-        //setChild(ProfileFragment.newInstance(false));
         String email = mEmailET.getText().toString();
         String encrPassword = LoginUtils.encode(mPasswordET.getText().toString());
-        Log.d(TAG , encrPassword);
+        Log.d(TAG, encrPassword);
+
+        final ProgressDialogFragment fragment = ProgressDialogFragment.newInstance(getString(R.string.login));
+        fragment.show(getFragmentManager(), TAG_PROGRESS_DIALOG);
 
         TekenStringRequest request = new TekenStringRequest(
                 Request.Method.POST,
                 Constants.Api.getUrl(Constants.Api.FUNC_LOGIN),
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d(TAG , "Success");
-                        setChild(ProfileFragment.newInstance(false));
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d(TAG , "Failure");
-                    }
-                }
+                (TekenResponseListener<String>) this,
+                this,
+                REQUEST_LOGIN
         );
         request.addParam(PARAM_EMAIL, email);
         request.addParam(PARAM_PASSWORD, encrPassword);
@@ -135,6 +143,54 @@ public class LoginFragment extends ContainerNodeFragment {
 
     @Override
     public boolean shouldDisplayHomeAsUpEnabled() {
-        return NestedFragmentUtil.shouldDisplayHomeAsUpEnabled(getContainerId(),false,getChildFragmentManager());
+        return NestedFragmentUtil.shouldDisplayHomeAsUpEnabled(getContainerId(), false, getChildFragmentManager());
+    }
+
+    @Override
+    public void onErrorResponse(int requestCode, VolleyError error, int status, String message) {
+        Log.d(TAG, "Failure");
+        if(requestCode == REQUEST_LOGIN) {
+            ProgressDialogFragment fragment = (ProgressDialogFragment) getFragmentManager().findFragmentByTag(TAG_PROGRESS_DIALOG);
+            fragment.dismiss();
+            AlertDialogFragment fragment1 = AlertDialogFragment.newInstance(R.string.error, R.string.invalid_login);
+            fragment1.show(getFragmentManager(), TAG_ALERT_DIALOG);
+        }else if(requestCode == REQUEST_USER){
+            ProgressDialogFragment fragment = (ProgressDialogFragment) getFragmentManager().findFragmentByTag(TAG_PROGRESS_DIALOG);
+            fragment.dismiss();
+            AlertDialogFragment fragment1 = AlertDialogFragment.newInstance(R.string.error, R.string.loading_profile);
+            fragment1.show(getFragmentManager(), TAG_ALERT_DIALOG);
+        }
+    }
+
+    @Override
+    public void onResponse(int requestCode, Object response) {
+
+        if(requestCode == REQUEST_LOGIN){
+            getUserDetails();
+        }else if(requestCode == REQUEST_USER){
+            User user = User.getInstance(getActivity());
+            user.loadUser((JSONObject) response);
+            PreferenceManager.getDefaultSharedPreferences(getActivity()).edit()
+                    .putString(Constants.SP.JSON_USER,user.toJSON())
+                    .apply();
+            ProgressDialogFragment fragment = (ProgressDialogFragment) getFragmentManager().findFragmentByTag(TAG_PROGRESS_DIALOG);
+            fragment.dismiss();
+            setChild(ProfileFragment.newInstance(false));
+        }
+    }
+
+    private void getUserDetails(){
+        String email = mEmailET.getText().toString();
+
+        TekenJsonObjectRequest request = new TekenJsonObjectRequest(
+                Request.Method.GET,
+                Constants.Api.getUrl(Constants.Api.FUNC_USER),
+                this,
+                this,
+                REQUEST_USER
+        );
+        request.addParam(Constants.Api.QUERY_PARAMETER1, email);
+        Log.d(TAG , request.getUrl());
+        VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
     }
 }

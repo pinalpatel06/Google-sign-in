@@ -25,7 +25,7 @@
     <include layout="@layout/item_pet"/>
 
     <tekkan.synappz.com.tekkan.custom.CustomButtonView
-        android:id="@+id/btn_send_resuest"
+        android:id="@+id/btn_send_request"
         style="@style/TeekMeldenButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
