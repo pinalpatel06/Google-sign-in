@@ -81,9 +81,9 @@ public class Pet implements Parcelable {
         mAge = in.readInt();
         mWeight = in.readInt();
         long birthTime = in.readLong();
-        if(birthTime > 0){
+       // if(birthTime > -1){
             mBirthDate = new Date(birthTime);
-        }
+       // }
         mGender = Constants.Gender.valueOf(in.readString());
         mType = Constants.PetType.valueOf(in.readString());
     }

@@ -32,5 +32,6 @@ public class DisclaimerFragment extends Fragment {
     public void acceptAgreement() {
         Intent intent = new Intent(getActivity(), ProfileSetupActivity.class);
         startActivity(intent);
+        getActivity().finish();
     }
 }
