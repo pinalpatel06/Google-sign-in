@@ -76,7 +76,7 @@ public class ApplyPetAgreementFragment extends Fragment implements TekenResponse
                 0
         );
 
-        request.addParam(PARAM_ANIMALS_ID, String.valueOf(bundle.getInt(TestKitResearchList.ARGS_PET_ID)));
+        request.addParam(PARAM_ANIMALS_ID, String.valueOf(bundle.getLong(TestKitResearchList.ARGS_PET_ID)));
         request.addParam(PARAM_RESEARCH, String.valueOf(bundle.getString(TickReportConfirmFragment.ARGS_APPLY_RESEARCH)));
         LatLng latLng = bundle.getParcelable(TickMapFragment.ARGS_LOCATION_LATLNG);
         request.addParam(PARAM_COOR_LAT, String.valueOf(latLng.latitude));
@@ -99,7 +99,7 @@ public class ApplyPetAgreementFragment extends Fragment implements TekenResponse
 
     @Override
     public void onErrorResponse(int requestCode, VolleyError error, int status, String message) {
-        Log.d(TAG, "Failure");
+        Log.d(TAG, "Failure " + status + message);
         Intent intent = new Intent(getActivity(), MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);

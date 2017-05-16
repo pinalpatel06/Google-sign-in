@@ -28,13 +28,10 @@ import tekkan.synappz.com.tekkan.custom.nestedfragments.NestedFragmentUtil;
 import tekkan.synappz.com.tekkan.custom.network.TekenErrorListener;
 import tekkan.synappz.com.tekkan.custom.network.TekenJsonArrayRequest;
 import tekkan.synappz.com.tekkan.custom.network.TekenResponseListener;
-import tekkan.synappz.com.tekkan.dialogs.ProgressDialogFragment;
 import tekkan.synappz.com.tekkan.model.BaseProduct;
 import tekkan.synappz.com.tekkan.model.ProductItem;
 import tekkan.synappz.com.tekkan.utils.Constants;
 import tekkan.synappz.com.tekkan.utils.VolleyHelper;
-
-import static tekkan.synappz.com.tekkan.fragment.LoginFragment.TAG_PROGRESS_DIALOG;
 
 public class ProductTabFragment extends ContainerNodeListFragment<Object, ProductTabFragment.ProductVH> {
 
@@ -59,10 +56,6 @@ public class ProductTabFragment extends ContainerNodeListFragment<Object, Produc
     }
 
     private void fetchProduct() {
-
-        ProgressDialogFragment fragment = ProgressDialogFragment.newInstance(getString(R.string.fetch_product));
-        fragment.show(getFragmentManager(), TAG_PROGRESS_DIALOG);
-
         TekenJsonArrayRequest request = new TekenJsonArrayRequest(
                 Request.Method.GET,
                 Constants.Api.getUrl(Constants.Api.FUNC_GET_PRODUCTS),
@@ -88,9 +81,6 @@ public class ProductTabFragment extends ContainerNodeListFragment<Object, Produc
                     @Override
                     public void onErrorResponse(int requestCode, VolleyError error, int status, String message) {
                         Log.d(TAG, error.toString());
-                        ProgressDialogFragment fragment = (ProgressDialogFragment) getFragmentManager().findFragmentByTag(TAG_PROGRESS_DIALOG);
-                        fragment.dismiss();
-
                     }
                 },
                 REQUEST_FETCH_PRODUCT
@@ -106,10 +96,6 @@ public class ProductTabFragment extends ContainerNodeListFragment<Object, Produc
                     @Override
                     public void onResponse(int requestCode, JSONArray response) {
                         Log.d(TAG, "Success for Information" + response.length());
-
-                        ProgressDialogFragment fragment = (ProgressDialogFragment) getFragmentManager().findFragmentByTag(TAG_PROGRESS_DIALOG);
-                        fragment.dismiss();
-
                         for (int i = 0; i < response.length(); i++) {
                             JSONObject jsonObject;
                             try {
@@ -121,16 +107,12 @@ public class ProductTabFragment extends ContainerNodeListFragment<Object, Produc
                                 continue;
                             }
                         }
-
                     }
                 },
                 new TekenErrorListener() {
                     @Override
                     public void onErrorResponse(int requestCode, VolleyError error, int status, String message) {
                         Log.d(TAG, error.toString());
-                        ProgressDialogFragment fragment = (ProgressDialogFragment) getFragmentManager().findFragmentByTag(TAG_PROGRESS_DIALOG);
-                        fragment.dismiss();
-
                     }
                 },
                 REQUEST_FETCH_INFORMATION

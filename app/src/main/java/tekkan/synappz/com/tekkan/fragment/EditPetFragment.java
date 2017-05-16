@@ -2,12 +2,8 @@ package tekkan.synappz.com.tekkan.fragment;
 
 
 import android.app.DatePickerDialog;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Environment;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -22,8 +18,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
@@ -32,7 +28,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -47,6 +42,7 @@ import tekkan.synappz.com.tekkan.custom.network.TekenJsonArrayRequest;
 import tekkan.synappz.com.tekkan.custom.network.TekenResponseListener;
 import tekkan.synappz.com.tekkan.custom.network.TekenStringRequest;
 import tekkan.synappz.com.tekkan.dialogs.AlertDialogFragment;
+import tekkan.synappz.com.tekkan.dialogs.ConfirmDialogFragment;
 import tekkan.synappz.com.tekkan.dialogs.ProgressDialogFragment;
 import tekkan.synappz.com.tekkan.model.Breed;
 import tekkan.synappz.com.tekkan.model.Pet;
@@ -61,7 +57,7 @@ import static tekkan.synappz.com.tekkan.utils.Constants.PetType.DOG;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class EditPetFragment extends Fragment implements CustomSpinner.OnItemChosenListener {
+public class EditPetFragment extends Fragment implements CustomSpinner.OnItemChosenListener, ConfirmDialogFragment.ConfirmDialogFragmentListener {
 
     private static final String
             TAG = EditPetFragment.class.getSimpleName(),
@@ -105,8 +101,6 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
     @BindView(R.id.et_weight)
     EditText mWeightET;
 
-
-
     private BreedSpinnerAdapter mBreedSpinnerAdapter;
 
     private Pet mPet;
@@ -116,8 +110,10 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
             mPetUpdatePD;
 
     private AlertDialogFragment
-            mEditSuccessAD,
             mEditFailureAD;
+
+    private ConfirmDialogFragment
+            mEditSuccessAD;
 
     private boolean mIsFetchingDogBreeds = false, mIsFetchingCatBreeds = false;
 
@@ -220,7 +216,8 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
                 mPet.getId() > 0 ? R.string.progress_updating_pet : R.string.progress_creating_pet
         ));
 
-        mEditSuccessAD = AlertDialogFragment.newInstance(mPet.getId() > 0 ? R.string.success_update_pet : R.string.success_create_pet);
+        mEditSuccessAD = ConfirmDialogFragment.newInstance(mPet.getId() > 0 ? R.string.success_update_pet : R.string.success_create_pet);
+        mEditSuccessAD.setListener(this);
         mEditFailureAD = AlertDialogFragment.newInstance(mPet.getId() > 0 ? R.string.error_update_pet : R.string.error_create_pet);
     }
 
@@ -235,7 +232,15 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
                 break;
 
             case R.id.tv_breed:
-                mBreedSP.performClick();
+                if(mBreedSP.getAdapter().getCount() > 0) {
+                    mBreedSP.performClick();
+                }else{
+                    Toast.makeText(
+                            getActivity(),
+                            getString(R.string.select_animal_type),
+                            Toast.LENGTH_LONG
+                    ).show();
+                }
                 break;
 
             case R.id.tv_gender:
@@ -562,8 +567,15 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
 
     }
 
+    @Override
+    public void onPositiveClicked(DialogInterface dialog) {
+        getActivity().finish();
+    }
 
+    @Override
+    public void onNegativeClicked() {
 
+    }
 
     private class BreedSpinnerAdapter extends ArrayAdapter<Breed> {
         BreedSpinnerAdapter() {

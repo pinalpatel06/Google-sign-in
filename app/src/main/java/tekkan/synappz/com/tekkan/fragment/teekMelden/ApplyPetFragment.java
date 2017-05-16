@@ -33,8 +33,11 @@ public class ApplyPetFragment extends Fragment {
             ARGS_PET_BUNDLE = TAG + ".ARGS_PET_BUNDLE";
 
     @BindView(R.id.btn_send_request)
-    Button mSendRequestBtn; @BindView(R.id.tv_pet_name)
+    Button mSendRequestBtn;
+
+    @BindView(R.id.tv_pet_name)
     TextView mPetNameTV;
+
     @BindView(R.id.iv_pet_image)
     CircleNetworkImageView mPetIV;
 
@@ -71,7 +74,7 @@ public class ApplyPetFragment extends Fragment {
         return v;
     }
 
-    private void init(View v){
+    private void init(View v) {
         ButterKnife.bind(this, v);
         Bundle bundle = getArguments().getBundle(ARGS_PET_BUNDLE);
         if (bundle != null) {
@@ -79,10 +82,10 @@ public class ApplyPetFragment extends Fragment {
         }
     }
 
-    private void updateUI(){
+    private void updateUI() {
         mPetNameTV.setText(mPet.getName());
         mPetIV.setDefaultImageResId(R.drawable.ic_splash_pets);
-        if(mPet.getPhoto() != null) {
+        if (mPet.getPhoto() != null) {
             mPetIV.setImageUrl(mPet.getPhoto(), VolleyHelper.getInstance(getActivity()).getImageLoader());
         }
     }

@@ -3,10 +3,15 @@ package tekkan.synappz.com.tekkan.fragment;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,10 +19,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
@@ -31,7 +38,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 import tekkan.synappz.com.tekkan.R;
 import tekkan.synappz.com.tekkan.activity.ConditionsActivity;
 import tekkan.synappz.com.tekkan.activity.EditPetActivity;
@@ -41,12 +50,15 @@ import tekkan.synappz.com.tekkan.custom.nestedfragments.CommonNodeInterface;
 import tekkan.synappz.com.tekkan.custom.network.TekenErrorListener;
 import tekkan.synappz.com.tekkan.custom.network.TekenJsonArrayRequest;
 import tekkan.synappz.com.tekkan.custom.network.TekenResponseListener;
+import tekkan.synappz.com.tekkan.custom.network.TekenStringRequest;
 import tekkan.synappz.com.tekkan.databinding.ItemProfileFieldsBinding;
 import tekkan.synappz.com.tekkan.model.Pet;
 import tekkan.synappz.com.tekkan.model.User;
 import tekkan.synappz.com.tekkan.utils.Constants;
+import tekkan.synappz.com.tekkan.utils.LoginUtils;
 import tekkan.synappz.com.tekkan.utils.VolleyHelper;
 
+import static java.lang.String.valueOf;
 
 
 public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolder>
@@ -60,11 +72,13 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
     private static final int
             TYPE_PROFILE_FIELDS = 0,
             TYPE_PET = 1,
-            REQUEST_PET = 2;
+            REQUEST_PET = 2,
+            REQUEST_USER = 3;
 
     ArrayList<Object> mListItems;
 
     private boolean mCanEdit = false;
+    private String mOldEmail = null;
 
     public static ProfileFragment newInstance(boolean profileType) {
         Bundle args = new Bundle();
@@ -98,6 +112,12 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
             case R.id.action_done:
                 if (isUserValid()) {
                     createOrUpdateUser();
+                } else {
+                    Toast.makeText(
+                            getActivity(),
+                            "Data missing",
+                            Toast.LENGTH_SHORT
+                    ).show();
                 }
                 mCanEdit = false;
                 notifyDatasetChanged();
@@ -105,8 +125,10 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
                 Constants.closeKeyBoard(getActivity());
                 return true;
             case R.id.action_logout:
+                logout();
                 return true;
             case android.R.id.home:
+                getActivity().onBackPressed();
                 return true;
             case R.id.action_customize:
                 mCanEdit = true;
@@ -123,12 +145,17 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
         mCanEdit = args.getBoolean(ARGS_CAN_EDIT);
+        if (User.getInstance(getActivity()).isLoaded()) {
+            mOldEmail = User.getInstance(getActivity()).getEmail();
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        fetchUserPetData();
+        if (User.getInstance(getActivity()).isLoaded()) {
+            fetchUserPetData();
+        }
     }
 
     @Nullable
@@ -148,15 +175,43 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         return mListItems;
     }
 
-    private boolean isUserValid(){
+    private void logout() {
+        PreferenceManager.getDefaultSharedPreferences(getActivity())
+                .edit()
+                .remove(Constants.SP.JSON_USER)
+                .apply();
+
+        Fragment fragment = getFragmentManager().findFragmentById(R.id.fragment_container);
+        if (fragment != null) {
+            getFragmentManager()
+                    .beginTransaction()
+                    .remove(fragment)
+                    .commitNow();
+        }
+
+        User.getInstance(getActivity()).unloadUser();
+
+    }
+
+    private boolean isUserValid() {
+        if (User.getInstance(getActivity()).getFirstName().equals("") &&
+                User.getInstance(getActivity()).getFirstName().equals("") &&
+                User.getInstance(getActivity()).getEmail().equals("") &&
+                User.getInstance(getActivity()).getStreet().equals("") &&
+                User.getInstance(getActivity()).getPostalCode().equals("") &&
+                User.getInstance(getActivity()).getPostalAddress().equals("") &&
+                User.getInstance(getActivity()).getMobile() == 0 &&
+                User.getInstance(getActivity()).getPassword().equals("")) {
+            return false;
+        }
         return true;
     }
 
     public void createOrUpdateUser() {
 
-        /*String url = Constants.Api.getUrl(Constants.Api.FUNC_CREATE_USER);
+        String url = Constants.Api.getUrl(Constants.Api.FUNC_CREATE_USER);
 
-        String  PARM_GENDER = "gender",
+        String PARM_GENDER = "gender",
                 PARM_FIRST_NAME = "firstname",
                 PARM_LAST_NAME = "lastname",
                 PARM_STREET_NAME = "street",
@@ -168,45 +223,65 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
                 PARM_OLD_EMAIL = "old_email",
                 PARM_NEW_EMAIL = "new_email";
 
-        if(!mIsNewProfile){
+        if (User.getInstance(getActivity()).isLoaded()) {
             url = Constants.Api.getUrl(Constants.Api.FUNC_EDIT_USER);
         }
 
         TekenStringRequest request = new TekenStringRequest(
                 Request.Method.POST,
                 url,
-                new Response.Listener<String>() {
+                new TekenResponseListener<String>() {
                     @Override
-                    public void onResponse(String response) {
-                        Log.d(TAG , "Success");
+                    public void onResponse(int requestCode, String response) {
+                        Log.d(TAG, "success");
+
+                        if (User.getInstance(getActivity()).isLoaded()) {
+                            PreferenceManager.getDefaultSharedPreferences(getActivity())
+                                    .edit()
+                                    .putString(Constants.SP.JSON_USER, User.getInstance(getActivity()).toJSON())
+                                    .apply();
+
+                        } else {
+                            User.getInstance(getActivity()).unloadUser();
+                            getActivity().finish();
+                        }
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d(TAG , "Failure");
-            }
-        }
+                },
+                new TekenErrorListener() {
+                    @Override
+                    public void onErrorResponse(int requestCode, VolleyError error, int status, String message) {
+                        Log.d(TAG, status + " failure " + message);
+                        if (!User.getInstance(getActivity()).isLoaded()) {
+                            User.getInstance(getActivity()).unloadUser();
+                        }
+                    }
+                },
+                REQUEST_USER
         );
-        request.addParam(PARM_GENDER,mProfileItem.getGender());
-        request.addParam(PARM_FIRST_NAME,mProfileItem.getFirstName());
-        request.addParam(PARM_LAST_NAME,mProfileItem.getLastName());
-        request.addParam(PARM_STREET_NAME,mProfileItem.getAddress());
-        request.addParam(PARM_POSTAL_CODE,mProfileItem.getPinCode());
-        request.addParam(PARM_PLACE_NAME,mProfileItem.getPlace());
-        request.addParam(PARM_MOBILE_NO,mProfileItem.getPhoneNo());
-        request.addParam(PARM_EMAIL,mProfileItem.getEmail());
-        request.addParam(PARM_PASSWORD, LoginUtils.encode(mProfileItem.getPhoneNo()));
+        request.addParam(PARM_GENDER, User.getInstance(getActivity()).getGender().toApi());
+        request.addParam(PARM_FIRST_NAME, User.getInstance(getActivity()).getFirstName());
+        request.addParam(PARM_LAST_NAME, User.getInstance(getActivity()).getLastName());
+        request.addParam(PARM_STREET_NAME, User.getInstance(getActivity()).getStreet());
+        request.addParam(PARM_POSTAL_CODE, User.getInstance(getActivity()).getPostalCode());
+        request.addParam(PARM_PLACE_NAME, User.getInstance(getActivity()).getPostalAddress());
+        request.addParam(PARM_MOBILE_NO, String.valueOf(User.getInstance(getActivity()).getMobile()));
 
         // For Edit email of the Profile
 
-      *//*  if(!mIsNewProfile){
-            request.addParam(PARM_OLD_EMAIL,"");
-            request.addParam(PARM_NEW_EMAIL,"");
-        }*//*
+        if (User.getInstance(getActivity()).isLoaded() && !mOldEmail.equals(User.getInstance(getActivity()).getEmail())) {
+            request.addParam(PARM_OLD_EMAIL, mOldEmail);
+            request.addParam(PARM_NEW_EMAIL, User.getInstance(getActivity()).getEmail());
+            request.addParam(PARM_EMAIL, mOldEmail);
+        } else {
+            request.addParam(PARM_EMAIL, User.getInstance(getActivity()).getEmail());
+        }
 
-        VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);*/
+        Log.d(TAG, (User.getInstance(getActivity()).getPassword()));
+        request.addParam(PARM_PASSWORD, (LoginUtils.encode(User.getInstance(getActivity()).getPassword())));
+
+
+        VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
     }
-
 
     @Override
     protected int getItemViewType(int position) {
@@ -296,6 +371,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
     class ProfileFieldVH extends RecyclerView.ViewHolder {
         @BindView(R.id.lt_conditions)
         LinearLayout mConditionsLT;
+
         @BindView(R.id.tv_add_pet)
         TextView mAddPetTV;
 
@@ -339,7 +415,6 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
 
         void bind(User item) {
 
-
             ItemProfileFieldsBinding binding = DataBindingUtil.bind(itemView);
             binding.setUser(item);
 
@@ -347,7 +422,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
             mPasswordET.setText("123456");
             mConfirmPasswordET.setText("123456");
 
-            for(int i=0;i<mGenderRadioGroup.getChildCount();i++){
+            for (int i = 0; i < mGenderRadioGroup.getChildCount(); i++) {
                 View v = mGenderRadioGroup.getChildAt(i);
                 v.setEnabled(mCanEdit);
             }
@@ -363,17 +438,99 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
             mConfirmPasswordET.setEnabled(mCanEdit);
         }
 
-        @OnClick(R.id.lt_conditions)
-        public void showConditions() {
-            Intent intent = new Intent(getActivity(), ConditionsActivity.class);
-            startActivity(intent);
+        @OnClick({R.id.lt_conditions, R.id.tv_add_pet})
+        public void showConditions(View v) {
+            switch (v.getId()) {
+                case R.id.lt_conditions:
+                    Intent intent = new Intent(getActivity(), ConditionsActivity.class);
+                    startActivity(intent);
+                    break;
+                case R.id.tv_add_pet:
+                    Intent editPetIntent = new Intent(getActivity(), EditPetActivity.class);
+                    startActivityForResult(editPetIntent, REQUEST_PET);
+            }
+
         }
 
-        @OnClick(R.id.tv_add_pet)
-        public void showPetProfile() {
-            Intent intent = new Intent(getActivity(), EditPetActivity.class);
-            startActivityForResult(intent, REQUEST_PET);
+        @OnTextChanged({R.id.et_first_name,
+                R.id.et_last_name,
+                R.id.et_email,
+                R.id.et_password,
+                R.id.et_tel_no,
+                R.id.et_confirm_password,
+                R.id.et_postal_code,
+                R.id.et_place,
+                R.id.et_street_name})
+        public void onTextChange(Editable s) {
+            if (s == mFirstNameET.getText() && s.length() > 0) {
+
+                User.getInstance(getActivity()).setFirstName(mFirstNameET.getText().toString());
+
+            } else if (s == mLastNameET.getText() && s.length() > 0) {
+
+                User.getInstance(getActivity()).setLastName(mLastNameET.getText().toString());
+
+            } else if (s == mEmailET.getText() && s.length() > 0) {
+
+                if (TextUtils.isEmpty(mEmailET.getText().toString().trim()) ||
+                        !Patterns.EMAIL_ADDRESS.matcher(s.toString()).matches()) {
+
+                    mEmailET.setError(getString(R.string.err_email));
+
+                } else {
+                    mEmailET.setError(null, null);
+                    User.getInstance(getActivity()).setEmail(mEmailET.getText().toString());
+                }
+            } else if (s == mStreetNameET.getText() && s.length() > 0) {
+
+                User.getInstance(getActivity()).setStreet(mStreetNameET.getText().toString());
+
+            } else if (s == mPostalCodeEt.getText() && s.length() > 0) {
+
+                User.getInstance(getActivity()).setPostalCode((mPostalCodeEt.getText().toString()));
+
+            } else if (s == mPlaceNameET.getText() && s.length() > 0) {
+
+                User.getInstance(getActivity()).setPostalAddress(mPlaceNameET.getText().toString());
+
+            } else if (s == mTelNoET.getText() && s.length() > 0) {
+
+                User.getInstance(getActivity()).setMobile(Long.valueOf(mTelNoET.getText().toString()));
+
+            } else if (s == mConfirmPasswordET.getText() && s.length() > 0) {
+
+                if (!(mConfirmPasswordET.getText().toString().equals(mPasswordET.getText().toString()))) {
+                    mConfirmPasswordET.setError(getString(R.string.err_password));
+
+                } else {
+
+                    mConfirmPasswordET.setError(null, null);
+                    User.getInstance(getActivity()).setPassword(mPasswordET.getText().toString());
+
+                }
+            }
         }
+
+        @OnCheckedChanged({R.id.rb_male, R.id.rb_female})
+        public void onGenderChange(CompoundButton button, boolean isChecked) {
+            if (isChecked) {
+                switch (button.getId()) {
+                    case R.id.rb_male:
+                        User.getInstance(getActivity()).setGender(Constants.Gender.MALE);
+                        Log.d(TAG, User.getInstance(getActivity()).getGender().toApi());
+                        break;
+                    case R.id.rb_female:
+                        User.getInstance(getActivity()).setGender(Constants.Gender.FEMALE);
+                        Log.d(TAG, User.getInstance(getActivity()).getGender().toApi());
+                }
+            }
+        }
+
+        @OnCheckedChanged(R.id.cb_term_conditions)
+        public void onTermAccepted(CompoundButton button, boolean isAccepted) {
+
+        }
+
     }
 
     class PetVH extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -393,7 +550,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         void bind(Pet pet) {
             mPet = pet;
             mPetNameTV.setText(pet.getName());
-            mPetCountTV.setText(String.valueOf("1"));
+            mPetCountTV.setText(valueOf("1"));
         }
 
         @Override
@@ -401,7 +558,6 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
             Intent intent = new Intent(getContext(), ViewPetActivity.class);
             intent.putExtra(ViewPetActivity.EXTRA_PET, mPet);
             startActivity(intent);
-
         }
     }
 }
