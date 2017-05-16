@@ -23,6 +23,7 @@
                 android:layout_height="@dimen/camera_image_width"
                 android:layout_gravity="center"
                 android:background="@drawable/circle"
+                android:id="@+id/iv_camera"
                 android:scaleType="center"
                 android:src="@drawable/ic_camera" />
 

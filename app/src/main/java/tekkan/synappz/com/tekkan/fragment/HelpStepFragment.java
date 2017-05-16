@@ -71,5 +71,6 @@ public class HelpStepFragment extends Fragment{
     public void click(){
         Intent intent = new Intent(getActivity(), MainActivity.class);
         startActivity(intent);
+        getActivity().finish();
     }
 }

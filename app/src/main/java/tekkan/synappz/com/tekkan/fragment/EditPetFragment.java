@@ -2,7 +2,12 @@ package tekkan.synappz.com.tekkan.fragment;
 
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -17,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -26,6 +32,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -66,6 +73,14 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
     private static final int
             REQUEST_GET_BREEDS = 0;
 
+    private static final int CAMERA_REQUEST_CODE = 1;
+
+    private Bitmap mBitmap;
+    private String mFileName;
+
+    @BindView(R.id.iv_camera)
+    ImageView mCameraIV;
+
     @BindView(R.id.et_pet_name)
     EditText mPetNameET;
 
@@ -89,6 +104,8 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
 
     @BindView(R.id.et_weight)
     EditText mWeightET;
+
+
 
     private BreedSpinnerAdapter mBreedSpinnerAdapter;
 
@@ -207,7 +224,7 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
         mEditFailureAD = AlertDialogFragment.newInstance(mPet.getId() > 0 ? R.string.error_update_pet : R.string.error_create_pet);
     }
 
-    @OnClick({R.id.tv_date_of_birth, R.id.tv_animal_type, R.id.tv_breed, R.id.tv_gender})
+    @OnClick({R.id.tv_date_of_birth, R.id.tv_animal_type, R.id.tv_breed, R.id.tv_gender,R.id.iv_camera})
     void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_date_of_birth:
@@ -224,6 +241,10 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
             case R.id.tv_gender:
                 mAnimalGenderSP.performClick();
                 break;
+            case R.id.iv_camera :
+
+
+
         }
     }
 
@@ -540,6 +561,9 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
         VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
 
     }
+
+
+
 
     private class BreedSpinnerAdapter extends ArrayAdapter<Breed> {
         BreedSpinnerAdapter() {
