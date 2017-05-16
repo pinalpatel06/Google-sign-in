@@ -53,6 +53,8 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
     TextView mNextYearTV;
     @BindView(R.id.tv_seekbar_value)
     TextView mSeekValueTV;
+    @BindView(R.id.tv_month_0)
+    TextView mMonth0TV;
     @BindView(R.id.tv_month_1)
     TextView mMonth1TV;
     @BindView(R.id.tv_month_2)
@@ -80,6 +82,7 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
     private String[] mMonthName;
     private BottomSheetBehavior mBottomSheetBehavior;
     private int mScreenMinValue, mScreenMaxValue;
+    private  int mProgressMaxValue;
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -121,38 +124,41 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
 
     private void init(View v) {
         ButterKnife.bind(this, v);
-        mSeekBar.setMax(calcNoOfWeek());
+        mProgressMaxValue = calcNoOfWeek();
+        mSeekBar.setMax(mProgressMaxValue);
+        mSeekBar.setProgress(mProgressMaxValue);
         mMonthName = getResources().getStringArray(R.array.month_name);
     }
 
     private void updateUI() {
         Calendar c = Calendar.getInstance();
-        c.add(Calendar.YEAR, -1);
-        mCurrentYearTV.setText(String.valueOf(c.get(Calendar.YEAR)));
         mSeekValueTV.setText(DATE_FORMAT.format(c.getTime()));
-        mMonth1TV.setText(mMonthName[c.get(Calendar.MONTH)]);
-        c.add(Calendar.MONTH, 1);
-        mMonth2TV.setText(mMonthName[c.get(Calendar.MONTH)]);
-        c.add(Calendar.MONTH, 1);
-        mMonth3TV.setText(mMonthName[c.get(Calendar.MONTH)]);
-        c.add(Calendar.MONTH, 1);
-        mMonth4TV.setText(mMonthName[c.get(Calendar.MONTH)]);
-        c.add(Calendar.MONTH, 1);
-        mMonth5TV.setText(mMonthName[c.get(Calendar.MONTH)]);
-        c.add(Calendar.MONTH, 1);
-        mMonth6TV.setText(mMonthName[c.get(Calendar.MONTH)]);
-        c.add(Calendar.MONTH, 1);
-        mMonth7TV.setText(mMonthName[c.get(Calendar.MONTH)]);
-        c.add(Calendar.MONTH, 1);
-        mMonth8TV.setText(mMonthName[c.get(Calendar.MONTH)]);
-        c.add(Calendar.MONTH, 1);
-        mMonth9TV.setText(mMonthName[c.get(Calendar.MONTH)]);
-        c.add(Calendar.MONTH, 1);
-        mMonth10TV.setText(mMonthName[c.get(Calendar.MONTH)]);
-        c.add(Calendar.MONTH, 1);
-        mMonth11TV.setText(mMonthName[c.get(Calendar.MONTH)]);
-        c.add(Calendar.MONTH, 1);
+        mCurrentYearTV.setText(String.valueOf(c.get(Calendar.YEAR)));
         mMonth12TV.setText(mMonthName[c.get(Calendar.MONTH)]);
+        c.add(Calendar.MONTH, -1);
+        mMonth11TV.setText(mMonthName[c.get(Calendar.MONTH)]);
+        c.add(Calendar.MONTH, -1);
+        mMonth10TV.setText(mMonthName[c.get(Calendar.MONTH)]);
+        c.add(Calendar.MONTH, -1);
+        mMonth9TV.setText(mMonthName[c.get(Calendar.MONTH)]);
+        c.add(Calendar.MONTH, -1);
+        mMonth8TV.setText(mMonthName[c.get(Calendar.MONTH)]);
+        c.add(Calendar.MONTH, -1);
+        mMonth7TV.setText(mMonthName[c.get(Calendar.MONTH)]);
+        c.add(Calendar.MONTH, -1);
+        mMonth6TV.setText(mMonthName[c.get(Calendar.MONTH)]);
+        c.add(Calendar.MONTH, -1);
+        mMonth5TV.setText(mMonthName[c.get(Calendar.MONTH)]);
+        c.add(Calendar.MONTH, -1);
+        mMonth4TV.setText(mMonthName[c.get(Calendar.MONTH)]);
+        c.add(Calendar.MONTH, -1);
+        mMonth3TV.setText(mMonthName[c.get(Calendar.MONTH)]);
+        c.add(Calendar.MONTH, -1);
+        mMonth2TV.setText(mMonthName[c.get(Calendar.MONTH)]);
+        c.add(Calendar.MONTH, -1);
+        mMonth1TV.setText(mMonthName[c.get(Calendar.MONTH)]);
+        c.add(Calendar.MONTH , -1);
+        mMonth0TV.setText(mMonthName[c.get(Calendar.MONTH)]);
         mNextYearTV.setText(String.valueOf(c.get(Calendar.YEAR)));
     }
 
@@ -180,8 +186,8 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         Calendar c = Calendar.getInstance();
-        c.add(Calendar.YEAR, -1);
-        c.add(Calendar.DAY_OF_WEEK_IN_MONTH, progress);
+        progress = mProgressMaxValue - progress;
+        c.add(Calendar.DAY_OF_WEEK_IN_MONTH, -progress);
         mSeekValueTV.setText(DATE_FORMAT.format(c.getTime()));
         Rect rect = mSeekBar.getThumb().getBounds();
         int x = rect.left - mSeekValueTV.getWidth() / 5;

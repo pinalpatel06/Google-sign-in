@@ -95,6 +95,7 @@
             android:paddingBottom="@dimen/padding_5dp"
             android:paddingTop="@dimen/padding_5dp"
             android:textColor="@color/colorAccent"
+            app:layout_gravity="end"
             app:layout_columnSpan="2"
             tools:text="09 05 2016"/>
 
@@ -121,6 +122,14 @@
             android:layout_marginTop="@dimen/margin_5dp"
             android:orientation="horizontal"
             app:layout_columnSpan="2">
+
+            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+                android:id="@+id/tv_month_0"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/month_text_size"
+                tools:text="@string/jan"/>
 
             <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                 android:id="@+id/tv_month_1"
@@ -213,7 +222,7 @@
         </LinearLayout>
 
         <tekkan.synappz.com.tekkan.custom.CustomFontTextView
-            android:id="@+id/tv_year_left"
+            android:id="@+id/tv_year_right"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -225,7 +234,7 @@
             tools:text="2016"/>
 
         <tekkan.synappz.com.tekkan.custom.CustomFontTextView
-            android:id="@+id/tv_year_right"
+            android:id="@+id/tv_year_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
