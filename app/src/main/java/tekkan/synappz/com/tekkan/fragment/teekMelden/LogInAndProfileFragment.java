@@ -3,6 +3,7 @@ package tekkan.synappz.com.tekkan.fragment.teekMelden;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -107,11 +108,13 @@ public class LogInAndProfileFragment extends Fragment implements LoginUtils.List
 
         Intent intent = new Intent(getActivity(), InvestigatePetActivity.class);
         intent.putExtra(InvestigatePetActivity.EXTRA_TEEK_BUNDLE, getArguments().getBundle(ARGS_TEEK_BUNDLE));
+        getActivity().finish();
         startActivity(intent);
     }
 
     @Override
     public void onFailure(VolleyError error, int errorCode, String errorString) {
+        Log.d(TAG , errorCode + " " + errorString);
         ProgressDialogFragment fragment = (ProgressDialogFragment) getFragmentManager().findFragmentByTag(TAG_PROGRESS_DIALOG);
         fragment.dismiss();
         AlertDialogFragment fragment1 = AlertDialogFragment.newInstance(R.string.error, R.string.loading_profile);

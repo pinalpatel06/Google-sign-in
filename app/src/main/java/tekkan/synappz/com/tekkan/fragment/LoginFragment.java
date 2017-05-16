@@ -4,7 +4,6 @@ package tekkan.synappz.com.tekkan.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,10 +71,10 @@ public class LoginFragment extends ContainerNodeFragment implements LoginUtils.L
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onResume() {
+        super.onResume();
         if(User.getInstance(getActivity()).isLoaded()){
-           setChild(ProfileFragment.newInstance(false));
+            setChild(ProfileFragment.newInstance(false));
         }
     }
 

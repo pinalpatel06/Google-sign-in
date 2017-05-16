@@ -70,6 +70,7 @@ public class HelpStepFragment extends Fragment{
     @OnClick(R.id.rl_step1)
     public void click(){
         Intent intent = new Intent(getActivity(), MainActivity.class);
+        getActivity().finish();
         startActivity(intent);
     }
 }

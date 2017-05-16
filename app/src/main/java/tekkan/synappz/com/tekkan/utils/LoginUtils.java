@@ -105,8 +105,8 @@ public class LoginUtils {
 
             // encrypt the text
             cipher.init(Cipher.ENCRYPT_MODE, aesKey);
-            byte[] encodedBytes = Base64.encode(cipher.doFinal(pwd.getBytes()), Base64.DEFAULT);
-            return new String(encodedBytes);
+            return Base64.encodeToString(cipher.doFinal(pwd.getBytes()), Base64.DEFAULT);
+            //return new String(encodedBytes);
 
         } catch (Exception e) {
             e.printStackTrace();

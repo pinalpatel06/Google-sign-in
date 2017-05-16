@@ -29,12 +29,22 @@ public class User {
 
     private Constants.Gender mGender;
     private String
-            mFirstName,
-            mLastName,
-            mStreet,
-            mPostalCode,
-            mPostalAddress,
-            mEmail;
+            mFirstName;
+    private String mLastName;
+    private String mStreet;
+    private String mPostalCode;
+    private String mPostalAddress;
+    private String mEmail;
+
+    public String getPassword() {
+        return mPassword;
+    }
+
+    public void setPassword(String password) {
+        mPassword = password;
+    }
+
+    private String mPassword;
 
     private long mMobile;
 
