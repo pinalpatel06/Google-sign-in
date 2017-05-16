@@ -128,7 +128,7 @@ public class TestKitResearchList extends ListFragment<Object, RecyclerView.ViewH
                     this,
                     REQUEST_PET
             );
-
+            Log.d(TAG , User.getInstance(getActivity()).getEmail());
             request.addParam(Constants.Api.QUERY_PARAMETER1, User.getInstance(getActivity()).getEmail());
             VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
         }
@@ -153,7 +153,7 @@ public class TestKitResearchList extends ListFragment<Object, RecyclerView.ViewH
 
     @Override
     public void onErrorResponse(int requestCode, VolleyError error, int status, String message) {
-        Log.d(TAG , status + " " + message);
+        Log.d(TAG , status + " " + message + error);
     }
 
     class ProfileFieldVH extends RecyclerView.ViewHolder {
@@ -194,7 +194,7 @@ public class TestKitResearchList extends ListFragment<Object, RecyclerView.ViewH
             mPetNameTV.setText(pet.getName());
             mPetIV.setDefaultImageResId(R.drawable.ic_splash_pets);
 
-            if (pet.getPhoto() != null) {
+            if (!pet.getPhoto().equals("null")) {
                 Log.d(TAG, pet.getPhoto());
                 mPetIV.setImageUrl(pet.getPhoto(), VolleyHelper.getInstance(getActivity()).getImageLoader());
             }
