@@ -1,12 +1,21 @@
 package tekkan.synappz.com.tekkan.fragment;
 
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,7 +28,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +38,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -37,6 +47,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
+
+
+import de.hdodenhof.circleimageview.CircleImageView;
 import tekkan.synappz.com.tekkan.R;
 import tekkan.synappz.com.tekkan.custom.CustomSpinner;
 import tekkan.synappz.com.tekkan.custom.network.TekenErrorListener;
@@ -71,13 +84,16 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
     private static final int
             REQUEST_GET_BREEDS = 0;
 
-    private static final int CAMERA_REQUEST_CODE = 1;
+    public static final int
+            CAMERA_REQUEST_CODE = 1001,
+            GALLERY_REQUEST_CODE = 1002;
+
+
 
     private Bitmap mBitmap;
-    private String mFileName;
 
     @BindView(R.id.iv_camera)
-    ImageView mCameraIV;
+    CircleImageView mCameraIV;
 
     @BindView(R.id.et_pet_name)
     EditText mPetNameET;
@@ -250,7 +266,8 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
                 break;
             case R.id.iv_camera:
 
-
+             showDiloag();
+                break;
         }
     }
 
@@ -270,6 +287,7 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
     }
 
     private void updateUI() {
+
 
         if (mPet == null) {
             return;
@@ -584,4 +602,84 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
             setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         }
     }
+
+
+    public void showDiloag(){
+        Dialog dialog = new Dialog(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Choose Image Source");
+        builder.setItems(new CharSequence[] { "Gallery", "Camera" },
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog,
+                                        int which) {
+                        switch (which) {
+                            case 0:
+                                Intent intent = new Intent(
+                                        Intent.ACTION_GET_CONTENT);
+                                intent.setType("image/*");
+
+                                Intent chooser = Intent
+                                        .createChooser(
+                                                intent,
+                                                "Choose a Picture");
+                                startActivityForResult(
+                                        chooser,
+                                        GALLERY_REQUEST_CODE);
+
+                                break;
+
+                            case 1:
+                                if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                                    ActivityCompat.requestPermissions(getActivity(), new String[] { Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+                                }else {
+                                    Intent cameraIntent = new Intent(
+                                            android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                                    startActivityForResult(
+                                            cameraIntent,
+                                            CAMERA_REQUEST_CODE);
+                                }
+                                break;
+
+                            default:
+                                break;
+                        }
+                    }
+                });
+
+        builder.show();
+        dialog.dismiss();
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        System.out.println("OnActivityResult");
+        if (resultCode == getActivity().RESULT_OK) {
+            if (requestCode == GALLERY_REQUEST_CODE) {
+                Uri imageUri = data.getData();
+                InputStream image_stream = null;
+                try {
+                    image_stream = getActivity().getContentResolver().openInputStream(imageUri);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                mBitmap = BitmapFactory.decodeStream(image_stream );
+                mCameraIV.setImageBitmap(mBitmap);
+
+            } else if (requestCode == CAMERA_REQUEST_CODE) {
+                mBitmap = (Bitmap) data.getExtras()
+                        .get("data");
+                mCameraIV.setImageBitmap(mBitmap);
+            }
+        }
+    }
+
+
+
+
+
+
+
 }
