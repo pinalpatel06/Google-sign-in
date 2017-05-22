@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
@@ -38,8 +39,16 @@ public class ApplyPetAgreementFragment extends Fragment implements TekenResponse
             ARGS_PET_BUNDLE = TAG + ".ARGS_PET_BUNDLE",
             TAG_ALERT_DIALOG = TAG + ".TAG_ALERT_DIALOG";
 
+    private static final int REQUEST_CREATE_TICK = 0;
+
     @BindView(R.id.btn_ready)
     Button mReadyBtn;
+    @BindView(R.id.tv_agreement_title)
+    TextView mTitleTV;
+    @BindView(R.id.tv_agreement_details)
+    TextView mDetailTV;
+    private boolean mIsApiFail = false;
+
 
     public static ApplyPetAgreementFragment newInstance(Bundle bundle) {
         Bundle args = new Bundle();
@@ -67,26 +76,32 @@ public class ApplyPetAgreementFragment extends Fragment implements TekenResponse
 
     @OnClick(R.id.btn_ready)
     public void closeActivity() {
-        Bundle bundle = getArguments().getBundle(ARGS_PET_BUNDLE);
-        TekenStringRequest request = new TekenStringRequest(
-                Request.Method.POST,
-                Constants.Api.getUrl(Constants.Api.FUNC_CREATE_TICK__REPORT),
-                this,
-                this,
-                0
-        );
+        if(!mIsApiFail) {
+            Bundle bundle = getArguments().getBundle(ARGS_PET_BUNDLE);
+            TekenStringRequest request = new TekenStringRequest(
+                    Request.Method.POST,
+                    Constants.Api.getUrl(Constants.Api.FUNC_CREATE_TICK__REPORT),
+                    this,
+                    this,
+                    REQUEST_CREATE_TICK
+            );
 
-        request.addParam(PARAM_ANIMALS_ID, String.valueOf(bundle.getLong(TestKitResearchList.ARGS_PET_ID)));
-        request.addParam(PARAM_RESEARCH, String.valueOf(bundle.getString(TickReportConfirmFragment.ARGS_APPLY_RESEARCH)));
-        LatLng latLng = bundle.getParcelable(TickMapFragment.ARGS_LOCATION_LATLNG);
-        request.addParam(PARAM_COOR_LAT, String.valueOf(latLng.latitude));
-        request.addParam(PARAM_COOR_LNG, String.valueOf(latLng.longitude));
-        request.addParam(PARAM_COOR_ZOOM, String.valueOf((int) bundle.getFloat(TickMapFragment.ARGS_ZOOM_LEVEL)));
-        if (bundle.getString(BarcodeCaptureActivity.ARGS_QR_CODE) != null) {
-            request.addParam(PARAM_CODE, bundle.getString(BarcodeCaptureActivity.ARGS_QR_CODE));
+            request.addParam(PARAM_ANIMALS_ID, String.valueOf(bundle.getLong(TestKitResearchList.ARGS_PET_ID)));
+            request.addParam(PARAM_RESEARCH, String.valueOf(bundle.getString(TickReportConfirmFragment.ARGS_APPLY_RESEARCH)));
+            LatLng latLng = bundle.getParcelable(TickMapFragment.ARGS_LOCATION_LATLNG);
+            request.addParam(PARAM_COOR_LAT, String.valueOf(latLng.latitude));
+            request.addParam(PARAM_COOR_LNG, String.valueOf(latLng.longitude));
+            request.addParam(PARAM_COOR_ZOOM, String.valueOf((int) bundle.getFloat(TickMapFragment.ARGS_ZOOM_LEVEL)));
+            if (bundle.getString(BarcodeCaptureActivity.ARGS_QR_CODE) != null) {
+                request.addParam(PARAM_CODE, bundle.getString(BarcodeCaptureActivity.ARGS_QR_CODE));
+            }
+
+            VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
+        }else{
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         }
-
-        VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
     }
 
     @Override
@@ -100,8 +115,9 @@ public class ApplyPetAgreementFragment extends Fragment implements TekenResponse
     @Override
     public void onErrorResponse(int requestCode, VolleyError error, int status, String message) {
         Log.d(TAG, "Failure " + status + message);
-        Intent intent = new Intent(getActivity(), MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
+        mIsApiFail = true;
+        getActivity().setTitle(getString(R.string.tick_api_fail_app_title));
+        mTitleTV.setText(getString(R.string.tick_api_fail_title));
+        mDetailTV.setText(getString(R.string.tick_api_fail_detail));
     }
 }
