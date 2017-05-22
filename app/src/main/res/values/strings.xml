@@ -344,6 +344,12 @@
         geinformeerd of jouw aanvraag heeft geleid tot een kosteloos onderzork. \n\nHelaas kan het
         gebeuren dat jouw aanvraag niet meer in behandeling genomen kan
     </string>
+    <string name="tick_api_fail_app_title">Helaas</string>
+    <string name="tick_api_fail_title">Helaas, de onderzoeken zijn op.</string>
+    <string name="tick_api_fail_detail">Tot onze spijt zijn er wegens grote belangstelling geen
+        onderzoeken meer beschikbaar voor dit seizoen.\n\n Je kan altijd een teek blijven melden en
+        middels de filters kijken of de teken die in jouw regio gevonden zijn een ziekte hadden.
+    </string>
     <string name="ready">gereed</string>
     <string name="profile_title">Profiel</string>
     <string name="action_save">Done</string>
@@ -386,4 +392,5 @@
     <string name="err_password">Password does not match</string>
     <string name="err_email">Email Address can\'t be null Or not in proper format</string>
     <string name="select_animal_type">Select pet type first</string>
+
 </resources>

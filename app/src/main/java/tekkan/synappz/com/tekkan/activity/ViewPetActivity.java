@@ -1,12 +1,12 @@
 package tekkan.synappz.com.tekkan.activity;
 
-        import android.os.Bundle;
-        import android.support.annotation.Nullable;
-        import android.support.v4.app.Fragment;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 
-        import tekkan.synappz.com.tekkan.R;
-        import tekkan.synappz.com.tekkan.fragment.ViewPetFragment;
-        import tekkan.synappz.com.tekkan.model.Pet;
+import tekkan.synappz.com.tekkan.R;
+import tekkan.synappz.com.tekkan.fragment.ViewPetFragment;
+import tekkan.synappz.com.tekkan.model.Pet;
 
 /**
  * Created by Admin on 04/05/17.
@@ -29,7 +29,7 @@ public class ViewPetActivity extends ToolbarActivity {
     protected Fragment getFragment() {
         if (getIntent().hasExtra(EXTRA_PET)) {
             return ViewPetFragment.newInstance((Pet) getIntent().getParcelableExtra(EXTRA_PET));
-        }else{
+        } else {
             return new ViewPetFragment();
         }
     }

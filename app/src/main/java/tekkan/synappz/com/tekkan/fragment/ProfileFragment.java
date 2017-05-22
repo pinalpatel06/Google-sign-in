@@ -204,6 +204,9 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
                 User.getInstance(getActivity()).getPassword().equals("")) {
             return false;
         }
+        if (User.getInstance(getActivity()).getGender() == null) {
+            return false;
+        }
         return true;
     }
 
@@ -449,7 +452,6 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
                     Intent editPetIntent = new Intent(getActivity(), EditPetActivity.class);
                     startActivityForResult(editPetIntent, REQUEST_PET);
             }
-
         }
 
         @OnTextChanged({R.id.et_first_name,
@@ -503,10 +505,8 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
                     mConfirmPasswordET.setError(getString(R.string.err_password));
 
                 } else {
-
                     mConfirmPasswordET.setError(null, null);
                     User.getInstance(getActivity()).setPassword(mPasswordET.getText().toString());
-
                 }
             }
         }
