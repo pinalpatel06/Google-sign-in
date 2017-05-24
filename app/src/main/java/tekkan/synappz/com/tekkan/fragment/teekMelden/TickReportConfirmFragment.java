@@ -32,7 +32,7 @@ public class TickReportConfirmFragment extends Fragment implements CommonNodeInt
             ARGS_BUNDLE = TAG + "ARGS_BUNDLE",
             ARGS_LAYOUT_TYPE = TAG + ".ARGS_LAYOUT_TYPE";
 
-    public static final String  ARGS_APPLY_RESEARCH = TAG + ".ARGS_APPLY_RESEARCH";
+    public static final String ARGS_APPLY_RESEARCH = TAG + ".ARGS_APPLY_RESEARCH";
 
     @BindView(R.id.tv_research_kit_detail)
     TextView mKitDetailTextTV;
@@ -44,13 +44,12 @@ public class TickReportConfirmFragment extends Fragment implements CommonNodeInt
     Button mNoBtn;
 
     private int mLayoutType;
-    private boolean mIsLogged = false;
 
     public static TickReportConfirmFragment newInstance(Bundle bundle, int type) {
 
         Bundle args = new Bundle();
         args.putInt(ARGS_LAYOUT_TYPE, type);
-        args.putBundle(ARGS_BUNDLE,bundle);
+        args.putBundle(ARGS_BUNDLE, bundle);
         TickReportConfirmFragment fragment = new TickReportConfirmFragment();
         fragment.setArguments(args);
         return fragment;
@@ -87,14 +86,14 @@ public class TickReportConfirmFragment extends Fragment implements CommonNodeInt
         Bundle bundle = getArguments().getBundle(ARGS_BUNDLE);
 
         if (User.getInstance(getActivity()).isLoaded()) {
-            bundle.putString(ARGS_APPLY_RESEARCH,"N");
+            bundle.putString(ARGS_APPLY_RESEARCH, "N");
             Intent intent = new Intent(getActivity(), InvestigatePetActivity.class);
-            intent.putExtra(InvestigatePetActivity.EXTRA_TEEK_BUNDLE,bundle);
+            intent.putExtra(InvestigatePetActivity.EXTRA_TEEK_BUNDLE, bundle);
             startActivity(intent);
         } else {
-            bundle.putString(ARGS_APPLY_RESEARCH,"N");
+            bundle.putString(ARGS_APPLY_RESEARCH, "N");
             Intent intent = new Intent(getActivity(), LogInAndProfileActivity.class);
-            intent.putExtra(LogInAndProfileActivity.EXTRA_TEEK_BUNDLE,bundle);
+            intent.putExtra(LogInAndProfileActivity.EXTRA_TEEK_BUNDLE, bundle);
             startActivity(intent);
         }
     }
@@ -102,10 +101,16 @@ public class TickReportConfirmFragment extends Fragment implements CommonNodeInt
     @OnClick(R.id.btn_have_kit)
     public void showQRCodeScannerActivity() {
         Bundle bundle = getArguments().getBundle(ARGS_BUNDLE);
-        bundle.putString(ARGS_APPLY_RESEARCH,"Y");
+        bundle.putString(ARGS_APPLY_RESEARCH, "Y");
         Intent intent = new Intent(getActivity(), QRScannerActivity.class);
-        intent.putExtra(QRScannerActivity.EXTRA_TEEK_BUNDLE,bundle);
+        intent.putExtra(QRScannerActivity.EXTRA_TEEK_BUNDLE, bundle);
         startActivity(intent);
+    }
+
+    @OnClick(R.id.btn_no)
+    public void reset() {
+        TickMapFragment fragment = (TickMapFragment) getParentFragment();
+        fragment.onReset();
     }
 
     @Override

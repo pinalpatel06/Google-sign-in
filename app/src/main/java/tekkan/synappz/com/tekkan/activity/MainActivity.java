@@ -22,11 +22,11 @@ import tekkan.synappz.com.tekkan.custom.nestedfragments.FragmentChangeCallback;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.NestedFragmentUtil;
 import tekkan.synappz.com.tekkan.fragment.HeatMapFragment;
 import tekkan.synappz.com.tekkan.fragment.LoginFragment;
-import tekkan.synappz.com.tekkan.fragment.product.ProductTabFragment;
 import tekkan.synappz.com.tekkan.fragment.advices.TipsTabFragment;
+import tekkan.synappz.com.tekkan.fragment.product.ProductTabFragment;
 import tekkan.synappz.com.tekkan.fragment.teekMelden.TickReportHelpFragment;
 
-public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener, FragmentChangeCallback {
+public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener, FragmentChangeCallback, TickReportHelpFragment.Callback{
 
     private static final int
             POSITION_TEKENSCANNER = 0,
@@ -178,6 +178,11 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         invalidateFragmentMenus(mViewPager.getCurrentItem());
     }
 
+    @Override
+    public void resetFragment() {
+       setCurrentItem(POSITION_TEKENSCANNER);
+    }
+
     private class Adapter extends CustomFragmentStatePageAdapter {
 
         private ArrayList<Fragment> mFragments;
@@ -187,7 +192,6 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
             super(fm);
             mFragments = new ArrayList<>();
             mTitles = new ArrayList<>();
-
         }
 
         @Override

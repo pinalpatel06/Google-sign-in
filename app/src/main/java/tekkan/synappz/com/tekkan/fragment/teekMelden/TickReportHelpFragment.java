@@ -32,13 +32,21 @@ public class TickReportHelpFragment extends ContainerNodeFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         mCallback = (FragmentChangeCallback) getActivity();
+        mListener = (Callback) getActivity();
     }
 
     @Override
     public void onDetach() {
         mCallback = null;
+        mListener = null;
         super.onDetach();
     }
+
+    public  interface Callback{
+        public void resetFragment();
+    }
+
+    private Callback mListener;
 
     @Nullable
     @Override
@@ -67,4 +75,19 @@ public class TickReportHelpFragment extends ContainerNodeFragment {
     public FragmentChangeCallback getChangeCallback() {
         return mCallback;
     }
+
+    public void onReset() {
+
+        AnimalSelectionFragment fragment = (AnimalSelectionFragment) getChildFragmentManager().findFragmentById(R.id.fragment_container);
+
+        if (fragment != null) {
+            getChildFragmentManager()
+                    .beginTransaction()
+                    .remove(fragment)
+                    .commitNow();
+        }
+
+        mListener.resetFragment();
+    }
+
 }

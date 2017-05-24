@@ -23,10 +23,12 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import tekkan.synappz.com.tekkan.R;
 import tekkan.synappz.com.tekkan.activity.MoreInfoActivity;
 import tekkan.synappz.com.tekkan.custom.ListFragment;
+import tekkan.synappz.com.tekkan.utils.Constants;
 
 /**
  * Created by Tejas Sherdiwala on 4/21/2017.
@@ -44,7 +46,6 @@ public class FilterOptionFragment extends ListFragment<FilterOptionFragment.Filt
     private ArrayList<FilterOptionItem> mFilterOptionItems;
     private HashMap<Integer, Boolean> mSelectedFilterList = new HashMap<>();
 
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_profile_setup, menu);
@@ -54,7 +55,7 @@ public class FilterOptionFragment extends ListFragment<FilterOptionFragment.Filt
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_close:
-                getActivity().setResult(Activity.RESULT_OK,null);
+                getActivity().setResult(Activity.RESULT_OK, null);
                 getActivity().finish();
                 return true;
             default:
@@ -68,24 +69,28 @@ public class FilterOptionFragment extends ListFragment<FilterOptionFragment.Filt
         mFilterOptionItems = new ArrayList<>();
         mFilterOptionItems.add(new FilterOptionItem(
                 R.drawable.bg_filter_option_1,
-                getString(R.string.filter_option_1),
+                Constants.DiseaseList.DISEASE1.toApi(),
+                //getString(R.string.filter_option_1),
                 false
         ));
         mFilterOptionItems.add(new FilterOptionItem(
                 R.drawable.bg_filter_option_2,
-                getString(R.string.filter_option_2),
+                Constants.DiseaseList.DISEASE2.toApi(),
+                //getString(R.string.filter_option_2),
                 false
         ));
 
         mFilterOptionItems.add(new FilterOptionItem(
                 R.drawable.bg_filter_option_3,
-                getString(R.string.filter_option_3),
+                Constants.DiseaseList.DISEASE3.toApi(),
+                // getString(R.string.filter_option_3),
                 false
         ));
 
         mFilterOptionItems.add(new FilterOptionItem(
                 R.drawable.bg_filter_option_4,
-                getString(R.string.filter_option_4),
+                Constants.DiseaseList.DISEASE4.toApi(),
+                // getString(R.string.filter_option_4),
                 false
         ));
         return mFilterOptionItems;
@@ -130,7 +135,7 @@ public class FilterOptionFragment extends ListFragment<FilterOptionFragment.Filt
         startActivity(intent);
     }
 
-    public class FilterOptionVH extends RecyclerView.ViewHolder implements Switch.OnCheckedChangeListener {
+    public class FilterOptionVH extends RecyclerView.ViewHolder{
         @BindView(R.id.iv_filter_color)
         ImageView mFilterColorIV;
         @BindView(R.id.tv_filter_text)
@@ -141,7 +146,6 @@ public class FilterOptionFragment extends ListFragment<FilterOptionFragment.Filt
         FilterOptionVH(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            mIsFilterOn.setOnCheckedChangeListener(this);
         }
 
         public void bind(FilterOptionItem item) {
@@ -150,17 +154,17 @@ public class FilterOptionFragment extends ListFragment<FilterOptionFragment.Filt
             //mIsFilterOn.setChecked(item.isFilterOn());
             mIsFilterOn.setChecked(
                     PreferenceManager.getDefaultSharedPreferences(getActivity())
-                    .getBoolean(String.valueOf(getAdapterPosition()),false)
+                            .getBoolean(String.valueOf(getAdapterPosition()), false)
             );
+
         }
 
-
-        @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        @OnCheckedChanged(R.id.sw_filter_status)
+        public void onCheckChanged(CompoundButton button, boolean isChecked){
             mSelectedFilterList.put(getAdapterPosition(), isChecked);
             PreferenceManager.getDefaultSharedPreferences(getActivity())
                     .edit()
-                    .putBoolean(String.valueOf(getAdapterPosition()),isChecked)
+                    .putBoolean(String.valueOf(getAdapterPosition()), isChecked)
                     .apply();
         }
     }
