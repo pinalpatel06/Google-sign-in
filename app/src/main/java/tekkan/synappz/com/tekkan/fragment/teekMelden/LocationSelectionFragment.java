@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,7 @@ import tekkan.synappz.com.tekkan.custom.nestedfragments.FragmentChangeCallback;
  * &copy; Knoxpo
  */
 
-public class LocationSelectionFragment extends ContainerNodeFragment {
+public class LocationSelectionFragment extends ContainerNodeFragment implements ParentFragmentCallback {
 
     private static final String
             TAG = LocationSelectionFragment.class.getSimpleName(),
@@ -74,16 +75,16 @@ public class LocationSelectionFragment extends ContainerNodeFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_pet_location_selection,container,false);
-        ButterKnife.bind(this,v);
+        View v = inflater.inflate(R.layout.fragment_pet_location_selection, container, false);
+        ButterKnife.bind(this, v);
         updateUI();
         v.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.bg_blurred));
         setHasOptionsMenu(true);
         return v;
     }
 
-    private void updateUI(){
-        switch (mAnimalType){
+    private void updateUI() {
+        switch (mAnimalType) {
             case 0:
                 mDetailsTV.setText(getString(R.string.pet_hond_location_text));
                 break;
@@ -93,14 +94,15 @@ public class LocationSelectionFragment extends ContainerNodeFragment {
         }
     }
 
-    @OnClick(R.id.btn_current_location)
-    public void showMyLocationOnMap(){
-        setChild(TickMapFragment.newInstance(LOCATION_CURRENT));
-    }
-
-    @OnClick(R.id.btn_other_location)
-    public void showCustomLocationOnMap(){
-        setChild(TickMapFragment.newInstance(LOCATION_CUSTOM));
+    @OnClick({R.id.btn_current_location, R.id.btn_other_location})
+    public void showMyLocationOnMap(View v) {
+        switch (v.getId()) {
+            case R.id.btn_current_location:
+                setChild(TickMapFragment.newInstance(LOCATION_CURRENT));
+                break;
+            case R.id.btn_other_location:
+                setChild(TickMapFragment.newInstance(LOCATION_CUSTOM));
+        }
     }
 
     @Override
@@ -116,5 +118,11 @@ public class LocationSelectionFragment extends ContainerNodeFragment {
     @Override
     public FragmentChangeCallback getChangeCallback() {
         return mCallback;
+    }
+
+    public void onReset() {
+        Log.d(TAG, "On reset");
+        AnimalSelectionFragment fragment = (AnimalSelectionFragment) getParentFragment();
+        fragment.onReset();
     }
 }

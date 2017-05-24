@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,7 +23,7 @@ import tekkan.synappz.com.tekkan.custom.nestedfragments.FragmentChangeCallback;
  * &copy; Knoxpo
  */
 
-public class AnimalSelectionFragment extends ContainerNodeFragment {
+public class AnimalSelectionFragment extends ContainerNodeFragment implements ParentFragmentCallback {
 
     private static final int
             PET_HOND = 0,
@@ -87,18 +88,23 @@ public class AnimalSelectionFragment extends ContainerNodeFragment {
         return mCallback;
     }
 
-    @OnClick(R.id.btn_pet_hond)
-    public void onPetHondSelected(){
-        setChild(LocationSelectionFragment.newInstance(PET_HOND));
+    @OnClick({R.id.btn_pet_hond, R.id.btn_pet_kat,R.id.btn_pet_others})
+    public void onPetSelected(View v){
+        switch (v.getId()){
+            case R.id.btn_pet_hond:
+                setChild(LocationSelectionFragment.newInstance(PET_HOND));
+                break;
+            case R.id.btn_pet_kat:
+                setChild(LocationSelectionFragment.newInstance(PET_KAT));
+                break;
+            case R.id.btn_pet_others:
+                setChild(new OtherPetSelectedFragment());
+        }
     }
 
-    @OnClick(R.id.btn_pet_kat)
-    public void onPetKatSelected(){
-        setChild(LocationSelectionFragment.newInstance(PET_KAT));
-    }
-
-    @OnClick(R.id.btn_pet_others)
-    public void onPetOthersSelected(){
-        setChild(new OtherPetSelectedFragment());
+    public void onReset(){
+        Log.d("AnimalSelection" , "On reset");
+        TickReportHelpFragment fragment = (TickReportHelpFragment) getParentFragment();
+        fragment.onReset();
     }
 }

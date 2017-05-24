@@ -80,23 +80,32 @@ public class LogInAndProfileFragment extends Fragment implements LoginUtils.List
         return v;
     }
 
-    @OnClick(R.id.btn_log_in)
-    public void logIn() {
-        String email = mEmailET.getText().toString();
-        String password = mPasswordET.getText().toString();
+    @OnClick({R.id.btn_log_in,R.id.btn_profile})
+    public void onButtonClicked(View v) {
+        switch (v.getId()){
+            case R.id.btn_log_in:
+                String email = mEmailET.getText().toString();
+                String password = mPasswordET.getText().toString();
 
-        final ProgressDialogFragment fragment = ProgressDialogFragment.newInstance(getString(R.string.login));
-        fragment.show(getFragmentManager(), TAG_PROGRESS_DIALOG);
+                final ProgressDialogFragment fragment = ProgressDialogFragment.newInstance(getString(R.string.login));
+                fragment.show(getFragmentManager(), TAG_PROGRESS_DIALOG);
 
-        LoginUtils.logIn(getActivity(), email, password, this);
+                LoginUtils.logIn(getActivity(), email, password, this);
+                break;
+            case R.id.btn_profile:
+                Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                intent.putExtra(ProfileActivity.EXTRA_NEW_PROFILE, true);
+                startActivity(intent);
+        }
+
     }
 
-    @OnClick(R.id.btn_profile)
+   /* @OnClick(R.id.btn_profile)
     public void showProfile() {
         Intent intent = new Intent(getActivity(), ProfileActivity.class);
         intent.putExtra(ProfileActivity.EXTRA_NEW_PROFILE, true);
         startActivity(intent);
-    }
+    }*/
 
     @Override
     public void onSuccess() {
