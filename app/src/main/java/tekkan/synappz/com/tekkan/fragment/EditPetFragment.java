@@ -100,6 +100,7 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
 
     @BindView(R.id.tv_animal_type)
     TextView mAnimalTypeTV;
+
     @BindView(R.id.sp_animal_type)
     CustomSpinner mAnimalTypeSP;
 
@@ -234,9 +235,15 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
                 mPet.getId() > 0 ? R.string.progress_updating_pet : R.string.progress_creating_pet
         ));
 
-        mEditSuccessAD = ConfirmDialogFragment.newInstance(mPet.getId() > 0 ? R.string.success_update_pet : R.string.success_create_pet);
+        mEditSuccessAD = ConfirmDialogFragment.newInstance(
+                mPet.getId() > 0
+                        ? R.string.success_update_pet
+                        : R.string.success_create_pet);
         mEditSuccessAD.setListener(this);
-        mEditFailureAD = AlertDialogFragment.newInstance(mPet.getId() > 0 ? R.string.error_update_pet : R.string.error_create_pet);
+        mEditFailureAD = AlertDialogFragment.newInstance(
+                mPet.getId() > 0
+                        ? R.string.error_update_pet
+                        : R.string.error_create_pet);
     }
 
     @OnClick({R.id.tv_date_of_birth, R.id.tv_animal_type, R.id.tv_breed, R.id.tv_gender, R.id.iv_camera})

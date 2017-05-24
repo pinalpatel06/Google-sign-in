@@ -66,6 +66,7 @@ import tekkan.synappz.com.tekkan.R;
 import tekkan.synappz.com.tekkan.activity.FilterOptionActivity;
 import tekkan.synappz.com.tekkan.heapmap.heatmaps.Gradient;
 import tekkan.synappz.com.tekkan.heapmap.heatmaps.HeatmapTileProvider;
+import tekkan.synappz.com.tekkan.utils.Constants;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
@@ -515,13 +516,12 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
         provider.setGradient(gradient);
         provider.setOpacity(1.0f);
         mTileOverlay.clearTileCache();
-
     }
 
     private void selectHeatMap() {
         mMap.clear();
         mTileOverlay.clearTileCache();
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < Constants.DiseaseList.values().length; i++) {
             switch (i) {
                 case 0:
                     if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean(String.valueOf(i), false)) {
@@ -545,7 +545,6 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
                     break;
             }
         }
-
     }
 
     private void readItems() {

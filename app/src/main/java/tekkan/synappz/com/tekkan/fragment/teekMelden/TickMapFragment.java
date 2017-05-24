@@ -63,7 +63,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class TickMapFragment extends ContainerNodeFragment
         implements GoogleApiClient.ConnectionCallbacks, OnMapReadyCallback,
-        LocationListener, GoogleMap.OnMapClickListener {
+        LocationListener, GoogleMap.OnMapClickListener,ParentFragmentCallback {
 
     private static final String
             TAG = TickMapFragment.class.getSimpleName(),
@@ -551,5 +551,11 @@ public class TickMapFragment extends ContainerNodeFragment
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_tick_map_marker))
                 .position(latLng)
         );
+    }
+
+    public void onReset(){
+        Log.d(TAG , "On reset");
+        LocationSelectionFragment fragment = (LocationSelectionFragment) getParentFragment();
+        fragment.onReset();
     }
 }

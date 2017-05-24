@@ -526,11 +526,6 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
             }
         }
 
-        @OnCheckedChanged(R.id.cb_term_conditions)
-        public void onTermAccepted(CompoundButton button, boolean isAccepted) {
-
-        }
-
     }
 
     class PetVH extends RecyclerView.ViewHolder implements View.OnClickListener {

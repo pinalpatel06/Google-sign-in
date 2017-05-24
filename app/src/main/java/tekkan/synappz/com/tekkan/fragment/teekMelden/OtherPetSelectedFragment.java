@@ -7,8 +7,11 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import tekkan.synappz.com.tekkan.R;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.CommonNodeInterface;
 
@@ -19,6 +22,9 @@ import tekkan.synappz.com.tekkan.custom.nestedfragments.CommonNodeInterface;
 
 public class OtherPetSelectedFragment extends Fragment implements CommonNodeInterface {
 
+    @BindView(R.id.btn_previous)
+    Button mPreviousBtn;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -26,6 +32,17 @@ public class OtherPetSelectedFragment extends Fragment implements CommonNodeInte
         ButterKnife.bind(this,v);
         v.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.bg_blurred));
         return v;
+    }
+
+    @OnClick(R.id.btn_previous)
+    public void onPreviousClicked(){
+        Fragment fragment = getFragmentManager().findFragmentById(R.id.fragment_container);
+        if (fragment != null) {
+            getFragmentManager()
+                    .beginTransaction()
+                    .remove(fragment)
+                    .commitNow();
+        }
     }
 
     @Override

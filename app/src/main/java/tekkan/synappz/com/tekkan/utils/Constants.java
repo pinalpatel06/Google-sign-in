@@ -2,6 +2,7 @@ package tekkan.synappz.com.tekkan.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -94,6 +95,33 @@ public class Constants {
         }
     }
 
+    public enum DiseaseList {
+        DISEASE1("Ziekte van Lyme"),
+        DISEASE2("Babesiosis of tekenkoorts"),
+        DISEASE3("Anaplasmosis"),
+        DISEASE4("Ehrlechiosis");
+
+        private String mString;
+
+        DiseaseList(String string) {
+            mString = string;
+        }
+
+        public String toApi() {
+            return mString;
+        }
+    }
+
+    private class Disease{
+        private String mDiseaseName;
+        private Drawable mDiseaseColor;
+
+        public Disease(String diseaseName, Drawable diseaseColor) {
+            mDiseaseName = diseaseName;
+            mDiseaseColor = diseaseColor;
+        }
+    }
+
     public static void closeKeyBoard(Activity activity){
         View view = activity.getCurrentFocus();
         if (view != null) {
@@ -101,6 +129,5 @@ public class Constants {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
-
 
 }
