@@ -6,6 +6,8 @@ import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -17,13 +19,17 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayout;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,11 +57,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -77,7 +84,8 @@ import static android.app.Activity.RESULT_OK;
  */
 
 public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChangeListener,
-        GoogleApiClient.ConnectionCallbacks, OnMapReadyCallback, LocationListener, TabLayout.OnTabSelectedListener {
+        GoogleApiClient.ConnectionCallbacks, OnMapReadyCallback, LocationListener,
+        TabLayout.OnTabSelectedListener, TextView.OnEditorActionListener, View.OnTouchListener {
 
     private static final String TAG = HeatMapFragment.class.getSimpleName();
     SimpleDateFormat DATE_FORMAT
@@ -146,6 +154,8 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
     TextView mMonth11TV;
     @BindView(R.id.tv_month_12)
     TextView mMonth12TV;
+    @BindView(R.id.et_search_bar)
+    EditText mSearchBarET;
 
     private String[] mMonthName;
     private BottomSheetBehavior mBottomSheetBehavior;
@@ -163,9 +173,6 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
             mLatLngListDisease2,
             mLatLngListDisease3,
             mLatLngListDisease4;
-
-    private HashMap<Integer, Boolean> mList;
-
     private TileOverlay mTileOverlay;
 
     @Override
@@ -247,6 +254,9 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
         mLocationRequest.setInterval(LOCATION_INTERVAL);
         mLocationRequest.setFastestInterval(5000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        mSearchBarET.setOnEditorActionListener(this);
+        mSearchBarET.setOnTouchListener(this);
     }
 
     private void initMap() {
@@ -588,4 +598,49 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
         }
     }
 
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        String addressToSearch;
+        if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+            addressToSearch = v.getText().toString();
+            if (!addressToSearch.isEmpty()) {
+
+            }
+            getCoordinateFromAddress(addressToSearch);
+            Log.d(TAG, "Search clicked" + addressToSearch);
+            return true;
+        }
+        return false;
+    }
+
+    private void getCoordinateFromAddress(final String address) {
+
+        Geocoder coder = new Geocoder(getActivity(), Locale.getDefault());
+        List<Address> addressList;
+        try {
+            addressList = coder.getFromLocationName(address, 1);
+            centerMap(address, new LatLng(addressList.get(0).getLatitude(), addressList.get(0).getLongitude()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void centerMap(String address, LatLng latLng) {
+        if (address != null && latLng != null) {
+            CameraPosition myPosition = new CameraPosition.Builder().target(latLng).zoom(10).bearing(0).tilt(0).build();
+            mMap.moveCamera(CameraUpdateFactory.newCameraPosition(myPosition));
+        }
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        final int DRAWABLE_RIGHT = 2;
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            if (event.getX() >= (mSearchBarET.getWidth() - mSearchBarET.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                mSearchBarET.setText("");
+                return true;
+            }
+        }
+        return false;
+    }
 }

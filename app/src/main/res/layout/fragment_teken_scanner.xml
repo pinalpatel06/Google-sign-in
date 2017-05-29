@@ -49,6 +49,7 @@
                   map:uiCompass="false"/>
 
         <tekkan.synappz.com.tekkan.custom.CustomEditTextView
+            android:id="@+id/et_search_bar"
             style="@style/TekenAppSearchbarStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

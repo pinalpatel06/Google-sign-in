@@ -74,7 +74,7 @@ public class LoginFragment extends ContainerNodeFragment implements LoginUtils.L
     public void onResume() {
         super.onResume();
         if(User.getInstance(getActivity()).isLoaded()){
-            setChild(ProfileFragment.newInstance(false));
+            setChild(ProfileFragment.newInstance(false,false));
         }
     }
 
@@ -102,6 +102,7 @@ public class LoginFragment extends ContainerNodeFragment implements LoginUtils.L
     public void showProfile() {
         Intent intent = new Intent(getActivity(), ProfileActivity.class);
         intent.putExtra(ProfileActivity.EXTRA_NEW_PROFILE, true);
+        intent.putExtra(ProfileActivity.EXTRA_CAN_EDIT, true);
         startActivity(intent);
     }
 
@@ -133,7 +134,7 @@ public class LoginFragment extends ContainerNodeFragment implements LoginUtils.L
         mEmailET.setText("");
         mPasswordET.setText("");
 
-        setChild(ProfileFragment.newInstance(false));
+        setChild(ProfileFragment.newInstance(false, false));
     }
 
     @Override

@@ -62,7 +62,9 @@ public class Constants {
     public static class SP {
         public static final String
                 JSON_USER = "JSON_USER",
-                HAS_ACCEPTED_DISCLAIMER = "HAS_ACCEPTED_DISCLAIMER";
+                HAS_ACCEPTED_DISCLAIMER = "HAS_ACCEPTED_DISCLAIMER",
+                IS_PROFILE_SETUP_FINISHED = "IS_PROFILE_SETUP_FINISHED";
+
     }
 
     public enum Gender {
