@@ -21,7 +21,7 @@
             <tekkan.synappz.com.tekkan.custom.CircleNetworkImageView
                 android:id="@+id/iv_pet_image"
                 android:layout_width="@dimen/camera_image_width"
-                android:layout_height="@dimen/camera_image_width"/>
+                android:layout_height="@dimen/camera_image_width" />
 
             <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                 android:id="@+id/tv_pet_name"

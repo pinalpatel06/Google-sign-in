@@ -18,13 +18,13 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_camera"
                 android:layout_width="@dimen/camera_image_width"
                 android:layout_height="@dimen/camera_image_width"
                 android:layout_gravity="center"
-                android:background="@drawable/circle"
-                android:scaleType="center"
-                android:src="@drawable/ic_camera" />
+                android:background="@drawable/ic_camera_with_circle"
+                />
 
             <tekkan.synappz.com.tekkan.custom.CustomFontTextView
                 android:layout_width="match_parent"
