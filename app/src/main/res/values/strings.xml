@@ -392,5 +392,18 @@
     <string name="err_password">Password does not match</string>
     <string name="err_email">Email Address can\'t be null Or not in proper format</string>
     <string name="select_animal_type">Select pet type first</string>
+    <string name="invalid_address">Invalid address</string>
+    <string name="maps_api_key">AIzaSyDK3Ip6wvb3XjCpCW4l5VBthLSBG57qI3c</string>
+    <string name="logout">Logout</string>
+    <string name="logout_message">Ben je zeker dat je wilt uitloggen?</string>
+    <string name="ja">ja</string>
+    <string name="nee">nee</string>
+    <string name="confirmation">Let op!\n Ben je zeker dat je wilt annuleren?</string>
+    <string name="confirmation_title">Let op!</string>
+    <string name="procced">Doorgaan</string>
+    <string name="stop">Stoppen</string>
+    <string name="terms_not_accepted">Je kan je profiel niet registreren zonder akkoord te gaan met
+        onze voorwaarden.
+    </string>
 
 </resources>

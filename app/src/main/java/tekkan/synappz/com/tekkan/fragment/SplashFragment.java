@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import tekkan.synappz.com.tekkan.R;
 import tekkan.synappz.com.tekkan.activity.DisclaimerActivity;
 import tekkan.synappz.com.tekkan.activity.MainActivity;
+import tekkan.synappz.com.tekkan.activity.ProfileSetupActivity;
 import tekkan.synappz.com.tekkan.utils.Constants;
 
 /**
@@ -54,10 +55,11 @@ public class SplashFragment extends Fragment {
         super.onPause();
     }
 
-    private void goToNextScreen(){
+    private void goToNextScreen() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        boolean hasAcceptedDisclaimer = preferences.getBoolean(Constants.SP.HAS_ACCEPTED_DISCLAIMER,false);
-        Class c = hasAcceptedDisclaimer? MainActivity.class : DisclaimerActivity.class;
+        boolean hasAcceptedDisclaimer = preferences.getBoolean(Constants.SP.HAS_ACCEPTED_DISCLAIMER, false);
+        boolean isProfileSetupFinished = preferences.getBoolean(Constants.SP.IS_PROFILE_SETUP_FINISHED, false);
+        Class c = hasAcceptedDisclaimer ? isProfileSetupFinished ? MainActivity.class : ProfileSetupActivity.class : DisclaimerActivity.class;
         Intent intent = new Intent(getActivity(), c);
         startActivity(intent);
         getActivity().finish();

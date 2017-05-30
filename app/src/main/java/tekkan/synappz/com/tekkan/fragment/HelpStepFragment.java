@@ -2,9 +2,11 @@ package tekkan.synappz.com.tekkan.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -12,9 +14,9 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import tekkan.synappz.com.tekkan.R;
 import tekkan.synappz.com.tekkan.activity.MainActivity;
+import tekkan.synappz.com.tekkan.utils.Constants;
 
 /**
  * Created by Tejas Sherdiwala on 4/20/2017.
@@ -45,6 +47,20 @@ public class HelpStepFragment extends Fragment{
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_close:
+                PreferenceManager.getDefaultSharedPreferences(getActivity()).edit()
+                        .putBoolean(Constants.SP.IS_PROFILE_SETUP_FINISHED, true)
+                        .apply();
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                getActivity().finish();
+                startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(getArguments() != null) {
@@ -58,6 +74,7 @@ public class HelpStepFragment extends Fragment{
         View v = inflater.inflate(R.layout.fragement_step_1,container,false);
         ButterKnife.bind(this,v);
         updateUI();
+        setHasOptionsMenu(true);
         return v;
     }
 
@@ -65,13 +82,5 @@ public class HelpStepFragment extends Fragment{
         if(mStr != null) {
             mText1.setText(mStr);
         }
-    }
-
-    @OnClick(R.id.rl_step1)
-    public void click(){
-        Intent intent = new Intent(getActivity(), MainActivity.class);
-        getActivity().finish();
-        startActivity(intent);
-        getActivity().finish();
     }
 }

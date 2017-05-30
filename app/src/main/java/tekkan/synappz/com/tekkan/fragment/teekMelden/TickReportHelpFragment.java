@@ -86,7 +86,6 @@ public class TickReportHelpFragment extends ContainerNodeFragment {
                     .remove(fragment)
                     .commitNow();
         }
-
         mListener.resetFragment();
     }
 

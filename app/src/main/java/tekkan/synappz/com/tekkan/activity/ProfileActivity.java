@@ -14,13 +14,16 @@ import tekkan.synappz.com.tekkan.fragment.ProfileFragment;
 
 public class ProfileActivity extends ToolbarActivity {
     private static final String TAG = ProfileActivity.class.getSimpleName();
-    public static final String EXTRA_NEW_PROFILE = TAG + ".EXTRA_NEW_PROFILE";
+    public static final String
+            EXTRA_NEW_PROFILE = TAG + ".EXTRA_NEW_PROFILE",
+            EXTRA_CAN_EDIT = TAG + ".EXTRA_CAN_EDIT";
 
 
     @Override
     protected Fragment getFragment() {
         if (getIntent().hasExtra(EXTRA_NEW_PROFILE)) {
-            return ProfileFragment.newInstance(getIntent().getBooleanExtra(EXTRA_NEW_PROFILE, false));
+            return ProfileFragment.newInstance(
+                    getIntent().getBooleanExtra(EXTRA_NEW_PROFILE, false),getIntent().getBooleanExtra(EXTRA_CAN_EDIT,false));
         } else {
             return new ProfileFragment();
         }

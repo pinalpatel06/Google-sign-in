@@ -41,25 +41,25 @@ public abstract class TekenRequest<T> extends Request<T> {
         mFiles = new HashMap<>();
         mErrorListener = errorListener;
         mListener = listener;
-        mRequestCode  = requestCode;
+        mRequestCode = requestCode;
     }
 
     @Override
     public void deliverError(VolleyError error) {
-        if(mErrorListener!=null){
+        if (mErrorListener != null) {
 
-            if(error == null){
-                mErrorListener.onErrorResponse(mRequestCode,error,STATUS_UNKNOWN,null);
-            }else{
-                mErrorListener.onErrorResponse(mRequestCode,error,getStatus(error.networkResponse),getMessage(error.networkResponse));
+            if (error == null) {
+                mErrorListener.onErrorResponse(mRequestCode, error, STATUS_UNKNOWN, null);
+            } else {
+                mErrorListener.onErrorResponse(mRequestCode, error, getStatus(error.networkResponse), getMessage(error.networkResponse));
             }
         }
     }
 
     @Override
     protected void deliverResponse(T response) {
-        if(mListener!=null){
-            mListener.onResponse(mRequestCode,response);
+        if (mListener != null) {
+            mListener.onResponse(mRequestCode, response);
         }
     }
 

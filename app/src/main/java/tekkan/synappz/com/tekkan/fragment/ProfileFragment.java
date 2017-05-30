@@ -1,5 +1,6 @@
 package tekkan.synappz.com.tekkan.fragment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -44,6 +45,7 @@ import butterknife.OnTextChanged;
 import tekkan.synappz.com.tekkan.R;
 import tekkan.synappz.com.tekkan.activity.ConditionsActivity;
 import tekkan.synappz.com.tekkan.activity.EditPetActivity;
+import tekkan.synappz.com.tekkan.activity.ProfileActivity;
 import tekkan.synappz.com.tekkan.activity.ViewPetActivity;
 import tekkan.synappz.com.tekkan.custom.ListFragment;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.CommonNodeInterface;
@@ -52,6 +54,8 @@ import tekkan.synappz.com.tekkan.custom.network.TekenJsonArrayRequest;
 import tekkan.synappz.com.tekkan.custom.network.TekenResponseListener;
 import tekkan.synappz.com.tekkan.custom.network.TekenStringRequest;
 import tekkan.synappz.com.tekkan.databinding.ItemProfileFieldsBinding;
+import tekkan.synappz.com.tekkan.dialogs.AlertDialogFragment;
+import tekkan.synappz.com.tekkan.dialogs.ConfirmDialogFragment;
 import tekkan.synappz.com.tekkan.model.Pet;
 import tekkan.synappz.com.tekkan.model.User;
 import tekkan.synappz.com.tekkan.utils.Constants;
@@ -59,14 +63,18 @@ import tekkan.synappz.com.tekkan.utils.LoginUtils;
 import tekkan.synappz.com.tekkan.utils.VolleyHelper;
 
 import static java.lang.String.valueOf;
+import static tekkan.synappz.com.tekkan.R.string.confirmation_title;
 
 
 public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolder>
         implements CommonNodeInterface,
-        TekenResponseListener, TekenErrorListener {
+        TekenResponseListener, TekenErrorListener, ConfirmDialogFragment.ConfirmDialogFragmentListener {
 
     private static final String
             TAG = ProfileFragment.class.getSimpleName(),
+            TAG_DIALOG = TAG + ".TAG_DIALOG",
+            ARGS_NEW_PROFILE = TAG + ".ARGS_NEW_PROFILE",
+            TAG_ALERT = TAG + ".TAG_ALERT",
             ARGS_CAN_EDIT = TAG + "ARGS_CAN_EDIT";
 
     private static final int
@@ -78,11 +86,13 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
     ArrayList<Object> mListItems;
 
     private boolean mCanEdit = false;
+    private boolean isTermsAccepted = false;
     private String mOldEmail = null;
 
-    public static ProfileFragment newInstance(boolean profileType) {
+    public static ProfileFragment newInstance(boolean profileType, boolean canEdit) {
         Bundle args = new Bundle();
-        args.putBoolean(ARGS_CAN_EDIT, profileType);
+        args.putBoolean(ARGS_CAN_EDIT, canEdit);
+        args.putBoolean(ARGS_NEW_PROFILE, profileType);
         ProfileFragment fragment = new ProfileFragment();
         fragment.setArguments(args);
         return fragment;
@@ -108,10 +118,15 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        ConfirmDialogFragment fragment;
         switch (item.getItemId()) {
             case R.id.action_done:
                 if (isUserValid()) {
                     createOrUpdateUser();
+                    /*mCanEdit = false;
+                    notifyDatasetChanged();
+                    getActivity().invalidateOptionsMenu();
+                    Constants.closeKeyBoard(getActivity());*/
                 } else {
                     Toast.makeText(
                             getActivity(),
@@ -119,21 +134,39 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
                             Toast.LENGTH_SHORT
                     ).show();
                 }
-                mCanEdit = false;
-                notifyDatasetChanged();
-                getActivity().invalidateOptionsMenu();
-                Constants.closeKeyBoard(getActivity());
+
                 return true;
             case R.id.action_logout:
-                logout();
+                fragment = ConfirmDialogFragment.newInstance(R.string.logout, R.string.logout_message, R.string.ja, R.string.nee);
+                fragment.show(getFragmentManager(), TAG_DIALOG);
+                fragment.setListener(this);
                 return true;
             case android.R.id.home:
-                getActivity().onBackPressed();
+                fragment = ConfirmDialogFragment.newInstance(confirmation_title, R.string.confirmation, R.string.stop, R.string.procced);
+                fragment.show(getFragmentManager(), TAG_DIALOG);
+                fragment.setListener(new ConfirmDialogFragment.ConfirmDialogFragmentListener() {
+                    @Override
+                    public void onPositiveClicked(DialogInterface dialog) {
+                        getActivity().onBackPressed();
+                    }
+
+                    @Override
+                    public void onNegativeClicked() {
+
+                    }
+                });
+
                 return true;
             case R.id.action_customize:
-                mCanEdit = true;
-                notifyDatasetChanged();
-                getActivity().invalidateOptionsMenu();
+                // mCanEdit = true;
+                // notifyDatasetChanged();
+                // getActivity().invalidateOptionsMenu();
+                // return true;
+            case R.id.action_change_pwd:
+                Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                intent.putExtra(ProfileActivity.EXTRA_NEW_PROFILE, false);
+                intent.putExtra(ProfileActivity.EXTRA_CAN_EDIT, true);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -153,7 +186,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
     @Override
     public void onResume() {
         super.onResume();
-        if (User.getInstance(getActivity()).isLoaded()) {
+        if (User.getInstance(getActivity()).isLoaded() && !mCanEdit) {
             fetchUserPetData();
         }
     }
@@ -194,13 +227,20 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
     }
 
     private boolean isUserValid() {
-        if (User.getInstance(getActivity()).getFirstName().equals("") &&
+        if (User.getInstance(getActivity()).getFirstName() != null &&
                 User.getInstance(getActivity()).getFirstName().equals("") &&
+                User.getInstance(getActivity()).getLastName() != null &&
+                User.getInstance(getActivity()).getLastName().equals("") &&
+                User.getInstance(getActivity()).getEmail() != null &&
                 User.getInstance(getActivity()).getEmail().equals("") &&
+                User.getInstance(getActivity()).getStreet() != null &&
                 User.getInstance(getActivity()).getStreet().equals("") &&
+                User.getInstance(getActivity()).getPostalCode() != null &&
                 User.getInstance(getActivity()).getPostalCode().equals("") &&
+                User.getInstance(getActivity()).getPostalAddress() != null &&
                 User.getInstance(getActivity()).getPostalAddress().equals("") &&
                 User.getInstance(getActivity()).getMobile() == 0 &&
+                User.getInstance(getActivity()).getPassword() != null &&
                 User.getInstance(getActivity()).getPassword().equals("")) {
             return false;
         }
@@ -230,60 +270,64 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
             url = Constants.Api.getUrl(Constants.Api.FUNC_EDIT_USER);
         }
 
-        TekenStringRequest request = new TekenStringRequest(
-                Request.Method.POST,
-                url,
-                new TekenResponseListener<String>() {
-                    @Override
-                    public void onResponse(int requestCode, String response) {
-                        Log.d(TAG, "success");
+        if (isTermsAccepted || User.getInstance(getActivity()).isLoaded()) {
+            TekenStringRequest request = new TekenStringRequest(
+                    Request.Method.POST,
+                    url,
+                    new TekenResponseListener<String>() {
+                        @Override
+                        public void onResponse(int requestCode, String response) {
+                            Log.d(TAG, "success");
 
-                        if (User.getInstance(getActivity()).isLoaded()) {
-                            PreferenceManager.getDefaultSharedPreferences(getActivity())
-                                    .edit()
-                                    .putString(Constants.SP.JSON_USER, User.getInstance(getActivity()).toJSON())
-                                    .apply();
+                            if (User.getInstance(getActivity()).isLoaded()) {
+                                PreferenceManager.getDefaultSharedPreferences(getActivity())
+                                        .edit()
+                                        .putString(Constants.SP.JSON_USER, User.getInstance(getActivity()).toJSON())
+                                        .apply();
 
-                        } else {
-                            User.getInstance(getActivity()).unloadUser();
+                            } else {
+                                User.getInstance(getActivity()).unloadUser();
+                            }
                             getActivity().finish();
                         }
-                    }
-                },
-                new TekenErrorListener() {
-                    @Override
-                    public void onErrorResponse(int requestCode, VolleyError error, int status, String message) {
-                        Log.d(TAG, status + " failure " + message);
-                        if (!User.getInstance(getActivity()).isLoaded()) {
-                            User.getInstance(getActivity()).unloadUser();
+                    },
+                    new TekenErrorListener() {
+                        @Override
+                        public void onErrorResponse(int requestCode, VolleyError error, int status, String message) {
+                            Log.d(TAG, status + " failure " + message);
+                            if (!User.getInstance(getActivity()).isLoaded()) {
+                                User.getInstance(getActivity()).unloadUser();
+                            }
                         }
-                    }
-                },
-                REQUEST_USER
-        );
-        request.addParam(PARM_GENDER, User.getInstance(getActivity()).getGender().toApi());
-        request.addParam(PARM_FIRST_NAME, User.getInstance(getActivity()).getFirstName());
-        request.addParam(PARM_LAST_NAME, User.getInstance(getActivity()).getLastName());
-        request.addParam(PARM_STREET_NAME, User.getInstance(getActivity()).getStreet());
-        request.addParam(PARM_POSTAL_CODE, User.getInstance(getActivity()).getPostalCode());
-        request.addParam(PARM_PLACE_NAME, User.getInstance(getActivity()).getPostalAddress());
-        request.addParam(PARM_MOBILE_NO, String.valueOf(User.getInstance(getActivity()).getMobile()));
+                    },
+                    REQUEST_USER
+            );
+            request.addParam(PARM_GENDER, User.getInstance(getActivity()).getGender().toApi());
+            request.addParam(PARM_FIRST_NAME, User.getInstance(getActivity()).getFirstName());
+            request.addParam(PARM_LAST_NAME, User.getInstance(getActivity()).getLastName());
+            request.addParam(PARM_STREET_NAME, User.getInstance(getActivity()).getStreet());
+            request.addParam(PARM_POSTAL_CODE, User.getInstance(getActivity()).getPostalCode());
+            request.addParam(PARM_PLACE_NAME, User.getInstance(getActivity()).getPostalAddress());
+            request.addParam(PARM_MOBILE_NO, String.valueOf(User.getInstance(getActivity()).getMobile()));
 
-        // For Edit email of the Profile
+            // For Edit email of the Profile
 
-        if (User.getInstance(getActivity()).isLoaded() && !mOldEmail.equals(User.getInstance(getActivity()).getEmail())) {
-            request.addParam(PARM_OLD_EMAIL, mOldEmail);
-            request.addParam(PARM_NEW_EMAIL, User.getInstance(getActivity()).getEmail());
-            request.addParam(PARM_EMAIL, mOldEmail);
+            if (User.getInstance(getActivity()).isLoaded() && !mOldEmail.equals(User.getInstance(getActivity()).getEmail())) {
+                request.addParam(PARM_OLD_EMAIL, mOldEmail);
+                request.addParam(PARM_NEW_EMAIL, User.getInstance(getActivity()).getEmail());
+                request.addParam(PARM_EMAIL, mOldEmail);
+            } else {
+                request.addParam(PARM_EMAIL, User.getInstance(getActivity()).getEmail());
+            }
+
+            request.addParam(PARM_PASSWORD, (LoginUtils.encode(User.getInstance(getActivity()).getPassword())));
+
+
+            VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
         } else {
-            request.addParam(PARM_EMAIL, User.getInstance(getActivity()).getEmail());
+            AlertDialogFragment fragment = AlertDialogFragment.newInstance(R.string.confirmation_title, R.string.terms_not_accepted);
+            fragment.show(getFragmentManager(), TAG_ALERT);
         }
-
-        Log.d(TAG, (User.getInstance(getActivity()).getPassword()));
-        request.addParam(PARM_PASSWORD, (LoginUtils.encode(User.getInstance(getActivity()).getPassword())));
-
-
-        VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
     }
 
     @Override
@@ -371,6 +415,16 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         Log.d(TAG, status + " " + message);
     }
 
+    @Override
+    public void onPositiveClicked(DialogInterface dialog) {
+        logout();
+    }
+
+    @Override
+    public void onNegativeClicked() {
+
+    }
+
     class ProfileFieldVH extends RecyclerView.ViewHolder {
         @BindView(R.id.lt_conditions)
         LinearLayout mConditionsLT;
@@ -411,6 +465,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         @BindView(R.id.cb_term_conditions)
         CheckBox mTermsConditionCb;
 
+
         ProfileFieldVH(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -421,9 +476,10 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
             ItemProfileFieldsBinding binding = DataBindingUtil.bind(itemView);
             binding.setUser(item);
 
-
-            mPasswordET.setText("123456");
-            mConfirmPasswordET.setText("123456");
+            if (!mCanEdit) {
+                mPasswordET.setText("123456");
+                mConfirmPasswordET.setVisibility(View.GONE);
+            }
 
             for (int i = 0; i < mGenderRadioGroup.getChildCount(); i++) {
                 View v = mGenderRadioGroup.getChildAt(i);
@@ -439,6 +495,14 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
             mTelNoET.setEnabled(mCanEdit);
             mPasswordET.setEnabled(mCanEdit);
             mConfirmPasswordET.setEnabled(mCanEdit);
+            mAddPetTV.setEnabled(!mCanEdit);
+
+            mConditionsLT.setVisibility(
+                    User.getInstance(getActivity()).isLoaded()?
+                            View.GONE:
+                            View.VISIBLE
+            );
+
         }
 
         @OnClick({R.id.lt_conditions, R.id.tv_add_pet})
@@ -511,7 +575,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
             }
         }
 
-        @OnCheckedChanged({R.id.rb_male, R.id.rb_female})
+        @OnCheckedChanged({R.id.rb_male, R.id.rb_female, R.id.cb_term_conditions})
         public void onGenderChange(CompoundButton button, boolean isChecked) {
             if (isChecked) {
                 switch (button.getId()) {
@@ -522,6 +586,9 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
                     case R.id.rb_female:
                         User.getInstance(getActivity()).setGender(Constants.Gender.FEMALE);
                         Log.d(TAG, User.getInstance(getActivity()).getGender().toApi());
+                        break;
+                    case R.id.cb_term_conditions:
+                        isTermsAccepted = true;
                 }
             }
         }
