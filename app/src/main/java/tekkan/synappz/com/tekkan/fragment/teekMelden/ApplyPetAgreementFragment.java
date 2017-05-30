@@ -89,6 +89,9 @@ public class ApplyPetAgreementFragment extends Fragment implements TekenResponse
             request.addParam(PARAM_ANIMALS_ID, String.valueOf(bundle.getLong(TestKitResearchList.ARGS_PET_ID)));
             request.addParam(PARAM_RESEARCH, String.valueOf(bundle.getString(TickReportConfirmFragment.ARGS_APPLY_RESEARCH)));
             LatLng latLng = bundle.getParcelable(TickMapFragment.ARGS_LOCATION_LATLNG);
+            if(latLng == null){
+                latLng = new LatLng(0,0);
+            }
             request.addParam(PARAM_COOR_LAT, String.valueOf(latLng.latitude));
             request.addParam(PARAM_COOR_LNG, String.valueOf(latLng.longitude));
             request.addParam(PARAM_COOR_ZOOM, String.valueOf((int) bundle.getFloat(TickMapFragment.ARGS_ZOOM_LEVEL)));
