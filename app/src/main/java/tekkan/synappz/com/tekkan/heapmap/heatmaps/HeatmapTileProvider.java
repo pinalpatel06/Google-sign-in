@@ -42,7 +42,8 @@ public class HeatmapTileProvider implements TileProvider {
     /**
      * Default radius for convolution
      */
-    public static final int DEFAULT_RADIUS = 20;
+    //public static final int DEFAULT_RADIUS = 20;
+    public static final int DEFAULT_RADIUS = 6;
 
     /**
      * Default opacity of heatmap overlay
@@ -54,8 +55,8 @@ public class HeatmapTileProvider implements TileProvider {
      * Array of colors, represented by ints.
      */
     private static final int[] DEFAULT_GRADIENT_COLORS = {
-        Color.rgb(102, 225, 0),
-        Color.rgb(255, 0, 0)
+            Color.rgb(102, 225, 0),
+            Color.rgb(255, 0, 0)
     };
 
     /**
@@ -64,7 +65,7 @@ public class HeatmapTileProvider implements TileProvider {
      * These should be a sorted array of floats in the interval [0, 1].
      */
     private static final float[] DEFAULT_GRADIENT_START_POINTS = {
-        0.2f, 1f
+            0.2f, 1f
     };
 
     /**
@@ -99,20 +100,24 @@ public class HeatmapTileProvider implements TileProvider {
      */
     private static final int DEFAULT_MAX_ZOOM = 11;
 
+
     /**
      * Maximum zoom level possible on a map.
      */
     private static final int MAX_ZOOM_LEVEL = 22;
 
+
     /**
      * Minimum radius value.
      */
-    private static final int MIN_RADIUS = 10;
+    //private static final int MIN_RADIUS = 10;
+    private static final int MIN_RADIUS = 6;
 
     /**
      * Maximum radius value.
      */
-    private static final int MAX_RADIUS = 50;
+    //private static final int MAX_RADIUS = 50;
+    private static final int MAX_RADIUS = 10;
 
     /**
      * Quad tree of all the points to display in the heatmap
@@ -550,7 +555,7 @@ public class HeatmapTileProvider implements TileProvider {
         // Use an iterator, need to access any one point of the collection for starting bounds
         Iterator<WeightedLatLng> iter = points.iterator();
 
-       WeightedLatLng first = iter.next();
+        WeightedLatLng first = iter.next();
 
         double minX = first.getPoint().x;
         double maxX = first.getPoint().x;

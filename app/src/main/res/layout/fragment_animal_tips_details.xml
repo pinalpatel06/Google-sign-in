@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <ImageView
+        <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/iv_tips_image"
             android:layout_width="match_parent"
             android:layout_height="@dimen/lt_height"
@@ -28,6 +28,7 @@
             app:customfont="OpenSansSemiBold"/>
 
         <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            android:id="@+id/tv_tips_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/extra_margin_15dp"

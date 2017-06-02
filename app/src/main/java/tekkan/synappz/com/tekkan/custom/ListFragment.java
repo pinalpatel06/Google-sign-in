@@ -1,11 +1,18 @@
 package tekkan.synappz.com.tekkan.custom;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,8 +57,8 @@ public abstract class ListFragment<T, VH extends RecyclerView.ViewHolder> extend
         mRecyclerView.setLayoutManager(getLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mAdapter);
 
-        View emptyView = getEmptyView(LayoutInflater.from(getActivity()),mEmptyFL);
-        if(emptyView == null){
+        View emptyView = getEmptyView(LayoutInflater.from(getActivity()), mEmptyFL);
+        if (emptyView == null) {
             TextView tv = new TextView(getActivity());
             mEmptyFL.addView(tv);
             ViewGroup.LayoutParams params = tv.getLayoutParams();
@@ -59,7 +66,7 @@ public abstract class ListFragment<T, VH extends RecyclerView.ViewHolder> extend
             params.width = ViewGroup.LayoutParams.WRAP_CONTENT;
             tv.setLayoutParams(params);
             tv.setText(getEmptyString());
-        }else{
+        } else {
             mEmptyFL.addView(emptyView);
         }
 
@@ -89,13 +96,13 @@ public abstract class ListFragment<T, VH extends RecyclerView.ViewHolder> extend
         );
 
         mProgressBar.setVisibility(
-                (mItems == null || mItems.size() == 0 )
-                ? View.VISIBLE
-                : View.GONE
+                (mItems == null || mItems.size() == 0)
+                        ? View.VISIBLE
+                        : View.GONE
         );
     }
 
-    public void updateEmptyView(){
+    public void updateEmptyView() {
         mEmptyFL.setVisibility(
                 (mItems == null || mItems.size() == 0)
                         ? View.VISIBLE
@@ -115,7 +122,7 @@ public abstract class ListFragment<T, VH extends RecyclerView.ViewHolder> extend
         return mAdapter;
     }
 
-    protected int getViewLayoutId(){
+    protected int getViewLayoutId() {
         return R.layout.fragment_list;
     }
 
@@ -127,28 +134,28 @@ public abstract class ListFragment<T, VH extends RecyclerView.ViewHolder> extend
         return 0;
     }
 
-    protected View getEmptyView(LayoutInflater inflater,ViewGroup parent){
+    protected View getEmptyView(LayoutInflater inflater, ViewGroup parent) {
         return null;
     }
 
-    protected int getEmptyString(){
+    protected int getEmptyString() {
         return R.string.no_items;
     }
 
-    protected ProgressBar getProgressBar(){
+    protected ProgressBar getProgressBar() {
         return mProgressBar;
     }
 
     public final void loadNewItems(List<T> items) {
         mItems.clear();
-        if(items != null){
+        if (items != null) {
             mItems.addAll(items);
         }
         mAdapter.notifyDataSetChanged();
         updateUI();
     }
 
-    public void notifyDatasetChanged(){
+    public void notifyDatasetChanged() {
         mAdapter.notifyDataSetChanged();
     }
 
@@ -161,17 +168,131 @@ public abstract class ListFragment<T, VH extends RecyclerView.ViewHolder> extend
         updateUI();
     }
 
-    public final void removeItem(int position){
+    public final void removeItem(int position) {
         mItems.remove(position);
         mAdapter.notifyItemRemoved(position);
     }
 
-    public final int getItemCount(){
+    public final int getItemCount() {
         return mAdapter.getItemCount();
     }
 
-    public final List<T> getItems(){
+    public final List<T> getItems() {
         return mItems;
+    }
+
+    protected void onSwipeCompleted(int position, int direction, T item){
+
+    }
+
+    protected boolean canSwipe(int viewType){
+        return true;
+    }
+
+    protected final void setSwipe(
+            final int defaultColor,
+            final int leftColorRes,
+            final int leftIconRes,
+            final int rightColorRes,
+            final int rightIconRes) {
+        ItemTouchHelper helper
+                = new ItemTouchHelper(
+                new ItemTouchHelper.SimpleCallback(
+                        ItemTouchHelper.UP | ItemTouchHelper.DOWN,
+                        ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT
+                ) {
+
+                    @Override
+                    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                        int position = viewHolder.getAdapterPosition();
+                        onSwipeCompleted(position, direction, mItems.get(position));
+                    }
+
+                    @Override
+                    public boolean onMove(RecyclerView arg0, RecyclerView.ViewHolder arg1, RecyclerView.ViewHolder arg2) {
+                        // TODO Auto-generated method stub
+                        return false;
+                    }
+
+                    @Override
+                    public void onChildDraw(Canvas c,
+                                            RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
+                                            float dX, float dY, int actionState,
+                                            boolean isCurrentlyActive) {
+
+                        boolean canSwipe = canSwipe(getItemViewType(viewHolder.getAdapterPosition()));
+
+                        if(!canSwipe){
+                            super.onChildDraw(c, recyclerView, viewHolder, 0, dY, actionState, false);
+                            return;
+                        }
+
+                        // Get RecyclerView item from the ViewHolder
+                        View itemView = viewHolder.itemView;
+                        Paint p = new Paint();
+                        Bitmap icon;
+                        Resources resources = getActivity().getResources();
+
+                        int recyclerViewWidth = recyclerView.getWidth();
+
+
+                        if (!isCurrentlyActive && (Math.abs(dX) == recyclerViewWidth || dX == 0)) {
+                            c.drawColor(ContextCompat.getColor(getActivity(),defaultColor));
+                            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+                            return;
+                        }
+
+                        if (dX > 0) {
+                            //swipe to right
+                            try {
+                                p.setColor(ContextCompat.getColor(getActivity(), rightColorRes));
+                            } catch (Resources.NotFoundException e) {
+                                p.setARGB(255, 255, 0, 0);
+                            }
+                            c.drawRect(
+                                    (float) itemView.getLeft(),
+                                    (float) itemView.getTop(),
+                                    dX,
+                                    (float) itemView.getBottom(),
+                                    p);
+
+                            if (rightIconRes != 0) {
+                                icon = BitmapFactory.decodeResource(
+                                        resources, rightIconRes);
+                                c.drawBitmap(icon,
+                                        (float) itemView.getLeft() + 16,
+                                        (float) itemView.getTop() + ((float) itemView.getBottom() - (float) itemView.getTop() - icon.getHeight()) / 2,
+                                        p);
+                            }
+                        } else {
+                            //swipe to left
+                            try {
+                                p.setColor(ContextCompat.getColor(getActivity(), leftColorRes));
+                            } catch (Resources.NotFoundException e) {
+                                p.setARGB(255, 0, 0, 255);
+                            }
+                            c.drawRect(
+                                    (float) itemView.getRight() + dX,
+                                    (float) itemView.getTop(),
+                                    (float) itemView.getRight(),
+                                    (float) itemView.getBottom(),
+                                    p);
+
+                            if (leftIconRes != 0) {
+                                icon = BitmapFactory.decodeResource(
+                                        resources, leftIconRes);
+                                c.drawBitmap(icon,
+                                        (float) itemView.getLeft() + 16,
+                                        (float) itemView.getTop() + ((float) itemView.getBottom() - (float) itemView.getTop() - icon.getHeight()) / 2,
+                                        p);
+                            }
+                        }
+
+                        super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState,
+                                isCurrentlyActive);
+                    }
+                });
+        helper.attachToRecyclerView(getRecyclerView());
     }
 
     private class Adapter extends RecyclerView.Adapter<VH> {
@@ -185,7 +306,7 @@ public abstract class ListFragment<T, VH extends RecyclerView.ViewHolder> extend
         @Override
         public VH onCreateViewHolder(ViewGroup parent, int viewType) {
             View v = mLayoutInflater.inflate(getItemLayoutId(viewType), parent, false);
-            return ListFragment.this.onCreateViewHolder(v , viewType);
+            return ListFragment.this.onCreateViewHolder(v, viewType);
         }
 
         @Override

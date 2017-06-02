@@ -89,8 +89,8 @@
     <color name="color_forgot_password_text">#81BC9F</color>
     <color name="color_login_fields">#57585E</color>
     <color name="color_login_top_text">#6B6C6F</color>
-
-
+    <color name="tips_title">#EFEFF1</color>
+    <color name="swipe_out">#00BCD4</color>
 
 
 </resources>

@@ -13,6 +13,13 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.VolleyError;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +28,14 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import tekkan.synappz.com.tekkan.R;
 import tekkan.synappz.com.tekkan.custom.ListFragment;
+import tekkan.synappz.com.tekkan.custom.network.TekenErrorListener;
+import tekkan.synappz.com.tekkan.custom.network.TekenJsonArrayRequest;
+import tekkan.synappz.com.tekkan.custom.network.TekenResponseListener;
+import tekkan.synappz.com.tekkan.model.TipsItem;
+import tekkan.synappz.com.tekkan.utils.Constants;
+import tekkan.synappz.com.tekkan.utils.VolleyHelper;
+
+import static tekkan.synappz.com.tekkan.fragment.advices.TipsTabFragment.ARGS_TIPS;
 
 /**
  * Created by Tejas Sherdiwala on 4/24/2017.
@@ -41,6 +56,8 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
             ANIMAL_TYPE = TAG + ".ANIMAL_TYPE",
             ANIMAL_DOG = TAG + ".ANIMAL_DOG",
             ANIMAL_CAT = TAG + ".ANIMAL_CAT";
+
+    private static final int REQUEST_FETCH_TIPS= 0;
 
     public interface Callback {
         void onListItemClicked(int type, Bundle details);
@@ -90,6 +107,7 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
         } else {
             isPetInfoAvailable = false;
         }
+        fetchTipsData();
     }
 
     @Nullable
@@ -103,23 +121,6 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
     @Override
     public List<Object> onCreateItems(Bundle savedInstanceState) {
         mTipsItems = new ArrayList<>();
-        for (int i = 0; i < 6; i++) {
-            if (i == 0 && isPetInfoAvailable) {
-                mTipsItems.add("UITSTAG ONDERZOEK");
-            } else if (i == 0 && !isPetInfoAvailable) {
-                mTipsItems.add("TIPS EN ADVIES");
-            } else if (i == 1 && isPetInfoAvailable) {
-                mTipsItems.add(
-                        new PetInfoItem("Hummer", "Secondary line text Lorem ipsum dapibus,neque id cursus")
-                );
-            } else if (i == 2 && isPetInfoAvailable) {
-                mTipsItems.add("TIPS EN ADVIES");
-            } else {
-                mTipsItems.add(
-                        new TipsItem("TIP " + (i + 1), mAnimalType + ", Secondary line text Lorem ipsum dolor sit amet, consectetur adipisscing elit, Nam massa quam.")
-                );
-            }
-        }
         return mTipsItems;
     }
 
@@ -138,7 +139,7 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
 
     @Override
     protected int getItemViewType(int position) {
-        if (position == 0) {
+        /*if (position == 0) {
             return TYPE_TITLE;
         } else if (position == 1 && isPetInfoAvailable) {
             return TYPE_PET;
@@ -146,6 +147,14 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
             return TYPE_TITLE;
         } else {
             return TYPE_TIPS;
+        }*/
+
+        if(mTipsItems.get(position) instanceof String){
+            return TYPE_TITLE;
+        }else if(mTipsItems.get(position) instanceof TipsItem){
+            return TYPE_TIPS;
+        }else{
+            throw new UnsupportedOperationException("No view found");
         }
     }
 
@@ -174,13 +183,54 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
     }
 
 
-    public class TipsVH extends RecyclerView.ViewHolder {
+    private void fetchTipsData(){
+        TekenJsonArrayRequest request = new TekenJsonArrayRequest(
+                Request.Method.GET,
+                Constants.Api.getUrl(Constants.Api.FUNC_GET_TIPS),
+                new TekenResponseListener<JSONArray>() {
+                    @Override
+                    public void onResponse(int requestCode, JSONArray response) {
+                        Log.d(TAG, "Success" + response.length());
+                        mTipsItems = new ArrayList<>();
+                        for (int i = 0; i < response.length(); i++) {
+                            JSONObject jsonObject;
+                            try {
+                                jsonObject = response.getJSONObject(i);
+
+                                TipsInfo tipsInfo = new TipsInfo(jsonObject);
+                                mTipsItems.add(tipsInfo.getName());
+                                if(tipsInfo.size() > 0){
+                                    for(int j = 0; j< tipsInfo.size() ; j++) {
+                                        mTipsItems.add(tipsInfo.getTipsItems().get(j));
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                continue;
+                            }
+                        }
+                        loadNewItems(mTipsItems);
+                    }
+                },
+                new TekenErrorListener() {
+                    @Override
+                    public void onErrorResponse(int requestCode, VolleyError error, int status, String message) {
+                        Log.d(TAG, error.toString());
+                    }
+                },
+                REQUEST_FETCH_TIPS
+        );
+        VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
+
+    }
+
+    public class TipsVH extends RecyclerView.ViewHolder{
         @BindView(R.id.tv_tips_title)
         TextView mTipsTitleTV;
         @BindView(R.id.tv_tips_details)
         TextView mTipsDetailTV;
         @BindView(R.id.lt_item_tips)
         LinearLayout mLayout;
+        private TipsItem mTipsItem;
 
         TipsVH(View itemView) {
             super(itemView);
@@ -188,34 +238,72 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
         }
 
         public void bind(TipsItem item) {
+            mTipsItem = item;
             mTipsTitleTV.setText(item.getTipsTitle());
-            mTipsDetailTV.setText(item.getTipsDetails());
+            mTipsDetailTV.setText(item.getTipsDescription());
         }
 
         @OnClick(R.id.lt_item_tips)
         public void OnTipsItemViewClicked() {
-            mCallback.onListItemClicked(TYPE_TIPS, null);
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(ARGS_TIPS, mTipsItem);
+            mCallback.onListItemClicked(TYPE_TIPS, bundle);
         }
+
     }
 
-    public class TipsItem {
-        private String mTipsTitle;
-        private String mTipsDetails;
 
-
-        TipsItem(String title, String details) {
-            mTipsTitle = title;
-            mTipsDetails = details;
+    private class TipsInfo{
+        public String getId() {
+            return mId;
         }
 
-
-        String getTipsTitle() {
-            return mTipsTitle;
+        public String getName() {
+            return mName;
         }
 
-        String getTipsDetails() {
-            return mTipsDetails;
+        public String getDescription() {
+            return mDescription;
         }
+
+        private String mId;
+        private String mName;
+        private String mDescription;
+        private ArrayList<TipsItem> mTipsItems;
+
+        private static final String
+                JSON_CATAGORY_ID = "category_id",
+                JSON_CATAGORY_NAME = "category_name",
+                JSON_CATAGORY_DESCRIPTION = "category_description",
+                JSON_TIPS = "tips";
+
+        TipsInfo(JSONObject jsonObject){
+            mId = jsonObject.optString(JSON_CATAGORY_ID);
+            mName = jsonObject.optString(JSON_CATAGORY_NAME);
+            mDescription = jsonObject.optString(JSON_CATAGORY_DESCRIPTION);
+            mTipsItems = new ArrayList<>();
+            toTipsList(jsonObject.optJSONArray(JSON_TIPS));
+        }
+
+        private void toTipsList(JSONArray array){
+            if (array != null) {
+                for (int i = 0; i < array.length(); i++) {
+                    mTipsItems.add(new TipsItem(array.optJSONObject(i)));
+                }
+            }
+        }
+
+        public ArrayList<TipsItem> getTipsItems() {
+            return mTipsItems;
+        }
+
+        public int size(){
+            if(mTipsItems != null){
+                return mTipsItems.size();
+            }
+            return -1;
+        }
+
     }
 
     public class PetInfoVH extends RecyclerView.ViewHolder {

@@ -76,7 +76,7 @@ public class ApplyPetAgreementFragment extends Fragment implements TekenResponse
 
     @OnClick(R.id.btn_ready)
     public void closeActivity() {
-        if(!mIsApiFail) {
+        if (!mIsApiFail) {
             Bundle bundle = getArguments().getBundle(ARGS_PET_BUNDLE);
             TekenStringRequest request = new TekenStringRequest(
                     Request.Method.POST,
@@ -89,8 +89,8 @@ public class ApplyPetAgreementFragment extends Fragment implements TekenResponse
             request.addParam(PARAM_ANIMALS_ID, String.valueOf(bundle.getLong(TestKitResearchList.ARGS_PET_ID)));
             request.addParam(PARAM_RESEARCH, String.valueOf(bundle.getString(TickReportConfirmFragment.ARGS_APPLY_RESEARCH)));
             LatLng latLng = bundle.getParcelable(TickMapFragment.ARGS_LOCATION_LATLNG);
-            if(latLng == null){
-                latLng = new LatLng(0,0);
+            if (latLng == null) {
+                latLng = new LatLng(0, 0);
             }
             request.addParam(PARAM_COOR_LAT, String.valueOf(latLng.latitude));
             request.addParam(PARAM_COOR_LNG, String.valueOf(latLng.longitude));
@@ -100,7 +100,7 @@ public class ApplyPetAgreementFragment extends Fragment implements TekenResponse
             }
 
             VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
-        }else{
+        } else {
             Intent intent = new Intent(getActivity(), MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);

@@ -92,18 +92,25 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
             = new SimpleDateFormat("MM dd yyyy", Locale.ENGLISH);
 
     private static final float[] ALT_HEATMAP_GRADIENT_START_POINTS = {
-            1.0f
+            0.2f, 1f
     };
 
     private static final int[] ALT_HEATMAP_GRADIENT_COLORS_DISEASE1 = {
+            Color.rgb(10, 125, 224),
             Color.rgb(10, 125, 224)
+
     },
             ALT_HEATMAP_GRADIENT_COLORS_DISEASE2 = {
-                    Color.rgb(13, 201, 194)},
+                    Color.rgb(13, 201, 194),
+                    Color.rgb(13, 201, 194)
+
+            },
             ALT_HEATMAP_GRADIENT_COLORS_DISEASE3 = {
+                    Color.rgb(224, 10, 150),
                     Color.rgb(224, 10, 150)
             },
             ALT_HEATMAP_GRADIENT_COLORS_DISEASE4 = {
+                    Color.rgb(113, 29, 213),
                     Color.rgb(113, 29, 213)
             };
 
@@ -524,7 +531,10 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
         mTileOverlay = mMap.addTileOverlay(new TileOverlayOptions().tileProvider(provider));
 
         provider.setGradient(gradient);
+        mTileOverlay.clearTileCache();
         provider.setOpacity(1.0f);
+        mTileOverlay.clearTileCache();
+        provider.setRadius(6);
         mTileOverlay.clearTileCache();
     }
 

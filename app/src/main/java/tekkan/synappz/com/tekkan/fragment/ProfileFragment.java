@@ -191,11 +191,30 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         }
     }
 
+    @Override
+    protected boolean canSwipe(int viewType) {
+        switch (viewType){
+            case TYPE_PROFILE_FIELDS:
+                return false;
+            default:
+                return super.canSwipe(viewType);
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
         v.setBackgroundColor(ContextCompat.getColor(getActivity(), android.R.color.white));
+
+        setSwipe(
+                android.R.color.white,
+                android.R.color.holo_blue_light,
+                R.drawable.ic_delete_white_24dp,
+                android.R.color.holo_red_light,
+                R.drawable.ic_delete_white_24dp
+        );
+
         setHasOptionsMenu(true);
         return v;
     }
@@ -423,6 +442,30 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
     @Override
     public void onNegativeClicked() {
 
+    }
+
+    @Override
+    protected void onSwipeCompleted(final int position, int direction, Object item) {
+        TekenStringRequest request = new TekenStringRequest(
+                Request.Method.POST,
+                Constants.Api.getUrl(Constants.Api.FUNC_DELETE_ANIMAL),
+                new TekenResponseListener<String>() {
+                    @Override
+                    public void onResponse(int requestCode, String response) {
+                        removeItem(position);
+                    }
+                },
+                new TekenErrorListener() {
+                    @Override
+                    public void onErrorResponse(int requestCode, VolleyError error, int status, String message) {
+
+                    }
+                },
+                0
+        );
+
+        request.addParam("animals_id", String.valueOf(((Pet)item).getId()));
+        VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
     }
 
     class ProfileFieldVH extends RecyclerView.ViewHolder {

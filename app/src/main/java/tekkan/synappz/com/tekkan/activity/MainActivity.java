@@ -74,23 +74,23 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
             TabLayout.Tab tab = mTabLayout.getTabAt(i);
             switch (i) {
                 case 0:
-                    tab.setText(getString(R.string.text_tab1));
+                    tab.setText("");
                     tab.setIcon(getDrawable(R.drawable.bg_tab1));
                     break;
                 case 1:
-                    tab.setText(getString(R.string.text_tab2));
+                    tab.setText("");
                     tab.setIcon(getDrawable(R.drawable.bg_tab2));
                     break;
                 case 2:
-                    tab.setText(getString(R.string.text_tab3));
+                    tab.setText("");
                     tab.setIcon(getDrawable(R.drawable.bg_tab3));
                     break;
                 case 3:
-                    tab.setText(getString(R.string.text_tab4));
+                    tab.setText("");
                     tab.setIcon(getDrawable(R.drawable.bg_tab4));
                     break;
                 case 4:
-                    tab.setText(getString(R.string.text_tab5));
+                    tab.setText("");
                     tab.setIcon(getDrawable(R.drawable.bg_tab5));
                     break;
             }

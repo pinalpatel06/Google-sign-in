@@ -8,12 +8,16 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.android.volley.toolbox.NetworkImageView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import tekkan.synappz.com.tekkan.R;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.CommonNodeInterface;
+import tekkan.synappz.com.tekkan.model.TipsItem;
+import tekkan.synappz.com.tekkan.utils.VolleyHelper;
 
 /**
  * Created by Tejas Sherdiwala on 4/25/2017.
@@ -23,14 +27,18 @@ import tekkan.synappz.com.tekkan.custom.nestedfragments.CommonNodeInterface;
 public class AnimalTipsDetailFragment extends Fragment implements CommonNodeInterface {
     private static final String
             TAG = AnimalTipsDetailFragment.class.getSimpleName(),
-            ARGS_ANIMAL_TYPE = TAG + ".ARGS_ANIMAL_TYPE";
+            ARGS_ANIMAL_TYPE = TAG + ".ARGS_ANIMAL_TYPE",
+            ARGS_TIPS = TAG + ".ARGS_TIPS";
 
     @BindView(R.id.iv_tips_image)
-    ImageView mTipsIV;
+    NetworkImageView mTipsIV;
+    @BindView(R.id.tv_tips_details)
+    TextView mDetailsTV;
+    private TipsItem mTipsItem;
 
-    public static AnimalTipsDetailFragment newInstance(String animalType) {
+    public static AnimalTipsDetailFragment newInstance(TipsItem item) {
         Bundle args = new Bundle();
-        args.putString(ARGS_ANIMAL_TYPE , animalType);
+        args.putParcelable(ARGS_TIPS, item);
         AnimalTipsDetailFragment fragment = new AnimalTipsDetailFragment();
         fragment.setArguments(args);
         return fragment;
@@ -51,18 +59,22 @@ public class AnimalTipsDetailFragment extends Fragment implements CommonNodeInte
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_animal_tips_details,container,false);
-        ButterKnife.bind(this,v);
         v.setBackgroundColor(ContextCompat.getColor(getActivity(), android.R.color.white));
+        init(v);
         updateUI();
         setHasOptionsMenu(true);
         return v;
     }
 
+    private void init(View v){
+        ButterKnife.bind(this,v);
+        mTipsItem = getArguments().getParcelable(ARGS_TIPS);
+    }
     private void updateUI(){
-       /* String animalType = getArguments().getString(ARGS_ANIMAL_TYPE);
-        if("KAT".equals(animalType)){
-            mTipsIV.setVisibility(View.GONE);
-        }*/
+        if(mTipsItem != null) {
+            mTipsIV.setImageUrl(mTipsItem.getBannerUrl(), VolleyHelper.getInstance(getActivity()).getImageLoader());
+            mDetailsTV.setText(mTipsItem.getContent());
+        }
     }
 
     @Override
