@@ -29,6 +29,8 @@ public class QRScannerFragment extends Fragment{
 
     @BindView(R.id.btn_send)
     Button mScanBtn;
+    @BindView(R.id.btn_no_code)
+    Button mNoCodeBtn;
     @BindView(R.id.iv_code)
     ImageView mCodeIV;
 
@@ -66,10 +68,16 @@ public class QRScannerFragment extends Fragment{
         return v;
     }
 
-    @OnClick(R.id.btn_send)
-    public void scanQRCode() {
-        Intent intent = new Intent(getActivity(), BarcodeCaptureActivity.class);
-        intent.putExtra(BarcodeCaptureActivity.EXTRA_TEEK_BUNDLE, getArguments().getBundle(ARGS_TEEK_BUNDLE));
-        startActivity(intent);
+    @OnClick({R.id.btn_send, R.id.btn_no_code})
+    public void scanQRCode(View v) {
+        switch (v.getId()){
+            case R.id.btn_send:
+                Intent intent = new Intent(getActivity(), BarcodeCaptureActivity.class);
+                intent.putExtra(BarcodeCaptureActivity.EXTRA_TEEK_BUNDLE, getArguments().getBundle(ARGS_TEEK_BUNDLE));
+                startActivity(intent);
+                break;
+            case R.id.btn_no_code:
+                getActivity().finish();
+        }
     }
 }

@@ -103,7 +103,7 @@
                     app:customfont="OpenSansSemiBold"/>
 
                 <tekkan.synappz.com.tekkan.custom.CustomButtonView
-                    android:id="@+id/btn_have_code"
+                    android:id="@+id/btn_no_code"
                     style="@style/TeekAppButtonStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

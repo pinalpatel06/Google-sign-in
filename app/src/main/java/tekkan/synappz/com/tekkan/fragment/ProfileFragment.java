@@ -446,6 +446,11 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
 
     @Override
     protected void onSwipeCompleted(final int position, int direction, Object item) {
+        if(position == 0){
+            return;
+        }
+
+        final String JSON_ANIMAL_ID = "animals_id";
         TekenStringRequest request = new TekenStringRequest(
                 Request.Method.POST,
                 Constants.Api.getUrl(Constants.Api.FUNC_DELETE_ANIMAL),
@@ -464,7 +469,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
                 0
         );
 
-        request.addParam("animals_id", String.valueOf(((Pet)item).getId()));
+        request.addParam(JSON_ANIMAL_ID, String.valueOf(((Pet)item).getId()));
         VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
     }
 

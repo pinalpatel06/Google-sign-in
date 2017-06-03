@@ -286,7 +286,7 @@
     <string name="teek_melden_btn_close">JA DIT KLOPT</string>
     <string name="teek_melden_btn_customize">LOCATIE AANPASSEN</string>
     <string name="thanks_title">BEDANKT</string>
-    <string name="thnaks_detail_text">Een teek kan verschillende ziekten overdragen op jouw hond.
+    <string name="thanks_detail_text">Een teek kan verschillende ziekten overdragen op jouw hond.
         Wil je de teek laten onderzoeken op ziekten?
     </string>
     <string name="apply_for_kit_text">ja, onderzoekskit aanvragen</string>
@@ -332,7 +332,7 @@
     <string name="cat">Kat</string>
 
     <!-- apply pet fragment -->
-    <string name="apply_pet_text">Klopt het dat je een ondrzoek wilt aanvragen voor onderstaand
+    <string name="apply_pet_text">Klopt het dat je een onderzoek wilt aanvragen voor onderstaand
         huisdier?
     </string>
     <string name="apply_pet_button_text">aanvraag versturen</string>
@@ -405,5 +405,6 @@
     <string name="terms_not_accepted">Je kan je profiel niet registreren zonder akkoord te gaan met
         onze voorwaarden.
     </string>
+    <string name="no_free_code">Can not particiate in Research.</string>
 
 </resources>

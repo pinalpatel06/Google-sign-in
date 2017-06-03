@@ -2,6 +2,7 @@ package tekkan.synappz.com.tekkan.fragment;
 
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -47,8 +48,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
-
-
 import de.hdodenhof.circleimageview.CircleImageView;
 import tekkan.synappz.com.tekkan.R;
 import tekkan.synappz.com.tekkan.custom.CustomSpinner;
@@ -662,8 +661,7 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        System.out.println("OnActivityResult");
-        if (resultCode == getActivity().RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK) {
             if (requestCode == GALLERY_REQUEST_CODE) {
                 Uri imageUri = data.getData();
                 InputStream image_stream = null;
