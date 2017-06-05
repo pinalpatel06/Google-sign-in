@@ -50,8 +50,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
-import de.hdodenhof.circleimageview.CircleImageView;
 import tekkan.synappz.com.tekkan.R;
+import tekkan.synappz.com.tekkan.custom.CircleNetworkImageView;
 import tekkan.synappz.com.tekkan.custom.CustomSpinner;
 import tekkan.synappz.com.tekkan.custom.network.TekenErrorListener;
 import tekkan.synappz.com.tekkan.custom.network.TekenJsonArrayRequest;
@@ -93,7 +93,7 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
     private Bitmap mBitmap;
 
     @BindView(R.id.iv_camera)
-    CircleImageView mCameraIV;
+    CircleNetworkImageView mCameraIV;
 
     @BindView(R.id.et_pet_name)
     EditText mPetNameET;
@@ -298,6 +298,15 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
         if (mPet == null) {
             return;
         }
+
+
+        if(mPet.getType() == Constants.PetType.DOG){
+            mCameraIV.setErrorImageResId(R.drawable.ic_dog_placeholder);
+        }else{
+            mCameraIV.setErrorImageResId(R.drawable.ic_cat_placeholder);
+        }
+
+        mCameraIV.setImageUrl(mPet.getPhoto(),VolleyHelper.getInstance(getActivity()).getImageLoader());
 
         mPetNameET.setText(mPet.getName());
 

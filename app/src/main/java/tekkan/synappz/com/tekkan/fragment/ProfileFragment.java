@@ -47,6 +47,7 @@ import tekkan.synappz.com.tekkan.activity.ConditionsActivity;
 import tekkan.synappz.com.tekkan.activity.EditPetActivity;
 import tekkan.synappz.com.tekkan.activity.ProfileActivity;
 import tekkan.synappz.com.tekkan.activity.ViewPetActivity;
+import tekkan.synappz.com.tekkan.custom.CircleNetworkImageView;
 import tekkan.synappz.com.tekkan.custom.ListFragment;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.CommonNodeInterface;
 import tekkan.synappz.com.tekkan.custom.network.TekenErrorListener;
@@ -649,6 +650,8 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         TextView mPetNameTV;
         @BindView(R.id.tv_pet_count)
         TextView mPetCountTV;
+        @BindView(R.id.iv_pet_image)
+        CircleNetworkImageView mPetImageIV;
         Pet mPet;
 
         PetVH(View itemView) {
@@ -661,6 +664,16 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
             mPet = pet;
             mPetNameTV.setText(pet.getName());
             mPetCountTV.setText(valueOf("1"));
+
+            if(pet.getType() == Constants.PetType.DOG){
+                mPetImageIV.setDefaultImageResId(R.drawable.ic_dog_placeholder);
+                mPetImageIV.setErrorImageResId(R.drawable.ic_dog_placeholder);
+            }else{
+                mPetImageIV.setErrorImageResId(R.drawable.ic_cat_placeholder);
+                mPetImageIV.setDefaultImageResId(R.drawable.ic_cat_placeholder);
+            }
+
+            mPetImageIV.setImageUrl(pet.getPhoto(),VolleyHelper.getInstance(getActivity()).getImageLoader());
         }
 
         @Override
