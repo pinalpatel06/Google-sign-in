@@ -311,7 +311,6 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
         int currentWeekNo = cal.get(Calendar.WEEK_OF_YEAR);
         cal.set(Calendar.YEAR, cal.get(Calendar.YEAR) + 1);
         int nextYearWeek = cal.get(Calendar.WEEK_OF_YEAR);
-        Log.d(TAG, weeksInYear + " ");
         return weeksInYear - currentWeekNo + nextYearWeek;
     }
 
@@ -336,6 +335,7 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
             mSeekValueTV.setX((x));
         }
         mSeekValueTV.invalidate();
+        updateHeatMap();
     }
 
     @Override
@@ -538,6 +538,10 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
         mTileOverlay.clearTileCache();
     }
 
+    private void updateHeatMap(){
+       drawHeatMapForAllDisease();
+    }
+
     private void selectHeatMap() {
         mMap.clear();
         mTileOverlay.clearTileCache();
@@ -614,10 +618,8 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
         if (actionId == EditorInfo.IME_ACTION_SEARCH) {
             addressToSearch = v.getText().toString();
             if (!addressToSearch.isEmpty()) {
-
+                getCoordinateFromAddress(addressToSearch);
             }
-            getCoordinateFromAddress(addressToSearch);
-            Log.d(TAG, "Search clicked" + addressToSearch);
             return true;
         }
         return false;
