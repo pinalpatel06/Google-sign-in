@@ -282,7 +282,7 @@ public abstract class ListFragment<T, VH extends RecyclerView.ViewHolder> extend
                                 icon = BitmapFactory.decodeResource(
                                         resources, leftIconRes);
                                 c.drawBitmap(icon,
-                                        (float) itemView.getLeft() + 16,
+                                        (float) itemView.getRight() - 72,
                                         (float) itemView.getTop() + ((float) itemView.getBottom() - (float) itemView.getTop() - icon.getHeight()) / 2,
                                         p);
                             }
