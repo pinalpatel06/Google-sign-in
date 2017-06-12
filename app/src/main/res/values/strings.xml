@@ -91,6 +91,11 @@
     <string name="male">Male</string>
     <string name="female">Female</string>
 
+    <string name="male_cat">Kater</string>
+    <string name="female_cat">Poes</string>
+    <string name="male_dog">Reu</string>
+    <string name="female_dog">Teef</string>
+
     <!--Profile Your Pet Activity Final-->
     <string name="second_list_title">ONDERZOEKEN</string>
     <string name="bottom_result_text">Er staat een uitslag klaar</string>
@@ -106,7 +111,7 @@
     </string>
     <string name="product_details_description">Advantage® is een snelwerkend middel dat vlooien en
         luizen doodt. De toediening is eenvoudig: u druppelt de inhoud van de pipet tussen de haren
-        van uw hond op de intacte huid.
+        van je hond op de intacte huid.
     </string>
     <string name="button_text_more_information">MEER INFORMATIE</string>
 
@@ -136,7 +141,7 @@
     </string>
     <string name="invalid_login">Email or Password incorrect</string>
     <string name="error">Error</string>
-    <string name="login">LogIn..Please wait..</string>
+    <string name="login">Inloggen..</string>
 
     <!--report fragment step 1-->
 
@@ -244,7 +249,7 @@
 
     <!-- onderzoek fragment -->
     <string name="title_tips">Titel Tips</string>
-    <string name="title_research">Advies</string>
+    <string name="title_research">Onderzoek</string>
     <string name="title_research_outcome">Uitslag onderzoek</string>
     <string name="text_onderzoek_tab1">HOND</string>
     <string name="text_onderzoek_tab2">KAT</string>
@@ -252,8 +257,8 @@
 
 
     <!-- Fragment list -->
-    <string name="no_items">No items</string>
-    <string name="tip_title">Header</string>
+    <string name="no_items">Geen items</string>
+    <string name="tip_title">Tip</string>
 
     <!-- Fragment teek melden -->
     <string name="title_report_tick">Teek Melden</string>
@@ -269,9 +274,9 @@
     <string name="pet_kat">KAT</string>
     <string name="pet_hond">HOND</string>
     <string name="teek_melden">TEEK MELDEN</string>
-    <string name="pet_hond_location_text">Waar denkt je dat jouw hond de teek heeft opgelopen?
+    <string name="pet_hond_location_text">Waar denk je dat jouw hond de teek heeft opgelopen?
     </string>
-    <string name="pet_kat_location_text">Waar denkt je dat jouw kat de teek heeft opgelopen?
+    <string name="pet_kat_location_text">Waar denk je dat jouw kat de teek heeft opgelopen?
     </string>
     <string name="location_others">OP EEN ANDERE LOCATIE</string>
     <string name="location_current">OP MIJN HUIDIGE LOCATIE</string>
@@ -289,7 +294,7 @@
     <string name="thnaks_detail_text">Een teek kan verschillende ziekten overdragen op jouw hond.
         Wil je de teek laten onderzoeken op ziekten?
     </string>
-    <string name="apply_for_kit_text">ja, onderzoekskit aanvragen</string>
+    <string name="apply_for_kit_text">JA, ONDERZOEKSKIT AANVRAGEN</string>
     <string name="have_kit_text">IK HEB EEN ONDERZOEKSKIT</string>
     <string name="no_thanks">NEE, BEDANKT</string>
     <string name="custom_view_title">PIN DROPPEN</string>
@@ -297,7 +302,7 @@
     </string>
     <string name="error_cant_change_location_setting">Location Disable</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment"></string>
     <string name="pin_droped_title">PIN GEDROPT</string>
     <string name="pin_droped_detail">Is dit de locatie waar jouw hond of kat de teek helf
         opgelopen?
@@ -308,7 +313,7 @@
     <!-- product fragment-->
     <string name="title_product">Product</string>
     <string name="product_list_title">Producten</string>
-    <string name="research_text">Wist de dat een teek verschillende ziekten kan overdragen op jouw
+    <string name="research_text">Wist je dat een teek verschillende ziekten kan overdragen op jouw
         hond of kat? Het is van belang om te weten of de teek die je van jouw dier hebt afgehaald
         geen kaans heeft gekregen een ziekte over te dragen? wil je de teek die je hebt gemeld
         vender laten onderzoeken op ziekten?
@@ -317,7 +322,7 @@
     <string name="login_profile_title_text">Om een onderzoek te kunnen aanvragen moet je inloggen of
         een profiel aanmaken.
     </string>
-    <string name="link_err">Invalid Url</string>
+    <string name="link_err">Ongelige link</string>
 
     <!--Login profile activity -->
     <string name="login_profile_btn_text">PROFIEL AANMAKEN</string>
@@ -332,14 +337,14 @@
     <string name="cat">Kat</string>
 
     <!-- apply pet fragment -->
-    <string name="apply_pet_text">Klopt het dat je een ondrzoek wilt aanvragen voor onderstaand
+    <string name="apply_pet_text">Klopt het dat je een onderzoek wilt aanvragen voor onderstaand
         huisdier?
     </string>
     <string name="apply_pet_button_text">aanvraag versturen</string>
 
     <!-- ApplyPetAgreementFragment -->
     <string name="apply_pet_agreement">Je hebt een onderzoek aangevraagd.</string>
-    <string name="apply_pet_agreement_detail">Let op! Er zijn maar een beperkt aantal onderzoken
+    <string name="apply_pet_agreement_detail">Let op! Er zijn maar een beperkt aantal onderzoeken
         beschikbaar. \n\nMiddels deze aanvraag maak je kans op een onderzoek. je wordt spoedig
         geinformeerd of jouw aanvraag heeft geleid tot een kosteloos onderzork. \n\nHelaas kan het
         gebeuren dat jouw aanvraag niet meer in behandeling genomen kan
@@ -356,10 +361,10 @@
 
     <!--ConditionsActivity -->
     <string name="conditions_title_text">Voorwaarden</string>
-    <string name="action_edit">Edit</string>
+    <string name="action_edit">Aanpassen</string>
     <string name="action_customize">Aanpassen</string>
-    <string name="action_change_pwd">Wacthwoord wijzigen</string>
-    <string name="action_logout">Uitlogeen</string>
+    <string name="action_change_pwd">Wachtwoord wijzigen</string>
+    <string name="action_logout">Uitloggen</string>
 
 
     <!--//Aanpassen-->
@@ -369,32 +374,32 @@
 
     <!--Picker Dialog-->
 
-    <string name="picker_cancel_text">Cancel</string>
-    <string name="picker_set_text">Set</string>
-    <string name="blank_filed_message">This field cannot be blank</string>
-    <string name="confirm_camera_request_permission">Need camera permission to scan QR code.
+    <string name="picker_cancel_text">Annuleer</string>
+    <string name="picker_set_text">Gereed</string>
+    <string name="blank_filed_message">Dit is een verplicht veld</string>
+    <string name="confirm_camera_request_permission">Om de barcode te kunnen scannen heeft de Tekenscanner toestemming nodig de camera te gebruiken.
     </string>
-    <string name="low_storage_error">Can\'t start scanning due to low memory</string>
-    <string name="tick_msg">Animal has already reported tick</string>
-    <string name="done">Done</string>
+    <string name="low_storage_error">De telefoon beschikt over niet genoeg geheugen om de scanner te kunnen starten. Sluit enkele andere applicaties en probeer het opnieuw.</string>
+    <string name="tick_msg">Dit huisdier heeft al een teek gerapporteerd</string>
+    <string name="done">Gereed</string>
 
     <!--edit pet-->
     <string name="date_of_birth_format"><xliff:g id="date" example="14">%02d</xliff:g>-<xliff:g id="month" example="01">%02d</xliff:g>-<xliff:g id="year" example="2017">%04d</xliff:g></string>
-    <string name="progress_fetching_breeds">Fetching breeds</string>
-    <string name="progress_creating_pet">Creating Pet</string>
-    <string name="progress_updating_pet">Updating Pet</string>
-    <string name="success_update_pet">Pet has been updated.</string>
-    <string name="success_create_pet">Pet has been created</string>
-    <string name="error_update_pet">Could not update pet. Please try again.</string>
-    <string name="error_create_pet">Could not create pet. Please try again.</string>
-    <string name="loading_profile">Cannot load profiel</string>
-    <string name="fetch_product">Loading List</string>
-    <string name="err_password">Password does not match</string>
-    <string name="err_email">Email Address can\'t be null Or not in proper format</string>
-    <string name="select_animal_type">Select pet type first</string>
-    <string name="invalid_address">Invalid address</string>
+    <string name="progress_fetching_breeds">Rassen ophalen</string>
+    <string name="progress_creating_pet">Huisdier aanmaken</string>
+    <string name="progress_updating_pet">Huisdier updaten</string>
+    <string name="success_update_pet">Uw huisdier is geüpdatet.</string>
+    <string name="success_create_pet">Uw huisdier is aangemaakt</string>
+    <string name="error_update_pet">Het is niet gelukt uw huisdier te updaten. Controleer de verbinding en probeer het opnieuw.</string>
+    <string name="error_create_pet">Het is niet gelukt uw huisdier aan te maken. Controleer de verbinding en probeer het opnieuw.</string>
+    <string name="loading_profile">Uw profiel kon niet worden ingeladen. Controleer de verbinding en probeer het opnieuw.</string>
+    <string name="fetch_product">Informatie ophalen</string>
+    <string name="err_password">De wachtwoorden komen niet overeen</string>
+    <string name="err_email">Je hebt geen geldig email adres ingevuld.</string>
+    <string name="select_animal_type">Selecteer eerst of je huisdier een hond of kat is.</string>
+    <string name="invalid_address">Je hebt geen geldig adres ingevuld.</string>
     <string name="maps_api_key">AIzaSyDK3Ip6wvb3XjCpCW4l5VBthLSBG57qI3c</string>
-    <string name="logout">Logout</string>
+    <string name="logout">Uitloggen</string>
     <string name="logout_message">Ben je zeker dat je wilt uitloggen?</string>
     <string name="ja">ja</string>
     <string name="nee">nee</string>
