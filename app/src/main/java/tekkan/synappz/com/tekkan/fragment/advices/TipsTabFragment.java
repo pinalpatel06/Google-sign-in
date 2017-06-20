@@ -22,6 +22,7 @@ import tekkan.synappz.com.tekkan.custom.nestedfragments.ContainerNodeFragment;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.FragmentChangeCallback;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.NestedFragmentUtil;
 import tekkan.synappz.com.tekkan.model.TipsItem;
+import tekkan.synappz.com.tekkan.utils.Constants;
 
 /**
  * Created by Tejas Sherdiwala on 4/22/2017.
@@ -63,11 +64,11 @@ public class TipsTabFragment extends ContainerNodeFragment implements AnimalTips
         init(v);
 
         mAdapter.addFragment(
-                AnimalTipsListFragment.newInstance(AnimalTipsListFragment.ANIMAL_DOG),
+                AnimalTipsListFragment.newInstance(Constants.PetType.DOG.toApi()),
                 getString(R.string.text_onderzoek_tab1)
         );
         mAdapter.addFragment(
-                AnimalTipsListFragment.newInstance(AnimalTipsListFragment.ANIMAL_CAT),
+                AnimalTipsListFragment.newInstance(Constants.PetType.CAT.toApi()),
                 getString(R.string.text_onderzoek_tab2)
         );
 

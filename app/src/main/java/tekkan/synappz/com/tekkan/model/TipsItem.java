@@ -14,13 +14,16 @@ public class TipsItem implements Parcelable {
     private String mId;
     private String mTipsTitle;
     private String mTipsDescription;
+    private String mType;
     private String mContent;
     private String mBannerUrl;
+
 
     private static final String
             JSON_ID = "id",
             JSON_TITLE = "title",
             JSON_DESCRIPTION = "description",
+            JSON_TYPE = "type",
             JSON_CONTENT = "content",
             JSON_BANNER = "banner";
 
@@ -29,10 +32,11 @@ public class TipsItem implements Parcelable {
         mTipsDescription = details;
     }
 
-    public TipsItem(JSONObject jsonObject){
+    public TipsItem(JSONObject jsonObject) {
         mId = jsonObject.optString(JSON_ID);
         mTipsTitle = jsonObject.optString(JSON_TITLE);
         mTipsDescription = jsonObject.optString(JSON_DESCRIPTION);
+        mType = jsonObject.optString(JSON_TYPE);
         mContent = jsonObject.optString(JSON_CONTENT);
         mBannerUrl = jsonObject.optString(JSON_BANNER);
     }
@@ -42,6 +46,7 @@ public class TipsItem implements Parcelable {
         mId = in.readString();
         mTipsTitle = in.readString();
         mTipsDescription = in.readString();
+        mType = in.readString();
         mContent = in.readString();
         mBannerUrl = in.readString();
     }
@@ -51,6 +56,7 @@ public class TipsItem implements Parcelable {
         dest.writeString(mId);
         dest.writeString(mTipsTitle);
         dest.writeString(mTipsDescription);
+        dest.writeString(mType);
         dest.writeString(mContent);
         dest.writeString(mBannerUrl);
     }
@@ -91,4 +97,10 @@ public class TipsItem implements Parcelable {
     public String getBannerUrl() {
         return mBannerUrl;
     }
+
+    public String getType() {
+        return mType;
+    }
+
+
 }

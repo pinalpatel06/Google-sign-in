@@ -21,7 +21,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,7 +59,7 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
             ANIMAL_DOG = TAG + ".ANIMAL_DOG",
             ANIMAL_CAT = TAG + ".ANIMAL_CAT";
 
-    private static final int REQUEST_FETCH_TIPS= 0;
+    private static final int REQUEST_FETCH_TIPS = 0;
 
     public interface Callback {
         void onListItemClicked(int type, Bundle details);
@@ -102,11 +104,11 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAnimalType = getArguments().getString(ARGS_ANIMAL_TYPE);
-        if (ANIMAL_DOG.equals(mAnimalType)) {
+       /* if (ANIMAL_DOG.equals(mAnimalType)) {
             isPetInfoAvailable = true;
         } else {
             isPetInfoAvailable = false;
-        }
+        }*/
         fetchTipsData();
     }
 
@@ -149,11 +151,11 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
             return TYPE_TIPS;
         }*/
 
-        if(mTipsItems.get(position) instanceof String){
+        if (mTipsItems.get(position) instanceof String) {
             return TYPE_TITLE;
-        }else if(mTipsItems.get(position) instanceof TipsItem){
+        } else if (mTipsItems.get(position) instanceof TipsItem) {
             return TYPE_TIPS;
-        }else{
+        } else {
             throw new UnsupportedOperationException("No view found");
         }
     }
@@ -183,7 +185,7 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
     }
 
 
-    private void fetchTipsData(){
+    private void fetchTipsData() {
         TekenJsonArrayRequest request = new TekenJsonArrayRequest(
                 Request.Method.GET,
                 Constants.Api.getUrl(Constants.Api.FUNC_GET_TIPS),
@@ -198,12 +200,35 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
                                 jsonObject = response.getJSONObject(i);
 
                                 TipsInfo tipsInfo = new TipsInfo(jsonObject);
-                                mTipsItems.add(tipsInfo.getName());
-                                if(tipsInfo.size() > 0){
-                                    for(int j = 0; j< tipsInfo.size() ; j++) {
-                                        mTipsItems.add(tipsInfo.getTipsItems().get(j));
+
+                               /* mTipsItems.add(tipsInfo.getName());
+
+                                if (tipsInfo.getTipsItems().size() > 0) {
+                                    for (int j = 0; j < tipsInfo.size(); j++) {
+                                        TipsItem item = tipsInfo.getTipsItems().get(j);
+                                        if (mAnimalType.equals(item.getType())) {
+                                            mTipsItems.add(item);
+                                        }
+                                    }
+                                }*/
+
+                                if (mAnimalType.equals(Constants.PetType.DOG.toApi()) && tipsInfo.getDogTipsList().size() > 0) {
+                                    Set<String> title = tipsInfo.getDogTipsList().keySet();
+                                    for (String t :
+                                            title) {
+                                        mTipsItems.add(t);
+                                        mTipsItems.add(tipsInfo.getDogTipsList().get(t));
+                                    }
+                                } else if (mAnimalType.equals(Constants.PetType.CAT.toApi()) && tipsInfo.getCatTipsList().size() > 0) {
+                                   Set<String> title = tipsInfo.getCatTipsList().keySet();
+
+                                    for (String t :
+                                            title) {
+                                        mTipsItems.add(t);
+                                        mTipsItems.add(tipsInfo.getCatTipsList().get(t));
                                     }
                                 }
+
                             } catch (JSONException e) {
                                 continue;
                             }
@@ -223,7 +248,7 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
 
     }
 
-    public class TipsVH extends RecyclerView.ViewHolder{
+    public class TipsVH extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_tips_title)
         TextView mTipsTitleTV;
         @BindView(R.id.tv_tips_details)
@@ -239,8 +264,18 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
 
         public void bind(TipsItem item) {
             mTipsItem = item;
-            mTipsTitleTV.setText(item.getTipsTitle());
-            mTipsDetailTV.setText(item.getTipsDescription());
+            if (mAnimalType.equals(Constants.PetType.DOG.toApi())) {
+                if (item.getType().equals(Constants.PetType.DOG.toApi())) {
+                    mTipsTitleTV.setText(item.getTipsTitle());
+                    mTipsDetailTV.setText(item.getTipsDescription());
+                }
+            } else if (mAnimalType.equals(Constants.PetType.CAT.toApi())) {
+                if (item.getType().equals(Constants.PetType.CAT.toApi())) {
+                    mTipsTitleTV.setText(item.getTipsTitle());
+                    mTipsDetailTV.setText(item.getTipsDescription());
+                }
+            }
+
         }
 
         @OnClick(R.id.lt_item_tips)
@@ -253,7 +288,7 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
     }
 
 
-    private class TipsInfo{
+    private class TipsInfo {
         public String getId() {
             return mId;
         }
@@ -271,24 +306,44 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
         private String mDescription;
         private ArrayList<TipsItem> mTipsItems;
 
+        public LinkedHashMap<String, TipsItem> getDogTipsList() {
+            return mDogTipsList;
+        }
+
+        public LinkedHashMap<String, TipsItem> getCatTipsList() {
+            return mCatTipsList;
+        }
+
+        private LinkedHashMap<String, TipsItem> mDogTipsList;
+        private LinkedHashMap<String, TipsItem> mCatTipsList;
+
         private static final String
                 JSON_CATAGORY_ID = "category_id",
                 JSON_CATAGORY_NAME = "category_name",
                 JSON_CATAGORY_DESCRIPTION = "category_description",
                 JSON_TIPS = "tips";
 
-        TipsInfo(JSONObject jsonObject){
+        TipsInfo(JSONObject jsonObject) {
             mId = jsonObject.optString(JSON_CATAGORY_ID);
             mName = jsonObject.optString(JSON_CATAGORY_NAME);
             mDescription = jsonObject.optString(JSON_CATAGORY_DESCRIPTION);
             mTipsItems = new ArrayList<>();
+            mDogTipsList = new LinkedHashMap<>();
+            mCatTipsList = new LinkedHashMap<>();
             toTipsList(jsonObject.optJSONArray(JSON_TIPS));
         }
 
-        private void toTipsList(JSONArray array){
+        private void toTipsList(JSONArray array) {
             if (array != null) {
+                TipsItem item;
                 for (int i = 0; i < array.length(); i++) {
-                    mTipsItems.add(new TipsItem(array.optJSONObject(i)));
+                    item = new TipsItem(array.optJSONObject(i));
+                    if (item.getType().equals(Constants.PetType.DOG.toApi())) {
+                        mDogTipsList.put(mName, item);
+                    } else if (item.getType().equals(Constants.PetType.CAT.toApi())) {
+                        mCatTipsList.put(mName, item);
+                    }
+                    mTipsItems.add(item);
                 }
             }
         }
@@ -297,8 +352,8 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
             return mTipsItems;
         }
 
-        public int size(){
-            if(mTipsItems != null){
+        public int size() {
+            if (mTipsItems != null) {
                 return mTipsItems.size();
             }
             return -1;
