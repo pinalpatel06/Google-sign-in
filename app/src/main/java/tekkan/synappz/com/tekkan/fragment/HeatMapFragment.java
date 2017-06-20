@@ -34,6 +34,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.VolleyError;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
@@ -71,9 +73,13 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import tekkan.synappz.com.tekkan.R;
 import tekkan.synappz.com.tekkan.activity.FilterOptionActivity;
+import tekkan.synappz.com.tekkan.custom.network.TekenErrorListener;
+import tekkan.synappz.com.tekkan.custom.network.TekenJsonArrayRequest;
+import tekkan.synappz.com.tekkan.custom.network.TekenResponseListener;
 import tekkan.synappz.com.tekkan.heapmap.heatmaps.Gradient;
 import tekkan.synappz.com.tekkan.heapmap.heatmaps.HeatmapTileProvider;
 import tekkan.synappz.com.tekkan.utils.Constants;
+import tekkan.synappz.com.tekkan.utils.VolleyHelper;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
@@ -180,7 +186,10 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
             mLatLngListDisease2,
             mLatLngListDisease3,
             mLatLngListDisease4;
+
     private TileOverlay mTileOverlay;
+
+    private static final int REQUEST_TICKS = 0;
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -206,7 +215,8 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
                     .addApi(LocationServices.API)
                     .build();
         }
-        readItems();
+        //readItems();
+        getTicks();
     }
 
     @Nullable
@@ -362,7 +372,7 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.getUiSettings().setRotateGesturesEnabled(false);
-        drawHeatMapForAllDisease();
+        //  drawHeatMapForAllDisease();
     }
 
     @Override
@@ -506,17 +516,19 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
     }
 
     private void drawHeatMapForAllDisease() {
-        mMap.clear();
-        if (mLatLngListDisease1 != null) {
+        if(mMap != null) {
+            mMap.clear();
+        }
+        if (mLatLngListDisease1 != null && mLatLngListDisease1.size() > 0) {
             drawHeatMap(mLatLngListDisease1, ALT_HEATMAP_GRADIENT_COLORS_DISEASE1);
         }
-        if (mLatLngListDisease2 != null) {
+        if (mLatLngListDisease2 != null && mLatLngListDisease2.size() > 0) {
             drawHeatMap(mLatLngListDisease2, ALT_HEATMAP_GRADIENT_COLORS_DISEASE2);
         }
-        if (mLatLngListDisease3 != null) {
+        if (mLatLngListDisease3 != null && mLatLngListDisease3.size() > 0) {
             drawHeatMap(mLatLngListDisease3, ALT_HEATMAP_GRADIENT_COLORS_DISEASE3);
         }
-        if (mLatLngListDisease4 != null) {
+        if (mLatLngListDisease4 != null && mLatLngListDisease4.size() > 0) {
             drawHeatMap(mLatLngListDisease4, ALT_HEATMAP_GRADIENT_COLORS_DISEASE4);
         }
     }
@@ -538,8 +550,8 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
         mTileOverlay.clearTileCache();
     }
 
-    private void updateHeatMap(){
-       drawHeatMapForAllDisease();
+    private void updateHeatMap() {
+        drawHeatMapForAllDisease();
     }
 
     private void selectHeatMap() {
@@ -654,5 +666,85 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
             }
         }
         return false;
+    }
+
+    private void getTicks() {
+        String PARAM_COOR_LAT = "coor_lat",
+                PARAM_COOR_LNG = "coor_lng",
+                PARAM_COOR_RADIUS = "coor_radius",
+                PARAM_START_DATE = "startdate",
+                PARAM_END_DATE = "enddate";
+
+        TekenJsonArrayRequest request = new TekenJsonArrayRequest(
+                Request.Method.POST,
+                Constants.Api.getUrl(Constants.Api.FUNC_GET_TICK),
+                new TekenResponseListener<JSONArray>() {
+                    @Override
+                    public void onResponse(int requestCode, JSONArray response) {
+                        if (response != null) {
+                            Log.d(TAG, response.toString());
+                            parseJsonArray(response);
+                        }
+                    }
+                },
+                new TekenErrorListener() {
+                    @Override
+                    public void onErrorResponse(int requestCode, VolleyError error, int status, String message) {
+                        Log.d(TAG, status + " " + error);
+                    }
+                },
+                REQUEST_TICKS
+        );
+
+        request.addParam(PARAM_COOR_LAT, "52.5");
+        request.addParam(PARAM_COOR_LNG, "52.5");
+        request.addParam(PARAM_COOR_RADIUS, "6350");
+        request.addParam(PARAM_START_DATE, "1970-01-01");
+        request.addParam(PARAM_END_DATE, "2018-12-01");
+
+        VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
+    }
+
+    private void parseJsonArray(JSONArray response) {
+        final String JSON_DISEASE = "diseases",
+                JSON_COOR_LAT = "coor_lat",
+                JSON_COOR_LNG = "coor_lng",
+                JSON_CODE = "code",
+                JSON_TYPE = "type",
+                JSON_DISTANCE = "distance";
+
+        if (response.length() > 0) {
+            mLatLngListDisease1 = new ArrayList<>();
+            mLatLngListDisease2 = new ArrayList<>();
+            mLatLngListDisease3 = new ArrayList<>();
+            mLatLngListDisease4 = new ArrayList<>();
+
+            for (int i = 0; i < response.length(); i++) {
+                JSONObject jsonObject = response.optJSONObject(i);
+                JSONArray diseaseArray = jsonObject.optJSONArray(JSON_DISEASE);
+                // int disease[] = new int[diseaseArray.length()];
+                for (int j = 0; j < diseaseArray.length(); j++) {
+                    switch (diseaseArray.optInt(j)) {
+                        case 1:
+                            mLatLngListDisease1.add(new LatLng(jsonObject.optDouble(JSON_COOR_LAT), jsonObject.optDouble(JSON_COOR_LNG)));
+                            break;
+                        case 2:
+                            mLatLngListDisease2.add(new LatLng(jsonObject.optDouble(JSON_COOR_LAT), jsonObject.optDouble(JSON_COOR_LNG)));
+                            break;
+                        case 3:
+                            mLatLngListDisease3.add(new LatLng(jsonObject.optDouble(JSON_COOR_LAT), jsonObject.optDouble(JSON_COOR_LNG)));
+                            break;
+                        case 4:
+                            mLatLngListDisease4.add(new LatLng(jsonObject.optDouble(JSON_COOR_LAT), jsonObject.optDouble(JSON_COOR_LNG)));
+                            break;
+
+                    }
+                }
+            }
+
+            if(mMap != null) {
+                drawHeatMapForAllDisease();
+            }
+        }
     }
 }
