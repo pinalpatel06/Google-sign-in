@@ -220,7 +220,7 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
                                         mTipsItems.add(tipsInfo.getDogTipsList().get(t));
                                     }
                                 } else if (mAnimalType.equals(Constants.PetType.CAT.toApi()) && tipsInfo.getCatTipsList().size() > 0) {
-                                   Set<String> title = tipsInfo.getCatTipsList().keySet();
+                                    Set<String> title = tipsInfo.getCatTipsList().keySet();
 
                                     for (String t :
                                             title) {
@@ -264,18 +264,8 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
 
         public void bind(TipsItem item) {
             mTipsItem = item;
-            if (mAnimalType.equals(Constants.PetType.DOG.toApi())) {
-                if (item.getType().equals(Constants.PetType.DOG.toApi())) {
-                    mTipsTitleTV.setText(item.getTipsTitle());
-                    mTipsDetailTV.setText(item.getTipsDescription());
-                }
-            } else if (mAnimalType.equals(Constants.PetType.CAT.toApi())) {
-                if (item.getType().equals(Constants.PetType.CAT.toApi())) {
-                    mTipsTitleTV.setText(item.getTipsTitle());
-                    mTipsDetailTV.setText(item.getTipsDescription());
-                }
-            }
-
+            mTipsTitleTV.setText(item.getTipsTitle());
+            mTipsDetailTV.setText(item.getTipsDescription());
         }
 
         @OnClick(R.id.lt_item_tips)

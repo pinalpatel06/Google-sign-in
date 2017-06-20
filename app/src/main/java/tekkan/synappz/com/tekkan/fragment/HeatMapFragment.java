@@ -372,7 +372,7 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.getUiSettings().setRotateGesturesEnabled(false);
-        //  drawHeatMapForAllDisease();
+        drawHeatMapForAllDisease();
     }
 
     @Override
