@@ -398,12 +398,12 @@
     <string name="err_email">Je hebt geen geldig email adres ingevuld.</string>
     <string name="select_animal_type">Selecteer eerst of je huisdier een hond of kat is.</string>
     <string name="invalid_address">Je hebt geen geldig adres ingevuld.</string>
-    <string name="maps_api_key">AIzaSyDK3Ip6wvb3XjCpCW4l5VBthLSBG57qI3c</string>
+    <string name="maps_api_key">AIzaSyBdfo7KZm_VFU6PU3oxjfpxpCD2Gctbx1s</string>
     <string name="logout">Uitloggen</string>
     <string name="logout_message">Ben je zeker dat je wilt uitloggen?</string>
     <string name="ja">ja</string>
     <string name="nee">nee</string>
-    <string name="confirmation">Let op!\n Ben je zeker dat je wilt annuleren?</string>
+    <string name="confirmation">Ben je zeker dat je wilt annuleren?</string>
     <string name="confirmation_title">Let op!</string>
     <string name="procced">Doorgaan</string>
     <string name="stop">Stoppen</string>
