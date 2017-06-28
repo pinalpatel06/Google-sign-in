@@ -314,7 +314,13 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
             mCameraIV.setErrorImageResId(R.drawable.ic_cat_placeholder);
         }
 
-        mCameraIV.setImageUrl(mPet.getPhoto(),VolleyHelper.getInstance(getActivity()).getImageLoader());
+        String imgURL = mPet.getPhoto();
+
+        if (imgURL!=null && !imgURL.startsWith("http://")){
+            imgURL = "http://"+imgURL;
+        }
+
+        mCameraIV.setImageUrl(imgURL,VolleyHelper.getInstance(getActivity()).getImageLoader());
 
         mPetNameET.setText(mPet.getName());
 

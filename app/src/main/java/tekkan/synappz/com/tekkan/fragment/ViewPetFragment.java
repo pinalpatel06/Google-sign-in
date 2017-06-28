@@ -118,8 +118,12 @@ public class ViewPetFragment extends Fragment implements TekenResponseListener, 
         }else{
             mPetPicIV.setErrorImageResId(R.drawable.ic_cat_placeholder);
         }
+        String imgURL = mPet.getPhoto();
+        if (imgURL !=null &&!imgURL.startsWith("http://")){
+            imgURL = "http://"+imgURL;
+        }
 
-        mPetPicIV.setImageUrl(mPet.getPhoto(), VolleyHelper.getInstance(getActivity()).getImageLoader());
+        mPetPicIV.setImageUrl(imgURL, VolleyHelper.getInstance(getActivity()).getImageLoader());
 
         mPetNameTV.setText(mPet.getName());
         mIsCatOrDogTv.setText(
