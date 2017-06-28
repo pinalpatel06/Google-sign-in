@@ -26,10 +26,7 @@
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabIndicatorHeight="0dp"
-            app:tabSelectedTextColor="@color/selected_tab_color"
-            app:tabTextAppearance="@style/TabTextStyle"
-            app:tabTextColor="@color/default_tab_color"/>
+            app:tabIndicatorHeight="0dp"/>
 
     </FrameLayout>
 

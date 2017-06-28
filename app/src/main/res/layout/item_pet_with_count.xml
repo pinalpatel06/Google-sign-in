@@ -13,13 +13,12 @@
                 android:paddingStart="@dimen/extra_margin_15dp"
                 android:paddingTop="@dimen/padding_10dp">
 
-    <ImageView
+    <tekkan.synappz.com.tekkan.custom.CircleNetworkImageView
         android:id="@+id/iv_pet_image"
         android:layout_width="@dimen/list_item_image_width"
         android:layout_height="@dimen/list_item_image_width"
         android:layout_alignParentTop="true"
-        android:layout_centerVertical="true"
-        android:background="@drawable/ic_splash_pets"/>
+        android:layout_centerVertical="true"/>
 
     <tekkan.synappz.com.tekkan.custom.CustomFontTextView
         android:id="@+id/tv_pet_name"

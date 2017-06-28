@@ -24,7 +24,7 @@
             style="@style/TeekMeldenDetailTextViewStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/thnaks_detail_text"/>
+            android:text="@string/thanks_detail_text"/>
 
         <View android:layout_width="match_parent"
               android:layout_height="0dp"

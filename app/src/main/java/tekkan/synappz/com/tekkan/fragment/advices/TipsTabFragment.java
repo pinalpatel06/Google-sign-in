@@ -21,6 +21,8 @@ import tekkan.synappz.com.tekkan.R;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.ContainerNodeFragment;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.FragmentChangeCallback;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.NestedFragmentUtil;
+import tekkan.synappz.com.tekkan.model.TipsItem;
+import tekkan.synappz.com.tekkan.utils.Constants;
 
 /**
  * Created by Tejas Sherdiwala on 4/22/2017.
@@ -31,6 +33,9 @@ import tekkan.synappz.com.tekkan.custom.nestedfragments.NestedFragmentUtil;
  */
 
 public class TipsTabFragment extends ContainerNodeFragment implements AnimalTipsListFragment.Callback {
+    private static final String TAG = TipsTabFragment.class.getSimpleName();
+
+    public static final String ARGS_TIPS = TAG + ".ARGS_TIPS";
 
     @BindView(R.id.tab_layout)
     TabLayout mTabLayout;
@@ -59,11 +64,11 @@ public class TipsTabFragment extends ContainerNodeFragment implements AnimalTips
         init(v);
 
         mAdapter.addFragment(
-                AnimalTipsListFragment.newInstance(AnimalTipsListFragment.ANIMAL_DOG),
+                AnimalTipsListFragment.newInstance(Constants.PetType.DOG.toApi()),
                 getString(R.string.text_onderzoek_tab1)
         );
         mAdapter.addFragment(
-                AnimalTipsListFragment.newInstance(AnimalTipsListFragment.ANIMAL_CAT),
+                AnimalTipsListFragment.newInstance(Constants.PetType.CAT.toApi()),
                 getString(R.string.text_onderzoek_tab2)
         );
 
@@ -115,11 +120,10 @@ public class TipsTabFragment extends ContainerNodeFragment implements AnimalTips
                 setChild(new ResearchOutcomeFragment());
                 break;
             case AnimalTipsListFragment.TYPE_TIPS:
-                setChild(new AnimalTipsDetailFragment());
+                setChild(AnimalTipsDetailFragment.newInstance((TipsItem)details.getParcelable(ARGS_TIPS)));
                 break;
         }
     }
-
 
     private class Adapter extends FragmentStatePagerAdapter {
         private ArrayList<Fragment> mFragments;

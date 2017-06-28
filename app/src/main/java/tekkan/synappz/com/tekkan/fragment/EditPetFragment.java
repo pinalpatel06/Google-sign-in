@@ -2,6 +2,7 @@ package tekkan.synappz.com.tekkan.fragment;
 
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -17,6 +18,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -38,6 +40,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -47,10 +50,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
-
-
-import de.hdodenhof.circleimageview.CircleImageView;
 import tekkan.synappz.com.tekkan.R;
+import tekkan.synappz.com.tekkan.custom.CircleNetworkImageView;
 import tekkan.synappz.com.tekkan.custom.CustomSpinner;
 import tekkan.synappz.com.tekkan.custom.network.TekenErrorListener;
 import tekkan.synappz.com.tekkan.custom.network.TekenJsonArrayRequest;
@@ -89,11 +90,10 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
             GALLERY_REQUEST_CODE = 1002;
 
 
-
     private Bitmap mBitmap;
 
     @BindView(R.id.iv_camera)
-    CircleImageView mCameraIV;
+    CircleNetworkImageView mCameraIV;
 
     @BindView(R.id.et_pet_name)
     EditText mPetNameET;
@@ -273,7 +273,7 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
                 break;
             case R.id.iv_camera:
 
-             showDiloag();
+                showDialog();
                 break;
         }
     }
@@ -295,10 +295,18 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
 
     private void updateUI() {
 
-
         if (mPet == null) {
             return;
         }
+
+
+        if(mPet.getType() == Constants.PetType.DOG){
+            mCameraIV.setErrorImageResId(R.drawable.ic_dog_placeholder);
+        }else{
+            mCameraIV.setErrorImageResId(R.drawable.ic_cat_placeholder);
+        }
+
+        mCameraIV.setImageUrl(mPet.getPhoto(),VolleyHelper.getInstance(getActivity()).getImageLoader());
 
         mPetNameET.setText(mPet.getName());
 
@@ -548,7 +556,9 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
             PARAM_BIRTHDATE = "birthdate",
             PARAM_GENDER = "gender",
             PARAM_WEIGHT = "weight",
-            PARAM_ANIMAL_ID = "animals_id";
+            PARAM_ANIMAL_ID = "animals_id",
+            PARAM_PHOTO = "photo",
+            PARAM_PHOTO_NAME = "photoname";
 
     private void createOrEditAnimalProfile() {
 
@@ -589,6 +599,17 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
             request.addParam(PARAM_ANIMAL_ID, String.valueOf(mPet.getId()));
         }
 
+        if (mBitmap != null) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] b = baos.toByteArray();
+            String encImage = Base64.encodeToString(b, Base64.DEFAULT);
+            Log.d(TAG + " encode ", encImage);
+            request.addParam(PARAM_PHOTO, encImage);
+            Calendar c = Calendar.getInstance();
+            request.addParam(PARAM_PHOTO_NAME, c.getTimeInMillis() + ".jpg");
+        }
+
         VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
 
     }
@@ -610,12 +631,11 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
         }
     }
 
-
-    public void showDiloag(){
+    public void showDialog() {
         Dialog dialog = new Dialog(getActivity());
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Choose Image Source");
-        builder.setItems(new CharSequence[] { "Gallery", "Camera" },
+        builder.setItems(new CharSequence[]{"Gallery", "Camera"},
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog,
@@ -633,13 +653,16 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
                                 startActivityForResult(
                                         chooser,
                                         GALLERY_REQUEST_CODE);
-
                                 break;
-
                             case 1:
                                 if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                                    ActivityCompat.requestPermissions(getActivity(), new String[] { Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
-                                }else {
+                                    ActivityCompat.requestPermissions(
+                                            getActivity(),
+                                            new String[]{Manifest.permission.CAMERA,
+                                                    Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                            0
+                                    );
+                                } else {
                                     Intent cameraIntent = new Intent(
                                             android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                                     startActivityForResult(
@@ -647,7 +670,6 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
                                             CAMERA_REQUEST_CODE);
                                 }
                                 break;
-
                             default:
                                 break;
                         }
@@ -658,12 +680,10 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
         dialog.dismiss();
     }
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        System.out.println("OnActivityResult");
-        if (resultCode == getActivity().RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK) {
             if (requestCode == GALLERY_REQUEST_CODE) {
                 Uri imageUri = data.getData();
                 InputStream image_stream = null;
@@ -672,7 +692,7 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
-                mBitmap = BitmapFactory.decodeStream(image_stream );
+                mBitmap = BitmapFactory.decodeStream(image_stream);
                 mCameraIV.setImageBitmap(mBitmap);
 
             } else if (requestCode == CAMERA_REQUEST_CODE) {
@@ -682,11 +702,4 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
             }
         }
     }
-
-
-
-
-
-
-
 }

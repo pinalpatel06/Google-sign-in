@@ -26,9 +26,9 @@
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="TabTextStyle">
+   <!-- <style name="TabTextStyle">
         <item name="android:textSize">10sp</item>
-    </style>
+    </style>-->
 
     <style name="SeekBarWithoutSteps" parent="Base.Widget.AppCompat.SeekBar.Discrete">
         <item name="tickMark">@null</item>

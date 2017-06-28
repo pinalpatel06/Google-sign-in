@@ -10,6 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.VolleyError;
+
+import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,7 +25,12 @@ import tekkan.synappz.com.tekkan.activity.InvestigatePetActivity;
 import tekkan.synappz.com.tekkan.activity.LogInAndProfileActivity;
 import tekkan.synappz.com.tekkan.activity.QRScannerActivity;
 import tekkan.synappz.com.tekkan.custom.nestedfragments.CommonNodeInterface;
+import tekkan.synappz.com.tekkan.custom.network.TekenErrorListener;
+import tekkan.synappz.com.tekkan.custom.network.TekenJsonObjectRequest;
+import tekkan.synappz.com.tekkan.custom.network.TekenResponseListener;
 import tekkan.synappz.com.tekkan.model.User;
+import tekkan.synappz.com.tekkan.utils.Constants;
+import tekkan.synappz.com.tekkan.utils.VolleyHelper;
 
 /**
  * Created by Tejas Sherdiwala on 4/26/2017.
@@ -33,6 +44,7 @@ public class TickReportConfirmFragment extends Fragment implements CommonNodeInt
             ARGS_LAYOUT_TYPE = TAG + ".ARGS_LAYOUT_TYPE";
 
     public static final String ARGS_APPLY_RESEARCH = TAG + ".ARGS_APPLY_RESEARCH";
+    private static final int REQUEST_FREE_CODE = 0;
 
     @BindView(R.id.tv_research_kit_detail)
     TextView mKitDetailTextTV;
@@ -74,7 +86,7 @@ public class TickReportConfirmFragment extends Fragment implements CommonNodeInt
     private void updateUI() {
         switch (mLayoutType) {
             case 0:
-                mKitDetailTextTV.setText(getString(R.string.thnaks_detail_text));
+                mKitDetailTextTV.setText(getString(R.string.thanks_detail_text));
                 break;
             case 1:
                 mKitDetailTextTV.setText(getString(R.string.research_text));
@@ -83,19 +95,48 @@ public class TickReportConfirmFragment extends Fragment implements CommonNodeInt
 
     @OnClick(R.id.btn_apply_kit)
     public void showLogInOrPetDetail() {
-        Bundle bundle = getArguments().getBundle(ARGS_BUNDLE);
+        TekenJsonObjectRequest request = new TekenJsonObjectRequest(
+                Request.Method.GET,
+                Constants.Api.getUrl(Constants.Api.FUNC_COUNT_FREE_CODES),
+                new TekenResponseListener<JSONObject>() {
+                    @Override
+                    public void onResponse(int requestCode, JSONObject response) {
+                        if (response != null) {
+                            int code = response.optInt("counted");
+                            if (code > 0) {
+                                Bundle bundle = getArguments().getBundle(ARGS_BUNDLE);
 
-        if (User.getInstance(getActivity()).isLoaded()) {
-            bundle.putString(ARGS_APPLY_RESEARCH, "N");
-            Intent intent = new Intent(getActivity(), InvestigatePetActivity.class);
-            intent.putExtra(InvestigatePetActivity.EXTRA_TEEK_BUNDLE, bundle);
-            startActivity(intent);
-        } else {
-            bundle.putString(ARGS_APPLY_RESEARCH, "N");
-            Intent intent = new Intent(getActivity(), LogInAndProfileActivity.class);
-            intent.putExtra(LogInAndProfileActivity.EXTRA_TEEK_BUNDLE, bundle);
-            startActivity(intent);
-        }
+                                if (User.getInstance(getActivity()).isLoaded()) {
+                                    bundle.putString(ARGS_APPLY_RESEARCH, "N");
+                                    Intent intent = new Intent(getActivity(), InvestigatePetActivity.class);
+                                    intent.putExtra(InvestigatePetActivity.EXTRA_TEEK_BUNDLE, bundle);
+                                    startActivity(intent);
+                                } else {
+                                    bundle.putString(ARGS_APPLY_RESEARCH, "N");
+                                    Intent intent = new Intent(getActivity(), LogInAndProfileActivity.class);
+                                    intent.putExtra(LogInAndProfileActivity.EXTRA_TEEK_BUNDLE, bundle);
+                                    startActivity(intent);
+                                }
+                            } else {
+                                Toast.makeText(
+                                        getActivity(),
+                                        R.string.no_free_code,
+                                        Toast.LENGTH_SHORT
+                                ).show();
+                            }
+                        }
+                    }
+                },
+                new TekenErrorListener() {
+                    @Override
+                    public void onErrorResponse(int requestCode, VolleyError error, int status, String message) {
+
+                    }
+                },
+                REQUEST_FREE_CODE
+        );
+
+        VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
     }
 
     @OnClick(R.id.btn_have_kit)
