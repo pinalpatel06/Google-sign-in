@@ -11,13 +11,13 @@
     app:columnCount="2"
     app:orientation="horizontal">
 
-    <ImageView
+    <com.bayer.ah.bayertekenscanner.custom.CircleNetworkImageView
+        android:id="@+id/iv_pet_pic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:minHeight="48dp"
         android:minWidth="48dp"
-        android:src="@drawable/bg_filter_option_1"
         app:layout_rowSpan="2"/>
 
     <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView

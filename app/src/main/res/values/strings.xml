@@ -229,7 +229,7 @@
     <string name="filter_option_4">Ehrlechiosis</string>
 
     <!-- more info fragment -->
-    <string name="more_info_heading">Header</string>
+    <string name="more_info_heading">Uitslag</string>
     <string name="more_info_detail">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
         eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
         veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.

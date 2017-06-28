@@ -17,6 +17,7 @@ import com.bayer.ah.bayertekenscanner.R;
 import com.bayer.ah.bayertekenscanner.custom.nestedfragments.ContainerNodeFragment;
 import com.bayer.ah.bayertekenscanner.custom.nestedfragments.FragmentChangeCallback;
 import com.bayer.ah.bayertekenscanner.custom.nestedfragments.NestedFragmentUtil;
+import com.bayer.ah.bayertekenscanner.model.Pet;
 import com.bayer.ah.bayertekenscanner.model.TipsItem;
 import com.bayer.ah.bayertekenscanner.utils.Constants;
 
@@ -118,7 +119,7 @@ public class TipsTabFragment extends ContainerNodeFragment implements AnimalTips
     public void onListItemClicked(int type, Bundle details) {
         switch (type){
             case AnimalTipsListFragment.TYPE_PET:
-                setChild(new ResearchOutcomeFragment());
+                setChild(ResearchOutcomeFragment.newInstance((Pet) details.getParcelable(ARGS_TIPS)));
                 break;
             case AnimalTipsListFragment.TYPE_TIPS:
                 setChild(AnimalTipsDetailFragment.newInstance((TipsItem)details.getParcelable(ARGS_TIPS)));

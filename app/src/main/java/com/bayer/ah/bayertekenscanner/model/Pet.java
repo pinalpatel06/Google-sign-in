@@ -28,11 +28,11 @@ public class Pet implements Parcelable {
             JSON_S_NAME = "name",
             JSON_N_AGE = "age",
             JSON_N_WEIGHT = "weight",
-            JSON_S_RESEARCH = "research",
-            JSON_S_TICK = "tick",
+            JSON_B_RESEARCH = "research",
+            JSON_B_TICK = "tick",
             JSON_S_DISEASES = "diseases",
             JSON_S_STADIUM = "stadium",
-            JSON_S_CONTAMINATED = "contaminated",
+            JSON_B_CONTAMINATED = "contaminated",
             JSON_S_PATHOGENES = "pathogenes",
             JSON_S_SUBTYPES = "subtypes",
             JSON_S_COMMENT = "comment";
@@ -43,28 +43,32 @@ public class Pet implements Parcelable {
     private Constants.PetType mType;
     private String mPhoto, mName;
     private int mAge, mWeight;
+    private boolean mResearch, mHasTick, mIsContaminated;
+    private String mComment, mStadium, mSubTypes;
+    private int[] mDisease;
 
-    public Pet(){
+
+    public Pet() {
     }
 
 
-    public Pet(JSONObject object){
+    public Pet(JSONObject object) {
         mId = object.optLong(JSON_N_ID);
         mBreedId = object.optLong(JSON_N_BREED_ID);
-        Log.d("Pet" , object.optString(JSON_S_BIRTHDATE));
+        Log.d("Pet", object.optString(JSON_S_BIRTHDATE));
         mBirthDate = DateUtils.toDate(object.optString(JSON_S_BIRTHDATE));
-        Log.d("Pet = " , mBirthDate.toString());
+        Log.d("Pet = ", mBirthDate.toString());
         String gender = object.optString(JSON_S_GENDER);
-        if(Constants.Gender.MALE.toApi().equalsIgnoreCase(gender)){
+        if (Constants.Gender.MALE.toApi().equalsIgnoreCase(gender)) {
             mGender = Constants.Gender.MALE;
-        }else if(Constants.Gender.FEMALE.toApi().equalsIgnoreCase(gender)){
+        } else if (Constants.Gender.FEMALE.toApi().equalsIgnoreCase(gender)) {
             mGender = Constants.Gender.FEMALE;
         }
 
         String type = object.optString(JSON_S_TYPE);
-        if(Constants.PetType.CAT.toApi().equalsIgnoreCase(type)){
+        if (Constants.PetType.CAT.toApi().equalsIgnoreCase(type)) {
             mType = Constants.PetType.CAT;
-        }else if(Constants.PetType.DOG.toApi().equalsIgnoreCase(type)){
+        } else if (Constants.PetType.DOG.toApi().equalsIgnoreCase(type)) {
             mType = Constants.PetType.DOG;
         }
 
@@ -72,6 +76,16 @@ public class Pet implements Parcelable {
         mName = object.optString(JSON_S_NAME);
         mAge = object.optInt(JSON_N_AGE);
         mWeight = object.optInt(JSON_N_WEIGHT);
+
+        mResearch = object.optBoolean(JSON_B_RESEARCH);
+        mHasTick = object.optBoolean(JSON_B_TICK);
+        mIsContaminated = object.optBoolean(JSON_B_CONTAMINATED);
+
+        mStadium = object.optString(JSON_S_STADIUM);
+        mSubTypes = object.optString(JSON_S_SUBTYPES);
+        mComment = object.optString(JSON_S_COMMENT);
+
+        //disease pending..........
     }
 
     protected Pet(Parcel in) {
@@ -82,11 +96,19 @@ public class Pet implements Parcelable {
         mAge = in.readInt();
         mWeight = in.readInt();
         long birthTime = in.readLong();
-       // if(birthTime > -1){
-            mBirthDate = new Date(birthTime);
-       // }
+        // if(birthTime > -1){
+        mBirthDate = new Date(birthTime);
+        // }
         mGender = Constants.Gender.valueOf(in.readString());
         mType = Constants.PetType.valueOf(in.readString());
+
+        mResearch = in.readInt() == 1;
+        mHasTick = in.readInt() == 1;
+        mIsContaminated = in.readInt() == 1;
+
+        mStadium = in.readString();
+        mSubTypes = in.readString();
+        mComment = in.readString();
     }
 
     @Override
@@ -100,6 +122,12 @@ public class Pet implements Parcelable {
         dest.writeLong(mBirthDate == null ? -1 : mBirthDate.getTime());
         dest.writeString(mGender.name());
         dest.writeString(mType.name());
+        dest.writeInt(mResearch ? 1 : 0);
+        dest.writeInt(mHasTick ? 1 : 0);
+        dest.writeInt(mIsContaminated ? 1 : 0);
+        dest.writeString(mStadium);
+        dest.writeString(mSubTypes);
+        dest.writeString(mComment);
     }
 
     @Override
@@ -185,5 +213,57 @@ public class Pet implements Parcelable {
 
     public void setWeight(int weight) {
         mWeight = weight;
+    }
+
+    public void setId(long id) {
+        mId = id;
+    }
+
+    public boolean isResearch() {
+        return mResearch;
+    }
+
+    public void setResearch(boolean research) {
+        mResearch = research;
+    }
+
+    public boolean isHasTick() {
+        return mHasTick;
+    }
+
+    public void setHasTick(boolean hasTick) {
+        mHasTick = hasTick;
+    }
+
+    public boolean isContaminated() {
+        return mIsContaminated;
+    }
+
+    public void setContaminated(boolean contaminated) {
+        mIsContaminated = contaminated;
+    }
+
+    public String getComment() {
+        return mComment;
+    }
+
+    public void setComment(String comment) {
+        mComment = comment;
+    }
+
+    public String getStadium() {
+        return mStadium;
+    }
+
+    public void setStadium(String stadium) {
+        mStadium = stadium;
+    }
+
+    public String getSubTypes() {
+        return mSubTypes;
+    }
+
+    public void setSubTypes(String subTypes) {
+        mSubTypes = subTypes;
     }
 }

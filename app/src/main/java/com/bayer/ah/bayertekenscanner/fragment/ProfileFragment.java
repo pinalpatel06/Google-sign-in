@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
+import com.bayer.ah.bayertekenscanner.R;
 import com.bayer.ah.bayertekenscanner.activity.ConditionsActivity;
 import com.bayer.ah.bayertekenscanner.activity.EditPetActivity;
 import com.bayer.ah.bayertekenscanner.activity.ProfileActivity;
@@ -60,10 +61,9 @@ import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
-import com.bayer.ah.bayertekenscanner.R;
 
-import static java.lang.String.valueOf;
 import static com.bayer.ah.bayertekenscanner.R.string.confirmation_title;
+import static java.lang.String.valueOf;
 
 
 public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolder>
@@ -193,7 +193,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
 
     @Override
     protected boolean canSwipe(int viewType) {
-        switch (viewType){
+        switch (viewType) {
             case TYPE_PROFILE_FIELDS:
                 return false;
             default:
@@ -446,7 +446,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
 
     @Override
     protected void onSwipeCompleted(final int position, int direction, Object item) {
-        if(position == 0){
+        if (position == 0) {
             return;
         }
 
@@ -469,7 +469,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
                 0
         );
 
-        request.addParam(JSON_ANIMAL_ID, String.valueOf(((Pet)item).getId()));
+        request.addParam(JSON_ANIMAL_ID, String.valueOf(((Pet) item).getId()));
         VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
     }
 
@@ -546,8 +546,8 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
             mAddPetTV.setEnabled(!mCanEdit);
 
             mConditionsLT.setVisibility(
-                    User.getInstance(getActivity()).isLoaded()?
-                            View.GONE:
+                    User.getInstance(getActivity()).isLoaded() ?
+                            View.GONE :
                             View.VISIBLE
             );
 
@@ -664,15 +664,15 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
             mPetNameTV.setText(pet.getName());
             mPetCountTV.setText(valueOf("1"));
 
-            if(pet.getType() == Constants.PetType.DOG){
+            if (pet.getType() == Constants.PetType.DOG) {
                 mPetImageIV.setDefaultImageResId(R.drawable.ic_dog_placeholder);
                 mPetImageIV.setErrorImageResId(R.drawable.ic_dog_placeholder);
-            }else{
+            } else {
                 mPetImageIV.setErrorImageResId(R.drawable.ic_cat_placeholder);
                 mPetImageIV.setDefaultImageResId(R.drawable.ic_cat_placeholder);
             }
 
-            mPetImageIV.setImageUrl(pet.getPhoto(),VolleyHelper.getInstance(getActivity()).getImageLoader());
+            mPetImageIV.setImageUrl(pet.getPhoto(), VolleyHelper.getInstance(getActivity()).getImageLoader());
         }
 
         @Override

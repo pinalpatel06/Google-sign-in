@@ -32,6 +32,8 @@ public class AnimalTipsDetailFragment extends Fragment implements CommonNodeInte
             ARGS_ANIMAL_TYPE = TAG + ".ARGS_ANIMAL_TYPE",
             ARGS_TIPS = TAG + ".ARGS_TIPS";
 
+    @BindView(R.id.tv_tips_title)
+    TextView mTitleTV;
     @BindView(R.id.iv_tips_image)
     NetworkImageView mTipsIV;
     @BindView(R.id.tv_tips_details)
@@ -75,6 +77,7 @@ public class AnimalTipsDetailFragment extends Fragment implements CommonNodeInte
     private void updateUI(){
         if(mTipsItem != null) {
             mTipsIV.setImageUrl(mTipsItem.getBannerUrl(), VolleyHelper.getInstance(getActivity()).getImageLoader());
+            mTitleTV.setText(mTipsItem.getTipsTitle());
             mDetailsTV.setText(mTipsItem.getContent());
         }
     }
