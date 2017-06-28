@@ -13,7 +13,7 @@ public class DateUtils {
 
     private static SimpleDateFormat
             sFullDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH),
-            sDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+            sDateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
 
 
     public static Date toDate(String string) {
