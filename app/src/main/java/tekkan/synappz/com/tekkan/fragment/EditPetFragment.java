@@ -45,6 +45,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -119,6 +120,7 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
 
     @BindView(R.id.et_weight)
     EditText mWeightET;
+   private String[] genderItems;
 
     private BreedSpinnerAdapter mBreedSpinnerAdapter;
 
@@ -140,6 +142,8 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
             mCatBreeds = new ArrayList<>(),
             mDogBreeds = new ArrayList<>(),
             mCurrentBreeds = new ArrayList<>();
+
+
 
     public static EditPetFragment newInstance(Pet pet) {
         Bundle args = new Bundle();
@@ -213,7 +217,11 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
 
         mAnimalTypeSP.setOnItemChosenListener(this);
         mAnimalGenderSP.setOnItemChosenListener(this);
+       // mAnimalGenderSP.
         mBreedSP.setOnItemChosenListener(this);
+        updateGenderItems();
+
+
 
         updateUI();
         return v;
@@ -343,9 +351,10 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
         Constants.Gender gender = mPet.getGender();
 
         if (gender == Constants.Gender.MALE) {
-            mGenderTV.setText(R.string.male);
+            mGenderTV.setText(genderItems[0]);
         } else if (gender == Constants.Gender.FEMALE) {
-            mGenderTV.setText(R.string.female);
+            //mGenderTV.setText(R.string.female);
+            mGenderTV.setText(genderItems[1]);
         } else {
             mGenderTV.setText("");
         }
@@ -356,6 +365,31 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
         } else {
             mWeightET.setText("");
         }
+
+    }
+
+
+    private void updateGenderItems(){
+        List<String> mGenderList = new ArrayList<String>();
+        if(mPet.getType()==Constants.PetType.CAT){
+            genderItems  = getResources().getStringArray(R.array.cat_gender_type);
+            for(String genderName:genderItems){
+                mGenderList.add(genderName);
+            }
+        }else{
+            genderItems  = getResources().getStringArray(R.array.dog_gender_type);
+            for(String genderName:genderItems){
+                mGenderList.add(genderName);
+            }
+
+
+        }
+
+        ArrayAdapter<String> mGenderAdapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_spinner_item, mGenderList);
+        mGenderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        mAnimalGenderSP.setAdapter(mGenderAdapter);
 
     }
 
@@ -450,6 +484,7 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
                 if (getString(R.string.cat).equalsIgnoreCase(animalType)) {
                     mPet.setType(Constants.PetType.CAT);
                     mCurrentBreeds.addAll(mCatBreeds);
+
                 } else if (getString(R.string.dog).equalsIgnoreCase(animalType)) {
                     mPet.setType(DOG);
                     mCurrentBreeds.addAll(mDogBreeds);
@@ -458,6 +493,7 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
                 }
                 mPet.setBreedId(0);
                 mBreedSpinnerAdapter.notifyDataSetChanged();
+                updateGenderItems();
                 break;
             case R.id.sp_breed_type:
 
@@ -471,9 +507,14 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
                 break;
             case R.id.sp_animal_gender:
                 String gender = (String) adapterView.getSelectedItem();
-                if (getString(R.string.male).equalsIgnoreCase(gender)) {
+
+                if (getString(R.string.male_cat).equalsIgnoreCase(gender)) {
                     mPet.setGender(Constants.Gender.MALE);
-                } else if (getString(R.string.female).equalsIgnoreCase(gender)) {
+                } else if (getString(R.string.female_cat).equalsIgnoreCase(gender)) {
+                    mPet.setGender(Constants.Gender.FEMALE);
+                }else if (getString(R.string.male_dog).equalsIgnoreCase(gender)) {
+                    mPet.setGender(Constants.Gender.MALE);
+                }else if (getString(R.string.female_dog).equalsIgnoreCase(gender)) {
                     mPet.setGender(Constants.Gender.FEMALE);
                 }
 
@@ -630,6 +671,9 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
             setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         }
     }
+
+
+
 
     public void showDialog() {
         Dialog dialog = new Dialog(getActivity());

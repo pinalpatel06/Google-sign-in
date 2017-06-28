@@ -136,7 +136,28 @@ public class ViewPetFragment extends Fragment implements TekenResponseListener, 
 
         mDateOfBirthTv.setText(DateUtils.toApi(mPet.getBirthDate()));
 
-        mGenderTv.setText(String.valueOf(mPet.getGender()));
+        if(mPet.getType()== Constants.PetType.CAT){
+
+            if(mPet.getGender()== Constants.Gender.FEMALE){
+                mGenderTv.setText(getString(R.string.female_cat));
+            }else{
+                mGenderTv.setText(getString(R.string.male_cat));
+
+            }
+
+        }else{
+
+            if(mPet.getGender()== Constants.Gender.FEMALE){
+                mGenderTv.setText(getString(R.string.female_dog));
+            }else{
+                mGenderTv.setText(getString(R.string.male_dog));
+
+            }
+
+
+        }
+
+       // mGenderTv.setText(String.valueOf(mPet.getGender()));
         mWeightTv.setText(String.valueOf(mPet.getWeight()));
     }
 

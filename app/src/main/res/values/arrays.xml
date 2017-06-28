@@ -20,6 +20,17 @@
         <item name="cat">@string/cat</item>
     </string-array>
 
+    <string-array name="cat_gender_type">
+        <item name="male_cat">Kater</item>
+        <item name="female_cat">Poes</item>
+        </string-array>
+
+    <string-array name="dog_gender_type">
+        <item name="male_dog">Reu</item>
+        <item name="female_dog">Teef</item>
+    </string-array>
+
+
     <string-array name="animal_gender_type">
         <item name="male">@string/male</item>
         <item name="female">@string/female</item>
