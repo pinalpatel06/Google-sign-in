@@ -3,6 +3,7 @@ package com.bayer.ah.bayertekenscanner.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -46,6 +47,10 @@ public class LoginFragment extends ContainerNodeFragment implements LoginUtils.L
     EditText mEmailET;
     @BindView(R.id.et_password)
     EditText mPasswordET;
+    @BindView(R.id.tv_forgot_password)
+    TextView mForgotPwdTV;
+
+    private static final String FORGOT_PASSWORD_URL = "http://dev.bayerpetcare.nl/nl/lostpassword/";
 
     private FragmentChangeCallback mCallback;
 
@@ -87,23 +92,32 @@ public class LoginFragment extends ContainerNodeFragment implements LoginUtils.L
         return v;
     }
 
-    @OnClick(R.id.btn_log_in)
-    public void logIn() {
-        String email = mEmailET.getText().toString();
-        String password = mPasswordET.getText().toString();
+    @OnClick({R.id.btn_log_in,R.id.tv_create_account,R.id.tv_forgot_password})
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_log_in:
+                String email = mEmailET.getText().toString();
+                String password = mPasswordET.getText().toString();
 
-        final ProgressDialogFragment fragment = ProgressDialogFragment.newInstance(getString(R.string.login));
-        fragment.show(getFragmentManager(), TAG_PROGRESS_DIALOG);
+                final ProgressDialogFragment fragment = ProgressDialogFragment.newInstance(getString(R.string.login));
+                fragment.show(getFragmentManager(), TAG_PROGRESS_DIALOG);
 
-        LoginUtils.logIn(getActivity(), email, password, this);
-    }
+                LoginUtils.logIn(getActivity(), email, password, this);
+                break;
+            case R.id.tv_create_account:
+                Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                intent.putExtra(ProfileActivity.EXTRA_NEW_PROFILE, true);
+                intent.putExtra(ProfileActivity.EXTRA_CAN_EDIT, true);
+                startActivity(intent);
+                break;
+            case R.id.tv_forgot_password:
+                Intent webIntent = new Intent(Intent.ACTION_VIEW);
+                webIntent.setData(Uri.parse(FORGOT_PASSWORD_URL));
+                Intent chooseIntent  = Intent.createChooser(webIntent,getString(R.string.select_source));
+                startActivity(chooseIntent);
 
-    @OnClick(R.id.tv_create_account)
-    public void showProfile() {
-        Intent intent = new Intent(getActivity(), ProfileActivity.class);
-        intent.putExtra(ProfileActivity.EXTRA_NEW_PROFILE, true);
-        intent.putExtra(ProfileActivity.EXTRA_CAN_EDIT, true);
-        startActivity(intent);
+        }
+
     }
 
     @Override

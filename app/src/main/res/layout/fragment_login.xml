@@ -128,6 +128,7 @@
                 </LinearLayout>
 
                 <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
+                    android:id="@+id/tv_forgot_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/default_margin"

@@ -75,7 +75,6 @@
                 android:text="@{user.firstName}"
                 android:inputType="text" />
 
-
             <com.bayer.ah.bayertekenscanner.custom.CustomFontEditText
                 android:id="@+id/et_last_name"
                 style="@style/ProfileEditTextStyle"
@@ -85,7 +84,6 @@
                 android:layout_marginTop="@dimen/default_margin"
                 android:hint="@string/last_name_placeholder"
                 android:inputType="text" />
-
 
             <com.bayer.ah.bayertekenscanner.custom.CustomFontEditText
                 android:id="@+id/et_email"
@@ -106,7 +104,6 @@
                 android:fontFamily="sans-serif"
                 android:hint="@string/password_placeholder"
                 android:inputType="textPassword" />
-
 
             <com.bayer.ah.bayertekenscanner.custom.CustomFontEditText
                 android:id="@+id/et_confirm_password"
@@ -192,7 +189,6 @@
                 <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/padding_5dp"
                     android:layout_weight="1"
                     android:hint="@string/condtions_text"
                     android:textColorHint="@color/colorAccent"
