@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<tekkan.synappz.com.tekkan.custom.CustomFontTextView
+<com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/tv_animal_tips_title"

@@ -40,7 +40,7 @@
                 android:src="@drawable/bg_ripple_fab"
                 app:useCompatPadding="true"/>
 
-            <tekkan.synappz.com.tekkan.custom.CustomEditTextView
+            <com.bayer.ah.bayertekenscanner.custom.CustomEditTextView
                 style="@style/TekenAppSearchbarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
@@ -54,7 +54,7 @@
             android:visibility="invisible"
             android:orientation="vertical">
 
-            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
                 android:id="@+id/tv_pin_drop_title"
                 style="@style/TekenAppTextViewStyle"
                 android:layout_width="match_parent"
@@ -63,7 +63,7 @@
                 android:text="@string/teek_melden_map_title"
                 app:customfont="OpenSansSemiBold"/>
 
-            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
                 android:id="@+id/tv_pin_drop_detail"
                 style="@style/TekenAppDetailTextViewStyle"
                 android:layout_width="match_parent"
@@ -73,7 +73,7 @@
                 android:layout_marginStart="@dimen/margin_10dp"
                 android:text="@string/teek_melden_map_detail"/>
 
-            <tekkan.synappz.com.tekkan.custom.CustomButtonView
+            <com.bayer.ah.bayertekenscanner.custom.CustomButtonView
                 android:id="@+id/btn_ok"
                 style="@style/TeekMeldenButtonStyle"
                 android:layout_width="match_parent"
@@ -83,7 +83,7 @@
                 android:text="@string/teek_melden_btn_close"
                 app:customfont="OpenSansSemiBold"/>
 
-            <tekkan.synappz.com.tekkan.custom.CustomButtonView
+            <com.bayer.ah.bayertekenscanner.custom.CustomButtonView
                 android:id="@+id/btn_customize"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -115,7 +115,7 @@
                 android:layout_marginTop="@dimen/margin_10dp"
                 android:src="@drawable/ic_close_black"/>
 
-            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
                 android:id="@+id/tv_bottom_view_title"
                 style="@style/TekenAppTextViewStyle"
                 android:layout_width="match_parent"
@@ -124,7 +124,7 @@
                 android:text="@string/custom_view_title"
                 app:customfont="OpenSansSemiBold"/>
 
-            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
                 android:id="@+id/tv_bottom_view_detail"
                 style="@style/TekenAppDetailTextViewStyle"
                 android:layout_width="match_parent"

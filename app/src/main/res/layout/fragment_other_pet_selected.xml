@@ -4,7 +4,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-    <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+    <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
         android:id="@+id/tv_title"
         style="@style/TeekMeldenTitleTextViewStyle"
         android:layout_width="match_parent"
@@ -12,7 +12,7 @@
         android:text="@string/teek_melden_title"
         app:customfont="OpenSansSemiBold"/>
 
-    <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+    <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
         android:id="@+id/tv_teek_melden_detail"
         style="@style/TeekMeldenDetailTextViewStyle"
         android:layout_width="match_parent"
@@ -20,7 +20,7 @@
         android:layout_below="@+id/tv_title"
         android:text="@string/other_pet_selected_text"/>
 
-    <tekkan.synappz.com.tekkan.custom.CustomButtonView
+    <com.bayer.ah.bayertekenscanner.custom.CustomButtonView
         android:id="@+id/btn_previous"
         style="@style/TeekMeldenButtonStyle"
         android:layout_width="match_parent"

@@ -8,14 +8,14 @@
               android:layout_marginStart="@dimen/extra_margin_20dp"
               android:orientation="vertical">
 
-    <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+    <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
         android:id="@+id/tv_tips_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/colorAccent"
         android:textSize="@dimen/item_tips_text_size"/>
 
-    <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+    <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
         android:id="@+id/tv_tips_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

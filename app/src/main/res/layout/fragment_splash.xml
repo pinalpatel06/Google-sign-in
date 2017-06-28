@@ -55,7 +55,7 @@
         android:layout_marginTop="@dimen/bottom_image_view_margin"
         android:src="@drawable/ic_bayer_pet_care_text"/>
 
-    <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+    <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
         android:id="@+id/tv_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
             android:layout_marginTop="@dimen/splash_default_margin"
             android:src="@drawable/ic_bayer_circle_logo"/>
 
-        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+        <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -93,7 +93,7 @@
             android:textSize="@dimen/text_app_title"
             app:customfont="DimboRegular"/>
 
-        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+        <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"

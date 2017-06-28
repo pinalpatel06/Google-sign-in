@@ -15,7 +15,7 @@
                       android:gravity="center_vertical"
                       android:orientation="vertical">
 
-            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
                 android:id="@+id/tv_agreement_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
                 android:textColor="@android:color/white"
                 android:textSize="26sp"/>
 
-            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
                 android:id="@+id/tv_agreement_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
                 android:textSize="22sp"/>
 
         </LinearLayout>
-        <tekkan.synappz.com.tekkan.custom.CustomButtonView
+        <com.bayer.ah.bayertekenscanner.custom.CustomButtonView
             android:id="@+id/btn_ready"
             style="@style/TeekMeldenButtonStyle"
             android:layout_width="match_parent"

@@ -24,7 +24,7 @@
                 app:civ_border_color="@android:color/white"
                 app:civ_border_width="2dp"/>
 
-            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/white"
@@ -33,7 +33,7 @@
                 tools:text="Hummer"/>
         </LinearLayout>
 
-        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+        <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/extra_padding_15dp"
@@ -44,7 +44,7 @@
             android:textSize="@dimen/more_info_head_text_size"
             app:customfont="OpenSansSemiBold"/>
 
-        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+        <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/extra_margin_15dp"

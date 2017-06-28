@@ -10,7 +10,7 @@
         android:layout_height="@dimen/test_kit_step2_detail_layout_height"
         android:background="@color/color_qr_title_text">
 
-        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+        <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
             android:id="@+id/tv_apply_pet_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
 
     <include layout="@layout/item_pet"/>
 
-    <tekkan.synappz.com.tekkan.custom.CustomButtonView
+    <com.bayer.ah.bayertekenscanner.custom.CustomButtonView
         android:id="@+id/btn_send_request"
         style="@style/TeekMeldenButtonStyle"
         android:layout_width="match_parent"

@@ -10,7 +10,7 @@
         android:layout_height="@dimen/test_kit_step2_detail_layout_height"
         android:background="@color/color_qr_title_text">
 
-        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+        <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
             android:id="@+id/tv_investigate_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
 
     </LinearLayout>
 
-    <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+    <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/extra_margin_20dp"
@@ -33,7 +33,7 @@
         android:textColor="@color/profile_title_color"
         app:customfont="OpenSansSemiBold"/>
 
-    <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+    <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
         android:id="@+id/tv_my_pet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

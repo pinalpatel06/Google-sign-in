@@ -18,12 +18,12 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <tekkan.synappz.com.tekkan.custom.CircleNetworkImageView
+            <com.bayer.ah.bayertekenscanner.custom.CircleNetworkImageView
                 android:id="@+id/iv_pet_image"
                 android:layout_width="@dimen/camera_image_width"
-                android:layout_height="@dimen/camera_image_width" />
+                android:layout_height="@dimen/camera_image_width"/>
 
-            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
                 android:id="@+id/tv_pet_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
             android:orientation="vertical">
 
 
-            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
                 android:id="@+id/tv_animal_type"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/default_edit_text_height"
@@ -54,7 +54,7 @@
                 tools:text="@string/what_is_your_pet_name"/>
 
 
-            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
                 android:id="@+id/tv_breed"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/default_edit_text_height"
@@ -65,7 +65,7 @@
                 tools:text="@string/what_is_your_pet_name"/>
 
 
-            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
                 android:id="@+id/tv_date_of_birth"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/default_edit_text_height"
@@ -76,7 +76,7 @@
                 tools:text="@string/what_is_your_pet_name"/>
 
 
-            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
                 android:id="@+id/tv_gender"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/default_edit_text_height"
@@ -87,7 +87,7 @@
                 tools:text="@string/what_is_your_pet_name"/>
 
 
-            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
                 android:id="@+id/tv_weight"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/default_edit_text_height"
@@ -99,7 +99,7 @@
 
         </LinearLayout>
 
-        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+        <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/default_margin"
@@ -107,10 +107,9 @@
             android:text="@string/second_list_title"
             android:textColor="@color/profile_title_color"
             android:textSize="@dimen/profile_default_text_size"
-            app:customfont="OpenSansSemiBold"
-        />
+            app:customfont="OpenSansSemiBold"/>
 
-        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+        <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"

@@ -20,7 +20,7 @@
         android:src="@drawable/bg_filter_option_1"
         app:layout_rowSpan="2"/>
 
-    <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+    <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
         android:id="@+id/tv_pet_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
         app:customfont="OpenSansSemiBold"
         tools:text="Daisy"/>
 
-    <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+    <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
         android:id="@+id/tv_pet_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

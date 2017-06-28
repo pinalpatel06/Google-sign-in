@@ -48,7 +48,7 @@
                   android:layout_below="@+id/fl_tab"
                   map:uiCompass="false"/>
 
-        <tekkan.synappz.com.tekkan.custom.CustomEditTextView
+        <com.bayer.ah.bayertekenscanner.custom.CustomEditTextView
             android:id="@+id/et_search_bar"
             style="@style/TekenAppSearchbarStyle"
             android:layout_width="match_parent"
@@ -70,7 +70,7 @@
         app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
         app:orientation="horizontal">
 
-        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+        <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
             android:id="@+id/tv_title_filter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -124,7 +124,7 @@
             android:orientation="horizontal"
             app:layout_columnSpan="2">
 
-            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
                 android:id="@+id/tv_month_0"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -132,7 +132,7 @@
                 android:textSize="@dimen/month_text_size"
                 tools:text="@string/jan"/>
 
-            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
                 android:id="@+id/tv_month_1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -140,7 +140,7 @@
                 android:textSize="@dimen/month_text_size"
                 tools:text="@string/jan"/>
 
-            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
                 android:id="@+id/tv_month_2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -148,7 +148,7 @@
                 android:textSize="@dimen/month_text_size"
                 tools:text="@string/feb"/>
 
-            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
                 android:id="@+id/tv_month_3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -156,7 +156,7 @@
                 android:textSize="@dimen/month_text_size"
                 tools:text="@string/mar"/>
 
-            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
                 android:id="@+id/tv_month_4"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -164,56 +164,56 @@
                 android:textSize="@dimen/month_text_size"
                 tools:text="@string/apr"/>
 
-            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
                 android:id="@+id/tv_month_5"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textSize="@dimen/month_text_size"
                 tools:text="@string/may"/>
-            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
                 android:id="@+id/tv_month_6"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textSize="@dimen/month_text_size"
                 tools:text="@string/jun"/>
-            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
                 android:id="@+id/tv_month_7"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textSize="@dimen/month_text_size"
                 tools:text="@string/jul"/>
-            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
                 android:id="@+id/tv_month_8"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textSize="@dimen/month_text_size"
                 tools:text="@string/aug"/>
-            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
                 android:id="@+id/tv_month_9"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textSize="@dimen/month_text_size"
                 tools:text="@string/sep"/>
-            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
                 android:id="@+id/tv_month_10"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textSize="@dimen/month_text_size"
                 tools:text="@string/oct"/>
-            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
                 android:id="@+id/tv_month_11"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textSize="@dimen/month_text_size"
                 tools:text="@string/nov"/>
-            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
                 android:id="@+id/tv_month_12"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -222,7 +222,7 @@
                 tools:text="@string/dec"/>
         </LinearLayout>
 
-        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+        <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
             android:id="@+id/tv_year_right"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -234,7 +234,7 @@
             app:layout_columnWeight="1"
             tools:text="2016"/>
 
-        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+        <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
             android:id="@+id/tv_year_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
