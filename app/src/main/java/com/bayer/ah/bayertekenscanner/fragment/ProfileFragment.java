@@ -672,7 +672,9 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
                 mPetImageIV.setDefaultImageResId(R.drawable.ic_cat_placeholder);
             }
 
-            mPetImageIV.setImageUrl(pet.getPhoto(), VolleyHelper.getInstance(getActivity()).getImageLoader());
+            if(mPet.getPhoto() != null && !mPet.getPhoto().equals("null")) {
+                mPetImageIV.setImageUrl(pet.getPhoto(), VolleyHelper.getInstance(getActivity()).getImageLoader());
+            }
         }
 
         @Override

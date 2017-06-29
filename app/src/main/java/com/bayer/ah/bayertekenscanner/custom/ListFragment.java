@@ -44,6 +44,7 @@ public abstract class ListFragment<T, VH extends RecyclerView.ViewHolder> extend
     private Adapter mAdapter;
     private List<T> mItems;
     ProgressBar mProgressBar;
+    private DividerItemDecoration mDividerItemDecoration;
 
 
     @Nullable
@@ -70,9 +71,19 @@ public abstract class ListFragment<T, VH extends RecyclerView.ViewHolder> extend
             mEmptyFL.addView(emptyView);
         }
 
+        mDividerItemDecoration = new DividerItemDecoration(getActivity());
+        if (hasDecoration()) {
+            mDividerItemDecoration.setEnabledViewTypes(getViewTypesForDecoration());
+            mRecyclerView.addItemDecoration(mDividerItemDecoration);
+        }
+
         updateUI();
 
         return v;
+    }
+
+    protected int[] getViewTypesForDecoration() {
+        return null;
     }
 
     private void init(View v) {
@@ -109,6 +120,10 @@ public abstract class ListFragment<T, VH extends RecyclerView.ViewHolder> extend
                         : View.GONE
         );
         mProgressBar.setVisibility(View.GONE);
+    }
+
+    protected boolean hasDecoration() {
+        return true;
     }
 
     private int getRecyclerViewId() {
@@ -324,5 +339,7 @@ public abstract class ListFragment<T, VH extends RecyclerView.ViewHolder> extend
         public int getItemCount() {
             return mItems.size();
         }
+
+
     }
 }

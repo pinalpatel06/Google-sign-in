@@ -189,6 +189,15 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
         }
     }
 
+    @Override
+    protected boolean hasDecoration() {
+        return true;
+    }
+
+    @Override
+    protected int[] getViewTypesForDecoration() {
+        return new int[]{TYPE_PET};
+    }
 
     private void fetchPetData() {
         TekenJsonArrayRequest request = new TekenJsonArrayRequest(
