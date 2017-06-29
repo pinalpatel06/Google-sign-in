@@ -21,13 +21,13 @@
     </string-array>
 
     <string-array name="cat_gender_type">
-        <item name="male_cat">Kater</item>
-        <item name="female_cat">Poes</item>
+        <item name="male_cat">@string/male_cat</item>
+        <item name="female_cat">@string/female_cat</item>
         </string-array>
 
     <string-array name="dog_gender_type">
-        <item name="male_dog">Reu</item>
-        <item name="female_dog">Teef</item>
+        <item name="male_dog">@string/male_dog</item>
+        <item name="female_dog">@string/female_dog</item>
     </string-array>
 
 
