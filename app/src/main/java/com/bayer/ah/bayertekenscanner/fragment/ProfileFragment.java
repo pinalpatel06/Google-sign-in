@@ -55,8 +55,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -67,10 +65,6 @@ import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 
-import static android.R.id.message;
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
-import static com.bayer.ah.bayertekenscanner.R.string.confirmation_title;
-import static com.bayer.ah.bayertekenscanner.R.string.error;
 import static java.lang.String.valueOf;
 
 
@@ -151,7 +145,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
                 fragment.setListener(this);
                 return true;
             case android.R.id.home:
-                fragment = ConfirmDialogFragment.newInstance(confirmation_title, R.string.confirmation, R.string.stop, R.string.procced);
+                fragment = ConfirmDialogFragment.newInstance(R.string.confirmation_title, R.string.confirmation, R.string.stop, R.string.procced);
                 fragment.show(getFragmentManager(), TAG_DIALOG);
                 fragment.setListener(new ConfirmDialogFragment.ConfirmDialogFragmentListener() {
                     @Override
@@ -376,7 +370,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
 
             VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
         } else {
-            AlertDialogFragment fragment = AlertDialogFragment.newInstance(R.string.confirmation_title, R.string.terms_not_accepted);
+            AlertDialogFragment fragment = AlertDialogFragment.newInstance(confirmation_title, R.string.terms_not_accepted);
             fragment.show(getFragmentManager(), TAG_ALERT);
         }
     }
