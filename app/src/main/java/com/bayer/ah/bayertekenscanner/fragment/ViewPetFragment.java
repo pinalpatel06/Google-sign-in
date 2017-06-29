@@ -113,12 +113,11 @@ public class ViewPetFragment extends Fragment implements TekenResponseListener, 
 
     private void updateUI() {
 
-        if(mPet.getType() == Constants.PetType.DOG){
+        if (mPet.getType() == Constants.PetType.DOG) {
             mPetPicIV.setErrorImageResId(R.drawable.ic_dog_placeholder);
-        }else{
+        } else {
             mPetPicIV.setErrorImageResId(R.drawable.ic_cat_placeholder);
         }
-
         mPetPicIV.setImageUrl(mPet.getPhoto(), VolleyHelper.getInstance(getActivity()).getImageLoader());
 
         mPetNameTV.setText(mPet.getName());
@@ -136,7 +135,24 @@ public class ViewPetFragment extends Fragment implements TekenResponseListener, 
 
         mDateOfBirthTv.setText(DateUtils.toApi(mPet.getBirthDate()));
 
-        mGenderTv.setText(String.valueOf(mPet.getGender()));
+        if (mPet.getType() == Constants.PetType.CAT) {
+            if (mPet.getGender() == Constants.Gender.FEMALE) {
+                mGenderTv.setText(getString(R.string.female_cat));
+            } else {
+                mGenderTv.setText(getString(R.string.male_cat));
+
+            }
+        } else if (mPet.getType() == Constants.PetType.DOG) {
+            if (mPet.getGender() == Constants.Gender.FEMALE) {
+                mGenderTv.setText(getString(R.string.female_dog));
+            } else {
+                mGenderTv.setText(getString(R.string.male_dog));
+
+            }
+        } else {
+            mGenderTv.setText(null);
+        }
+
         mWeightTv.setText(String.valueOf(mPet.getWeight()));
     }
 
