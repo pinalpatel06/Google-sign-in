@@ -44,7 +44,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -141,6 +143,7 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
             mDogBreeds = new ArrayList<>(),
             mCurrentBreeds = new ArrayList<>();
 
+
     public static EditPetFragment newInstance(Pet pet) {
         Bundle args = new Bundle();
         args.putParcelable(ARGS_PET, pet);
@@ -214,6 +217,8 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
         mAnimalTypeSP.setOnItemChosenListener(this);
         mAnimalGenderSP.setOnItemChosenListener(this);
         mBreedSP.setOnItemChosenListener(this);
+        updateGenderItems();
+
 
         updateUI();
         return v;
@@ -300,13 +305,13 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
         }
 
 
-        if(mPet.getType() == Constants.PetType.DOG){
+        if (mPet.getType() == Constants.PetType.DOG) {
             mCameraIV.setErrorImageResId(R.drawable.ic_dog_placeholder);
-        }else{
+        } else {
             mCameraIV.setErrorImageResId(R.drawable.ic_cat_placeholder);
         }
 
-        mCameraIV.setImageUrl(mPet.getPhoto(),VolleyHelper.getInstance(getActivity()).getImageLoader());
+        mCameraIV.setImageUrl(mPet.getPhoto(), VolleyHelper.getInstance(getActivity()).getImageLoader());
 
         mPetNameET.setText(mPet.getName());
 
@@ -341,13 +346,35 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
         }
 
         Constants.Gender gender = mPet.getGender();
+        int genderStringId = -1;
 
-        if (gender == Constants.Gender.MALE) {
-            mGenderTV.setText(R.string.male);
-        } else if (gender == Constants.Gender.FEMALE) {
-            mGenderTV.setText(R.string.female);
+        switch (mPet.getType()) {
+            case CAT:
+                switch (gender) {
+                    case MALE:
+                        genderStringId = R.string.male_cat;
+                        break;
+                    case FEMALE:
+                        genderStringId = R.string.female_cat;
+                        break;
+                }
+                break;
+            case DOG:
+                switch (gender) {
+                    case MALE:
+                        genderStringId = R.string.male_dog;
+                        break;
+                    case FEMALE:
+                        genderStringId = R.string.female_dog;
+                        break;
+                }
+                break;
+        }
+
+        if (genderStringId > 0) {
+            mGenderTV.setText(genderStringId);
         } else {
-            mGenderTV.setText("");
+            mGenderTV.setText(null);
         }
 
         int weight = mPet.getWeight();
@@ -357,6 +384,29 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
             mWeightET.setText("");
         }
 
+    }
+
+
+    private void updateGenderItems() {
+        List<String> genderList;
+
+        switch (mPet.getType()) {
+            case CAT:
+                genderList = Arrays.asList(getResources().getStringArray(R.array.cat_gender_type));
+                break;
+            case DOG:
+                genderList = Arrays.asList(getResources().getStringArray(R.array.dog_gender_type));
+                break;
+            default:
+                return;
+        }
+
+
+        ArrayAdapter<String> genderAdapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_spinner_item, genderList);
+        genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        mAnimalGenderSP.setAdapter(genderAdapter);
     }
 
     private void datePicker() {
@@ -450,6 +500,7 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
                 if (getString(R.string.cat).equalsIgnoreCase(animalType)) {
                     mPet.setType(Constants.PetType.CAT);
                     mCurrentBreeds.addAll(mCatBreeds);
+
                 } else if (getString(R.string.dog).equalsIgnoreCase(animalType)) {
                     mPet.setType(DOG);
                     mCurrentBreeds.addAll(mDogBreeds);
@@ -458,6 +509,7 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
                 }
                 mPet.setBreedId(0);
                 mBreedSpinnerAdapter.notifyDataSetChanged();
+                updateGenderItems();
                 break;
             case R.id.sp_breed_type:
 
@@ -471,9 +523,14 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
                 break;
             case R.id.sp_animal_gender:
                 String gender = (String) adapterView.getSelectedItem();
-                if (getString(R.string.male).equalsIgnoreCase(gender)) {
+
+                if (getString(R.string.male_cat).equalsIgnoreCase(gender)) {
                     mPet.setGender(Constants.Gender.MALE);
-                } else if (getString(R.string.female).equalsIgnoreCase(gender)) {
+                } else if (getString(R.string.female_cat).equalsIgnoreCase(gender)) {
+                    mPet.setGender(Constants.Gender.FEMALE);
+                } else if (getString(R.string.male_dog).equalsIgnoreCase(gender)) {
+                    mPet.setGender(Constants.Gender.MALE);
+                } else if (getString(R.string.female_dog).equalsIgnoreCase(gender)) {
                     mPet.setGender(Constants.Gender.FEMALE);
                 }
 
@@ -630,6 +687,7 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
             setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         }
     }
+
 
     public void showDialog() {
         Dialog dialog = new Dialog(getActivity());
