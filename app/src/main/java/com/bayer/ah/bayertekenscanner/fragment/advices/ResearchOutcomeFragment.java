@@ -56,7 +56,7 @@ public class ResearchOutcomeFragment extends Fragment implements CommonNodeInter
     public static ResearchOutcomeFragment newInstance(Pet pet) {
 
         Bundle args = new Bundle();
-        args.putParcelable(ARGS_PET_INFO , pet);
+        args.putParcelable(ARGS_PET_INFO, pet);
         ResearchOutcomeFragment fragment = new ResearchOutcomeFragment();
         fragment.setArguments(args);
         return fragment;
@@ -73,21 +73,26 @@ public class ResearchOutcomeFragment extends Fragment implements CommonNodeInter
         return v;
     }
 
-    private void updateUI(){
+    private void updateUI() {
         mPet = getArguments().getParcelable(ARGS_PET_INFO);
-        if(mPet != null){
+        if (mPet != null) {
 
-            if(mPet.getType().equals(Constants.PetType.DOG)){
+            if (mPet.getType().equals(Constants.PetType.DOG)) {
                 mPetPicIV.setDefaultImageResId(R.drawable.ic_dog_placeholder);
                 mPetPicIV.setErrorImageResId(R.drawable.ic_dog_placeholder);
-            }else{
+            } else {
                 mPetPicIV.setDefaultImageResId(R.drawable.ic_cat_placeholder);
                 mPetPicIV.setErrorImageResId(R.drawable.ic_cat_placeholder);
             }
 
-            mPetPicIV.setImageUrl(mPet.getPhoto(), VolleyHelper.getInstance(getActivity()).getImageLoader());
+            if (!mPet.getPhoto().equals("null") && mPet.getPhoto() != null) {
+                mPetPicIV.setImageUrl(mPet.getPhoto(), VolleyHelper.getInstance(getActivity()).getImageLoader());
+            }
+
             mPetNameTV.setText(mPet.getName());
-            mCommentTV.setText(mPet.getComment());
+            if (!mPet.getComment().isEmpty() && !mPet.getComment().equals("null")) {
+                mCommentTV.setText(mPet.getComment());
+            }
         }
     }
 

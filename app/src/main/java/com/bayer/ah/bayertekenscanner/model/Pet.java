@@ -7,6 +7,8 @@ import android.util.Log;
 import com.bayer.ah.bayertekenscanner.utils.Constants;
 import com.bayer.ah.bayertekenscanner.utils.DateUtils;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Date;
@@ -30,7 +32,7 @@ public class Pet implements Parcelable {
             JSON_N_WEIGHT = "weight",
             JSON_B_RESEARCH = "research",
             JSON_B_TICK = "tick",
-            JSON_S_DISEASES = "diseases",
+            JSON_A_DISEASES = "diseases",
             JSON_S_STADIUM = "stadium",
             JSON_B_CONTAMINATED = "contaminated",
             JSON_S_PATHOGENES = "pathogenes",
@@ -39,6 +41,15 @@ public class Pet implements Parcelable {
 
     private long mId, mBreedId;
     private Date mBirthDate;
+
+    public int[] getDisease() {
+        return mDisease;
+    }
+
+    public void setDisease(int[] disease) {
+        mDisease = disease;
+    }
+
     private Constants.Gender mGender;
     private Constants.PetType mType;
     private String mPhoto, mName;
@@ -81,6 +92,16 @@ public class Pet implements Parcelable {
         mHasTick = object.optBoolean(JSON_B_TICK);
         mIsContaminated = object.optBoolean(JSON_B_CONTAMINATED);
 
+        JSONArray diseaseArray = object.optJSONArray(JSON_A_DISEASES);
+        mDisease = new int[diseaseArray.length()];
+        for (int i = 0; i < diseaseArray.length(); i++) {
+            try {
+                mDisease[i] = diseaseArray.getInt(i);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
         mStadium = object.optString(JSON_S_STADIUM);
         mSubTypes = object.optString(JSON_S_SUBTYPES);
         mComment = object.optString(JSON_S_COMMENT);
@@ -106,6 +127,8 @@ public class Pet implements Parcelable {
         mHasTick = in.readInt() == 1;
         mIsContaminated = in.readInt() == 1;
 
+        in.readIntArray(getDisease());
+
         mStadium = in.readString();
         mSubTypes = in.readString();
         mComment = in.readString();
@@ -125,6 +148,7 @@ public class Pet implements Parcelable {
         dest.writeInt(mResearch ? 1 : 0);
         dest.writeInt(mHasTick ? 1 : 0);
         dest.writeInt(mIsContaminated ? 1 : 0);
+        dest.writeIntArray(mDisease);
         dest.writeString(mStadium);
         dest.writeString(mSubTypes);
         dest.writeString(mComment);

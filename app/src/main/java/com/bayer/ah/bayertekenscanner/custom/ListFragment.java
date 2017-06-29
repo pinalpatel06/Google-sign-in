@@ -90,7 +90,7 @@ public abstract class ListFragment<T, VH extends RecyclerView.ViewHolder> extend
         );
 
         mEmptyFL.setVisibility(
-                (mItems == null || mItems.size() == 0)
+                (mItems == null || mItems.size() == 0 && mProgressBar.getVisibility() != View.VISIBLE)
                         ? View.VISIBLE
                         : View.GONE
         );
@@ -108,6 +108,7 @@ public abstract class ListFragment<T, VH extends RecyclerView.ViewHolder> extend
                         ? View.VISIBLE
                         : View.GONE
         );
+        mProgressBar.setVisibility(View.GONE);
     }
 
     private int getRecyclerViewId() {
@@ -181,11 +182,11 @@ public abstract class ListFragment<T, VH extends RecyclerView.ViewHolder> extend
         return mItems;
     }
 
-    protected void onSwipeCompleted(int position, int direction, T item){
+    protected void onSwipeCompleted(int position, int direction, T item) {
 
     }
 
-    protected boolean canSwipe(int viewType){
+    protected boolean canSwipe(int viewType) {
         return true;
     }
 
@@ -222,7 +223,7 @@ public abstract class ListFragment<T, VH extends RecyclerView.ViewHolder> extend
 
                         boolean canSwipe = canSwipe(getItemViewType(viewHolder.getAdapterPosition()));
 
-                        if(!canSwipe){
+                        if (!canSwipe) {
                             super.onChildDraw(c, recyclerView, viewHolder, 0, dY, actionState, false);
                             return;
                         }
@@ -237,7 +238,7 @@ public abstract class ListFragment<T, VH extends RecyclerView.ViewHolder> extend
 
 
                         if (!isCurrentlyActive && (Math.abs(dX) == recyclerViewWidth || dX == 0)) {
-                            c.drawColor(ContextCompat.getColor(getActivity(),defaultColor));
+                            c.drawColor(ContextCompat.getColor(getActivity(), defaultColor));
                             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
                             return;
                         }

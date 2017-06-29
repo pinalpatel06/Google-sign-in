@@ -53,8 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/extra_margin_15dp"
             android:layout_marginStart="@dimen/extra_margin_15dp"
-            android:text="@string/more_info_detail"
             android:textSize="@dimen/more_info_detail_text_size"/>
-
+        <!--android:text="@string/more_info_detail"-->
     </LinearLayout>
 </ScrollView>

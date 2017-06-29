@@ -108,7 +108,7 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAnimalType = getArguments().getString(ARGS_ANIMAL_TYPE);
-        if (User.getInstance(getActivity()) != null) {
+        if (User.getInstance(getActivity()).isLoaded()) {
             fetchPetData();
         } else {
             fetchTipsData();
@@ -238,7 +238,7 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
                 new TekenResponseListener<JSONArray>() {
                     @Override
                     public void onResponse(int requestCode, JSONArray response) {
-                        if (mTipsItems == null) {
+                        if (mTipsItems.size() == 0) {
                             mTipsItems = new ArrayList<>();
                         }
                         Log.d(TAG, "Success" + response.length());
@@ -248,17 +248,6 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
                                 jsonObject = response.getJSONObject(i);
 
                                 TipsInfo tipsInfo = new TipsInfo(jsonObject);
-
-                               /* mTipsItems.add(tipsInfo.getName());
-
-                                if (tipsInfo.getTipsItems().size() > 0) {
-                                    for (int j = 0; j < tipsInfo.size(); j++) {
-                                        TipsItem item = tipsInfo.getTipsItems().get(j);
-                                        if (mAnimalType.equals(item.getType())) {
-                                            mTipsItems.add(item);
-                                        }
-                                    }
-                                }*/
 
                                 if (mAnimalType.equals(Constants.PetType.DOG.toApi()) && tipsInfo.getDogTipsList().size() > 0) {
                                     Set<String> title = tipsInfo.getDogTipsList().keySet();
@@ -281,7 +270,11 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
                                 continue;
                             }
                         }
-                        loadNewItems(mTipsItems);
+                        if (mTipsItems.size() > 0) {
+                            loadNewItems(mTipsItems);
+                        } else {
+                            updateEmptyView();
+                        }
                     }
                 },
                 new TekenErrorListener() {
@@ -426,7 +419,7 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
                 mPetImageIV.setErrorImageResId(R.drawable.ic_cat_placeholder);
             }
 
-            if (!item.getPhoto().isEmpty()) {
+            if (!item.getPhoto().isEmpty() && !item.getPhoto().equals("null")) {
                 mPetImageIV.setImageUrl(item.getPhoto(), VolleyHelper.getInstance(getActivity()).getImageLoader());
             }
 
@@ -439,14 +432,6 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
             bundle.putParcelable(TipsTabFragment.ARGS_TIPS, mPet);
             mCallback.onListItemClicked(TYPE_PET, bundle);
         }
-
-        /*@OnClick(R.id.gl_pet_info)
-        public void onClickPetInfo() {
-            //setChildFragment(new ResearchOutcomeFragment(), TAG_CHILD_FRAGMENT);
-            Bundle bundle = new Bundle();
-            bundle.putString(ANIMAL_TYPE, mAnimalType);
-            mCallback.onListItemClicked(TYPE_PET, bundle);
-        }*/
     }
 
     public class StringVH extends RecyclerView.ViewHolder {

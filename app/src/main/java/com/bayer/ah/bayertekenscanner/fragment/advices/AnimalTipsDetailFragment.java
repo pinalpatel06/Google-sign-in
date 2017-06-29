@@ -20,7 +20,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-
 /**
  * Created by Tejas Sherdiwala on 4/25/2017.
  * &copy; Knoxpo
@@ -50,7 +49,7 @@ public class AnimalTipsDetailFragment extends Fragment implements CommonNodeInte
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 getActivity().onBackPressed();
                 return true;
@@ -62,7 +61,7 @@ public class AnimalTipsDetailFragment extends Fragment implements CommonNodeInte
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_animal_tips_details,container,false);
+        View v = inflater.inflate(R.layout.fragment_animal_tips_details, container, false);
         v.setBackgroundColor(ContextCompat.getColor(getActivity(), android.R.color.white));
         init(v);
         updateUI();
@@ -70,13 +69,19 @@ public class AnimalTipsDetailFragment extends Fragment implements CommonNodeInte
         return v;
     }
 
-    private void init(View v){
-        ButterKnife.bind(this,v);
+    private void init(View v) {
+        ButterKnife.bind(this, v);
         mTipsItem = getArguments().getParcelable(ARGS_TIPS);
     }
-    private void updateUI(){
-        if(mTipsItem != null) {
-            mTipsIV.setImageUrl(mTipsItem.getBannerUrl(), VolleyHelper.getInstance(getActivity()).getImageLoader());
+
+    private void updateUI() {
+        if (mTipsItem != null) {
+
+            mTipsIV.setDefaultImageResId(R.drawable.ic_splash_pets);
+
+            if (mTipsItem.getBannerUrl() != null && !mTipsItem.getBannerUrl().equals("null")) {
+                mTipsIV.setImageUrl(mTipsItem.getBannerUrl(), VolleyHelper.getInstance(getActivity()).getImageLoader());
+            }
             mTitleTV.setText(mTipsItem.getTipsTitle());
             mDetailsTV.setText(mTipsItem.getContent());
         }
