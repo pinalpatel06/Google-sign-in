@@ -1,6 +1,8 @@
 package com.bayer.ah.bayertekenscanner.fragment.advices;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -16,6 +18,8 @@ import com.bayer.ah.bayertekenscanner.custom.nestedfragments.CommonNodeInterface
 import com.bayer.ah.bayertekenscanner.model.Pet;
 import com.bayer.ah.bayertekenscanner.utils.Constants;
 import com.bayer.ah.bayertekenscanner.utils.VolleyHelper;
+
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -66,17 +70,32 @@ public class ResearchOutcomeFragment extends Fragment implements CommonNodeInter
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragement_research_outcome, container, false);
-        ButterKnife.bind(this, v);
+        init(v);
         v.setBackgroundColor(ContextCompat.getColor(getActivity(), android.R.color.white));
         setHasOptionsMenu(true);
         updateUI();
         return v;
     }
 
-    private void updateUI() {
+    private void init(View v) {
+        ButterKnife.bind(this, v);
         mPet = getArguments().getParcelable(ARGS_PET_INFO);
-        if (mPet != null) {
 
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        Set<String> researchList = sp.getStringSet(Constants.SP.RESEARCH_LIST, null);
+        if (researchList != null) {
+            String id = String.valueOf(mPet.getId());
+            if (researchList.contains(id)) {
+                researchList.remove(id);
+                sp.edit().remove(Constants.SP.RESEARCH_LIST).apply();
+                sp.edit().putStringSet(Constants.SP.RESEARCH_LIST, researchList).apply();
+            }
+        }
+    }
+
+    private void updateUI() {
+
+        if (mPet != null) {
             if (mPet.getType().equals(Constants.PetType.DOG)) {
                 mPetPicIV.setDefaultImageResId(R.drawable.ic_dog_placeholder);
                 mPetPicIV.setErrorImageResId(R.drawable.ic_dog_placeholder);

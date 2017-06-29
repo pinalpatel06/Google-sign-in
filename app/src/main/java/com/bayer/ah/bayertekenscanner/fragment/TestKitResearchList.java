@@ -182,6 +182,9 @@ public class TestKitResearchList extends ListFragment<Object, RecyclerView.ViewH
         RelativeLayout mRelativeLayout;
         @BindView(R.id.iv_pet_image)
         CircleNetworkImageView mPetIV;
+        @BindView(R.id.view_disable)
+        View mDisableView;
+
         private Pet mItem;
 
         PetVH(View itemView) {
@@ -197,6 +200,10 @@ public class TestKitResearchList extends ListFragment<Object, RecyclerView.ViewH
             if (!pet.getPhoto().equals("null")) {
                 Log.d(TAG, pet.getPhoto());
                 mPetIV.setImageUrl(pet.getPhoto(), VolleyHelper.getInstance(getActivity()).getImageLoader());
+            }
+
+            if(pet.isResearch()){
+                mDisableView.setVisibility(View.VISIBLE);
             }
         }
 

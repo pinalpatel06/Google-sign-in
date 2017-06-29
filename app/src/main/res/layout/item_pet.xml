@@ -1,44 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:id="@+id/rt_item_pet"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true"
-                android:orientation="horizontal"
-                android:paddingBottom="10dp"
-                android:paddingEnd="5dp"
-                android:paddingStart="16dp"
-                android:paddingTop="10dp">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content">
 
-    <com.bayer.ah.bayertekenscanner.custom.CircleNetworkImageView
-        android:id="@+id/iv_pet_image"
-        android:layout_width="@dimen/list_item_image_width"
-        android:layout_height="@dimen/list_item_image_width"
-        android:layout_alignParentTop="true"
-        android:layout_centerVertical="true"/>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:id="@+id/rt_item_pet"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:orientation="horizontal"
+                    android:paddingBottom="10dp"
+                    android:paddingEnd="5dp"
+                    android:paddingStart="16dp"
+                    android:paddingTop="10dp">
 
-    <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
-        android:id="@+id/tv_pet_name"
+        <com.bayer.ah.bayertekenscanner.custom.CircleNetworkImageView
+            android:id="@+id/iv_pet_image"
+            android:layout_width="@dimen/list_item_image_width"
+            android:layout_height="@dimen/list_item_image_width"
+            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"/>
+
+        <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
+            android:id="@+id/tv_pet_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/default_margin"
+            android:layout_toEndOf="@id/iv_pet_image"
+            android:textColor="@color/profile_title_color"
+            android:textSize="@dimen/list_item_name_text_height"
+            app:customfont="OpenSansSemiBold"
+            tools:text="Hummer "/>
+
+
+        <ImageView
+            android:id="@+id/arrow"
+            android:layout_width="@dimen/list_item_badge_width"
+            android:layout_height="@dimen/list_item_badge_width"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_chevron_right_green"/>
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/view_disable"
+        android:background="@color/transparent_white"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_margin="@dimen/default_margin"
-        android:layout_toEndOf="@id/iv_pet_image"
-        android:textColor="@color/profile_title_color"
-        android:textSize="@dimen/list_item_name_text_height"
-        app:customfont="OpenSansSemiBold"
-        tools:text="Hummer "/>
-
-
-    <ImageView
-        android:id="@+id/arrow"
-        android:layout_width="@dimen/list_item_badge_width"
-        android:layout_height="@dimen/list_item_badge_width"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:src="@drawable/ic_chevron_right_green"/>
-</RelativeLayout>
+        android:layout_height="70dp"
+        android:clickable="true"
+        android:visibility="gone"/>
+</FrameLayout>

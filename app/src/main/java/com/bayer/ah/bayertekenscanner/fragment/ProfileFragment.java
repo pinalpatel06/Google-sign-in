@@ -2,6 +2,7 @@ package com.bayer.ah.bayertekenscanner.fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -54,7 +55,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,7 +67,10 @@ import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 
+import static android.R.id.message;
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 import static com.bayer.ah.bayertekenscanner.R.string.confirmation_title;
+import static com.bayer.ah.bayertekenscanner.R.string.error;
 import static java.lang.String.valueOf;
 
 
@@ -88,6 +96,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
     private boolean mCanEdit = false;
     private boolean isTermsAccepted = false;
     private String mOldEmail = null;
+    Set<String> mResearchList;
 
     public static ProfileFragment newInstance(boolean profileType, boolean canEdit) {
         Bundle args = new Bundle();
@@ -181,6 +190,8 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         if (User.getInstance(getActivity()).isLoaded()) {
             mOldEmail = User.getInstance(getActivity()).getEmail();
         }
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        mResearchList = sp.getStringSet(Constants.SP.RESEARCH_LIST, null);
     }
 
     @Override
@@ -221,6 +232,12 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
 
 
     @Override
+    public void onDestroy() {
+        VolleyHelper.getInstance(getActivity()).getRequestQueue().cancelAll(this);
+        super.onDestroy();
+    }
+
+    @Override
     public List<Object> onCreateItems(Bundle savedInstanceState) {
         mListItems = new ArrayList<>();
         mListItems.add(User.getInstance(getActivity()));
@@ -228,9 +245,14 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
     }
 
     private void logout() {
-        PreferenceManager.getDefaultSharedPreferences(getActivity())
-                .edit()
+
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        sp.edit()
                 .remove(Constants.SP.JSON_USER)
+                .apply();
+
+        sp.edit()
+                .remove(Constants.SP.RESEARCH_LIST)
                 .apply();
 
         Fragment fragment = getFragmentManager().findFragmentById(R.id.fragment_container);
@@ -243,6 +265,16 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
 
         User.getInstance(getActivity()).unloadUser();
 
+    }
+
+    @Override
+    protected boolean hasDecoration() {
+        return true;
+    }
+
+    @Override
+    protected int[] getViewTypesForDecoration() {
+        return new int[]{TYPE_PET};
     }
 
     private boolean isUserValid() {
@@ -407,7 +439,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
                 REQUEST_PET
         );
         request.addParam(Constants.Api.QUERY_PARAMETER1, email);
-
+        request.setTag(this);
         VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
     }
 
@@ -415,16 +447,34 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
     public void onResponse(int requestCode, Object response) {
         if (requestCode == REQUEST_PET) {
             mListItems = new ArrayList<>();
+            HashSet<String> researchList = new HashSet<>();
             mListItems.add(User.getInstance(getActivity()));
             JSONArray jsonArray = (JSONArray) response;
+            Pet pet;
             for (int i = 0; i < jsonArray.length(); i++) {
                 try {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    mListItems.add(new Pet(jsonObject));
+                    pet = new Pet(jsonObject);
+                    mListItems.add(pet);
+                    if (pet.isResearch()) {
+                        researchList.add(String.valueOf(pet.getId()));
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
+
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+            if (sp.getStringSet(Constants.SP.RESEARCH_LIST, null) == null) {
+                PreferenceManager.getDefaultSharedPreferences(getActivity())
+                        .edit()
+                        .putStringSet(Constants.SP.RESEARCH_LIST, researchList)
+                        .apply();
+
+                mResearchList = researchList;
+            }
+
             loadNewItems(mListItems);
         }
     }
@@ -653,6 +703,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         CircleNetworkImageView mPetImageIV;
         Pet mPet;
 
+
         PetVH(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -662,7 +713,13 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         void bind(Pet pet) {
             mPet = pet;
             mPetNameTV.setText(pet.getName());
-            mPetCountTV.setText(valueOf("1"));
+
+
+            if (pet.isResearch() && mResearchList != null && mResearchList.contains(String.valueOf(pet.getId()))) {
+                mPetCountTV.setText(valueOf("1"));
+            } else {
+                mPetCountTV.setVisibility(View.GONE);
+            }
 
             if (pet.getType() == Constants.PetType.DOG) {
                 mPetImageIV.setDefaultImageResId(R.drawable.ic_dog_placeholder);
@@ -672,7 +729,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
                 mPetImageIV.setDefaultImageResId(R.drawable.ic_cat_placeholder);
             }
 
-            if(mPet.getPhoto() != null && !mPet.getPhoto().equals("null")) {
+            if (mPet.getPhoto() != null && !mPet.getPhoto().equals("null")) {
                 mPetImageIV.setImageUrl(pet.getPhoto(), VolleyHelper.getInstance(getActivity()).getImageLoader());
             }
         }

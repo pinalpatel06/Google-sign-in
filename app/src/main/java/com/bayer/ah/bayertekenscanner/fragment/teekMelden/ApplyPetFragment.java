@@ -45,7 +45,6 @@ public class ApplyPetFragment extends Fragment {
     private Pet mPet;
 
     public static ApplyPetFragment newInstance(Bundle bundle) {
-
         Bundle args = new Bundle();
         args.putBundle(ARGS_PET_BUNDLE, bundle);
         ApplyPetFragment fragment = new ApplyPetFragment();

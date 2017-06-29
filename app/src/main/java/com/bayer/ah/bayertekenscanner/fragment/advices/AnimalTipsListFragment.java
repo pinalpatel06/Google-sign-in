@@ -1,7 +1,9 @@
 package com.bayer.ah.bayertekenscanner.fragment.advices;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -39,6 +41,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.R.id.message;
 import static com.bayer.ah.bayertekenscanner.fragment.advices.TipsTabFragment.ARGS_TIPS;
 
 /**
@@ -64,6 +67,8 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
     private static final int
             REQUEST_FETCH_TIPS = 0,
             REQUEST_PET = 1;
+
+    Set<String> mResearchList;
 
     public interface Callback {
         void onListItemClicked(int type, Bundle details);
@@ -113,6 +118,9 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
         } else {
             fetchTipsData();
         }
+
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        mResearchList = sp.getStringSet(Constants.SP.RESEARCH_LIST, null);
     }
 
     @Nullable
@@ -121,6 +129,13 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
         View v = super.onCreateView(inflater, container, savedInstanceState);
         v.setBackgroundColor(ContextCompat.getColor(getActivity(), android.R.color.white));
         return v;
+    }
+
+
+    @Override
+    public void onDestroy() {
+        VolleyHelper.getInstance(getActivity()).getRequestQueue().cancelAll(this);
+        super.onDestroy();
     }
 
     @Override
@@ -144,15 +159,6 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
 
     @Override
     protected int getItemViewType(int position) {
-        /*if (position == 0) {
-            return TYPE_TITLE;
-        } else if (position == 1 && isPetInfoAvailable) {
-            return TYPE_PET;
-        } else if (position == 2 && isPetInfoAvailable) {
-            return TYPE_TITLE;
-        } else {
-            return TYPE_TIPS;
-        }*/
 
         if (mTipsItems.get(position) instanceof String) {
             return TYPE_TITLE;
@@ -215,15 +221,15 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
                             try {
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                                 pet = new Pet(jsonObject);
-                                if (pet.getType().toApi().equals(mAnimalType)) {
+                                if (pet.getType().toApi().equals(mAnimalType) && pet.isResearch()) {
                                     mTipsItems.add(new Pet(jsonObject));
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
-                        if (mTipsItems.size() > 1) {
-                            mTipsItems.add(0, getString(R.string.title_research_outcome));
+                        if (mTipsItems.size() >= 1) {
+                                mTipsItems.add(0, getString(R.string.title_research_outcome));
                         }
                     }
                 },
@@ -237,6 +243,7 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
         );
 
         request.addParam(Constants.Api.QUERY_PARAMETER1, User.getInstance(getActivity()).getEmail());
+        request.setTag(this);
         VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
     }
 
@@ -294,6 +301,8 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
                 },
                 REQUEST_FETCH_TIPS
         );
+
+        request.setTag(this);
         VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
 
     }
@@ -432,11 +441,16 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
                 mPetImageIV.setImageUrl(item.getPhoto(), VolleyHelper.getInstance(getActivity()).getImageLoader());
             }
 
-            mCountTV.setText(String.valueOf(getAdapterPosition()));
+            if (mResearchList.contains(String.valueOf(item.getId()))) {
+                mCountTV.setText(String.valueOf("1"));
+            } else {
+                mCountTV.setVisibility(View.GONE);
+            }
         }
 
         @Override
         public void onClick(View v) {
+            mCountTV.setVisibility(View.GONE);
             Bundle bundle = new Bundle();
             bundle.putParcelable(TipsTabFragment.ARGS_TIPS, mPet);
             mCallback.onListItemClicked(TYPE_PET, bundle);

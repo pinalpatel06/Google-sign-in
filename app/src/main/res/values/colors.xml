@@ -91,6 +91,7 @@
     <color name="color_login_top_text">#6B6C6F</color>
     <color name="tips_title">#EFEFF1</color>
     <color name="swipe_out">#00BCD4</color>
+    <color name="transparent_white">#b1ece9e9</color>
 
 
 </resources>

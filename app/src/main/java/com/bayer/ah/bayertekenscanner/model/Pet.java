@@ -2,7 +2,6 @@ package com.bayer.ah.bayertekenscanner.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import com.bayer.ah.bayertekenscanner.utils.Constants;
 import com.bayer.ah.bayertekenscanner.utils.DateUtils;
@@ -39,11 +38,17 @@ public class Pet implements Parcelable {
             JSON_S_SUBTYPES = "subtypes",
             JSON_S_COMMENT = "comment";
 
+    private static final String IS_YES = "Y";
+
     private long mId, mBreedId;
     private Date mBirthDate;
 
     public int[] getDisease() {
-        return mDisease;
+        if (mDisease != null) {
+            return mDisease;
+        } else {
+            return null;
+        }
     }
 
     public void setDisease(int[] disease) {
@@ -58,17 +63,14 @@ public class Pet implements Parcelable {
     private String mComment, mStadium, mSubTypes;
     private int[] mDisease;
 
-
     public Pet() {
     }
-
 
     public Pet(JSONObject object) {
         mId = object.optLong(JSON_N_ID);
         mBreedId = object.optLong(JSON_N_BREED_ID);
-        Log.d("Pet", object.optString(JSON_S_BIRTHDATE));
         mBirthDate = DateUtils.toDate(object.optString(JSON_S_BIRTHDATE));
-        Log.d("Pet = ", mBirthDate.toString());
+
         String gender = object.optString(JSON_S_GENDER);
         if (Constants.Gender.MALE.toApi().equalsIgnoreCase(gender)) {
             mGender = Constants.Gender.MALE;
@@ -88,13 +90,13 @@ public class Pet implements Parcelable {
         mAge = object.optInt(JSON_N_AGE);
         mWeight = object.optInt(JSON_N_WEIGHT);
 
-        mResearch = object.optBoolean(JSON_B_RESEARCH);
-        mHasTick = object.optBoolean(JSON_B_TICK);
-        mIsContaminated = object.optBoolean(JSON_B_CONTAMINATED);
+        mResearch = object.optString(JSON_B_RESEARCH).equals(IS_YES);
+        mHasTick = object.optString(JSON_B_TICK).equals(IS_YES);
+        mIsContaminated = object.optString(JSON_B_CONTAMINATED).equals(IS_YES);
 
         JSONArray diseaseArray = object.optJSONArray(JSON_A_DISEASES);
-        mDisease = new int[diseaseArray.length()];
         for (int i = 0; i < diseaseArray.length(); i++) {
+            mDisease = new int[diseaseArray.length()];
             try {
                 mDisease[i] = diseaseArray.getInt(i);
             } catch (JSONException e) {
@@ -105,8 +107,6 @@ public class Pet implements Parcelable {
         mStadium = object.optString(JSON_S_STADIUM);
         mSubTypes = object.optString(JSON_S_SUBTYPES);
         mComment = object.optString(JSON_S_COMMENT);
-
-        //disease pending..........
     }
 
     protected Pet(Parcel in) {
@@ -127,7 +127,7 @@ public class Pet implements Parcelable {
         mHasTick = in.readInt() == 1;
         mIsContaminated = in.readInt() == 1;
 
-        in.readIntArray(getDisease());
+        mDisease = in.createIntArray();
 
         mStadium = in.readString();
         mSubTypes = in.readString();
