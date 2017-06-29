@@ -16,7 +16,7 @@
             android:layout_gravity="center_vertical"
             android:layout_margin="@dimen/padding_5dp"/>
 
-        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+        <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
             android:id="@+id/tv_filter_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

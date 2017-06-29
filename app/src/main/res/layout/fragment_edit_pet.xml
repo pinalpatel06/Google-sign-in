@@ -18,14 +18,14 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <tekkan.synappz.com.tekkan.custom.CircleNetworkImageView
+            <com.bayer.ah.bayertekenscanner.custom.CircleNetworkImageView
                 android:id="@+id/iv_camera"
                 android:layout_width="@dimen/camera_image_width"
                 android:layout_height="@dimen/camera_image_width"
                 android:layout_gravity="center"
                 android:background="@drawable/ic_camera_with_circle"/>
 
-            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_margin"
@@ -57,7 +57,7 @@
                 style="@style/PetTextViewStyle"
                 android:hint="@string/is_it_dog_or_cat"/>
 
-            <tekkan.synappz.com.tekkan.custom.CustomSpinner
+            <com.bayer.ah.bayertekenscanner.custom.CustomSpinner
                 android:id="@+id/sp_animal_type"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -69,7 +69,7 @@
                 style="@style/PetTextViewStyle"
                 android:hint="@string/what_is_the_breed"/>
 
-            <tekkan.synappz.com.tekkan.custom.CustomSpinner
+            <com.bayer.ah.bayertekenscanner.custom.CustomSpinner
                 android:id="@+id/sp_breed_type"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -85,7 +85,7 @@
                 style="@style/PetTextViewStyle"
                 android:hint="@string/what_is_the_gender"/>
 
-            <tekkan.synappz.com.tekkan.custom.CustomSpinner
+            <com.bayer.ah.bayertekenscanner.custom.CustomSpinner
                 android:id="@+id/sp_animal_gender"
                 android:layout_width="0dp"
                 android:layout_height="0dp"

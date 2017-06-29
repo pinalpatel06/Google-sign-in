@@ -21,7 +21,7 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+        <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -30,14 +30,14 @@
             android:textSize="30sp"
             app:customfont="OpenSansSemiBold"/>
 
-        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+        <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/text_filter_option_info"
             android:textColor="#6F6F6E"
             android:textSize="24sp"/>
-        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+        <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
             android:id="@+id/tv_more_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

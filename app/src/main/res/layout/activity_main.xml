@@ -7,7 +7,7 @@
 
     <include layout="@layout/toolbar"/>
 
-    <tekkan.synappz.com.tekkan.custom.NonScrollingViewPager
+    <com.bayer.ah.bayertekenscanner.custom.NonScrollingViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"

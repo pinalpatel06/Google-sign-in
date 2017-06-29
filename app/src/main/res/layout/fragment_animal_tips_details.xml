@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -16,18 +17,19 @@
             android:scaleType="centerCrop"
             android:src="@drawable/ic_splash_pets"/>
 
-        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+        <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
+            android:id="@+id/tv_tips_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/extra_padding_15dp"
             android:layout_marginStart="@dimen/extra_margin_15dp"
             android:layout_marginTop="@dimen/extra_margin_15dp"
-            android:text="@string/more_info_heading"
             android:textColor="@color/color_more_info_header"
             android:textSize="@dimen/more_info_head_text_size"
-            app:customfont="OpenSansSemiBold"/>
+            app:customfont="OpenSansSemiBold"
+            tools:text="@string/more_info_heading"/>
 
-        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+        <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
             android:id="@+id/tv_tips_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

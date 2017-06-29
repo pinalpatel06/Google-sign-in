@@ -13,14 +13,14 @@
                 android:paddingStart="@dimen/extra_margin_15dp"
                 android:paddingTop="@dimen/padding_10dp">
 
-    <tekkan.synappz.com.tekkan.custom.CircleNetworkImageView
+    <com.bayer.ah.bayertekenscanner.custom.CircleNetworkImageView
         android:id="@+id/iv_pet_image"
         android:layout_width="@dimen/list_item_image_width"
         android:layout_height="@dimen/list_item_image_width"
         android:layout_alignParentTop="true"
         android:layout_centerVertical="true"/>
 
-    <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+    <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
         android:id="@+id/tv_pet_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
         app:customfont="OpenSansSemiBold"
         tools:text="Hummer "/>
 
-    <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+    <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
         android:id="@+id/tv_pet_count"
         android:layout_width="@dimen/list_item_badge_width"
         android:layout_height="@dimen/list_item_badge_width"
