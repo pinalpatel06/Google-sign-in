@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_splash_pets"/>
 
-        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+        <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
             android:id="@+id/tv_product_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
             app:customfont="OpenSansSemiBold"
             tools:text="@string/product_details_title"/>
 
-        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+        <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
             android:id="@+id/tv_product_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
             app:customfont="OpenSansRegular"
             tools:text="@string/product_details_description"/>
 
-        <tekkan.synappz.com.tekkan.custom.CustomButtonView
+        <com.bayer.ah.bayertekenscanner.custom.CustomButtonView
             android:id="@+id/btn_more_info"
             android:layout_width="match_parent"
             android:layout_height="@dimen/app_button_height"

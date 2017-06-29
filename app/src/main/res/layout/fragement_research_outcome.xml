@@ -3,7 +3,7 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,14 +17,16 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <de.hdodenhof.circleimageview.CircleImageView
+            <com.bayer.ah.bayertekenscanner.custom.CircleNetworkImageView
+                android:id="@+id/iv_pet_pic"
                 android:layout_width="@dimen/civ_profile_image_size"
                 android:layout_height="@dimen/civ_profile_image_size"
                 android:src="@drawable/ic_splash_pets"
                 app:civ_border_color="@android:color/white"
                 app:civ_border_width="2dp"/>
 
-            <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+            <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
+                android:id="@+id/tv_pet_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/white"
@@ -33,24 +35,25 @@
                 tools:text="Hummer"/>
         </LinearLayout>
 
-        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+        <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/extra_padding_15dp"
             android:layout_marginStart="@dimen/extra_margin_15dp"
             android:layout_marginTop="@dimen/margin_10dp"
-            tools:text="@string/more_info_heading"
+            android:text="@string/more_info_heading"
             android:textColor="@color/color_more_info_header"
             android:textSize="@dimen/more_info_head_text_size"
             app:customfont="OpenSansSemiBold"/>
 
-        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+        <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
+            android:id="@+id/tv_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/extra_margin_15dp"
             android:layout_marginStart="@dimen/extra_margin_15dp"
-            android:text="@string/more_info_detail"
             android:textSize="@dimen/more_info_detail_text_size"/>
-
+        <!--android:text="@string/more_info_detail"-->
     </LinearLayout>
 </ScrollView>

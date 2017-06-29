@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="tekkan.synappz.com.tekkan">
+    package="com.bayer.ah.bayertekenscanner">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -15,7 +15,7 @@
 
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.SplashActivity"
+            android:name="com.bayer.ah.bayertekenscanner.activity.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,69 +24,69 @@
         </activity>
 
         <activity
-            android:name=".activity.DisclaimerActivity"
+            android:name="com.bayer.ah.bayertekenscanner.activity.DisclaimerActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".activity.ProfileSetupActivity"
+            android:name="com.bayer.ah.bayertekenscanner.activity.ProfileSetupActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".activity.MainActivity"
+            android:name="com.bayer.ah.bayertekenscanner.activity.MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
 
         <activity
-            android:name=".activity.FilterOptionActivity"
+            android:name="com.bayer.ah.bayertekenscanner.activity.FilterOptionActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".activity.MoreInfoActivity"
+            android:name="com.bayer.ah.bayertekenscanner.activity.MoreInfoActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".activity.LogInActivity"
+            android:name="com.bayer.ah.bayertekenscanner.activity.LogInActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".activity.LogInAndProfileActivity"
+            android:name="com.bayer.ah.bayertekenscanner.activity.LogInAndProfileActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
 
         <activity
-            android:name=".activity.QRScannerActivity"
+            android:name="com.bayer.ah.bayertekenscanner.activity.QRScannerActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".activity.InvestigatePetActivity"
+            android:name="com.bayer.ah.bayertekenscanner.activity.InvestigatePetActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".activity.EditPetActivity"
+            android:name="com.bayer.ah.bayertekenscanner.activity.EditPetActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".activity.ProfileActivity"
+            android:name="com.bayer.ah.bayertekenscanner.activity.ProfileActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".activity.ConditionsActivity"
+            android:name="com.bayer.ah.bayertekenscanner.activity.ConditionsActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".activity.ApplyForPetActivity"
+            android:name="com.bayer.ah.bayertekenscanner.activity.ApplyForPetActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".activity.ApplyPetAgreementActivity"
+            android:name="com.bayer.ah.bayertekenscanner.activity.ApplyPetAgreementActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".activity.ViewPetActivity"
+            android:name="com.bayer.ah.bayertekenscanner.activity.ViewPetActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".activity.BarcodeCaptureActivity"
+            android:name="com.bayer.ah.bayertekenscanner.activity.BarcodeCaptureActivity"
             android:screenOrientation="portrait" />
 
         <meta-data

@@ -5,11 +5,11 @@
 
         <variable
             name="gender"
-            type="tekkan.synappz.com.tekkan.utils.Constants.Gender" />
+            type="com.bayer.ah.bayertekenscanner.utils.Constants.Gender" />
 
         <variable
             name="user"
-            type="tekkan.synappz.com.tekkan.model.User" />
+            type="com.bayer.ah.bayertekenscanner.model.User" />
     </data>
 
     <LinearLayout
@@ -19,7 +19,7 @@
         android:paddingBottom="@dimen/splash_default_margin">
 
 
-        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+        <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/default_margin"
@@ -65,7 +65,7 @@
                     android:textSize="@dimen/profile_default_text_size" />
             </RadioGroup>
 
-            <tekkan.synappz.com.tekkan.custom.CustomFontEditText
+            <com.bayer.ah.bayertekenscanner.custom.CustomFontEditText
                 android:id="@+id/et_first_name"
                 style="@style/ProfileEditTextStyle"
                 android:layout_width="match_parent"
@@ -75,8 +75,7 @@
                 android:text="@{user.firstName}"
                 android:inputType="text" />
 
-
-            <tekkan.synappz.com.tekkan.custom.CustomFontEditText
+            <com.bayer.ah.bayertekenscanner.custom.CustomFontEditText
                 android:id="@+id/et_last_name"
                 style="@style/ProfileEditTextStyle"
                 android:layout_width="match_parent"
@@ -86,8 +85,7 @@
                 android:hint="@string/last_name_placeholder"
                 android:inputType="text" />
 
-
-            <tekkan.synappz.com.tekkan.custom.CustomFontEditText
+            <com.bayer.ah.bayertekenscanner.custom.CustomFontEditText
                 android:id="@+id/et_email"
                 style="@style/ProfileEditTextStyle"
                 android:layout_width="match_parent"
@@ -97,7 +95,7 @@
                 android:text="@{user.email}"
                 android:inputType="textEmailAddress" />
 
-            <tekkan.synappz.com.tekkan.custom.CustomFontEditText
+            <com.bayer.ah.bayertekenscanner.custom.CustomFontEditText
                 android:id="@+id/et_password"
                 style="@style/ProfileEditTextStyle"
                 android:layout_width="match_parent"
@@ -107,8 +105,7 @@
                 android:hint="@string/password_placeholder"
                 android:inputType="textPassword" />
 
-
-            <tekkan.synappz.com.tekkan.custom.CustomFontEditText
+            <com.bayer.ah.bayertekenscanner.custom.CustomFontEditText
                 android:id="@+id/et_confirm_password"
                 style="@style/ProfileEditTextStyle"
                 android:layout_width="match_parent"
@@ -118,7 +115,7 @@
                 android:hint="@string/confirm_password_placeholder"
                 android:inputType="textPassword" />
 
-            <tekkan.synappz.com.tekkan.custom.CustomFontEditText
+            <com.bayer.ah.bayertekenscanner.custom.CustomFontEditText
                 android:id="@+id/et_street_name"
                 style="@style/ProfileEditTextStyle"
                 android:layout_width="match_parent"
@@ -137,7 +134,7 @@
                 android:orientation="horizontal"
                 android:weightSum="2">
 
-                <tekkan.synappz.com.tekkan.custom.CustomFontEditText
+                <com.bayer.ah.bayertekenscanner.custom.CustomFontEditText
                     android:id="@+id/et_postal_code"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -150,7 +147,7 @@
                     android:text="@{user.postalCode}"
                     android:textColor="@color/default_body_text" />
 
-                <tekkan.synappz.com.tekkan.custom.CustomFontEditText
+                <com.bayer.ah.bayertekenscanner.custom.CustomFontEditText
                     android:id="@+id/et_place"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -163,7 +160,7 @@
                     android:textColor="@color/default_body_text" />
             </LinearLayout>
 
-            <tekkan.synappz.com.tekkan.custom.CustomFontEditText
+            <com.bayer.ah.bayertekenscanner.custom.CustomFontEditText
                 android:id="@+id/et_tel_no"
                 style="@style/ProfileEditTextStyle"
                 android:layout_width="match_parent"
@@ -183,16 +180,15 @@
                 android:background="@drawable/bg_bottom_line"
                 android:orientation="horizontal">
 
-                <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+                <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="@string/agree_terms_conditions"
                     android:textSize="@dimen/profile_default_text_size" />
 
-                <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+                <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/padding_5dp"
                     android:layout_weight="1"
                     android:hint="@string/condtions_text"
                     android:textColorHint="@color/colorAccent"
@@ -209,7 +205,7 @@
 
         </LinearLayout>
 
-        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+        <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/default_margin"
@@ -219,7 +215,7 @@
             android:textSize="@dimen/profile_default_text_size"
             app:customfont="OpenSansSemiBold" />
 
-        <tekkan.synappz.com.tekkan.custom.CustomFontTextView
+        <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
             android:id="@+id/tv_add_pet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
