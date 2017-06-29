@@ -516,7 +516,7 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
     }
 
     private void drawHeatMapForAllDisease() {
-        if(mMap != null) {
+        if (mMap != null) {
             mMap.clear();
         }
         if (mLatLngListDisease1 != null && mLatLngListDisease1.size() > 0) {
@@ -556,7 +556,9 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
 
     private void selectHeatMap() {
         mMap.clear();
-        mTileOverlay.clearTileCache();
+        if (mTileOverlay != null) {
+            mTileOverlay.clearTileCache();
+        }
         for (int i = 0; i < Constants.DiseaseList.values().length; i++) {
             switch (i) {
                 case 0:
@@ -723,7 +725,6 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
             for (int i = 0; i < response.length(); i++) {
                 JSONObject jsonObject = response.optJSONObject(i);
                 JSONArray diseaseArray = jsonObject.optJSONArray(JSON_DISEASE);
-                // int disease[] = new int[diseaseArray.length()];
                 for (int j = 0; j < diseaseArray.length(); j++) {
                     switch (diseaseArray.optInt(j)) {
                         case 1:
@@ -743,7 +744,7 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
                 }
             }
 
-            if(mMap != null) {
+            if (mMap != null) {
                 drawHeatMapForAllDisease();
             }
         }

@@ -42,7 +42,6 @@
             android:layout_marginStart="@dimen/content_margin_start"
             android:orientation="vertical">
 
-
             <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
                 android:id="@+id/tv_animal_type"
                 android:layout_width="match_parent"
@@ -52,7 +51,6 @@
                 android:textColor="@color/color_view_profile_text_default"
                 android:textSize="@dimen/profile_default_text_size"
                 tools:text="@string/what_is_your_pet_name"/>
-
 
             <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
                 android:id="@+id/tv_breed"
@@ -64,7 +62,6 @@
                 android:textSize="@dimen/profile_default_text_size"
                 tools:text="@string/what_is_your_pet_name"/>
 
-
             <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
                 android:id="@+id/tv_date_of_birth"
                 android:layout_width="match_parent"
@@ -74,7 +71,6 @@
                 android:textColor="@color/color_view_profile_text_default"
                 android:textSize="@dimen/profile_default_text_size"
                 tools:text="@string/what_is_your_pet_name"/>
-
 
             <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
                 android:id="@+id/tv_gender"
@@ -119,7 +115,5 @@
             android:text="@string/bottom_result_text"
             android:textColor="@color/profile_title_color"
             android:textSize="@dimen/profile_default_text_size"/>
-
-
     </LinearLayout>
 </ScrollView>

@@ -370,7 +370,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
 
             VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
         } else {
-            AlertDialogFragment fragment = AlertDialogFragment.newInstance(confirmation_title, R.string.terms_not_accepted);
+            AlertDialogFragment fragment = AlertDialogFragment.newInstance(R.string.confirmation_title, R.string.terms_not_accepted);
             fragment.show(getFragmentManager(), TAG_ALERT);
         }
     }

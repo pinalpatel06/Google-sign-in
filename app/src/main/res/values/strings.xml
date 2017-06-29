@@ -409,5 +409,9 @@
     </string>
     <string name="no_free_code">No Free codes available</string>
     <string name="select_source">Select Source</string>
+    <string name="camara_source">Choose Image Source</string>
+    <string name="gallery">Gallery</string>
+    <string name="camera">Camera</string>
+    <string name="choose_picture">Choose a Picture</string>
 
 </resources>

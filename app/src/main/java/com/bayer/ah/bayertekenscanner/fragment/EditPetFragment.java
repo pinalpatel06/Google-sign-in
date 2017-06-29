@@ -257,6 +257,7 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
             case R.id.tv_date_of_birth:
                 datePicker();
                 break;
+
             case R.id.tv_animal_type:
                 mAnimalTypeSP.performClick();
                 break;
@@ -276,8 +277,8 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
             case R.id.tv_gender:
                 mAnimalGenderSP.performClick();
                 break;
-            case R.id.iv_camera:
 
+            case R.id.iv_camera:
                 showDialog();
                 break;
         }
@@ -305,7 +306,7 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
         }
 
 
-        if(mPet.getType() == DOG){
+        if (mPet.getType() == DOG) {
             mCameraIV.setErrorImageResId(R.drawable.ic_dog_placeholder);
         } else {
             mCameraIV.setErrorImageResId(R.drawable.ic_cat_placeholder);
@@ -691,8 +692,8 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
     public void showDialog() {
         Dialog dialog = new Dialog(getActivity());
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Choose Image Source");
-        builder.setItems(new CharSequence[]{"Gallery", "Camera"},
+        builder.setTitle(R.string.camara_source);
+        builder.setItems(new CharSequence[]{getString(R.string.gallery), getString(R.string.camera)},
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog,
@@ -706,7 +707,7 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
                                 Intent chooser = Intent
                                         .createChooser(
                                                 intent,
-                                                "Choose a Picture");
+                                                getString(R.string.choose_picture));
                                 startActivityForResult(
                                         chooser,
                                         GALLERY_REQUEST_CODE);
