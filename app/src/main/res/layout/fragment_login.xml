@@ -132,7 +132,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/default_margin"
-                    android:id="@+id/tv_forgot_password"
                     android:text="@string/forgot_password_text"
                     android:textAlignment="textEnd"
                     android:textColor="@color/color_forgot_password_text"
