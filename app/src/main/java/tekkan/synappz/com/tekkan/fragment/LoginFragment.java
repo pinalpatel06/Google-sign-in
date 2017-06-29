@@ -1,20 +1,16 @@
 package tekkan.synappz.com.tekkan.fragment;
 
 
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 
@@ -109,20 +105,6 @@ public class LoginFragment extends ContainerNodeFragment implements LoginUtils.L
         intent.putExtra(ProfileActivity.EXTRA_CAN_EDIT, true);
         startActivity(intent);
     }
-
-    @OnClick(R.id.tv_forgot_password)
-    public void forgotPassword(){
-        try {
-            String url = getString(R.string.forgot_password_url);
-            Intent intentWeb = new Intent(Intent.ACTION_VIEW, Uri.parse("http://" + url));
-            startActivity(intentWeb);
-
-        } catch (ActivityNotFoundException e) {
-            Log.e(TAG, "Not Activity found to handle this intent");
-        }
-
-    }
-
 
     @Override
     public String getTitle() {
