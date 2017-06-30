@@ -10,10 +10,8 @@ import android.graphics.Rect;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
@@ -47,6 +45,7 @@ import com.bayer.ah.bayertekenscanner.custom.network.TekenResponseListener;
 import com.bayer.ah.bayertekenscanner.dialogs.ConfirmDialogFragment;
 import com.bayer.ah.bayertekenscanner.heapmap.heatmaps.Gradient;
 import com.bayer.ah.bayertekenscanner.heapmap.heatmaps.HeatmapTileProvider;
+import com.bayer.ah.bayertekenscanner.utils.Common;
 import com.bayer.ah.bayertekenscanner.utils.Constants;
 import com.bayer.ah.bayertekenscanner.utils.DateUtils;
 import com.bayer.ah.bayertekenscanner.utils.VolleyHelper;
@@ -537,14 +536,7 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
                 break;
             case DIALOG_PERMISSION_SETTING:
                 if (resultCode == Activity.RESULT_OK) {
-                    final Intent i = new Intent();
-                    i.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                    i.addCategory(Intent.CATEGORY_DEFAULT);
-                    i.setData(Uri.parse("package:" + getActivity().getPackageName()));
-                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                    i.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-                    startActivity(i);
+                    Common.openAppDetails(getActivity());
                 }
                 break;
 
