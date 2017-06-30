@@ -22,6 +22,7 @@ import com.bayer.ah.bayertekenscanner.dialogs.ConfirmDialogFragment;
 import com.bayer.ah.bayertekenscanner.ui.camera.CameraSource;
 import com.bayer.ah.bayertekenscanner.ui.camera.CameraSourcePreview;
 import com.bayer.ah.bayertekenscanner.ui.camera.GraphicOverlay;
+import com.bayer.ah.bayertekenscanner.utils.Common;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.vision.Detector;
@@ -55,10 +56,11 @@ public class BarcodeCaptureActivity extends AppCompatActivity implements Confirm
 
     private static final int
             NO_DIALOG = 0,
-            DIALOG_PERMISSION = 1,
-            DIALOG_SETTING = 2;
+            DIALOG_PERMISSION_RETRY = 1,
+            DIALOG_PERMISSION_SETTING = 2;
 
-    private static int mDialog = NO_DIALOG;
+    private int mDialogToDisplay = NO_DIALOG;
+
     private CameraSource mCameraSource;
 
     @BindView(R.id.preview)
@@ -76,8 +78,8 @@ public class BarcodeCaptureActivity extends AppCompatActivity implements Confirm
     @Override
     public void onResume() {
         super.onResume();
-        switch (mDialog) {
-            case DIALOG_PERMISSION:
+        switch (mDialogToDisplay) {
+            case DIALOG_PERMISSION_RETRY:
                 ConfirmDialogFragment fragment = ConfirmDialogFragment.newInstance(
                         R.string.confirm_camera_request_permission,
                         android.R.string.yes,
@@ -85,14 +87,39 @@ public class BarcodeCaptureActivity extends AppCompatActivity implements Confirm
                 fragment.show(getSupportFragmentManager(), PERMISSION_DIALOG);
                 fragment.setListener(this);
                 break;
-            case DIALOG_SETTING:
-                // permission from settings
+            case DIALOG_PERMISSION_SETTING:
+                ConfirmDialogFragment settingDialog = ConfirmDialogFragment.newInstance(
+                        R.string.setting_dialog,
+                        android.R.string.yes,
+                        android.R.string.no
+                );
+                settingDialog.show(getSupportFragmentManager(), PERMISSION_DIALOG);
+                settingDialog.setListener(new ConfirmDialogFragment.ConfirmDialogFragmentListener() {
+                    @Override
+                    public void onPositiveClicked(DialogInterface dialog) {
+                        Common.openAppDetails(BarcodeCaptureActivity.this);
+                    }
+
+                    @Override
+                    public void onNegativeClicked() {
+                        finish();
+                    }
+                });
                 break;
             case NO_DIALOG:
                 break;
         }
-        mDialog = NO_DIALOG;
-        startCameraSource();
+        mDialogToDisplay = NO_DIALOG;
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            startCameraSource();
+            try {
+                mSourcePreview.start(mCameraSource);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            createCameraSource(true, false);
+        }
     }
 
     /**
@@ -101,9 +128,9 @@ public class BarcodeCaptureActivity extends AppCompatActivity implements Confirm
     @Override
     protected void onPause() {
         super.onPause();
-        if (mSourcePreview != null) {
+        /*if (mSourcePreview != null) {
             mSourcePreview.stop();
-        }
+        }*/
     }
 
     /**
@@ -240,13 +267,12 @@ public class BarcodeCaptureActivity extends AppCompatActivity implements Confirm
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     createCameraSource(true, false);
                 } else if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-                    mDialog = DIALOG_PERMISSION;
+                    mDialogToDisplay = DIALOG_PERMISSION_RETRY;
                 } else {
-                    mDialog = DIALOG_SETTING;
+                    mDialogToDisplay = DIALOG_PERMISSION_SETTING;
                 }
         }
     }
-
 
     @Override
     public void onPositiveClicked(DialogInterface dialog) {
@@ -255,6 +281,6 @@ public class BarcodeCaptureActivity extends AppCompatActivity implements Confirm
 
     @Override
     public void onNegativeClicked() {
-
+       finish();
     }
 }

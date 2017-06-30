@@ -1,5 +1,6 @@
 package com.bayer.ah.bayertekenscanner.dialogs;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -12,7 +13,7 @@ import android.support.v7.app.AlertDialog;
  * &copy; Knoxpo
  */
 
-public class ConfirmDialogFragment extends DialogFragment implements Dialog.OnClickListener{
+public class ConfirmDialogFragment extends DialogFragment implements Dialog.OnClickListener {
     private static final String
             TAG = ConfirmDialogFragment.class.getSimpleName(),
             ARGS_TITLE = TAG + ".ARGS_TITLE",
@@ -29,7 +30,7 @@ public class ConfirmDialogFragment extends DialogFragment implements Dialog.OnCl
         void onNegativeClicked();
     }
 
-    private ConfirmDialogFragmentListener mListener;
+     private ConfirmDialogFragmentListener mListener;
 
     public static ConfirmDialogFragment newInstance(int message) {
         return newInstance(NO_TITLE, message);
@@ -88,7 +89,6 @@ public class ConfirmDialogFragment extends DialogFragment implements Dialog.OnCl
         super.onDismiss(dialog);
     }
 
-
     @Override
     public void onClick(DialogInterface dialog, int which) {
         if (which == Dialog.BUTTON_POSITIVE) {
@@ -98,6 +98,30 @@ public class ConfirmDialogFragment extends DialogFragment implements Dialog.OnCl
         } else if (which == DialogInterface.BUTTON_NEGATIVE) {
             if (mListener != null) {
                 mListener.onNegativeClicked();
+            }
+        }
+
+        if(mListener == null) {
+            if (which == Dialog.BUTTON_POSITIVE) {
+                if (getTargetFragment() != null) {
+                    getTargetFragment().onActivityResult(
+                            getTargetRequestCode(),
+                            Activity.RESULT_OK,
+                            null
+                    );
+                } else {
+                    onActivityResult(
+                            getTargetRequestCode(),
+                            Activity.RESULT_OK,
+                            null
+                    );
+                }
+            } else if (which == DialogInterface.BUTTON_NEGATIVE) {
+                getTargetFragment().onActivityResult(
+                        getTargetRequestCode(),
+                        Activity.RESULT_CANCELED,
+                        null
+                );
             }
         }
     }

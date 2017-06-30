@@ -413,5 +413,7 @@
     <string name="gallery">Gallery</string>
     <string name="camera">Camera</string>
     <string name="choose_picture">Choose a Picture</string>
+    <string name="location_permission_retry">Need location permission.</string>
+    <string name="setting_dialog">Do you want to set permission for app settings?</string>
 
 </resources>

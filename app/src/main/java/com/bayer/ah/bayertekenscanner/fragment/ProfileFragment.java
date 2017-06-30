@@ -1,6 +1,6 @@
 package com.bayer.ah.bayertekenscanner.fragment;
 
-import android.content.DialogInterface;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
@@ -47,7 +47,6 @@ import com.bayer.ah.bayertekenscanner.dialogs.ConfirmDialogFragment;
 import com.bayer.ah.bayertekenscanner.model.Pet;
 import com.bayer.ah.bayertekenscanner.model.User;
 import com.bayer.ah.bayertekenscanner.utils.Constants;
-import com.bayer.ah.bayertekenscanner.utils.LoginUtils;
 import com.bayer.ah.bayertekenscanner.utils.VolleyHelper;
 
 import org.json.JSONArray;
@@ -70,7 +69,7 @@ import static java.lang.String.valueOf;
 
 public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolder>
         implements CommonNodeInterface,
-        TekenResponseListener, TekenErrorListener, ConfirmDialogFragment.ConfirmDialogFragmentListener {
+        TekenResponseListener, TekenErrorListener{
 
     private static final String
             TAG = ProfileFragment.class.getSimpleName(),
@@ -86,6 +85,13 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
             REQUEST_USER = 3;
 
     ArrayList<Object> mListItems;
+
+    private static final int
+            DIALOG_NONE = 0,
+            DIALOG_LOGOUT = 1,
+            DIALOG_BACK = 2;
+
+    private int mDialogToDisplay = DIALOG_NONE;
 
     private boolean mCanEdit = false;
     private boolean isTermsAccepted = false;
@@ -142,23 +148,12 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
             case R.id.action_logout:
                 fragment = ConfirmDialogFragment.newInstance(R.string.logout, R.string.logout_message, R.string.ja, R.string.nee);
                 fragment.show(getFragmentManager(), TAG_DIALOG);
-                fragment.setListener(this);
+                fragment.setTargetFragment(this, DIALOG_LOGOUT);
                 return true;
             case android.R.id.home:
                 fragment = ConfirmDialogFragment.newInstance(R.string.confirmation_title, R.string.confirmation, R.string.stop, R.string.procced);
                 fragment.show(getFragmentManager(), TAG_DIALOG);
-                fragment.setListener(new ConfirmDialogFragment.ConfirmDialogFragmentListener() {
-                    @Override
-                    public void onPositiveClicked(DialogInterface dialog) {
-                        getActivity().onBackPressed();
-                    }
-
-                    @Override
-                    public void onNegativeClicked() {
-
-                    }
-                });
-
+                fragment.setTargetFragment(this,DIALOG_BACK);
                 return true;
             case R.id.action_customize:
                 // mCanEdit = true;
@@ -177,6 +172,23 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode){
+            case DIALOG_LOGOUT:
+                if(resultCode == Activity.RESULT_OK){
+                   logout();
+                }
+                break;
+            case DIALOG_BACK:
+                if(resultCode == Activity.RESULT_OK){
+                    getActivity().onBackPressed();
+                }
+        }
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
@@ -191,10 +203,34 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
     @Override
     public void onResume() {
         super.onResume();
+
         if (User.getInstance(getActivity()).isLoaded() && !mCanEdit) {
             fetchUserPetData();
         }
+
+       /* switch (mDialogToDisplay) {
+            case DIALOG_NONE:
+                break;
+            case DIALOG_PERMISSION_RETRY:
+                ConfirmDialogFragment fragment = ConfirmDialogFragment.newInstance(
+                        R.string.calendar_permission_retry,
+                        android.R.string.yes,
+                        android.R.string.no);
+                fragment.show(getFragmentManager(), DIALOG_PERMISSION);
+                fragment.setTargetFragment(this, DIALOG_PERMISSION_RETRY);
+                break;
+            case DIALOG_PERMISSION_SETTING:
+                ConfirmDialogFragment settingDialog = ConfirmDialogFragment.newInstance(
+                        R.string.calendar_setting_dialog,
+                        android.R.string.yes,
+                        android.R.string.no
+                );
+                settingDialog.show(getFragmentManager(), DIALOG_PERMISSION);
+                settingDialog.setTargetFragment(this, DIALOG_PERMISSION_SETTING);
+        }*/
+        mDialogToDisplay = DIALOG_NONE;
     }
+
 
     @Override
     protected boolean canSwipe(int viewType) {
@@ -365,7 +401,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
                 request.addParam(PARM_EMAIL, User.getInstance(getActivity()).getEmail());
             }
 
-            request.addParam(PARM_PASSWORD, (LoginUtils.encode(User.getInstance(getActivity()).getPassword())));
+            //request.addParam(PARM_PASSWORD, (LoginUtils.encode(User.getInstance(getActivity()).getPassword())));
 
 
             VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
@@ -476,16 +512,6 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
     @Override
     public void onErrorResponse(int requestCode, VolleyError error, int status, String message) {
         Log.d(TAG, status + " " + message);
-    }
-
-    @Override
-    public void onPositiveClicked(DialogInterface dialog) {
-        logout();
-    }
-
-    @Override
-    public void onNegativeClicked() {
-
     }
 
     @Override

@@ -1,11 +1,6 @@
 package com.bayer.ah.bayertekenscanner.utils;
 
-import android.app.Activity;
-import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 
 /**
  * Created by Tejas Sherdiwala on 5/9/2017.
@@ -112,24 +107,6 @@ public class Constants {
 
         public String toApi() {
             return mString;
-        }
-    }
-
-    private class Disease{
-        private String mDiseaseName;
-        private Drawable mDiseaseColor;
-
-        public Disease(String diseaseName, Drawable diseaseColor) {
-            mDiseaseName = diseaseName;
-            mDiseaseColor = diseaseColor;
-        }
-    }
-
-    public static void closeKeyBoard(Activity activity){
-        View view = activity.getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 

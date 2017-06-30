@@ -1,6 +1,7 @@
 package com.bayer.ah.bayertekenscanner.fragment;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
@@ -9,8 +10,10 @@ import android.graphics.Rect;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
@@ -41,9 +44,11 @@ import com.bayer.ah.bayertekenscanner.activity.FilterOptionActivity;
 import com.bayer.ah.bayertekenscanner.custom.network.TekenErrorListener;
 import com.bayer.ah.bayertekenscanner.custom.network.TekenJsonArrayRequest;
 import com.bayer.ah.bayertekenscanner.custom.network.TekenResponseListener;
+import com.bayer.ah.bayertekenscanner.dialogs.ConfirmDialogFragment;
 import com.bayer.ah.bayertekenscanner.heapmap.heatmaps.Gradient;
 import com.bayer.ah.bayertekenscanner.heapmap.heatmaps.HeatmapTileProvider;
 import com.bayer.ah.bayertekenscanner.utils.Constants;
+import com.bayer.ah.bayertekenscanner.utils.DateUtils;
 import com.bayer.ah.bayertekenscanner.utils.VolleyHelper;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -93,7 +98,11 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
         GoogleApiClient.ConnectionCallbacks, OnMapReadyCallback, LocationListener,
         TabLayout.OnTabSelectedListener, TextView.OnEditorActionListener, View.OnTouchListener {
 
-    private static final String TAG = HeatMapFragment.class.getSimpleName();
+    private static final String
+            TAG = HeatMapFragment.class.getSimpleName(),
+            DIALOG_PERMISSION = TAG + ".DIALOG_PERMISSION",
+            DIALOG_SETTINGS = TAG + ".DIALOG_SETTINGS";
+
     SimpleDateFormat DATE_FORMAT
             = new SimpleDateFormat("MM dd yyyy", Locale.ENGLISH);
 
@@ -125,7 +134,12 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
             ANIMATION_DURATION = 400,
             REQUEST_LOCATION = 0,
             REQUEST_GPS = 1,
-            REQUEST_FILTER_OPTION = 2;
+            REQUEST_FILTER_OPTION = 2,
+            DIALOG_NONE = 3,
+            DIALOG_PERMISSION_RETRY = 4,
+            DIALOG_PERMISSION_SETTING = 5;
+
+    private int mDialogToDisplay = DIALOG_NONE;
 
     @BindView(R.id.tab_layout)
     TabLayout mTabLayout;
@@ -216,7 +230,6 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
                     .build();
         }
         //readItems();
-        getTicks();
     }
 
     @Nullable
@@ -252,6 +265,33 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+        switch (mDialogToDisplay) {
+            case DIALOG_NONE:
+                break;
+            case DIALOG_PERMISSION_RETRY:
+                ConfirmDialogFragment fragment = ConfirmDialogFragment.newInstance(
+                        R.string.location_permission_retry,
+                        android.R.string.yes,
+                        android.R.string.no);
+                fragment.show(getFragmentManager(), DIALOG_PERMISSION);
+                fragment.setTargetFragment(this, DIALOG_PERMISSION_RETRY);
+                break;
+            case DIALOG_PERMISSION_SETTING:
+                ConfirmDialogFragment settingDialog = ConfirmDialogFragment.newInstance(
+                        R.string.setting_dialog,
+                        android.R.string.yes,
+                        android.R.string.no
+                );
+                settingDialog.show(getFragmentManager(), DIALOG_PERMISSION);
+                settingDialog.setTargetFragment(this, DIALOG_PERMISSION_SETTING);
+        }
+        mDialogToDisplay = DIALOG_NONE;
+    }
+
+    @Override
     public void onStop() {
         if (mGoogleApiClient != null) {
             mGoogleApiClient.disconnect();
@@ -284,7 +324,7 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
 
     private void updateUI() {
         Calendar c = Calendar.getInstance();
-        mSeekValueTV.setText(DATE_FORMAT.format(c.getTime()));
+        mSeekValueTV.setText(DateUtils.toApi(c.getTime()));
         mCurrentYearTV.setText(String.valueOf(c.get(Calendar.YEAR)));
         mMonth12TV.setText(mMonthName[c.get(Calendar.MONTH)]);
         c.add(Calendar.MONTH, -1);
@@ -338,7 +378,7 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
         Calendar c = Calendar.getInstance();
         progress = mProgressMaxValue - progress;
         c.add(Calendar.DAY_OF_WEEK_IN_MONTH, -progress);
-        mSeekValueTV.setText(DATE_FORMAT.format(c.getTime()));
+        mSeekValueTV.setText(DateUtils.toApi(c.getTime()));
         Rect rect = mSeekBar.getThumb().getBounds();
         int x = rect.left - mSeekValueTV.getWidth() / 5;
         if (x >= mScreenMinValue && x < (mScreenMaxValue - (mSeekValueTV.getWidth()))) {
@@ -389,10 +429,11 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
         } else {
             mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             if (mLastLocation != null) {
-                // LatLng lastLocationLatLng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-                LatLng lastLocationLatLng = new LatLng(51.802750948, 5.271852985);
+                LatLng lastLocationLatLng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+                //LatLng lastLocationLatLng = new LatLng(51.802750948, 5.271852985);
                 CameraPosition myPosition = new CameraPosition.Builder().target(lastLocationLatLng).zoom(7).bearing(0).tilt(0).build();
                 mMap.moveCamera(CameraUpdateFactory.newCameraPosition(myPosition));
+                getTicks();
             }
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
@@ -460,12 +501,11 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
                 }
                 if (hasGranted) {
                     updateLocationOnMap();
-                } else if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
-                        && !ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)) {
-                    Log.d(TAG, "Show dialog to go to settings to enable location");
+                } else if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION)
+                        && shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    mDialogToDisplay = DIALOG_PERMISSION_RETRY;
                 } else {
-                    requestPermission();
-                    Log.d(TAG, "Retry to grant request");
+                    mDialogToDisplay = DIALOG_PERMISSION_SETTING;
                 }
         }
     }
@@ -486,11 +526,27 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
                 }
                 break;
             case REQUEST_FILTER_OPTION:
-                switch (resultCode) {
-                    case RESULT_OK:
+                    if (resultCode == Activity.RESULT_OK) {
                         selectHeatMap();
-                        break;
+                    }
+                    break;
+            case DIALOG_PERMISSION_RETRY:
+                if (resultCode == Activity.RESULT_OK) {
+                    requestPermission();
                 }
+                break;
+            case DIALOG_PERMISSION_SETTING:
+                if (resultCode == Activity.RESULT_OK) {
+                    final Intent i = new Intent();
+                    i.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    i.addCategory(Intent.CATEGORY_DEFAULT);
+                    i.setData(Uri.parse("package:" + getActivity().getPackageName()));
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                    i.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+                    startActivity(i);
+                }
+                break;
 
         }
     }
@@ -699,8 +755,14 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
         );
 
         //temporary lat & lng data
-        request.addParam(PARAM_COOR_LAT, "52.5");
+       /* request.addParam(PARAM_COOR_LAT, "52.5");
         request.addParam(PARAM_COOR_LNG, "52.5");
+        request.addParam(PARAM_COOR_RADIUS, "6350");
+        request.addParam(PARAM_START_DATE, "1970-01-01");
+        request.addParam(PARAM_END_DATE, "2018-12-01");*/
+
+        request.addParam(PARAM_COOR_LAT, String.valueOf(mLastLocation.getLatitude()));
+        request.addParam(PARAM_COOR_LNG,String.valueOf(mLastLocation.getLongitude()) );
         request.addParam(PARAM_COOR_RADIUS, "6350");
         request.addParam(PARAM_START_DATE, "1970-01-01");
         request.addParam(PARAM_END_DATE, "2018-12-01");

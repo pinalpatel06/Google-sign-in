@@ -27,4 +27,8 @@ public class DateUtils {
     public static String toApi(Date date) {
         return sDateFormat.format(date);
     }
+
+    public static String toPetApi(Date date) {
+        return sFullDateTimeFormat.format(date);
+    }
 }

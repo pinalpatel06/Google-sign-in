@@ -43,7 +43,6 @@ import com.bayer.ah.bayertekenscanner.custom.network.TekenJsonArrayRequest;
 import com.bayer.ah.bayertekenscanner.custom.network.TekenResponseListener;
 import com.bayer.ah.bayertekenscanner.custom.network.TekenStringRequest;
 import com.bayer.ah.bayertekenscanner.dialogs.AlertDialogFragment;
-import com.bayer.ah.bayertekenscanner.dialogs.ConfirmDialogFragment;
 import com.bayer.ah.bayertekenscanner.dialogs.ProgressDialogFragment;
 import com.bayer.ah.bayertekenscanner.model.Breed;
 import com.bayer.ah.bayertekenscanner.model.Pet;
@@ -76,7 +75,7 @@ import static com.bayer.ah.bayertekenscanner.utils.Constants.PetType.DOG;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class EditPetFragment extends Fragment implements CustomSpinner.OnItemChosenListener, ConfirmDialogFragment.ConfirmDialogFragmentListener {
+public class EditPetFragment extends Fragment implements CustomSpinner.OnItemChosenListener/*, ConfirmDialogFragment.ConfirmDialogFragmentListener*/ {
 
     private static final String
             TAG = EditPetFragment.class.getSimpleName(),
@@ -86,7 +85,8 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
             TAG_DIALOG = TAG + ".TAG_DIALOG";
 
     private static final int
-            REQUEST_GET_BREEDS = 0;
+            REQUEST_GET_BREEDS = 0,
+            DIALOG_EDIT_PET = 1;
 
     public static final int
             CAMERA_REQUEST_CODE = 1001,
@@ -132,9 +132,7 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
             mPetUpdatePD;
 
     private AlertDialogFragment
-            mEditFailureAD;
-
-    private ConfirmDialogFragment
+            mEditFailureAD,
             mEditSuccessAD;
 
     private boolean mIsFetchingDogBreeds = false, mIsFetchingCatBreeds = false;
@@ -217,8 +215,6 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
         mAnimalTypeSP.setOnItemChosenListener(this);
         mAnimalGenderSP.setOnItemChosenListener(this);
         mBreedSP.setOnItemChosenListener(this);
-        updateGenderItems();
-
 
         updateUI();
         return v;
@@ -240,11 +236,10 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
                 mPet.getId() > 0 ? R.string.progress_updating_pet : R.string.progress_creating_pet
         ));
 
-        mEditSuccessAD = ConfirmDialogFragment.newInstance(
+        mEditSuccessAD = AlertDialogFragment.newInstance(
                 mPet.getId() > 0
                         ? R.string.success_update_pet
                         : R.string.success_create_pet);
-        mEditSuccessAD.setListener(this);
         mEditFailureAD = AlertDialogFragment.newInstance(
                 mPet.getId() > 0
                         ? R.string.error_update_pet
@@ -316,14 +311,16 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
 
         mPetNameET.setText(mPet.getName());
 
-        Constants.PetType petType = mPet.getType();
+        if (mPet.getType() != null) {
+            Constants.PetType petType = mPet.getType();
 
-        if (petType == CAT) {
-            mAnimalTypeTV.setText(R.string.cat);
-        } else if (petType == DOG) {
-            mAnimalTypeTV.setText(R.string.dog);
-        } else {
-            mAnimalTypeTV.setText("");
+            if (petType == CAT) {
+                mAnimalTypeTV.setText(R.string.cat);
+            } else if (petType == DOG) {
+                mAnimalTypeTV.setText(R.string.dog);
+            } else {
+                mAnimalTypeTV.setText("");
+            }
         }
 
         Breed breed = getBreed(mPet.getType(), mPet.getBreedId());
@@ -349,29 +346,34 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
         Constants.Gender gender = mPet.getGender();
         int genderStringId = -1;
 
-        switch (mPet.getType()) {
-            case CAT:
-                switch (gender) {
-                    case MALE:
-                        genderStringId = R.string.male_cat;
-                        break;
-                    case FEMALE:
-                        genderStringId = R.string.female_cat;
-                        break;
-                }
-                break;
-            case DOG:
-                switch (gender) {
-                    case MALE:
-                        genderStringId = R.string.male_dog;
-                        break;
-                    case FEMALE:
-                        genderStringId = R.string.female_dog;
-                        break;
-                }
-                break;
+        if (mPet.getType() != null) {
+            switch (mPet.getType()) {
+                case CAT:
+                    if (gender != null) {
+                        switch (gender) {
+                            case MALE:
+                                genderStringId = R.string.male_cat;
+                                break;
+                            case FEMALE:
+                                genderStringId = R.string.female_cat;
+                                break;
+                        }
+                    }
+                    break;
+                case DOG:
+                    if (gender != null) {
+                        switch (gender) {
+                            case MALE:
+                                genderStringId = R.string.male_dog;
+                                break;
+                            case FEMALE:
+                                genderStringId = R.string.female_dog;
+                                break;
+                        }
+                    }
+                    break;
+            }
         }
-
         if (genderStringId > 0) {
             mGenderTV.setText(genderStringId);
         } else {
@@ -632,6 +634,7 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
                     public void onResponse(int requestCode, String response) {
                         mPetUpdatePD.dismiss();
                         mEditSuccessAD.show(getFragmentManager(), TAG_DIALOG);
+                        mEditSuccessAD.setTargetFragment(EditPetFragment.this,DIALOG_EDIT_PET);
                     }
                 },
                 new TekenErrorListener() {
@@ -649,7 +652,7 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
         request.addParam(PARAM_FAMILY_NAME, "");
         request.addParam(PARAM_TYPE, mPet.getType().toApi());
         request.addParam(PARAM_BREED, String.valueOf(mPet.getBreedId()));
-        request.addParam(PARAM_BIRTHDATE, DateUtils.toApi(mPet.getBirthDate()));
+        request.addParam(PARAM_BIRTHDATE, DateUtils.toPetApi(mPet.getBirthDate()));
         request.addParam(PARAM_GENDER, mPet.getGender().toApi());
         request.addParam(PARAM_WEIGHT, String.valueOf(mPet.getWeight()));
 
@@ -669,16 +672,6 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
         }
 
         VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
-
-    }
-
-    @Override
-    public void onPositiveClicked(DialogInterface dialog) {
-        getActivity().finish();
-    }
-
-    @Override
-    public void onNegativeClicked() {
 
     }
 
@@ -757,6 +750,8 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
                 mBitmap = (Bitmap) data.getExtras()
                         .get("data");
                 mCameraIV.setImageBitmap(mBitmap);
+            } else if (requestCode == DIALOG_EDIT_PET) {
+                getActivity().finish();
             }
         }
     }
