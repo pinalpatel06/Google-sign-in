@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="oval">
+           &lt;!&ndash; <size
+                android:width="250dp"
+                android:height="250dp" />&ndash;&gt;
+            <solid android:color="#028635" />
+            <padding android:bottom="0.5dp" android:left="0.5dp" android:right="0.5dp" android:top="0.5dp" />
+        </shape>
+    </item>
+
+    <item>
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="oval">
+          &lt;!&ndash; <size
+                android:width="250dp"
+                android:height="250dp" />&ndash;&gt;
+            <solid android:color="#839b05" />
+            <padding android:bottom="0.5dp" android:left="0.5dp" android:right="0.5dp" android:top="0.5dp" />
+        </shape>
+    </item>
+
+    <item>
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="oval">
+          &lt;!&ndash; <size
+                android:width="250dp"
+                android:height="250dp" />&ndash;&gt;
+            <solid android:color="#936f04" />
+            <padding android:bottom="1dp" android:left="1dp" android:right="1dp" android:top="1dp" />
+        </shape>
+    </item>
+    <item>
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="oval">
+          &lt;!&ndash; <size
+                android:width="250dp"
+                android:height="250dp" />&ndash;&gt;
+            <solid android:color="#d65309" />
+        </shape>
+    </item>
+</layer-list>-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="oval">
+            <size
+                android:width="20dp"
+                android:height="20dp" />
+            <solid android:color="#a6e3ba" />
+            <padding android:bottom="1dp" android:left="1dp" android:right="1dp" android:top="1dp" />
+        </shape>
+    </item>
+    <item>
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="oval">
+            <size
+                android:width="20dp"
+                android:height="20dp" />
+            <solid android:color="#eb6c3b" />
+        </shape>
+    </item>
+</layer-list>
