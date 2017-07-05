@@ -5,18 +5,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -39,7 +35,6 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,12 +47,10 @@ import com.bayer.ah.bayertekenscanner.custom.network.TekenErrorListener;
 import com.bayer.ah.bayertekenscanner.custom.network.TekenJsonArrayRequest;
 import com.bayer.ah.bayertekenscanner.custom.network.TekenResponseListener;
 import com.bayer.ah.bayertekenscanner.dialogs.ConfirmDialogFragment;
-import com.bayer.ah.bayertekenscanner.heapmap.clustering.Cluster;
-import com.bayer.ah.bayertekenscanner.heapmap.clustering.ClusterManager;
-import com.bayer.ah.bayertekenscanner.heapmap.clustering.view.DefaultClusterRenderer;
-import com.bayer.ah.bayertekenscanner.heapmap.heatmaps.Gradient;
-import com.bayer.ah.bayertekenscanner.heapmap.heatmaps.HeatmapTileProvider;
-import com.bayer.ah.bayertekenscanner.heapmap.ui.IconGenerator;
+import com.bayer.ah.bayertekenscanner.cluster.clustering.Cluster;
+import com.bayer.ah.bayertekenscanner.cluster.clustering.ClusterManager;
+import com.bayer.ah.bayertekenscanner.cluster.clustering.view.DefaultClusterRenderer;
+import com.bayer.ah.bayertekenscanner.cluster.ui.IconGenerator;
 import com.bayer.ah.bayertekenscanner.model.LatLngItem;
 import com.bayer.ah.bayertekenscanner.utils.Common;
 import com.bayer.ah.bayertekenscanner.utils.Constants;
@@ -82,8 +75,6 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.TileOverlay;
-import com.google.android.gms.maps.model.TileOverlayOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -101,7 +92,6 @@ import java.util.Scanner;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
@@ -112,7 +102,7 @@ import static android.app.Activity.RESULT_OK;
  */
 
 public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChangeListener,
-        GoogleApiClient.ConnectionCallbacks, OnMapReadyCallback, LocationListener, GoogleMap.OnCameraMoveListener,
+        GoogleApiClient.ConnectionCallbacks, OnMapReadyCallback, LocationListener,
         TabLayout.OnTabSelectedListener, TextView.OnEditorActionListener, View.OnTouchListener {
 
     private static final String
@@ -122,29 +112,6 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
 
     SimpleDateFormat DATE_FORMAT
             = new SimpleDateFormat("MM dd yyyy", Locale.ENGLISH);
-
-    private static final float[] ALT_HEATMAP_GRADIENT_START_POINTS = {
-            0.2f, 1f
-    };
-
-    private static final int[] ALT_HEATMAP_GRADIENT_COLORS_DISEASE1 = {
-            Color.rgb(10, 125, 224),
-            Color.rgb(10, 125, 224)
-
-    },
-            ALT_HEATMAP_GRADIENT_COLORS_DISEASE2 = {
-                    Color.rgb(13, 201, 194),
-                    Color.rgb(13, 201, 194)
-
-            },
-            ALT_HEATMAP_GRADIENT_COLORS_DISEASE3 = {
-                    Color.rgb(224, 10, 150),
-                    Color.rgb(224, 10, 150)
-            },
-            ALT_HEATMAP_GRADIENT_COLORS_DISEASE4 = {
-                    Color.rgb(113, 29, 213),
-                    Color.rgb(113, 29, 213)
-            };
 
     private static final int
             LOCATION_INTERVAL = 10000,
@@ -220,8 +187,6 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
             mLatLngListDisease3,
             mLatLngListDisease4;
 
-    private TileOverlay mTileOverlay;
-
     private static final int REQUEST_TICKS = 0;
 
     @Override
@@ -248,7 +213,6 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
                     .addApi(LocationServices.API)
                     .build();
         }
-        // readItems();
     }
 
     @Nullable
@@ -432,10 +396,13 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
         mMap = googleMap;
         mMap.getUiSettings().setRotateGesturesEnabled(false);
         drawHeatMapForAllDisease();
-        mMap.setOnCameraMoveListener(this);
+
 
         mClusterManager = new ClusterManager<LatLngItem>(getActivity(), mMap);
         mClusterManager.setRenderer(new ClusterRenderer());
+        mMap.setOnCameraIdleListener(mClusterManager);
+
+        readItems();
     }
 
     @Override
@@ -456,7 +423,7 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
                 //LatLng lastLocationLatLng = new LatLng(51.802750948, 5.271852985);
                 CameraPosition myPosition = new CameraPosition.Builder().target(lastLocationLatLng).zoom(7).bearing(0).tilt(0).build();
                 mMap.moveCamera(CameraUpdateFactory.newCameraPosition(myPosition));
-                getTicks();
+                // getTicks();
             }
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
@@ -563,7 +530,6 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
                     Common.openAppDetails(getActivity());
                 }
                 break;
-
         }
     }
 
@@ -592,20 +558,20 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
             mMap.clear();
         }
         if (mLatLngListDisease1 != null && mLatLngListDisease1.size() > 0) {
-            drawHeatMap(mLatLngListDisease1, ALT_HEATMAP_GRADIENT_COLORS_DISEASE1);
+            drawHeatMap(mLatLngListDisease1);
         }
         if (mLatLngListDisease2 != null && mLatLngListDisease2.size() > 0) {
-            drawHeatMap(mLatLngListDisease2, ALT_HEATMAP_GRADIENT_COLORS_DISEASE2);
+            drawHeatMap(mLatLngListDisease2);
         }
         if (mLatLngListDisease3 != null && mLatLngListDisease3.size() > 0) {
-            drawHeatMap(mLatLngListDisease3, ALT_HEATMAP_GRADIENT_COLORS_DISEASE3);
+            drawHeatMap(mLatLngListDisease3);
         }
         if (mLatLngListDisease4 != null && mLatLngListDisease4.size() > 0) {
-            drawHeatMap(mLatLngListDisease4, ALT_HEATMAP_GRADIENT_COLORS_DISEASE4);
+            drawHeatMap(mLatLngListDisease4);
         }
     }
 
-    private void drawHeatMap(ArrayList<LatLng> list, int[] colors) {
+    private void drawHeatMap(ArrayList<LatLng> list) {
        /* HeatmapTileProvider provider = null;
         Gradient gradient = new Gradient(colors,
                 ALT_HEATMAP_GRADIENT_START_POINTS);
@@ -621,11 +587,9 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
         provider.setRadius(6);
         mTileOverlay.clearTileCache();*/
 
-        for (int i = 0; i < list.size(); i++) {
-            //drawMarker(list.get(i));
-        }
-
-        mClusterManager.cluster();
+        /*for (int i = 0; i < list.size(); i++) {
+            drawMarker(list.get(i));
+        }*/
     }
 
     private void drawMarker(LatLng latLng) {
@@ -657,29 +621,26 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
 
     private void selectHeatMap() {
         mMap.clear();
-        if (mTileOverlay != null) {
-            mTileOverlay.clearTileCache();
-        }
         for (int i = 0; i < Constants.DiseaseList.values().length; i++) {
             switch (i) {
                 case 0:
                     if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean(String.valueOf(i), false)) {
-                        drawHeatMap(mLatLngListDisease1, ALT_HEATMAP_GRADIENT_COLORS_DISEASE1);
+                        drawHeatMap(mLatLngListDisease1);
                     }
                     break;
                 case 1:
                     if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean(String.valueOf(i), false)) {
-                        drawHeatMap(mLatLngListDisease2, ALT_HEATMAP_GRADIENT_COLORS_DISEASE2);
+                        drawHeatMap(mLatLngListDisease2);
                     }
                     break;
                 case 2:
                     if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean(String.valueOf(i), false)) {
-                        drawHeatMap(mLatLngListDisease3, ALT_HEATMAP_GRADIENT_COLORS_DISEASE3);
+                        drawHeatMap(mLatLngListDisease3);
                     }
                     break;
                 case 3:
                     if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean(String.valueOf(i), false)) {
-                        drawHeatMap(mLatLngListDisease4, ALT_HEATMAP_GRADIENT_COLORS_DISEASE4);
+                        drawHeatMap(mLatLngListDisease4);
                     }
                     break;
             }
@@ -720,7 +681,13 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
                         mLatLngListDisease4.add(new LatLng(lat, lng));
                         break;
                 }
+                mClusterManager.addItem(new LatLngItem(new LatLng(jsonObject.optDouble(JSON_COOR_LAT), jsonObject.optDouble(JSON_COOR_LNG))));
             }
+            if (mMap != null) {
+                drawHeatMapForAllDisease();
+                mClusterManager.cluster();
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -858,45 +825,12 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
         }
     }
 
-
-    private static final int
-            DEFAULT_DELAY = 500;
-
-    private Handler mHandler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-            mMap.clear();
-            drawHeatMapForAllDisease();
-            mHandler.sendEmptyMessageDelayed(0, DEFAULT_DELAY);
-            return true;
-        }
-    });
-
-    @Override
-    public void onCameraMove() {
-        //   mHandler.removeCallbacksAndMessages(null);
-        //   mHandler.sendEmptyMessageDelayed(0, DEFAULT_DELAY);
-    }
-
     private class ClusterRenderer extends DefaultClusterRenderer<LatLngItem> {
-        private final IconGenerator mIconGenerator = new IconGenerator(getActivity());
         private final IconGenerator mClusterIconGenerator = new IconGenerator(getActivity());
-        //  private TextView mCountTV;
-
 
         public ClusterRenderer() {
             super(getActivity(), mMap, mClusterManager);
-            View iconView = LayoutInflater.from(getActivity()).inflate(R.layout.amu_bubble_mask, null);
-
-            float zoomLevel = mMap.getCameraPosition().zoom;
-            float contentSize = (float) Math.floor(Math.min(20, Math.max(8, zoomLevel)));
-
-            DisplayMetrics metrics = getResources().getDisplayMetrics();
-            contentSize = contentSize * ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
-
-            iconView.setLayoutParams(new ViewGroup.LayoutParams((int)contentSize,(int)contentSize));
-
-            mIconGenerator.setContentView(iconView);
+            setMinClusterSize(1);
         }
 
         @Override
@@ -905,12 +839,22 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
             markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon));
         }
 
+        private int getTileSize() {
+            float zoomLevel = mMap.getCameraPosition().zoom;
+            int contentSize = (int) Math.floor(Math.min(20, Math.max(8, zoomLevel)));
+            DisplayMetrics metrics = getResources().getDisplayMetrics();
+            contentSize = contentSize * (metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+            return contentSize;
+        }
+
         @Override
-        protected boolean shouldRenderAsCluster(Cluster cluster) {
-            // Always render clusters.
-            return cluster.getSize() > 1;
+        protected void onBeforeClusterItemRendered(LatLngItem item, MarkerOptions markerOptions) {
+            Drawable drawable = ContextCompat.getDrawable(getActivity(), R.drawable.heatmap_marker);
+            int size = getTileSize();
+            Bitmap b = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
+            drawable.setBounds(0, 0, b.getHeight(), b.getWidth());
+            drawable.draw(new Canvas(b));
+            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(b));
         }
     }
-
-
 }

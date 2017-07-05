@@ -114,8 +114,8 @@
     </style>
 
     <style name="amu_Bubble.TextAppearance.Dark" parent="android:TextAppearance.Medium">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColor">#ff7f7f7f</item>
+        <item name="android:textSize">5sp</item>
+        <item name="android:textColor">#FFFFFFFF</item>
     </style>
 
     <style name="amu_Bubble.TextAppearance.Light" parent="amu_Bubble.TextAppearance.Dark">

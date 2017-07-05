@@ -1,6 +1,6 @@
 package com.bayer.ah.bayertekenscanner.model;
 
-import com.bayer.ah.bayertekenscanner.heapmap.clustering.ClusterItem;
+import com.bayer.ah.bayertekenscanner.cluster.clustering.ClusterItem;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
