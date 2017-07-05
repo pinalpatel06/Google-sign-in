@@ -150,6 +150,7 @@
     <!--NumberPicker Dialog-->
     <dimen name="picker_width">300dp</dimen>
     <dimen name="marker_size">15dp</dimen>
+    <dimen name="margin_15dp">15dp</dimen>
 
 
 </resources>

@@ -398,8 +398,8 @@
     <string name="maps_api_key">AIzaSyBdfo7KZm_VFU6PU3oxjfpxpCD2Gctbx1s</string>
     <string name="logout">Uitloggen</string>
     <string name="logout_message">Ben je zeker dat je wilt uitloggen?</string>
-    <string name="ja">ja</string>
-    <string name="nee">nee</string>
+    <string name="ja">Ja</string>
+    <string name="nee">Nee</string>
     <string name="confirmation">Ben je zeker dat je wilt annuleren?</string>
     <string name="confirmation_title">Let op!</string>
     <string name="procced">Doorgaan</string>
@@ -415,5 +415,13 @@
     <string name="choose_picture">Choose a Picture</string>
     <string name="location_permission_retry">Need location permission.</string>
     <string name="setting_dialog">Do you want to set permission for app settings?</string>
+
+    <!--Tick research flow -->
+    <string name="is_cure_taken_text">Is de %s beschermd tegen teken?</string>
+    <string name="drug_date_text">Op welke datum is het middel gegeven?</string>
+    <string name="drug_text">Met welk middel is de %s beschermd tegen teken?</string>
+    <string name="datum">Datum</string>
+    <string name="confirm">Volgende</string>
+    <string name="het_status_text">Is de %s tot een week geleden in het buitenland geweest?</string>
 
 </resources>

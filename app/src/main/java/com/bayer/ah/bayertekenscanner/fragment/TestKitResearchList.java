@@ -14,8 +14,8 @@ import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.bayer.ah.bayertekenscanner.R;
-import com.bayer.ah.bayertekenscanner.activity.ApplyForPetActivity;
 import com.bayer.ah.bayertekenscanner.activity.EditPetActivity;
+import com.bayer.ah.bayertekenscanner.activity.IsCureTakenActivity;
 import com.bayer.ah.bayertekenscanner.custom.CircleNetworkImageView;
 import com.bayer.ah.bayertekenscanner.custom.ListFragment;
 import com.bayer.ah.bayertekenscanner.custom.network.TekenErrorListener;
@@ -209,11 +209,18 @@ public class TestKitResearchList extends ListFragment<Object, RecyclerView.ViewH
 
         @OnClick(R.id.rt_item_pet)
         public void showApplyPetActivity() {
-            Intent intent = new Intent(getActivity(), ApplyForPetActivity.class);
+           /* Intent intent = new Intent(getActivity(), ApplyForPetActivity.class);
             Bundle bundle = getArguments().getBundle(ARGS_TEEK_BUNDLE);
             bundle.putLong(ARGS_PET_ID, mItem.getId());
             bundle.putParcelable(ARGS_PET_DATA,mItem);
             intent.putExtra(ApplyForPetActivity.EXTRA_PET_BUNDLE, bundle);
+            startActivity(intent);*/
+
+            Intent intent = new Intent(getActivity(), IsCureTakenActivity.class);
+            Bundle bundle = getArguments().getBundle(ARGS_TEEK_BUNDLE);
+            bundle.putLong(ARGS_PET_ID, mItem.getId());
+            bundle.putParcelable(ARGS_PET_DATA,mItem);
+            intent.putExtra(IsCureTakenActivity.EXTRA_PET_BUNDLE, bundle);
             startActivity(intent);
         }
 

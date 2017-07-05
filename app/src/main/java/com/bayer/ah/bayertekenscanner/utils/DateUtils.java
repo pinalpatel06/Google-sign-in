@@ -13,7 +13,8 @@ public class DateUtils {
 
     private static SimpleDateFormat
             sFullDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH),
-            sDateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
+            sDateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH),
+            sDrugDateFormat = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
 
 
     public static Date toDate(String string) {
@@ -26,6 +27,10 @@ public class DateUtils {
 
     public static String toApi(Date date) {
         return sDateFormat.format(date);
+    }
+
+    public static String toDrugDate(Date date) {
+        return sDrugDateFormat.format(date);
     }
 
     public static String toPetApi(Date date) {

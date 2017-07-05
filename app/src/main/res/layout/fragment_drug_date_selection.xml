@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/gray"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/test_kit_step2_detail_layout_height"
+        android:background="@color/color_qr_title_text">
+
+        <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
+            android:id="@+id/tv_pet_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/drug_date_text"
+            android:textAlignment="center"
+            android:textColor="@color/color_details_text_test_kit_step2"
+            android:textSize="@dimen/test_kit_step2_detail_text_size"
+            app:customfont="OpenSansRegular"/>
+    </LinearLayout>
+
+    <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/extra_margin_20dp"
+        android:background="@android:color/white"
+        android:padding="@dimen/margin_10dp"
+        android:text="@string/datum"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/text_app_sub_title"
+        app:customfont="OpenSansSemiBold"/>
+
+    <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
+        android:id="@+id/tv_drug_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:padding="@dimen/margin_10dp"
+        android:textSize="@dimen/text_app_sub_title"
+        app:customfont="OpenSansSemiBold"/>
+
+    <View android:layout_width="match_parent"
+          android:layout_height="1dp"
+          android:background="@android:color/darker_gray"/>
+
+    <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
+        android:id="@+id/tv_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:drawableEnd="@drawable/ic_chevron_right_blue"
+        android:gravity="center_vertical"
+        android:paddingBottom="@dimen/extra_margin_20dp"
+        android:paddingEnd="@dimen/margin_10dp"
+        android:paddingStart="@dimen/margin_15dp"
+        android:paddingTop="@dimen/extra_margin_20dp"
+        android:text="@string/confirm"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/text_app_sub_title"
+        app:customfont="OpenSansSemiBold"/>
+</LinearLayout>

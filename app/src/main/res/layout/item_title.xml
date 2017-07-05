@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/tv_title"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:drawableEnd="@drawable/ic_chevron_right_blue"
+    android:textSize="@dimen/text_app_sub_title"
+    app:customfont="OpenSansSemiBold"
+    android:textColor="@color/colorPrimary"
+    android:paddingTop="@dimen/extra_margin_20dp"
+    android:paddingBottom="@dimen/extra_margin_20dp"
+    android:paddingEnd="@dimen/margin_10dp"
+    android:paddingStart="@dimen/margin_15dp" />
