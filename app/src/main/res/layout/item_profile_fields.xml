@@ -202,10 +202,10 @@
                     android:buttonTint="@color/radio_button_tint" />
 
             </LinearLayout>
-
         </LinearLayout>
 
         <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
+            android:id="@+id/tv_new_pet_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/default_margin"

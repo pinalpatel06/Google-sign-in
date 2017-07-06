@@ -329,7 +329,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
                 if (User.getInstance(getActivity()).getPassword() != null &&
                         !User.getInstance(getActivity()).getPassword().equals("")) {
                     return true;
-                }else{
+                } else {
                     return false;
                 }
             }
@@ -555,9 +555,6 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
         @BindView(R.id.lt_conditions)
         LinearLayout mConditionsLT;
 
-        @BindView(R.id.tv_add_pet)
-        TextView mAddPetTV;
-
         @BindView(R.id.radio_group_gender)
         RadioGroup mGenderRadioGroup;
 
@@ -590,6 +587,12 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
 
         @BindView(R.id.cb_term_conditions)
         CheckBox mTermsConditionCb;
+
+        @BindView(R.id.tv_new_pet_title)
+        TextView mNewPetTitleTV;
+
+        @BindView(R.id.tv_add_pet)
+        TextView mAddPetTV;
 
 
         ProfileFieldVH(View itemView) {
@@ -629,6 +632,17 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
                             View.VISIBLE
             );
 
+            mNewPetTitleTV.setVisibility(
+                    !User.getInstance(getActivity()).isLoaded() ?
+                            View.GONE :
+                            View.VISIBLE
+            );
+
+            mAddPetTV.setVisibility(
+                   ! User.getInstance(getActivity()).isLoaded() ?
+                            View.GONE :
+                            View.VISIBLE
+            );
         }
 
         @OnClick({R.id.lt_conditions, R.id.tv_add_pet})
