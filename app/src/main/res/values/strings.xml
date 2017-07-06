@@ -424,5 +424,6 @@
     <string name="confirm">Volgende</string>
     <string name="het_status_text">Is de %s tot een week geleden in het buitenland geweest?</string>
     <string name="exit_msg">Press again to exit</string>
+    <string name="data_missing">Data missing</string>
 
 </resources>

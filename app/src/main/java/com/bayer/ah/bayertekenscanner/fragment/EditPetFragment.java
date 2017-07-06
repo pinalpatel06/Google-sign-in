@@ -165,6 +165,12 @@ public class EditPetFragment extends Fragment implements CustomSpinner.OnItemCho
             case R.id.action_done:
                 if (isValidate()) {
                     createOrEditAnimalProfile();
+                }else {
+                    Toast.makeText(
+                            getActivity(),
+                            R.string.data_missing,
+                            Toast.LENGTH_SHORT
+                    ).show();
                 }
                 return true;
             default:

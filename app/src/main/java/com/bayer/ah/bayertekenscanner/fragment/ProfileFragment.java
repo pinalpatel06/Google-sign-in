@@ -140,7 +140,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
                 } else {
                     Toast.makeText(
                             getActivity(),
-                            "Data missing",
+                            R.string.data_missing,
                             Toast.LENGTH_SHORT
                     ).show();
                 }
