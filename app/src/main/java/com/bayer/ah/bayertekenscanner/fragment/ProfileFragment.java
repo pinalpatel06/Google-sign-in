@@ -70,7 +70,7 @@ import static java.lang.String.valueOf;
 
 public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolder>
         implements CommonNodeInterface,
-        TekenResponseListener, TekenErrorListener{
+        TekenResponseListener, TekenErrorListener {
 
     private static final String
             TAG = ProfileFragment.class.getSimpleName(),
@@ -154,7 +154,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
             case android.R.id.home:
                 fragment = ConfirmDialogFragment.newInstance(R.string.confirmation_title, R.string.confirmation, R.string.stop, R.string.procced);
                 fragment.show(getFragmentManager(), TAG_DIALOG);
-                fragment.setTargetFragment(this,DIALOG_BACK);
+                fragment.setTargetFragment(this, DIALOG_BACK);
                 return true;
             case R.id.action_customize:
                 // mCanEdit = true;
@@ -176,14 +176,14 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        switch (requestCode){
+        switch (requestCode) {
             case DIALOG_LOGOUT:
-                if(resultCode == Activity.RESULT_OK){
-                   logout();
+                if (resultCode == Activity.RESULT_OK) {
+                    logout();
                 }
                 break;
             case DIALOG_BACK:
-                if(resultCode == Activity.RESULT_OK){
+                if (resultCode == Activity.RESULT_OK) {
                     getActivity().onBackPressed();
                 }
         }
@@ -314,22 +314,27 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
                 User.getInstance(getActivity()).getLastName() != null &&
                 !User.getInstance(getActivity()).getLastName().equals("") &&
                 User.getInstance(getActivity()).getEmail() != null &&
-               !User.getInstance(getActivity()).getEmail().equals("") &&
+                !User.getInstance(getActivity()).getEmail().equals("") &&
                 User.getInstance(getActivity()).getStreet() != null &&
                 !User.getInstance(getActivity()).getStreet().equals("") &&
                 User.getInstance(getActivity()).getPostalCode() != null &&
                 !User.getInstance(getActivity()).getPostalCode().equals("") &&
                 User.getInstance(getActivity()).getPostalAddress() != null &&
                 !User.getInstance(getActivity()).getPostalAddress().equals("") &&
-                User.getInstance(getActivity()).getMobile() == 0 &&
-                User.getInstance(getActivity()).getPassword() != null &&
-               !User.getInstance(getActivity()).getPassword().equals("")) {
-            return false;
+                User.getInstance(getActivity()).getMobile() != 0 &&
+                User.getInstance(getActivity()).getGender() != null) {
+
+            if (!User.getInstance(getActivity()).isLoaded()) {
+                if (User.getInstance(getActivity()).getPassword() != null &&
+                        !User.getInstance(getActivity()).getPassword().equals("")) {
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+            return true;
         }
-        if (User.getInstance(getActivity()).getGender() == null) {
-            return false;
-        }
-        return true;
+        return false;
     }
 
     public void createOrUpdateUser() {
@@ -400,8 +405,8 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
                 request.addParam(PARM_EMAIL, User.getInstance(getActivity()).getEmail());
             }
 
-            if(!User.getInstance(getActivity()).isLoaded()) {
-                Log.d(TAG,(LoginUtils.encode(User.getInstance(getActivity()).getPassword())));
+            if (!User.getInstance(getActivity()).isLoaded()) {
+                Log.d(TAG, (LoginUtils.encode(User.getInstance(getActivity()).getPassword())));
                 request.addParam(PARM_PASSWORD, (LoginUtils.encode(User.getInstance(getActivity()).getPassword())));
             }
 
@@ -648,15 +653,15 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
                 R.id.et_place,
                 R.id.et_street_name})
         public void onTextChange(Editable s) {
-            if (s == mFirstNameET.getText() && s.length() > 0) {
+            if (s == mFirstNameET.getText() /*&& s.length() > 0*/) {
 
                 User.getInstance(getActivity()).setFirstName(mFirstNameET.getText().toString());
 
-            } else if (s == mLastNameET.getText() && s.length() > 0) {
+            } else if (s == mLastNameET.getText() /*&& s.length() > 0*/) {
 
                 User.getInstance(getActivity()).setLastName(mLastNameET.getText().toString());
 
-            } else if (s == mEmailET.getText() && s.length() > 0) {
+            } else if (s == mEmailET.getText() /*&& s.length() > 0*/) {
 
                 if (TextUtils.isEmpty(mEmailET.getText().toString().trim()) ||
                         !Patterns.EMAIL_ADDRESS.matcher(s.toString()).matches()) {
@@ -667,23 +672,23 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
                     mEmailET.setError(null, null);
                     User.getInstance(getActivity()).setEmail(mEmailET.getText().toString());
                 }
-            } else if (s == mStreetNameET.getText() && s.length() > 0) {
+            } else if (s == mStreetNameET.getText() /*&& s.length() > 0*/) {
 
                 User.getInstance(getActivity()).setStreet(mStreetNameET.getText().toString());
 
-            } else if (s == mPostalCodeEt.getText() && s.length() > 0) {
+            } else if (s == mPostalCodeEt.getText() /*&& s.length() > 0*/) {
 
                 User.getInstance(getActivity()).setPostalCode((mPostalCodeEt.getText().toString()));
 
-            } else if (s == mPlaceNameET.getText() && s.length() > 0) {
+            } else if (s == mPlaceNameET.getText() /*&& s.length() > 0*/) {
 
                 User.getInstance(getActivity()).setPostalAddress(mPlaceNameET.getText().toString());
 
-            } else if (s == mTelNoET.getText() && s.length() > 0) {
+            } else if (s == mTelNoET.getText() /*&& s.length() > 0*/) {
 
                 User.getInstance(getActivity()).setMobile(Long.valueOf(mTelNoET.getText().toString()));
 
-            } else if (s == mConfirmPasswordET.getText() && s.length() > 0) {
+            } else if (s == mConfirmPasswordET.getText() /*&& s.length() > 0*/) {
 
                 if (!(mConfirmPasswordET.getText().toString().equals(mPasswordET.getText().toString()))) {
                     mConfirmPasswordET.setError(getString(R.string.err_password));
