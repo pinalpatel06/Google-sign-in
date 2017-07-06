@@ -1,6 +1,8 @@
 package com.bayer.ah.bayertekenscanner.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bayer.ah.bayertekenscanner.R;
 import com.bayer.ah.bayertekenscanner.custom.nestedfragments.ContainerNodeInterface;
@@ -28,7 +31,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener, FragmentChangeCallback, TickReportHelpFragment.Callback{
+public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener, FragmentChangeCallback, TickReportHelpFragment.Callback {
 
     private static final int
             POSITION_TEKENSCANNER = 0,
@@ -44,6 +47,19 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     private Adapter mAdapter;
+
+    private boolean mIsBackPressed = false;
+
+    private static final int
+            DEFAULT_DELAY = 2000;
+
+    private Handler mHandler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            mIsBackPressed = false;
+            return true;
+        }
+    });
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -115,10 +131,10 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         onFragmentChanged();
     }
 
-    private void invalidateFragmentMenus(int position){
-        for(int i = 0; i < mAdapter.getCount(); i++){
+    private void invalidateFragmentMenus(int position) {
+        for (int i = 0; i < mAdapter.getCount(); i++) {
             Fragment fragment = mAdapter.getFragment(i);
-            if(fragment!=null){
+            if (fragment != null) {
                 fragment.setHasOptionsMenu(i == position);
             }
         }
@@ -147,7 +163,18 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
             isHandled = ((ContainerNodeInterface) fragment).onBackPressed();
         }
         if (!isHandled) {
-            super.onBackPressed();
+            if (mIsBackPressed) {
+                mHandler.removeCallbacksAndMessages(this);
+                super.onBackPressed();
+            } else {
+                mIsBackPressed = true;
+                mHandler.sendEmptyMessageDelayed(0, DEFAULT_DELAY);
+                Toast.makeText(
+                        this,
+                       R.string.exit_msg,
+                        Toast.LENGTH_SHORT
+                ).show();
+            }
         }
     }
 

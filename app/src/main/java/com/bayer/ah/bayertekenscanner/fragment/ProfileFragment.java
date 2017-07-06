@@ -315,6 +315,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
                 !User.getInstance(getActivity()).getLastName().equals("") &&
                 User.getInstance(getActivity()).getEmail() != null &&
                 !User.getInstance(getActivity()).getEmail().equals("") &&
+                Patterns.EMAIL_ADDRESS.matcher(User.getInstance(getActivity()).getEmail()).matches() &&
                 User.getInstance(getActivity()).getStreet() != null &&
                 !User.getInstance(getActivity()).getStreet().equals("") &&
                 User.getInstance(getActivity()).getPostalCode() != null &&
@@ -667,6 +668,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
                         !Patterns.EMAIL_ADDRESS.matcher(s.toString()).matches()) {
 
                     mEmailET.setError(getString(R.string.err_email));
+                    User.getInstance(getActivity()).setEmail(mEmailET.getText().toString());
 
                 } else {
                     mEmailET.setError(null, null);
