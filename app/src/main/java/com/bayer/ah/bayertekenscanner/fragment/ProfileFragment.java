@@ -47,6 +47,7 @@ import com.bayer.ah.bayertekenscanner.dialogs.ConfirmDialogFragment;
 import com.bayer.ah.bayertekenscanner.model.Pet;
 import com.bayer.ah.bayertekenscanner.model.User;
 import com.bayer.ah.bayertekenscanner.utils.Constants;
+import com.bayer.ah.bayertekenscanner.utils.LoginUtils;
 import com.bayer.ah.bayertekenscanner.utils.VolleyHelper;
 
 import org.json.JSONArray;
@@ -309,20 +310,20 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
 
     private boolean isUserValid() {
         if (User.getInstance(getActivity()).getFirstName() != null &&
-                User.getInstance(getActivity()).getFirstName().equals("") &&
+                !User.getInstance(getActivity()).getFirstName().equals("") &&
                 User.getInstance(getActivity()).getLastName() != null &&
-                User.getInstance(getActivity()).getLastName().equals("") &&
+                !User.getInstance(getActivity()).getLastName().equals("") &&
                 User.getInstance(getActivity()).getEmail() != null &&
-                User.getInstance(getActivity()).getEmail().equals("") &&
+               !User.getInstance(getActivity()).getEmail().equals("") &&
                 User.getInstance(getActivity()).getStreet() != null &&
-                User.getInstance(getActivity()).getStreet().equals("") &&
+                !User.getInstance(getActivity()).getStreet().equals("") &&
                 User.getInstance(getActivity()).getPostalCode() != null &&
-                User.getInstance(getActivity()).getPostalCode().equals("") &&
+                !User.getInstance(getActivity()).getPostalCode().equals("") &&
                 User.getInstance(getActivity()).getPostalAddress() != null &&
-                User.getInstance(getActivity()).getPostalAddress().equals("") &&
+                !User.getInstance(getActivity()).getPostalAddress().equals("") &&
                 User.getInstance(getActivity()).getMobile() == 0 &&
                 User.getInstance(getActivity()).getPassword() != null &&
-                User.getInstance(getActivity()).getPassword().equals("")) {
+               !User.getInstance(getActivity()).getPassword().equals("")) {
             return false;
         }
         if (User.getInstance(getActivity()).getGender() == null) {
@@ -367,6 +368,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
                                         .apply();
 
                             } else {
+                                //Unload user's data. it is reloaded when user log in.
                                 User.getInstance(getActivity()).unloadUser();
                             }
                             getActivity().finish();
@@ -376,9 +378,6 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
                         @Override
                         public void onErrorResponse(int requestCode, VolleyError error, int status, String message) {
                             Log.d(TAG, status + " failure " + message);
-                            if (!User.getInstance(getActivity()).isLoaded()) {
-                                User.getInstance(getActivity()).unloadUser();
-                            }
                         }
                     },
                     REQUEST_USER
@@ -401,7 +400,10 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
                 request.addParam(PARM_EMAIL, User.getInstance(getActivity()).getEmail());
             }
 
-            //request.addParam(PARM_PASSWORD, (LoginUtils.encode(User.getInstance(getActivity()).getPassword())));
+            if(!User.getInstance(getActivity()).isLoaded()) {
+                Log.d(TAG,(LoginUtils.encode(User.getInstance(getActivity()).getPassword())));
+                request.addParam(PARM_PASSWORD, (LoginUtils.encode(User.getInstance(getActivity()).getPassword())));
+            }
 
 
             VolleyHelper.getInstance(getActivity()).addToRequestQueue(request);
