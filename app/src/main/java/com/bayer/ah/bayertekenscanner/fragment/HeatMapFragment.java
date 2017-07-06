@@ -755,6 +755,9 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
                     @Override
                     public void onErrorResponse(int requestCode, VolleyError error, int status, String message) {
                         Log.d(TAG, status + " " + error);
+                        if(status < 0){
+                            Common.shoToast(getActivity(),R.string.no_connectivity);
+                        }
                     }
                 },
                 REQUEST_TICKS

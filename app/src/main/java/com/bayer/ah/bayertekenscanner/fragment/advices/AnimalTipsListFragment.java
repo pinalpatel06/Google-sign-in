@@ -41,7 +41,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static android.R.id.message;
 import static com.bayer.ah.bayertekenscanner.fragment.advices.TipsTabFragment.ARGS_TIPS;
 
 /**
@@ -237,6 +236,11 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
                     @Override
                     public void onErrorResponse(int requestCode, VolleyError error, int status, String message) {
                         Log.d(TAG, status + " " + message);
+                        if(status < 0){
+                            updateEmptyView(R.string.no_connectivity);
+                        }else{
+                            updateEmptyView();
+                        }
                     }
                 },
                 REQUEST_PET
@@ -297,6 +301,11 @@ public class AnimalTipsListFragment extends ListFragment<Object, RecyclerView.Vi
                     @Override
                     public void onErrorResponse(int requestCode, VolleyError error, int status, String message) {
                         Log.d(TAG, error.toString());
+                        if(status < 0){
+                            updateEmptyView(R.string.no_connectivity);
+                        }else{
+                            updateEmptyView();
+                        }
                     }
                 },
                 REQUEST_FETCH_TIPS

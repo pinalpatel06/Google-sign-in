@@ -22,6 +22,7 @@ import com.bayer.ah.bayertekenscanner.custom.nestedfragments.NestedFragmentUtil;
 import com.bayer.ah.bayertekenscanner.dialogs.AlertDialogFragment;
 import com.bayer.ah.bayertekenscanner.dialogs.ProgressDialogFragment;
 import com.bayer.ah.bayertekenscanner.model.User;
+import com.bayer.ah.bayertekenscanner.utils.Common;
 import com.bayer.ah.bayertekenscanner.utils.LoginUtils;
 
 import butterknife.BindView;
@@ -155,9 +156,12 @@ public class LoginFragment extends ContainerNodeFragment implements LoginUtils.L
     public void onFailure(VolleyError error, int errorCode, String errorString) {
         ProgressDialogFragment fragment = (ProgressDialogFragment) getFragmentManager().findFragmentByTag(TAG_PROGRESS_DIALOG);
         fragment.dismiss();
-
-        AlertDialogFragment fragment1 = AlertDialogFragment.newInstance(R.string.error, R.string.invalid_login);
-        fragment1.show(getFragmentManager(), TAG_ALERT_DIALOG);
+        if(errorCode > 0) {
+            AlertDialogFragment fragment1 = AlertDialogFragment.newInstance(R.string.error, R.string.invalid_login);
+            fragment1.show(getFragmentManager(), TAG_ALERT_DIALOG);
+        }else{
+            Common.shoToast(getActivity(),R.string.no_connectivity);
+        }
     }
 
     @Override

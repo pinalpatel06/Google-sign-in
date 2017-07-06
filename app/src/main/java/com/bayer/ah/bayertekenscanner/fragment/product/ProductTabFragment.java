@@ -1,6 +1,4 @@
 package com.bayer.ah.bayertekenscanner.fragment.product;
-
-
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -81,6 +79,11 @@ public class ProductTabFragment extends ContainerNodeListFragment<Object, Produc
                     @Override
                     public void onErrorResponse(int requestCode, VolleyError error, int status, String message) {
                         Log.d(TAG, error.toString());
+                        if (status < 0) {
+                            updateEmptyView(R.string.no_connectivity);
+                        } else {
+                            updateEmptyView();
+                        }
                     }
                 },
                 REQUEST_FETCH_PRODUCT
@@ -112,7 +115,12 @@ public class ProductTabFragment extends ContainerNodeListFragment<Object, Produc
                 new TekenErrorListener() {
                     @Override
                     public void onErrorResponse(int requestCode, VolleyError error, int status, String message) {
-                        Log.d(TAG, error.toString());
+                        Log.d(TAG, status + " " + message);
+                        if (status < 0) {
+                            updateEmptyView(R.string.no_connectivity);
+                        } else {
+                            updateEmptyView();
+                        }
                     }
                 },
                 REQUEST_FETCH_INFORMATION

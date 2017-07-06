@@ -122,6 +122,12 @@ public abstract class ListFragment<T, VH extends RecyclerView.ViewHolder> extend
         mProgressBar.setVisibility(View.GONE);
     }
 
+    public void updateEmptyView(int textId) {
+        updateEmptyView();
+        TextView tv = (TextView) mEmptyFL.getChildAt(0);
+        tv.setText(getString(textId));
+    }
+
     protected boolean hasDecoration() {
         return true;
     }
