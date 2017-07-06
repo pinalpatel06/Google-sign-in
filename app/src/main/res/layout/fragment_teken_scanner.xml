@@ -48,12 +48,32 @@
                   android:layout_below="@+id/fl_tab"
                   map:uiCompass="false"/>
 
-        <com.bayer.ah.bayertekenscanner.custom.CustomEditTextView
-            android:id="@+id/et_search_bar"
-            style="@style/TekenAppSearchbarStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/fl_tab"/>
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_below="@id/fl_tab"
+                      android:layout_marginEnd="@dimen/margin_10dp"
+                      android:layout_marginStart="@dimen/margin_10dp"
+                      android:layout_marginTop="@dimen/extra_margin_15dp"
+                      android:background="@android:color/white"
+                      android:elevation="@dimen/default_elevation"
+                      android:orientation="horizontal">
+
+            <com.bayer.ah.bayertekenscanner.custom.CustomEditTextView
+                android:id="@+id/et_search_bar"
+                style="@style/TekenAppSearchbarStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <ImageView
+                android:id="@+id/iv_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/margin_5dp"
+                android:padding="@dimen/margin_10dp"
+                android:src="@drawable/ic_close_black"/>
+        </LinearLayout>
 
     </RelativeLayout>
 
@@ -96,8 +116,8 @@
             android:paddingBottom="@dimen/padding_5dp"
             android:paddingTop="@dimen/padding_5dp"
             android:textColor="@color/colorAccent"
-            app:layout_gravity="end"
             app:layout_columnSpan="2"
+            app:layout_gravity="end"
             tools:text="09 05 2016"/>
 
         <SeekBar

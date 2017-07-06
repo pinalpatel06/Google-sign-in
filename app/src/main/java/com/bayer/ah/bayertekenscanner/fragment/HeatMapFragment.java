@@ -29,12 +29,12 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,14 +43,14 @@ import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.bayer.ah.bayertekenscanner.R;
 import com.bayer.ah.bayertekenscanner.activity.FilterOptionActivity;
-import com.bayer.ah.bayertekenscanner.custom.network.TekenErrorListener;
-import com.bayer.ah.bayertekenscanner.custom.network.TekenJsonArrayRequest;
-import com.bayer.ah.bayertekenscanner.custom.network.TekenResponseListener;
-import com.bayer.ah.bayertekenscanner.dialogs.ConfirmDialogFragment;
 import com.bayer.ah.bayertekenscanner.cluster.clustering.Cluster;
 import com.bayer.ah.bayertekenscanner.cluster.clustering.ClusterManager;
 import com.bayer.ah.bayertekenscanner.cluster.clustering.view.DefaultClusterRenderer;
 import com.bayer.ah.bayertekenscanner.cluster.ui.IconGenerator;
+import com.bayer.ah.bayertekenscanner.custom.network.TekenErrorListener;
+import com.bayer.ah.bayertekenscanner.custom.network.TekenJsonArrayRequest;
+import com.bayer.ah.bayertekenscanner.custom.network.TekenResponseListener;
+import com.bayer.ah.bayertekenscanner.dialogs.ConfirmDialogFragment;
 import com.bayer.ah.bayertekenscanner.model.LatLngItem;
 import com.bayer.ah.bayertekenscanner.utils.Common;
 import com.bayer.ah.bayertekenscanner.utils.Constants;
@@ -103,7 +103,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChangeListener,
         GoogleApiClient.ConnectionCallbacks, OnMapReadyCallback, LocationListener,
-        TabLayout.OnTabSelectedListener, TextView.OnEditorActionListener, View.OnTouchListener {
+        TabLayout.OnTabSelectedListener, TextView.OnEditorActionListener {
 
     private static final String
             TAG = HeatMapFragment.class.getSimpleName(),
@@ -169,6 +169,8 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
     TextView mMonth12TV;
     @BindView(R.id.et_search_bar)
     EditText mSearchBarET;
+    @BindView(R.id.iv_close)
+    ImageView mCloseIV;
 
     private String[] mMonthName;
     private BottomSheetBehavior mBottomSheetBehavior;
@@ -296,7 +298,6 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         mSearchBarET.setOnEditorActionListener(this);
-        mSearchBarET.setOnTouchListener(this);
     }
 
     private void initMap() {
@@ -347,12 +348,18 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
         return weeksInYear - currentWeekNo + nextYearWeek;
     }
 
-    @OnClick(R.id.tv_title_filter)
-    public void showBottomSheet() {
-        if (mBottomSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
-            mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-        } else {
-            mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+    @OnClick({R.id.tv_title_filter,R.id.iv_close})
+    public void showBottomSheet(View v) {
+        switch (v.getId()){
+            case R.id.tv_title_filter:
+                if (mBottomSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
+                    mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                } else {
+                    mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                }
+                break;
+            case R.id.iv_close:
+                mSearchBarET.setText("");
         }
     }
 
@@ -723,18 +730,6 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
             CameraPosition myPosition = new CameraPosition.Builder().target(latLng).zoom(10).bearing(0).tilt(0).build();
             mMap.moveCamera(CameraUpdateFactory.newCameraPosition(myPosition));
         }
-    }
-
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        final int DRAWABLE_RIGHT = 2;
-        if (event.getAction() == MotionEvent.ACTION_UP) {
-            if (event.getX() >= (mSearchBarET.getWidth() - mSearchBarET.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                mSearchBarET.setText("");
-                return true;
-            }
-        }
-        return false;
     }
 
     private void getTicks() {
