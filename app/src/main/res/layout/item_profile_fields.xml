@@ -168,7 +168,7 @@
                 android:layout_marginTop="@dimen/default_margin"
                 android:hint="@string/mobile_number_placeholder"
                 android:imeOptions="actionDone"
-                android:text="@{String.valueOf(user.mobile)}"
+                android:text="@{user.mobile}"
                 android:inputType="phone" />
 
             <LinearLayout

@@ -48,7 +48,7 @@ public class User {
 
     private String mPassword;
 
-    private long mMobile;
+    private String mMobile;
 
     private boolean mIsLoaded = false;
 
@@ -82,7 +82,7 @@ public class User {
             mPostalCode = object.getString(JSON_S_POSTALCODE);
             mPostalAddress = object.getString(JSON_S_POSTALADDRESS);
             mEmail = object.getString(JSON_S_EMAIL);
-            mMobile = object.getLong(JSON_N_MOBILE);
+            mMobile = object.getString(JSON_N_MOBILE);
 
             String gender = object.getString(JSON_S_GENDER);
             if (Constants.Gender.MALE.toApi().equalsIgnoreCase(gender)) {
@@ -130,7 +130,7 @@ public class User {
         return mEmail;
     }
 
-    public long getMobile() {
+    public String getMobile() {
         return mMobile;
     }
 
@@ -183,7 +183,7 @@ public class User {
         mEmail = email;
     }
 
-    public void setMobile(long mobile) {
+    public void setMobile(String mobile) {
         mMobile = mobile;
     }
 

@@ -322,7 +322,8 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
                 !User.getInstance(getActivity()).getPostalCode().equals("") &&
                 User.getInstance(getActivity()).getPostalAddress() != null &&
                 !User.getInstance(getActivity()).getPostalAddress().equals("") &&
-                User.getInstance(getActivity()).getMobile() != 0 &&
+                User.getInstance(getActivity()).getMobile() != null &&
+                !User.getInstance(getActivity()).getMobile().equals("") &&
                 User.getInstance(getActivity()).getGender() != null) {
 
             if (!User.getInstance(getActivity()).isLoaded()) {
@@ -602,8 +603,10 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
 
         void bind(User item) {
 
+
             com.bayer.ah.bayertekenscanner.databinding.ItemProfileFieldsBinding binding = DataBindingUtil.bind(itemView);
             binding.setUser(item);
+
 
             if (!mCanEdit) {
                 mPasswordET.setText("123456");
@@ -639,7 +642,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
             );
 
             mAddPetTV.setVisibility(
-                   ! User.getInstance(getActivity()).isLoaded() ?
+                    !User.getInstance(getActivity()).isLoaded() ?
                             View.GONE :
                             View.VISIBLE
             );
@@ -702,7 +705,7 @@ public class ProfileFragment extends ListFragment<Object, RecyclerView.ViewHolde
 
             } else if (s == mTelNoET.getText() /*&& s.length() > 0*/) {
 
-                User.getInstance(getActivity()).setMobile(Long.valueOf(mTelNoET.getText().toString()));
+                User.getInstance(getActivity()).setMobile((mTelNoET.getText().toString()));
 
             } else if (s == mConfirmPasswordET.getText() /*&& s.length() > 0*/) {
 
