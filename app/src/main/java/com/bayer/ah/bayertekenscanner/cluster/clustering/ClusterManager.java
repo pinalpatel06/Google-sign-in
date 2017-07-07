@@ -135,6 +135,7 @@ public class ClusterManager<T extends ClusterItem> implements
         mAlgorithmLock.writeLock().lock();
         try {
             mAlgorithm.clearItems();
+          //  mClusterMarkers.clear();
         } finally {
             mAlgorithmLock.writeLock().unlock();
         }
@@ -167,6 +168,8 @@ public class ClusterManager<T extends ClusterItem> implements
             mAlgorithmLock.writeLock().unlock();
         }
     }
+
+
 
     /**
      * Force a re-cluster. You may want to call this after adding new item(s).

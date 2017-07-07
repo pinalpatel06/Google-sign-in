@@ -6,9 +6,7 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -20,9 +18,7 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayout;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -73,7 +69,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
@@ -85,6 +80,7 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
@@ -95,6 +91,8 @@ import butterknife.OnClick;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
+import static com.bayer.ah.bayertekenscanner.cluster.ui.IconGenerator.STYLE_DEFAULT;
+import static com.bayer.ah.bayertekenscanner.cluster.ui.IconGenerator.STYLE_GREEN;
 
 /**
  * Created by Tejas Sherdiwala on 4/20/2017.
@@ -176,6 +174,7 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
     private BottomSheetBehavior mBottomSheetBehavior;
     private int mScreenMinValue, mScreenMaxValue;
     private int mProgressMaxValue;
+    private int mCurrentTab = 0;
 
     private GoogleMap mMap;
     private SupportMapFragment mMapFragment;
@@ -348,9 +347,9 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
         return weeksInYear - currentWeekNo + nextYearWeek;
     }
 
-    @OnClick({R.id.tv_title_filter,R.id.iv_close})
+    @OnClick({R.id.tv_title_filter, R.id.iv_close})
     public void showBottomSheet(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.tv_title_filter:
                 if (mBottomSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
                     mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
@@ -402,13 +401,10 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.getUiSettings().setRotateGesturesEnabled(false);
-        drawHeatMapForAllDisease();
-
 
         mClusterManager = new ClusterManager<LatLngItem>(getActivity(), mMap);
         mClusterManager.setRenderer(new ClusterRenderer());
         mMap.setOnCameraIdleListener(mClusterManager);
-
         readItems();
     }
 
@@ -426,11 +422,13 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
         } else {
             mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             if (mLastLocation != null) {
-                LatLng lastLocationLatLng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-                //LatLng lastLocationLatLng = new LatLng(51.802750948, 5.271852985);
+                // LatLng lastLocationLatLng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+                LatLng lastLocationLatLng = new LatLng(51.802750948, 5.271852985);
                 CameraPosition myPosition = new CameraPosition.Builder().target(lastLocationLatLng).zoom(7).bearing(0).tilt(0).build();
                 mMap.moveCamera(CameraUpdateFactory.newCameraPosition(myPosition));
-                // getTicks();
+                if (mCurrentTab == 0) {
+                    getTicks();
+                }
             }
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
@@ -524,7 +522,13 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
                 break;
             case REQUEST_FILTER_OPTION:
                 if (resultCode == Activity.RESULT_OK) {
-                    selectHeatMap();
+                    mClusterManager.clearItems();
+                    if (mCurrentTab == 1) {
+                        if (mMap != null) {
+                            mMap.clear();
+                        }
+                        selectHeatMap();
+                    }
                 }
                 break;
             case DIALOG_PERMISSION_RETRY:
@@ -545,9 +549,20 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
 
         switch (tab.getPosition()) {
             case 0:
-                drawHeatMapForAllDisease();
+                mCurrentTab = 0;
+                if (mMap != null) {
+                    mMap.clear();
+                }
+                mClusterManager.clearItems();
+                readItems();
+                //getTicks();
                 break;
             case 1:
+                mCurrentTab = 1;
+                if (mMap != null) {
+                    mMap.clear();
+                }
+                mClusterManager.clearItems();
                 selectHeatMap();
         }
     }
@@ -560,98 +575,45 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
     public void onTabReselected(TabLayout.Tab tab) {
     }
 
-    private void drawHeatMapForAllDisease() {
-        if (mMap != null) {
-            mMap.clear();
+    private void drawHeatMap(ArrayList<LatLng> list, int id) {
+        for (int i = 0; i < list.size(); i++) {
+            mClusterManager.addItem(new LatLngItem(list.get(i), id));
         }
-        if (mLatLngListDisease1 != null && mLatLngListDisease1.size() > 0) {
-            drawHeatMap(mLatLngListDisease1);
-        }
-        if (mLatLngListDisease2 != null && mLatLngListDisease2.size() > 0) {
-            drawHeatMap(mLatLngListDisease2);
-        }
-        if (mLatLngListDisease3 != null && mLatLngListDisease3.size() > 0) {
-            drawHeatMap(mLatLngListDisease3);
-        }
-        if (mLatLngListDisease4 != null && mLatLngListDisease4.size() > 0) {
-            drawHeatMap(mLatLngListDisease4);
-        }
-    }
-
-    private void drawHeatMap(ArrayList<LatLng> list) {
-       /* HeatmapTileProvider provider = null;
-        Gradient gradient = new Gradient(colors,
-                ALT_HEATMAP_GRADIENT_START_POINTS);
-
-
-        provider = new HeatmapTileProvider.Builder().data(list).build();
-        mTileOverlay = mMap.addTileOverlay(new TileOverlayOptions().tileProvider(provider));
-
-        provider.setGradient(gradient);
-        mTileOverlay.clearTileCache();
-        provider.setOpacity(1.0f);
-        mTileOverlay.clearTileCache();
-        provider.setRadius(6);
-        mTileOverlay.clearTileCache();*/
-
-        /*for (int i = 0; i < list.size(); i++) {
-            drawMarker(list.get(i));
-        }*/
-    }
-
-    private void drawMarker(LatLng latLng) {
-
-        float zoomLevel = mMap.getCameraPosition().zoom;
-        float contentSize = (float) Math.floor(Math.min(20, Math.max(8, zoomLevel)));
-
-        DisplayMetrics metrics = getResources().getDisplayMetrics();
-        contentSize = contentSize * ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
-
-        Drawable drawable = ContextCompat.getDrawable(getActivity(), R.drawable.heatmap_marker);
-
-        Bitmap b = Bitmap.createBitmap((int) contentSize, (int) contentSize, Bitmap.Config.ARGB_8888);
-        drawable.setBounds(0, 0, b.getHeight(), b.getWidth());
-        drawable.draw(new Canvas(b));
-
-        LatLngBounds bounds = mMap.getProjection().getVisibleRegion().latLngBounds;
-
-        if (bounds.contains(latLng)) {
-            mMap.addMarker(new MarkerOptions().position(latLng))
-                    .setIcon(BitmapDescriptorFactory.fromBitmap(b));
-        }
-
     }
 
     private void updateHeatMap() {
-        drawHeatMapForAllDisease();
+      //  mMap.clear();
+        mClusterManager.cluster();
     }
 
     private void selectHeatMap() {
-        mMap.clear();
         for (int i = 0; i < Constants.DiseaseList.values().length; i++) {
             switch (i) {
                 case 0:
                     if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean(String.valueOf(i), false)) {
-                        drawHeatMap(mLatLngListDisease1);
+                        drawHeatMap(mLatLngListDisease1, 1);
+
                     }
                     break;
                 case 1:
                     if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean(String.valueOf(i), false)) {
-                        drawHeatMap(mLatLngListDisease2);
+                        drawHeatMap(mLatLngListDisease2, 2);
                     }
                     break;
                 case 2:
                     if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean(String.valueOf(i), false)) {
-                        drawHeatMap(mLatLngListDisease3);
+                        drawHeatMap(mLatLngListDisease3, 3);
                     }
                     break;
                 case 3:
                     if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean(String.valueOf(i), false)) {
-                        drawHeatMap(mLatLngListDisease4);
+                        drawHeatMap(mLatLngListDisease4, 4);
                     }
                     break;
             }
         }
+        mMap.clear();
+        mClusterManager.cluster();
     }
 
     private void readItems() {
@@ -677,21 +639,23 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
                 switch (disease) {
                     case 0:
                         mLatLngListDisease1.add(new LatLng(lat, lng));
+                        mClusterManager.addItem(new LatLngItem(new LatLng(jsonObject.optDouble(JSON_COOR_LAT), jsonObject.optDouble(JSON_COOR_LNG)), 1));
                         break;
                     case 1:
                         mLatLngListDisease2.add(new LatLng(lat, lng));
+                        mClusterManager.addItem(new LatLngItem(new LatLng(jsonObject.optDouble(JSON_COOR_LAT), jsonObject.optDouble(JSON_COOR_LNG)), 2));
                         break;
                     case 2:
                         mLatLngListDisease3.add(new LatLng(lat, lng));
+                        mClusterManager.addItem(new LatLngItem(new LatLng(jsonObject.optDouble(JSON_COOR_LAT), jsonObject.optDouble(JSON_COOR_LNG)), 3));
                         break;
                     case 3:
                         mLatLngListDisease4.add(new LatLng(lat, lng));
+                        mClusterManager.addItem(new LatLngItem(new LatLng(jsonObject.optDouble(JSON_COOR_LAT), jsonObject.optDouble(JSON_COOR_LNG)), 4));
                         break;
                 }
-                mClusterManager.addItem(new LatLngItem(new LatLng(jsonObject.optDouble(JSON_COOR_LAT), jsonObject.optDouble(JSON_COOR_LNG))));
             }
             if (mMap != null) {
-                drawHeatMapForAllDisease();
                 mClusterManager.cluster();
             }
 
@@ -727,7 +691,7 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
 
     private void centerMap(String address, LatLng latLng) {
         if (address != null && latLng != null) {
-            CameraPosition myPosition = new CameraPosition.Builder().target(latLng).zoom(10).bearing(0).tilt(0).build();
+            CameraPosition myPosition = new CameraPosition.Builder().target(latLng).zoom(2).bearing(0).tilt(0).build();
             mMap.moveCamera(CameraUpdateFactory.newCameraPosition(myPosition));
         }
     }
@@ -755,8 +719,8 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
                     @Override
                     public void onErrorResponse(int requestCode, VolleyError error, int status, String message) {
                         Log.d(TAG, status + " " + error);
-                        if(status < 0){
-                            Common.shoToast(getActivity(),R.string.no_connectivity);
+                        if (status < 0) {
+                            Common.shoToast(getActivity(), R.string.no_connectivity);
                         }
                     }
                 },
@@ -800,59 +764,143 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
                     switch (diseaseArray.optInt(j)) {
                         case 1:
                             mLatLngListDisease1.add(new LatLng(jsonObject.optDouble(JSON_COOR_LAT), jsonObject.optDouble(JSON_COOR_LNG)));
+                            mClusterManager.addItem(new LatLngItem(new LatLng(jsonObject.optDouble(JSON_COOR_LAT), jsonObject.optDouble(JSON_COOR_LNG)), 1));
                             break;
                         case 2:
                             mLatLngListDisease2.add(new LatLng(jsonObject.optDouble(JSON_COOR_LAT), jsonObject.optDouble(JSON_COOR_LNG)));
+                            mClusterManager.addItem(new LatLngItem(new LatLng(jsonObject.optDouble(JSON_COOR_LAT), jsonObject.optDouble(JSON_COOR_LNG)), 2));
                             break;
                         case 3:
                             mLatLngListDisease3.add(new LatLng(jsonObject.optDouble(JSON_COOR_LAT), jsonObject.optDouble(JSON_COOR_LNG)));
+                            mClusterManager.addItem(new LatLngItem(new LatLng(jsonObject.optDouble(JSON_COOR_LAT), jsonObject.optDouble(JSON_COOR_LNG)), 3));
                             break;
                         case 4:
                             mLatLngListDisease4.add(new LatLng(jsonObject.optDouble(JSON_COOR_LAT), jsonObject.optDouble(JSON_COOR_LNG)));
+                            mClusterManager.addItem(new LatLngItem(new LatLng(jsonObject.optDouble(JSON_COOR_LAT), jsonObject.optDouble(JSON_COOR_LNG)), 4));
                             break;
                     }
-
-                    mClusterManager.addItem(new LatLngItem(new LatLng(jsonObject.optDouble(JSON_COOR_LAT), jsonObject.optDouble(JSON_COOR_LNG))));
                 }
             }
 
             if (mMap != null) {
-                drawHeatMapForAllDisease();
                 mClusterManager.cluster();
             }
         }
     }
 
     private class ClusterRenderer extends DefaultClusterRenderer<LatLngItem> {
+
         private final IconGenerator mClusterIconGenerator = new IconGenerator(getActivity());
+        private final IconGenerator mSmallClusterIconGenerator = new IconGenerator(getActivity());
+        private final IconGenerator mDiseaseClusterIconGenerator = new IconGenerator(getActivity());
+        private final IconGenerator mDiseaseClusterIconGeneratorSmall = new IconGenerator(getActivity());
 
         public ClusterRenderer() {
             super(getActivity(), mMap, mClusterManager);
+            View smallView = getLayoutInflater(null).inflate(R.layout.cluster_marker_view_small, null);
+            mSmallClusterIconGenerator.setContentView(smallView);
+            mSmallClusterIconGenerator.setStyle(STYLE_DEFAULT);
             setMinClusterSize(1);
+
+            View diseaseView = getLayoutInflater(null).inflate(R.layout.cluster_disease_marker_small, null);
+            mDiseaseClusterIconGeneratorSmall.setContentView(diseaseView);
+            mDiseaseClusterIconGeneratorSmall.setStyle(STYLE_GREEN);
+
+            View diseaseView1 = getLayoutInflater(null).inflate(R.layout.cluster_disease_marker, null);
+            mDiseaseClusterIconGenerator.setContentView(diseaseView1);
+            mDiseaseClusterIconGenerator.setStyle(STYLE_DEFAULT);
         }
 
         @Override
         protected void onBeforeClusterRendered(Cluster<LatLngItem> cluster, MarkerOptions markerOptions) {
-            Bitmap icon = mClusterIconGenerator.makeIcon(String.valueOf(cluster.getSize()));
-            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon));
-        }
+            if (mCurrentTab == 0) {
+                if (cluster.getSize() >= 60) {
+                    Bitmap icon = mClusterIconGenerator.makeIcon(String.valueOf(cluster.getSize()));
+                    markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon));
+                } else {
+                    Bitmap icon = mSmallClusterIconGenerator.makeIcon(String.valueOf(cluster.getSize()));
+                    markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon));
+                }
+            } else if (mCurrentTab == 1) {
+                HashMap<String, Integer> mDiseaseSet = new HashMap<>();
+                ArrayList<LatLngItem> mList = new ArrayList<>(cluster.getItems());
+                LatLngItem item;
+                for (int i = 0; i < mList.size(); i++) {
+                    item = mList.get(i);
+                    if (mDiseaseSet.get(item.getSnippet()) != null) {
+                        mDiseaseSet.put(item.getSnippet(), mDiseaseSet.get(item.getSnippet()) + 1);
+                    } else {
+                        mDiseaseSet.put(item.getSnippet(), 1);
+                    }
+                }
 
-        private int getTileSize() {
-            float zoomLevel = mMap.getCameraPosition().zoom;
-            int contentSize = (int) Math.floor(Math.min(20, Math.max(8, zoomLevel)));
-            DisplayMetrics metrics = getResources().getDisplayMetrics();
-            contentSize = contentSize * (metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
-            return contentSize;
+                int d1, d2, d3, d4;
+                d1 = d2 = d3 = d4 = 0;
+                if (mDiseaseSet.get("1") != null) {
+                    d1 = mDiseaseSet.get("1");
+                }
+                if (mDiseaseSet.get("2") != null) {
+                    d2 = mDiseaseSet.get("2");
+                }
+
+                if (mDiseaseSet.get("3") != null) {
+                    d3 = mDiseaseSet.get("3");
+                }
+
+                if (mDiseaseSet.get("4") != null) {
+                    d4 = mDiseaseSet.get("4");
+                }
+
+                int id = R.drawable.bg_filter_option_1;
+                int max = d1;
+                if (max < d2) {
+                    max = d2;
+                    id = R.drawable.bg_filter_option_2;
+                }
+
+                if (max < d3) {
+                    max = d3;
+                    id = R.drawable.bg_filter_option_3;
+                }
+
+                if (max < d4) {
+                    id = R.drawable.bg_filter_option_4;
+                }
+                if (cluster.getSize() >= 60) {
+                    Bitmap icon = mDiseaseClusterIconGenerator.makeIcon(String.valueOf(cluster.getSize()), id);
+                    markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon));
+                } else {
+                    Bitmap icon = mDiseaseClusterIconGeneratorSmall.makeIcon(String.valueOf(cluster.getSize()), id);
+                    markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon));
+                }
+            }
+
         }
 
         @Override
         protected void onBeforeClusterItemRendered(LatLngItem item, MarkerOptions markerOptions) {
-            Drawable drawable = ContextCompat.getDrawable(getActivity(), R.drawable.heatmap_marker);
-            int size = getTileSize();
-            Bitmap b = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
-            drawable.setBounds(0, 0, b.getHeight(), b.getWidth());
-            drawable.draw(new Canvas(b));
-            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(b));
+            if (mCurrentTab == 0) {
+                Bitmap icon = mDiseaseClusterIconGeneratorSmall.makeIcon(String.valueOf(1));
+                markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon));
+            } else if (mCurrentTab == 1) {
+                int id = -1;
+                switch (item.getDiseaseId()) {
+                    case 1:
+                        id = R.drawable.bg_filter_option_1;
+                        break;
+                    case 2:
+                        id = R.drawable.bg_filter_option_2;
+                        break;
+                    case 3:
+                        id = R.drawable.bg_filter_option_3;
+                        break;
+                    case 4:
+                        id = R.drawable.bg_filter_option_4;
+                        break;
+                }
+                Bitmap icon = mDiseaseClusterIconGeneratorSmall.makeIcon(String.valueOf(1), id);
+                markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon));
+            }
         }
     }
 }

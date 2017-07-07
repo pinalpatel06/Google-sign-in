@@ -17,6 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:padding="@dimen/extra_margin_20dp"
             android:text="@string/is_cure_taken_text"
             android:textAlignment="center"
             android:textColor="@color/color_details_text_test_kit_step2"

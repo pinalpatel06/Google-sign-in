@@ -29,4 +29,5 @@ public interface Cluster<T extends ClusterItem> {
     Collection<T> getItems();
 
     int getSize();
+
 }

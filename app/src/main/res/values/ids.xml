@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="amu_text" type="id"/>
+    <item name="no_of_sign_alert" type="id">Je hebt nog niet aangegeven hoeveel teken je hebt
+        gevonden
+    </item>
 </resources>

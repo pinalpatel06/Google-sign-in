@@ -93,6 +93,7 @@
     <color name="swipe_out">#00BCD4</color>
     <color name="transparent_white">#b1ece9e9</color>
     <color name="gray">#eae7e7</color>
+    <color name="light_gray">#edebeb</color>
 
 
 </resources>

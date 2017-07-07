@@ -11,9 +11,11 @@ import com.google.android.gms.maps.model.LatLng;
 public class LatLngItem implements ClusterItem {
 
     private LatLng mLatLng;
+    private int mDiseaseId;
 
-    public LatLngItem(LatLng latLng){
+    public LatLngItem(LatLng latLng,int diseaseId){
         mLatLng = latLng;
+        mDiseaseId = diseaseId;
     }
 
     @Override
@@ -28,6 +30,14 @@ public class LatLngItem implements ClusterItem {
 
     @Override
     public String getSnippet() {
-        return null;
+        return String.valueOf(mDiseaseId);
+    }
+
+    public int getDiseaseId() {
+        return mDiseaseId;
+    }
+
+    public void setDiseaseId(int diseaseId) {
+        mDiseaseId = diseaseId;
     }
 }

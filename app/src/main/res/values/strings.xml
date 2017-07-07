@@ -426,5 +426,8 @@
     <string name="exit_msg">Press again to exit</string>
     <string name="data_missing">Data missing</string>
     <string name="no_connectivity">No Connectivity</string>
+    <string name="no_of_sign_text">Vul hier het aantal teken in</string>
+    <string name="sign_reported_title">Hoeveel teken heb je gevonden op je %s?</string>
+    <string name="country_title">In welk land ben je geweest?</string>
 
 </resources>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:id="@+id/amu_custom_marker_view"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content">
+
+    <com.bayer.ah.bayertekenscanner.cluster.ui.RotationLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/amu_text"
+            android:layout_width="@dimen/marker_size_small"
+            android:layout_height="@dimen/marker_size_small"
+            android:layout_gravity="center"
+            android:background="@drawable/heatmap_marker"
+            android:gravity="center"/>
+    </com.bayer.ah.bayertekenscanner.cluster.ui.RotationLayout>
+
+</FrameLayout>

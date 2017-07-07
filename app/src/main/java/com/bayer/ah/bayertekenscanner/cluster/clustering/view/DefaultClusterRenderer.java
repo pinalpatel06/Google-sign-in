@@ -37,6 +37,7 @@ import android.util.SparseArray;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 
+import com.bayer.ah.bayertekenscanner.R;
 import com.bayer.ah.bayertekenscanner.cluster.MarkerManager;
 import com.bayer.ah.bayertekenscanner.cluster.clustering.Cluster;
 import com.bayer.ah.bayertekenscanner.cluster.clustering.ClusterItem;
@@ -66,6 +67,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+
 import static com.bayer.ah.bayertekenscanner.cluster.clustering.algo.NonHierarchicalDistanceBasedAlgorithm.MAX_DISTANCE_AT_ZOOM;
 
 
@@ -133,7 +135,7 @@ public class DefaultClusterRenderer<T extends ClusterItem> implements ClusterRen
         mDensity = context.getResources().getDisplayMetrics().density;
         mIconGenerator = new IconGenerator(context);
         mIconGenerator.setContentView(makeSquareTextView(context));
-        // mIconGenerator.setTextAppearance(R.style.amu_ClusterIcon_TextAppearance);
+        //mIconGenerator.setTextAppearance(R.style.amu_ClusterIcon_TextAppearance);
         mIconGenerator.setBackground(makeClusterBackground());
         mClusterManager = clusterManager;
     }
@@ -195,7 +197,7 @@ public class DefaultClusterRenderer<T extends ClusterItem> implements ClusterRen
         SquareTextView squareTextView = new SquareTextView(context);
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         squareTextView.setLayoutParams(layoutParams);
-        // squareTextView.setId(R.id.amu_text);
+        squareTextView.setId(R.id.amu_text);
         int twelveDpi = (int) (12 * mDensity);
         squareTextView.setPadding(twelveDpi, twelveDpi, twelveDpi, twelveDpi);
         return squareTextView;

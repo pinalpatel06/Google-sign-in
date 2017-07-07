@@ -12,46 +12,37 @@
         android:background="@color/color_qr_title_text">
 
         <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
-            android:id="@+id/tv_pet_title"
+            android:id="@+id/tv_sign_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="@string/drug_date_text"
+            android:padding="@dimen/extra_margin_20dp"
+            android:text="@string/sign_reported_title"
             android:textAlignment="center"
             android:textColor="@color/color_details_text_test_kit_step2"
             android:textSize="@dimen/test_kit_step2_detail_text_size"
             app:customfont="OpenSansRegular"/>
     </LinearLayout>
 
-    <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
+    <com.bayer.ah.bayertekenscanner.custom.CustomEditTextView
+        android:id="@+id/et_no_sign"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/extra_margin_20dp"
         android:background="@android:color/white"
-        android:paddingStart="@dimen/extra_margin_20dp"
-        android:paddingEnd="@dimen/margin_10dp"
-        android:paddingTop="@dimen/margin_10dp"
+        android:inputType="number"
         android:paddingBottom="@dimen/margin_10dp"
-        android:text="@string/datum"
-        android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/text_app_sub_title"
-        app:customfont="OpenSansSemiBold"/>
-
-    <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
-        android:id="@+id/tv_drug_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/white"
+        android:paddingEnd="@dimen/margin_10dp"
         android:paddingStart="@dimen/margin_30dp"
-        android:paddingEnd="@dimen/margin_10dp"
-        android:paddingTop="@dimen/margin_10dp"
-        android:paddingBottom="@dimen/margin_10dp"
+        android:paddingTop="25dp"
+        android:hint="@string/no_of_sign_text"
+        android:textColorHint="@color/colorPrimary"
         android:textSize="@dimen/text_app_sub_title"
         app:customfont="OpenSansSemiBold"/>
 
     <View android:layout_width="match_parent"
           android:layout_height="1dp"
-          android:background="@android:color/darker_gray"/>
+          android:background="@color/light_gray"/>
 
     <com.bayer.ah.bayertekenscanner.custom.CustomFontTextView
         android:id="@+id/tv_confirm"

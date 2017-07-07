@@ -58,7 +58,7 @@ public class IconGenerator {
     public IconGenerator(Context context) {
         mContext = context;
         mBackground = new BubbleDrawable(mContext.getResources());
-        mContainer = (ViewGroup) LayoutInflater.from(mContext).inflate(R.layout.cluster_marker_view, null);
+        mContainer = (ViewGroup) LayoutInflater.from(mContext).inflate(R.layout.cluster_marker_view_big, null);
         mRotationLayout = (RotationLayout) mContainer.getChildAt(0);
         mContentView = mTextView = (TextView) mRotationLayout.findViewById(R.id.amu_text);
         setStyle(STYLE_DEFAULT);
@@ -77,6 +77,13 @@ public class IconGenerator {
         return makeIcon();
     }
 
+    public Bitmap makeIcon(CharSequence text, int id) {
+        if (mTextView != null) {
+            mTextView.setText(text);
+        }
+
+        return makeIcon(id);
+    }
     /**
      * Creates an icon with the current content and style.
      * <p/>
@@ -117,6 +124,42 @@ public class IconGenerator {
         return r;
     }
 
+
+    public Bitmap makeIcon(int id) {
+        int measureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        mContainer.measure(measureSpec, measureSpec);
+
+        int measuredWidth = mContainer.getMeasuredWidth();
+        int measuredHeight = mContainer.getMeasuredHeight();
+
+        mContainer.layout(0, 0, measuredWidth, measuredHeight);
+
+        if (mRotation == 1 || mRotation == 3) {
+            measuredHeight = mContainer.getMeasuredWidth();
+            measuredWidth = mContainer.getMeasuredHeight();
+        }
+
+        Bitmap r = Bitmap.createBitmap(measuredWidth, measuredHeight, Bitmap.Config.ARGB_8888);
+        r.eraseColor(Color.TRANSPARENT);
+
+        Canvas canvas = new Canvas(r);
+
+        if (mRotation == 0) {
+            // do nothing
+        } else if (mRotation == 1) {
+            canvas.translate(measuredWidth, 0);
+            canvas.rotate(90);
+        } else if (mRotation == 2) {
+            canvas.rotate(180, measuredWidth / 2, measuredHeight / 2);
+        } else {
+            canvas.translate(0, measuredHeight);
+            canvas.rotate(270);
+        }
+
+        mTextView.setBackground(mContext.getDrawable(id));
+        mContainer.draw(canvas);
+        return r;
+    }
     /**
      * Sets the child view for the icon.
      * <p/>

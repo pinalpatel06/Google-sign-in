@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.bayer.ah.bayertekenscanner.R;
 import com.bayer.ah.bayertekenscanner.activity.ApplyForPetActivity;
+import com.bayer.ah.bayertekenscanner.activity.CountrySelectionActivity;
 import com.bayer.ah.bayertekenscanner.custom.ListFragment;
 import com.bayer.ah.bayertekenscanner.model.Pet;
 import com.bayer.ah.bayertekenscanner.utils.Constants;
@@ -117,11 +118,26 @@ public class HitStatusFragment extends ListFragment<String, HitStatusFragment.St
         }
 
         @OnClick(R.id.tv_title)
-        public void onClicked() {
-            Intent intent = new Intent(getActivity(), ApplyForPetActivity.class);
-            Bundle bundle = getArguments().getBundle(ARGS_BUNDLE);
-            intent.putExtra(ApplyForPetActivity.EXTRA_PET_BUNDLE, bundle);
-            startActivity(intent);
+        public void onClicked(View v) {
+            Intent intent;
+            switch (getAdapterPosition()) {
+                case 0:
+                    if (mTitle.getText().equals(getString(R.string.country_title))) {
+                        intent = new Intent(getActivity(), CountrySelectionActivity.class);
+                        Bundle bundle = getArguments().getBundle(ARGS_BUNDLE);
+                        intent.putExtra(CountrySelectionActivity.EXTRA_PET_BUNDLE, bundle);
+                        startActivity(intent);
+                    } else {
+                        mTitle.setText(R.string.country_title);
+                    }
+                    break;
+                case 1:
+                    intent = new Intent(getActivity(), ApplyForPetActivity.class);
+                    Bundle bundle = getArguments().getBundle(ARGS_BUNDLE);
+                    intent.putExtra(ApplyForPetActivity.EXTRA_PET_BUNDLE, bundle);
+                    startActivity(intent);
+                    break;
+            }
         }
     }
 }
