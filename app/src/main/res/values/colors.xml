@@ -11,7 +11,6 @@
 
 
     <!-- Splash Activity -->
-    <color name="brown">#492d2d</color>
     <color name="color_cyan_view">#C4D7CE</color>
     <color name="color_brown_view">#726658</color>
     <color name="color_bottom_text">#86796B</color>

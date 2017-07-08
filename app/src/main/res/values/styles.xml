@@ -108,7 +108,7 @@
     </style>
 
     <style name="amu_Bubble.TextAppearance.Dark" parent="android:TextAppearance.Medium">
-        <item name="android:textSize">8sp</item>
+        <item name="android:textSize">9sp</item>
         <item name="android:textColor">#FFFFFFFF</item>
     </style>
 

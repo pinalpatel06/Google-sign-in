@@ -174,7 +174,7 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
     private BottomSheetBehavior mBottomSheetBehavior;
     private int mScreenMinValue, mScreenMaxValue;
     private int mProgressMaxValue;
-    private int mCurrentTab = 0;
+    private int mCurrentTab = -1;
 
     private GoogleMap mMap;
     private SupportMapFragment mMapFragment;
@@ -297,6 +297,7 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         mSearchBarET.setOnEditorActionListener(this);
+        mCurrentTab = mTabLayout.getSelectedTabPosition();
     }
 
     private void initMap() {
@@ -427,7 +428,7 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
                 CameraPosition myPosition = new CameraPosition.Builder().target(lastLocationLatLng).zoom(7).bearing(0).tilt(0).build();
                 mMap.moveCamera(CameraUpdateFactory.newCameraPosition(myPosition));
                 if (mCurrentTab == 0) {
-                    getTicks();
+                    //getTicks();
                 }
             }
             mMap.setMyLocationEnabled(true);
@@ -582,7 +583,7 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
     }
 
     private void updateHeatMap() {
-      //  mMap.clear();
+        //  mMap.clear();
         mClusterManager.cluster();
     }
 
@@ -822,48 +823,34 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
                     markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon));
                 }
             } else if (mCurrentTab == 1) {
-                HashMap<String, Integer> mDiseaseSet = new HashMap<>();
+                HashMap<Integer, Integer> mDiseaseSet = new HashMap<>();
                 ArrayList<LatLngItem> mList = new ArrayList<>(cluster.getItems());
                 LatLngItem item;
                 for (int i = 0; i < mList.size(); i++) {
                     item = mList.get(i);
-                    if (mDiseaseSet.get(item.getSnippet()) != null) {
-                        mDiseaseSet.put(item.getSnippet(), mDiseaseSet.get(item.getSnippet()) + 1);
+                    if (mDiseaseSet.get(item.getDiseaseId()) != null) {
+                        mDiseaseSet.put(item.getDiseaseId(), mDiseaseSet.get(item.getDiseaseId()) + 1);
                     } else {
-                        mDiseaseSet.put(item.getSnippet(), 1);
+                        mDiseaseSet.put(item.getDiseaseId(), 1);
                     }
                 }
 
-                int d1, d2, d3, d4;
-                d1 = d2 = d3 = d4 = 0;
-                if (mDiseaseSet.get("1") != null) {
-                    d1 = mDiseaseSet.get("1");
-                }
-                if (mDiseaseSet.get("2") != null) {
-                    d2 = mDiseaseSet.get("2");
-                }
-
-                if (mDiseaseSet.get("3") != null) {
-                    d3 = mDiseaseSet.get("3");
-                }
-
-                if (mDiseaseSet.get("4") != null) {
-                    d4 = mDiseaseSet.get("4");
-                }
-
                 int id = R.drawable.bg_filter_option_1;
-                int max = d1;
-                if (max < d2) {
-                    max = d2;
+                int max = 0;
+                if (mDiseaseSet.get(1) != null) {
+                    max = mDiseaseSet.get(1);
+                }
+                if (mDiseaseSet.get(2) != null && max < mDiseaseSet.get(2)) {
+                    max = mDiseaseSet.get(2);
                     id = R.drawable.bg_filter_option_2;
                 }
 
-                if (max < d3) {
-                    max = d3;
+                if (mDiseaseSet.get(3) != null && max < mDiseaseSet.get(3)) {
+                    max = mDiseaseSet.get(3);
                     id = R.drawable.bg_filter_option_3;
                 }
 
-                if (max < d4) {
+                if (mDiseaseSet.get(4) != null && max < mDiseaseSet.get(4)) {
                     id = R.drawable.bg_filter_option_4;
                 }
                 if (cluster.getSize() >= 60) {
@@ -880,7 +867,7 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
         @Override
         protected void onBeforeClusterItemRendered(LatLngItem item, MarkerOptions markerOptions) {
             if (mCurrentTab == 0) {
-                Bitmap icon = mDiseaseClusterIconGeneratorSmall.makeIcon(String.valueOf(1));
+                Bitmap icon = mSmallClusterIconGenerator.makeIcon(String.valueOf(1));
                 markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon));
             } else if (mCurrentTab == 1) {
                 int id = -1;

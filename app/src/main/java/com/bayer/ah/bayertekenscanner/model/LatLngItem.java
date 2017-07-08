@@ -30,7 +30,7 @@ public class LatLngItem implements ClusterItem {
 
     @Override
     public String getSnippet() {
-        return String.valueOf(mDiseaseId);
+        return null;
     }
 
     public int getDiseaseId() {

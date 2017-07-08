@@ -80,7 +80,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/transparent"
-                        android:hint="John@doe.com"
+                        android:hint="@string/default_email"
                         android:padding="@dimen/default_margin"
                         android:textAlignment="textEnd"
                         android:textColor="@color/color_login_fields"

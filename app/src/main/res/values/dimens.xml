@@ -149,8 +149,10 @@
 
     <!--NumberPicker Dialog-->
     <dimen name="picker_width">300dp</dimen>
-    <dimen name="marker_size_small">20dp</dimen>
-    <dimen name="marker_size_big">30dp</dimen>
+
+    <!--Custum marker view-->
+    <dimen name="marker_size_small">30dp</dimen>
+    <dimen name="marker_size_big">40dp</dimen>
     <dimen name="margin_15dp">30dp</dimen>
     <dimen name="margin_30dp">30dp</dimen>
 
