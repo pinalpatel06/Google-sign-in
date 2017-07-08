@@ -310,7 +310,8 @@ public class DefaultClusterRenderer<T extends ClusterItem> implements ClusterRen
      * Determine whether the cluster should be rendered as individual markers or a cluster.
      */
     protected boolean shouldRenderAsCluster(Cluster<T> cluster) {
-        return cluster.getSize() > mMinClusterSize && mZoom < 14;
+        //return cluster.getSize() > mMinClusterSize && mZoom < 14;
+        return cluster.getSize() > mMinClusterSize;
     }
 
     /**

@@ -801,7 +801,6 @@ public class HeatMapFragment extends Fragment implements SeekBar.OnSeekBarChange
             View smallView = getLayoutInflater(null).inflate(R.layout.cluster_marker_view_small, null);
             mSmallClusterIconGenerator.setContentView(smallView);
             mSmallClusterIconGenerator.setStyle(STYLE_DEFAULT);
-            setMinClusterSize(1);
 
             View diseaseView = getLayoutInflater(null).inflate(R.layout.cluster_disease_marker_small, null);
             mDiseaseClusterIconGeneratorSmall.setContentView(diseaseView);
